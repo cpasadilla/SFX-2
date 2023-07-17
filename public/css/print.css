@@ -1,0 +1,15 @@
+/* Center the container on the printed page */
+.container {
+    margin: 0 auto;
+    max-width: 600px; /* Adjust the width as needed */
+}
+
+/* Display the image and details in a row */
+.container .image {
+    float: left;
+    margin-right: 10px; /* Adjust the spacing as needed */
+}
+
+.container .details {
+    display: inline-block;
+}
