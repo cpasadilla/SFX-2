@@ -20,6 +20,9 @@ class order extends Model
         'orderCreated',
         'consigneeName',
         'consigneeNum',
+        'voyageNum', // Add voyageNum
+        'containerNum', // Add containerNum
+        'value', // Add containerNum
         'cargoID',
     ];
 

@@ -16,6 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('category');
             $table->string('itemName');
             $table->float('price');
+
+            $table->decimal('length');
+    $table->decimal('width');
+    $table->decimal('height');
+            $table->string('multiplier')->default('default_value')->nullable();
+
+
             $table->timestamps();
 
             $table->index('category');

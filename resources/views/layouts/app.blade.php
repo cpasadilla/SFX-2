@@ -16,7 +16,7 @@
     <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini"  style="background-color: #f4f5fa">
 <div class="wrapper">
 <style>
  @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
@@ -29,6 +29,10 @@
         .navbar-green {
             background-color: green
         }
+        .main-sidebar {
+            height: 100%; /* Make sidebar width relative to viewport */
+}
+
     </style>
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-light" style="background-color: rgba(40, 165, 68, 1);">
@@ -71,7 +75,7 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544">
+    <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544; height: 100vh;">
         <!-- Brand Logo -->
         <span class="brand-link">
             <img src="{{ asset('images/logo.png') }}" alt="Logo"

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('login'));
 });
-Route::prefix('staff')->middleware('auth','isStaff')->group(function(){
+Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
+
     //Dashboard
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    //BL
+    Route::get('/bl', [\App\Http\Controllers\BLControllers::class,'index'])->name('bl');
 
     //Customer Details
     Route::get('/customer', [\App\Http\Controllers\CustomerController::class,'index'])->name('customer');
@@ -41,6 +47,7 @@ Route::prefix('staff')->middleware('auth','isStaff')->group(function(){
     Route::post('/priceList/category', [\App\Http\Controllers\listController::class,'category'])->name('p.cat');
     Route::post('/priceList/update', [\App\Http\Controllers\listController::class,'update'])->name('p.update');
     Route::get('/priceList/delete', [\App\Http\Controllers\listController::class,'delete'])->name('p.delete');
+        Route::get('/priceList/submit-order', [\App\Http\Controllers\listController::class,'submitOrder'])->name('order.submit');
     Route::get('/priceList/search', [\App\Http\Controllers\listController::class,'search'])->name('l.search');
 
     //Staffs
@@ -56,6 +63,13 @@ Route::prefix('staff')->middleware('auth','isStaff')->group(function(){
     Route::get('/orders/QR/{key}', [\App\Http\Controllers\ParcelController::class, 'confirm'])->name('p.qr');
     Route::get('/orders/BL/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/orders/search',  [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
+
+    Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showOrdersByShipAndVoyage'])->name('orders.byShipAndVoyage');
+
+
+    //Route::get('/orders/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
+    //Route::get('/orders/{shipNum}/{voyageNum}/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
+
 
     //ORDERS UPDATE
     Route::get('/shipping', [\App\Http\Controllers\shipController::class, 'index'])->name('o.view');

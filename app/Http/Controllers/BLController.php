@@ -20,7 +20,7 @@ use PDF;
 use Illuminate\Support\Facades\DB;
 
 
-class CustomerController extends Controller
+class BLController extends Controller
 {
     //CREATE CUSTOMER
     protected function validator(array $data)
@@ -93,7 +93,7 @@ class CustomerController extends Controller
         $users = CustomerID::where('cID', $key)->get();
         $products = priceList::paginate(12);
         $cats = category::all();
-        return view('customers.create', compact('users','products','cats'));
+        return view('customers.create', compact('users', 'products', 'cats'));
 
     }
 
@@ -109,7 +109,6 @@ class CustomerController extends Controller
             'voyage' => ['required', 'string', 'max:255'],
             'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
-            'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
         ]);
     
         if ($validator->fails()) {
@@ -170,7 +169,33 @@ class CustomerController extends Controller
          return redirect() -> route('c.confirm',['key'=> $orderId]);
     }
 
-  
+    public function submitOrder(Request $request)
+    {
+        $orderItems = json_decode($request->input('orderItems'), true);
+        $valuation = $request->input('valuation');
+        $customerId = $request->input('customerId'); // Add hidden input for customer ID if needed
+    
+        // Create the order in the database
+        $order = order::create([
+            'cID' => $customerId,
+            'valuation' => $valuation,
+            'orderCreated' => now(),
+        ]);
+    
+        // Save each order item
+        foreach ($orderItems as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_name' => $item['itemName'],
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total' => $item['total'],
+            ]);
+        }
+    
+        return redirect()->back()->with('success', 'Order submitted successfully!');
+    }
+    
 
     protected function edit(Request $request){
         $fName = $request -> fName;

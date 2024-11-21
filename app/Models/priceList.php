@@ -12,7 +12,12 @@ class priceList extends Model
     protected $fillable = [
         'category',
         'itemName',
-        'price'
+        'price',
+        'length',
+        'width',
+        'height',
+        'multiplier'
+
     ];
 
     public function category(){

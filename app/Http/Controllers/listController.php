@@ -23,6 +23,10 @@ class listController extends Controller
             'cats' => ['required', 'not_in:0'],
             'itemName' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric'],
+            'length' => ['required', 'numeric'],
+            'width' => ['required', 'numeric'],
+            'height' => ['required', 'numeric'],
+            'multiplier' => ['required', 'numeric'],
         ]);
     }
 
@@ -34,6 +38,10 @@ class listController extends Controller
             'category' => $request -> cats,
             'itemName' => $request -> itemName,
             'price' => $request -> price,
+            'length' => $request -> length,
+            'width' => $request -> width,
+            'height' => $request -> height,
+            'multiplier' => $request -> multiplier,
 
         ]);
 
@@ -68,6 +76,10 @@ class listController extends Controller
         $cat = $request-> cats2;
         $itemName = $request->itemName;
         $price = $request->price;
+        $length = $request->length;
+        $width = $request->width;
+        $height = $request->height;
+        $multiplier = $request->multiplier;
         $id = $request->id;
 
         $cats = category::where('name',$cat)->get();
@@ -76,7 +88,7 @@ class listController extends Controller
         }
         DB::table('price_lists')
                  ->where('id',$id)
-                 ->update(['itemName'=>$itemName,'price'=>$price,'category'=>$category]);
+                 ->update(['itemName'=>$itemName,'price'=>$price,'category'=>$category,'length'=>$length,'width'=>$width,'height'=>$height,'multiplier'=>$multiplier]);
 
         return redirect() -> route('price');
     }

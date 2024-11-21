@@ -11,14 +11,34 @@ use App\Models\parcel;
 class ParcelController extends Controller
 {
    protected function index(){
-        $order = order::paginate();
-        $array = [];
-        foreach($order as $key){
-                $cID = $key->cID;
-                array_push($array,$cID); 
-        }
-        return view('parcel.home',compact('order'));
+        //$order = order::paginate();
+        //$array = [];
+        //foreach($order as $key){
+        //        $cID = $key->cID;
+        //        array_push($array,$cID); 
+        //}
+        //return view('parcel.home',compact('order'));
+
+        $orders = order::orderBy('shipNum')->orderBy('voyageNum')->get();
+
+        // Group orders by shipNum, then by voyageNum
+        $groupedOrders = $orders->groupBy('shipNum')->map(function ($shipOrders) {
+            return $shipOrders->groupBy('voyageNum');
+        });
+        return view('parcel.home', compact('groupedOrders'));
 }
+
+//public function showOrdersByShipAndVoyage($shipNum, $voyageNum)
+//{
+    // Fetch orders by shipNum and voyageNum
+    //$orders = order::where('shipNum', $shipNum)
+    //               ->where('voyageNum', $voyageNum)
+    //               ->get();
+
+    //return view('parcel.orders', compact('orders', 'shipNum', 'voyageNum'));
+//}
+
+
 public function search(Request $request)
 {
     $search = $request->input('search');
