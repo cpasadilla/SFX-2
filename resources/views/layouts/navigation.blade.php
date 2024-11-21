@@ -34,12 +34,6 @@
                     <p>{{ __('PRICE LIST') }}</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ route('bl') }}" class="nav-link" style="color:white">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>CREATE ORDERS</p>
-                </a>
-            </li>
             @endif
             @endif
             <li class="nav-item" >

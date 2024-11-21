@@ -29,10 +29,6 @@
         .navbar-green {
             background-color: green
         }
-        .main-sidebar {
-            height: 100%; /* Make sidebar width relative to viewport */
-}
-
     </style>
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-light" style="background-color: rgba(40, 165, 68, 1);">
@@ -75,7 +71,7 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544; height: 100vh;">
+    <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544">
         <!-- Brand Logo -->
         <span class="brand-link">
             <img src="{{ asset('images/logo.png') }}" alt="Logo"
