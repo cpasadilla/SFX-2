@@ -39,7 +39,7 @@
             <li class="nav-item" >
                 <a href="{{ route('p.view') }}" class="nav-link" style="color:white">
                     <i class="nav-icon fa-solid fa-clipboard-list"></i>
-                    <p>VIEW ORDERS</p>
+                    <p>MASTER LIST</p>
                 </a>
             </li>
             <!--<li class="nav-item">

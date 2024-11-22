@@ -211,7 +211,7 @@ class CustomerController extends Controller
         }
         $data = CustomerID::where('cID',$customer)->get();
         $parcel = parcel::where('orderId',$oId)->get();
-        return view('customers.confirmation', compact('key','data','parcel'));
+        return view('customers.new', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
     }
     protected function bl($key){
         $key = order::where('orderId', $key)->get();

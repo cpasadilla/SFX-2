@@ -56,6 +56,7 @@
                                     <!--th scope="col">Email</th-->
                                     <th scope="col" style="text-align: center;">Phone Number</th>
                                     <th scope="col" style="text-align: center;">Edit Info</th>
+                                    <th scope="col" style="text-align: center;">View All BL</th>
                                     <th scope="col" style="text-align: center;">Create Order</th>
                                 </tr>
                             </thead>
@@ -69,6 +70,9 @@
                                         <td class="phoneNum" style="text-align: center;">{{ $user->user->phoneNum }}</td>
                                         <td class="align-middle" style="text-align: center;">
                                             <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->cID }}" style="color:grey"></i>
+                                        </td>
+                                        <td class="align-middle" style="text-align: center;">
+                                            <a href={{ route('p.view', ['key' => $user->cID]) }}><i class='fas fa-folder' style="color:grey"></i></a>
                                         </td>
                                         <td class="align-middle" style="text-align: center;">
                                             <a href={{ route('c.order', ['key' => $user->cID]) }}><i class='fas fa-cart-plus' style="color:grey"></i></a>

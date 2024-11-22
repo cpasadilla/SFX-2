@@ -61,6 +61,7 @@
         <br><br><br>
         <div class="col text-right">
             <button class="btn btn-success" onclick="printContent('printContainer')">PRINT</button>
+            <a href={{ route('c.create')}} class="btn btn-success">UPDATE</a>
         </div>
     </div>
     <br>

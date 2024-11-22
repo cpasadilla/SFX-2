@@ -59,13 +59,20 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::post('users/reset', [\App\Http\Controllers\UserController::class, 'reset'])->name('u.reset');
 
     //Parcel View
+    //Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
+    //Route::get('/orders/QR/{key}', [\App\Http\Controllers\ParcelController::class, 'confirm'])->name('p.qr');
+    //Route::get('/orders/BL/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
+    //Route::get('/orders/search',  [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
+    Route::get('/parcel/search', [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
+    Route::get('/parcel/qr/{key}', [\App\Http\Controllers\ParcelController::class, 'qr'])->name('p.qr');
+    Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
+
+
+    //Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showOrdersByShipAndVoyage'])->name('orders.byShipAndVoyage');
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
-    Route::get('/orders/QR/{key}', [\App\Http\Controllers\ParcelController::class, 'confirm'])->name('p.qr');
-    Route::get('/orders/BL/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
-    Route::get('/orders/search',  [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
-
-    Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showOrdersByShipAndVoyage'])->name('orders.byShipAndVoyage');
-
+    Route::get('/orders/{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
+    Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
+    
 
     //Route::get('/orders/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     //Route::get('/orders/{shipNum}/{voyageNum}/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');

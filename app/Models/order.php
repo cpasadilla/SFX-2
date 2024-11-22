@@ -9,6 +9,14 @@ class order extends Model
 {
     protected $guarded = [];
 
+    // Define the primary key if it's not `id`
+    protected $primaryKey = 'orderId';
+
+    // If the primary key is not an incrementing integer, set this to false
+    public $incrementing = false;
+
+    // Specify the primary key type (if it's not an integer)
+    protected $keyType = 'string';
     protected $fillable = [
         'shipNum',
         'cID',

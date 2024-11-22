@@ -2,17 +2,17 @@
 @section('content')
 
 <div class="content-header">
-    <h1 style="padding-left:10px;">Master List</h1>
+    <h1 style="padding-left:10px;">Ship Number: {{ $shipNum }}</h1>
 </div>
 
 <div class="content">
     <div class="container fluid">
         <div class="card"
-          @foreach ($groupedOrders as $shipNum => $voyages)
+            @foreach ($voyages as $voyageNum => $orders)
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('parcels.showShip', [$shipNum]) }}">
-                          M/V EVERWIN STAR # {{ $shipNum }}
+                        <a href="{{ route('parcels.showVoyage', [$shipNum, $voyageNum]) }}">
+                            VOYAGE # {{ $voyageNum }}
                         </a>
                     </div>
                 </div>
