@@ -8,14 +8,12 @@
         "php": "^8.1",
         "barryvdh/laravel-dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
-        "kreait/laravel-firebase": "^5.2",
         "kyslik/column-sortable": "^6.6",
         "laravel/framework": "^10.8",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.0",
-        "lepiaf/serialport": "^1.1",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "lepiaf/serialport": "^1.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

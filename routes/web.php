@@ -39,7 +39,10 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
-    
+
+    Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
+    Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'update'])->name('c.update');
+
     //List
     Route::get('/priceList', [\App\Http\Controllers\listController::class,'index'])->name('price');
     Route::post('/priceList/create', [\App\Http\Controllers\listController::class,'create'])->name('p.create');
@@ -47,7 +50,7 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::post('/priceList/category', [\App\Http\Controllers\listController::class,'category'])->name('p.cat');
     Route::post('/priceList/update', [\App\Http\Controllers\listController::class,'update'])->name('p.update');
     Route::get('/priceList/delete', [\App\Http\Controllers\listController::class,'delete'])->name('p.delete');
-        Route::get('/priceList/submit-order', [\App\Http\Controllers\listController::class,'submitOrder'])->name('order.submit');
+    Route::get('/priceList/submit-order', [\App\Http\Controllers\listController::class,'submitOrder'])->name('order.submit');
     Route::get('/priceList/search', [\App\Http\Controllers\listController::class,'search'])->name('l.search');
 
     //Staffs
@@ -59,20 +62,15 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::post('users/reset', [\App\Http\Controllers\UserController::class, 'reset'])->name('u.reset');
 
     //Parcel View
-    //Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
-    //Route::get('/orders/QR/{key}', [\App\Http\Controllers\ParcelController::class, 'confirm'])->name('p.qr');
-    //Route::get('/orders/BL/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
-    //Route::get('/orders/search',  [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
     Route::get('/parcel/search', [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
     Route::get('/parcel/qr/{key}', [\App\Http\Controllers\ParcelController::class, 'qr'])->name('p.qr');
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
-
 
     //Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showOrdersByShipAndVoyage'])->name('orders.byShipAndVoyage');
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
     Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
-    
+
 
     //Route::get('/orders/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     //Route::get('/orders/{shipNum}/{voyageNum}/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
@@ -100,7 +98,7 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
-    
+
 });
 
 Auth::routes();

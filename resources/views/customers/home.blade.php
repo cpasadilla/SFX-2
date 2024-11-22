@@ -72,7 +72,7 @@
                                             <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->cID }}" style="color:grey"></i>
                                         </td>
                                         <td class="align-middle" style="text-align: center;">
-                                            <a href={{ route('p.view', ['key' => $user->cID]) }}><i class='fas fa-folder' style="color:grey"></i></a>
+                                            <a href={{ route('c.parcels', ['key' => $user->cID]) }}><i class='fas fa-folder' style="color:grey"></i></a>
                                         </td>
                                         <td class="align-middle" style="text-align: center;">
                                             <a href={{ route('c.order', ['key' => $user->cID]) }}><i class='fas fa-cart-plus' style="color:grey"></i></a>
@@ -105,7 +105,7 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="form-group row">
                                                                     <label for="lName" class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
                                                                     <div class="col-md-6">
@@ -117,7 +117,7 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="form-group row">
                                                                     <label for="email"class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
                                                                     <div class="col-md-6">
@@ -129,7 +129,7 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="form-group row">
                                                                         <label for="phoneNum"
                                                                             class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
@@ -149,7 +149,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <button type="submit" class="btn btn-primary" id="submitButton">
                                                                     {{ __('UPDATE') }}
                                                                 </button>
@@ -163,7 +163,7 @@
                                                                 <button type="submit" class="btn btn-danger">{{ __('DELETE') }}</button>
                                                         </form>
                                                         <br><br>
-                                                                    
+
                                                         <form method="POST" action="{{ route('c.reset') }}">
                                                             @csrf
                                                                 <input name="id" value="{{ $user->id }}" hidden>
@@ -182,7 +182,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -212,7 +212,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group row">
                                             <label for="lName" class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
                                             <div class="col-md-6">
@@ -224,7 +224,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group row">
                                             <label for="email"class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
                                             <div class="col-md-6">
@@ -258,7 +258,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="modal-footer">
                                         <div class="form-group row mb-0">
                                             <div class="col-md-4"></div>
