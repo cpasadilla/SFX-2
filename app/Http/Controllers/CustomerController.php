@@ -267,7 +267,11 @@ public function update(Request $request, $key){
     foreach($orders as $order){
         $id = $order->cID;
     }
-    $users = CustomerID::where('cID', $key)->get();
-    return view('customers.update', compact('users','orders'));
+    $users = CustomerID::where('cID', $id)->get();
+
+    $products = priceList::paginate(12);
+    $cats = category::all();
+
+    return view('customers.update', compact('users','orders','products','cats'));
 }
 }
