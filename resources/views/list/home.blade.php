@@ -255,8 +255,8 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
                                 <div class="col-md-6">
-                                    <input id="price" type="number"  class="form-control" name="price" value="{{ old('price') }}" required readonly autocomplete="price">
-                                    
+                                    <!--input id="price" type="number"  class="form-control" name="price" value="{{ old('price') }}" readonly autocomplete="price"-->
+                                    <input id="price" type="number"  name="price" step="0.01">
                                     @error('price')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -371,8 +371,33 @@ $(document).ready(function() {
         const calculatedPrice = length * width * height * multiplier;
 
         // Update the price field with the calculated value
-        document.getElementById('price').value = calculatedPrice.toFixed(2); // Display the result with 2 decimal places
+        const priceField = document.getElementById('price');
+        if (!priceField.dataset.manualEdit) {
+            // Update the value only if the user hasn't manually edited it
+            priceField.value = calculatedPrice.toFixed(2); // Display the result with 2 decimal places
+        }
     }
+
+    function enableManualEdit() {
+        const priceField = document.getElementById('price');
+        priceField.dataset.manualEdit = true; // Mark the field as manually edited
+    }
+
+    function resetManualEdit() {
+        const priceField = document.getElementById('price');
+        priceField.dataset.manualEdit = false; // Allow automatic updates again
+    }
+
+    // Attach event listeners to the fields for calculation
+    document.getElementById('length').addEventListener('input', updatePrice);
+    document.getElementById('width').addEventListener('input', updatePrice);
+    document.getElementById('height').addEventListener('input', updatePrice);
+    document.getElementById('multiplier').addEventListener('input', updatePrice);
+
+    // Allow the price field to be manually editable
+    const priceField = document.getElementById('price');
+    priceField.addEventListener('input', enableManualEdit);
+    priceField.addEventListener('blur', resetManualEdit); // Reset manual edit mode on blur
 </script>
 <script>
     function sortTable(n) {

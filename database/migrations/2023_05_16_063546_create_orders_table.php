@@ -11,38 +11,45 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->string('orderId')->primary();
-            $table->float('totalAmount');
-            $table->string('cID');
-            $table->string('shipNum');
-            $table->string('consigneeName');
-            $table->string('consigneeNum');
-            $table->string('origin');
-            $table->string('destination');
-            $table->unsignedBigInteger('cargoID') -> default(0);
-            $table->string('cargoNum')-> default(value: 0);
-            $table->string('voyageNum')->nullable();  // Add voyageNum
-            $table->string('containerNum')->nullable();  // Add containerNum
-            $table->string('value')->nullable();  // Add voyageNum
+        // Check if the table already exists
+        if (!Schema::hasTable('orders')) {
+            Schema::create('orders', function (Blueprint $table) {
+                $table->string('orderId')->primary();
+                $table->float('totalAmount');
+                $table->string('cID');
+                $table->string('shipNum');
+                $table->string('consigneeName');
+                $table->string('consigneeNum');
+                $table->string('origin');
+                $table->string('destination');
+                $table->unsignedBigInteger('cargoID')->default(0);
+                $table->string('cargoNum')->default(0);
+                $table->string('voyageNum')->nullable();
+                $table->string('containerNum')->nullable();
+                $table->string('value')->nullable();
+                $table->string('status')->default('inProgress'); // Add status column once
 
+                $table->string('orderCreated');
+                $table->string('inWarehouse')->default("0");
+                $table->string('loading')->default("0");
+                $table->string('inTransit')->default("0");
+                $table->string('arrival')->default("0");
+                $table->string('unloading')->default("0");
+                $table->string('parcelReceived')->default("0");
+                $table->string('personRec')->default("0");
+                $table->string('personNum')->default("0");
 
-            $table->string('orderCreated');
-            $table->string('inWarehouse')->default("0");
-            $table->string('loading')->default("0");
-            $table->string('inTransit')->default("0");
-            $table->string('arrival')->default("0");
-            $table->string('unloading')->default("0");
-            $table->string('parcelReceived')->default("0");
-            $table->string('personRec')->default("0");
-            $table->string('personNum')->default("0");
-            $table->string('status')->default('inProgress');
-
-            $table->timestamps();
-
-            $table->index('cargoNum');
-
-        });
+                $table->timestamps();
+                $table->index('cargoNum');
+            });
+        } else {
+            Schema::table('orders', function (Blueprint $table) {
+                // Add new columns if they do not already exist
+                if (!Schema::hasColumn('orders', 'status')) {
+                    $table->string('status')->default('inProgress');
+                }
+            });
+        }
     }
 
     /**
@@ -50,10 +57,21 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('voyageNum');
-            $table->dropColumn('containerNum');
-            $table->dropColumn('valuation');
-        });
+        if (Schema::hasTable('orders')) {
+            Schema::table('orders', function (Blueprint $table) {
+                // Remove new columns if they exist
+                if (Schema::hasColumn('orders', 'status')) {
+                    $table->dropColumn('status');
+                }
+
+                // Re-add the individual status columns if rolling back
+                $columns = ['TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD'];
+                foreach ($columns as $column) {
+                    if (!Schema::hasColumn('orders', $column)) {
+                        $table->string($column)->default('0');
+                    }
+                }
+            });
+        }
     }
 };

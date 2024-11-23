@@ -32,6 +32,8 @@ class order extends Model
         'containerNum', // Add containerNum
         'value', // Add containerNum
         'cargoID',
+        'status',
+
     ];
 
     public function parcel(){

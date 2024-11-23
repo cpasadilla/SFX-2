@@ -71,7 +71,8 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::get('/orders/{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
     Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
 
-
+    Route::put('/order/{orderId}/update-status', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
+    
     //Route::get('/orders/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     //Route::get('/orders/{shipNum}/{voyageNum}/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
 

@@ -22,11 +22,11 @@ class listController extends Controller
         return Validator::make($data, [
             'cats' => ['required', 'not_in:0'],
             'itemName' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric'],
-            'length' => ['required', 'numeric'],
-            'width' => ['required', 'numeric'],
-            'height' => ['required', 'numeric'],
-            'multiplier' => ['required', 'numeric'],
+            'price' => ['nullable', 'numeric'],
+            'length' => ['nullable', 'numeric'],
+            'width' => ['nullable', 'numeric'],
+            'height' => ['nullable', 'numeric'],
+            'multiplier' => ['nullable', 'numeric'],
         ]);
     }
 
@@ -37,7 +37,7 @@ class listController extends Controller
         priceList::create([
             'category' => $request -> cats,
             'itemName' => $request -> itemName,
-            'price' => $request -> price,
+            'price' => $request->price ?? 0, // Set default value
             'length' => $request -> length,
             'width' => $request -> width,
             'height' => $request -> height,

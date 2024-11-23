@@ -42,15 +42,15 @@ class userSeed extends Seeder
         ]);
 
         User::create([
-            'fName' => 'Mich',
-            'lName' => 'Reyes',
+            'fName' => 'Manila',
+            'lName' => 'SFX',
             'phoneNum' => '09453128679',
-            'email' => 'mich@plm.edu.ph',
+            'email' => 'm.sfx@sfx.com',
             'password' => Hash::make('admin1234'),
             'isStaff' => '1',
         ]);
     
-        $email = 'mich@plm.edu.ph';
+        $email = 'm.sfx@sfx.com';
         $id = User::where('email', $email)->get();
         foreach($id as $value){
             $store = $value->id;
@@ -63,15 +63,15 @@ class userSeed extends Seeder
         ]);
         
         User::create([
-            'fName' => 'Janus',
-            'lName' => 'Dagoy',
+            'fName' => 'Batanes',
+            'lName' => 'SFX',
             'phoneNum' => '09753124869',
-            'email' => 'jdagoy@plm.edu.ph',
+            'email' => 'b.sfx@sfx.com',
             'password' => Hash::make('admin1234'),
             'isStaff' => '1',
         ]);
         
-        $email = 'jdagoy@plm.edu.ph';
+        $email = 'b.sfx@sfx.com';
         $id = User::where('email', $email)->get();
         foreach($id as $value){
             $store = $value->id;        
@@ -84,15 +84,15 @@ class userSeed extends Seeder
         ]);
         
         User::create([
-            'fName' => 'BJ',
-            'lName' => 'Dolor',
+            'fName' => 'Catherine',
+            'lName' => 'Pasadilla',
             'phoneNum' => '09748591632',
-            'email' => 'bj@plm.edu.ph',
+            'email' => 'c.pasadilla@sfx.com',
             'password' => Hash::make('Pass1234'),
             'isStaff' => '0',
         ]);
         
-        $email = 'bj@plm.edu.ph';
+        $email = 'c.pasadilla@sfx.com';
         $id = User::where('email', $email)->get();
         foreach($id as $value){
             $store = $value->id;
@@ -100,11 +100,27 @@ class userSeed extends Seeder
         
         CustomerID::create([
             'user_id' => $store,
-            'cID' => '052023001',
+            'cID' => '00000001',
         ]);
 
         category::create([
             'name' => 'FIXED PRICE',
+        ]);
+
+        category::create([
+            'name' => 'GENERAL MERCHANDISE',
+        ]);
+
+        category::create([
+            'name' => 'GENERAL MERCHANDISE',
+        ]);
+
+        category::create([
+            'name' => 'GENERAL MERCHANDISE',
+        ]);
+        
+        category::create([
+            'name' => 'GENERAL MERCHANDISE',
         ]);
 
         category::create([
@@ -1017,7 +1033,7 @@ class userSeed extends Seeder
             'origin' => 'Manila',
             'destination' => 'Batanes',
             'totalAmount' => '381.63',
-            'cID' => '052023001',
+            'cID' => '00000001',
             'orderId' => $orderId,
             'orderCreated' => $date,
             'consigneeName' => 'Janus',

@@ -41,7 +41,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Name</th>
-                                    <th><!--Price--></th>
+                                    <th>Price</th>
                                     <th style="text-align: center;">Category</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
@@ -50,7 +50,7 @@
                                 @foreach($products as $product)
                                     <tr>
                                         <td>{{ $product->itemName }}</td>
-                                        <td><!--{{ number_format($product->price, 2) }}--></td>
+                                        <td>{{ number_format($product->price, 2) }}</td>
                                         @foreach ($cats as $cat)
 
                                         @if ($cat->id == $product->category)
@@ -85,7 +85,8 @@
                                     <div class="card-body">
                                         <p> Name: {{$user->user->fName}} {{$user->user->lName}}</p>
                                         <p> Customer ID: {{$user->cID}}</p>
-                                        <p> Phone Number: {{$user->user->phoneNum}}
+                                        <p> Phone Number: {{$user->user->phoneNum}}</p>
+                                        <p> BL: {{$order->orderId}}</p>
                                             <!--CONSIGNEE NAME FIELD-->
                                             <div class="input-group mb-1">
                                                 <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
@@ -191,38 +192,44 @@
                                             <br>
                                             <form method="POST" action="{{ route('order.submit') }}">
                                                 @csrf
-                                            <table class="table" id="orderSummary">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ItemName</th>
-                                                        <th><!--Price--></th>
-                                                        <th>Quantity</th>
-                                                        <th><!--Total--></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <!--CONTAINER NUMBER FIELD-->
-                                                <div class="input-group mb-1">
-                                                    <input type="text" name="valuation" class="form-control"
-                                                    placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus
-                                                    value = "{{$order->value}}">
+                                                <table class="table" id="orderSummary">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ItemName</th>
+                                                            <th>Price</th>
+                                                            <th>Quantity</th>
+                                                            <th>Total</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!--CONTAINER NUMBER FIELD-->
+                                                    <div class="input-group mb-1">
+                                                        <input type="text" name="valuation" class="form-control"
+                                                        placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus
+                                                        value = "{{$order->value}}">
 
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            <i class="fa-solid fa-hashtag"></i>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa-solid fa-hashtag"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                    @error('valuation')
-                                                        <span class="error invalid-feedback">
-                                                            {{ $message }}
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                                <br>
-                                                <tbody id="orderItems"></tbody>
-
-                                            </table>
+                                                        @error('valuation')
+                                                            <span class="error invalid-feedback">
+                                                                {{ $message }}
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                    <br>
+                                                    <tbody id="orderItems"></tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="3"><strong>Total:</strong></td>
+                                                            <td id="orderTotal">0.00</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tfoot
+                                                </table>
                                             <br>
                                             <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
                                             <button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit Order</button>
@@ -272,8 +279,8 @@ function addToOrder(productId, productName, productPrice) {
     // Prevent form submission
     event.preventDefault();
 }
-//<td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-//<td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+
+
 
 function updateOrderItems() {
     let orderItemsHtml = '';
@@ -282,9 +289,9 @@ function updateOrderItems() {
         orderItemsHtml += `
             <tr>
                 <td>${item.name}</td>
-                <td></td>
+                <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                 <td>${item.quantity}</td>
-                <td></td>
+                <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                 <td>
                     <button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button>
                 </td>
@@ -292,7 +299,7 @@ function updateOrderItems() {
         orderTotal += item.total;
     });
     $('#orderItems').html(orderItemsHtml);
-    //$('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    $('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
     if (orderItems.length > 0) {
         $('#submitOrderBtn').prop('disabled', false);

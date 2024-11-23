@@ -86,8 +86,29 @@ public function qr($key)
         $parcel = parcel::where('orderId',$oId)->get();
         return view('parcel.confirm', compact('key','data','parcel'));
     }
-
-
+    
+    public function updateStatus(Request $request, $orderId)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'status' => 'required|string'
+        ]);
+    
+        // Find the order by orderId
+        $order = Order::find($orderId);
+    
+        if ($order) {
+            // Update the status
+            $order->status = $request->input('status');
+            $order->save(); // Save the updated order
+    
+            // Redirect or respond
+            return redirect()->route('p.view')->with('success', 'Status updated successfully!');
+        }
+    
+        return redirect()->route('parcels.showVoyage')->with('error', 'Order not found!');
+    }
+    
 public function bl($key)
 {
     // Fetch the order using the correct primary key
