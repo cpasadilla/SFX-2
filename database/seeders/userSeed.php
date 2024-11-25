@@ -956,7 +956,7 @@ class userSeed extends Seeder
             'multiplier' => '1.00'
         ]);
 
-        $orderId = "BL0000001";
+        $orderId = "BL0001";
         parcel::create([
             'itemName' => 'CHARTERED 20FTR',
             'quantity' => '1',
@@ -972,11 +972,16 @@ class userSeed extends Seeder
             'origin' => 'Manila',
             'destination' => 'Batanes',
             'totalAmount' => '381.63',
-            'cID' => '00000001',
+            'cID' => '0001',
             'orderId' => $orderId,
             'orderCreated' => $date,
             'consigneeName' => 'Janus',
-            'consigneeNum' => '09451278396'
+            'consigneeNum' => '09451278396',
+            'voyageNum' => '2',
+            'containerNum' => '2',
+            'cargoNum' => '2',
+            'value' => '123'
+
         ]);
     }
 }

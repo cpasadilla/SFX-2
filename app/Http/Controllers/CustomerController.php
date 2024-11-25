@@ -102,7 +102,7 @@ class CustomerController extends Controller
 
     // Decode JSON order items
     $orderItems = json_decode($request->input('orderItems'));
-
+    //dd($orderItems);
     // Calculate the total order amount
     $totalAmount = 0;
     foreach ($orderItems as $item) {
@@ -232,19 +232,102 @@ public function showBL(Request $request, $key){
     $users = CustomerID::where('cID', $key)->get();
 
     $orders = Order::where('cID', $key)->get();
+
     return view('customers.parcels', compact('users','orders'));
 }
 
-public function update(Request $request, $key){
+public function audit(Request $request, $key){
     $orders = Order::where('orderID', $key)->get();
     foreach($orders as $order){
         $id = $order->cID;
     }
     $users = CustomerID::where('cID', $id)->get();
+    $parcels = parcel::where('orderId',$key)->get();
+    $array = array();
+    foreach ($parcels as $parcel){
+        array_push($array,array(
+            'name' => $parcel->itemName,
+            'price' => $parcel->price,
+            'quantity' => $parcel->quantity,
+            'total' => $parcel->total,
+        ));
+    }
 
+    $data = json_encode($array);
     $products = priceList::paginate(12);
     $cats = category::all();
 
-    return view('customers.update', compact('users','orders','products','cats'));
+    return view('customers.update', compact('users','orders','products','cats','data'));
+}
+protected function update(Request $request, $key)
+{
+    // Validate form data
+    $validator = Validator::make($request->all(), [
+        'ship' => ['required', 'string', 'max:255'],
+        'origin' => ['required', 'string', 'max:255'],
+        'recs' => ['required', 'string', 'max:255'],
+        'cont' => ['required', 'numeric', 'digits:11'],
+        'voyage' => ['required', 'string', 'max:255'],
+        'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
+        'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
+        'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    // Decode JSON order items
+    $orderItems = json_decode($request->input('orderItems'));
+    //dd($orderItems);
+    // Calculate the total order amount
+    $totalAmount = 0;
+    foreach ($orderItems as $item) {
+        $totalAmount += $item->total;
+    }
+
+    $orderId = $key;
+
+    parcel::where('orderId', $orderId)->delete();
+    order::where('orderId', $orderId)->delete();
+
+    // Add the order items to the order details table
+    foreach ($orderItems as $item) {
+        parcel::create([
+            'itemName' => $item->name,
+            'quantity' => $item->quantity,
+            'price' => $item->price,
+            'total' => $item->total,
+            'orderId' => $orderId,
+        ]);
+    }
+
+    // Determine destination
+    $origin = $request->input('origin');
+    $destination = $origin == "Manila" ? "Batanes" : "Manila";
+
+    // Set the current date and time
+    date_default_timezone_set('Asia/Manila');
+    $date = date("F d 20y - g:i a");
+
+    // Create a new order in the database
+    $order = order::create([
+        'shipNum' => $request->input('ship'),
+        'origin' => $origin,
+        'destination' => $destination,
+        'totalAmount' => $totalAmount,
+        'cID' => $request->input('id'),
+        'orderId' => $orderId,
+        'orderCreated' => $date,
+        'consigneeName' => $request->input('recs'),
+        'consigneeNum' => $request->input('cont'),
+        'voyageNum' => $request->input('voyage'),
+        'containerNum' => $request->input('container'), // Get container number if provided
+        'value' => $request->input('valuation'),
+    ]);
+    $order->save();
+
+    // Redirect to the order confirmation page
+    return redirect()->route('c.confirm', ['key' => $orderId]);
 }
 }

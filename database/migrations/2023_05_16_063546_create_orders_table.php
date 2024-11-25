@@ -22,7 +22,6 @@ return new class extends Migration
                 $table->string('consigneeNum');
                 $table->string('origin');
                 $table->string('destination');
-                $table->unsignedBigInteger('cargoID')->default(0);
                 $table->string('cargoNum')->default(0);
                 $table->string('voyageNum')->nullable();
                 $table->string('containerNum')->nullable();

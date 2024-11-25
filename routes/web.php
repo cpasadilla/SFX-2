@@ -40,7 +40,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
 
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
-    Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'update'])->name('c.update');
+    Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'audit'])->name('c.audit');
+    Route::post('/BL/update/{key}', [\App\Http\Controllers\CustomerController::class, 'update'])->name('c.update');
 
     //List
     Route::get('/priceList', [\App\Http\Controllers\listController::class,'index'])->name('price');

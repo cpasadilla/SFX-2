@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-        <h1>ORDERS CREATED</h1>
+        <h1>ORDER UPDATE</h1>
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6"></div><!-- /.col -->
@@ -14,16 +14,7 @@
         </div><!-- /.container-fluid -->
     </div><!-- /.content-header -->
     <div class="row mb-2" style="padding-left:8px;">
-        <div class="col-md-6">
-            <form action="{{ route('l.search') }}" method="GET">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-success">Search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+
     </div>
     <br>
     <div class="content" style="padding-left:8px; padding-right:8px;">
@@ -80,11 +71,12 @@
                         @foreach ($users as $user)
                         @foreach ($orders as $order )
 
-                        <form action={{route('c.submit',['key'=>$user->cID])}} method="post" enctype="multipart/form-data">
+                        <form action={{route('c.update',['key'=>$order->orderId])}} method="post" enctype="multipart/form-data">
                                 @csrf
                                     <div class="card-body">
                                         <p> Name: {{$user->fName}} {{$user->lName}}</p>
                                         <p> Customer ID: {{$user->cID}}</p>
+                                        <input name="id" value="{{ $user->cID }}" hidden>
                                         <p> Phone Number: {{$user->phoneNum}}</p>
                                         <p> BL: {{$order->orderId}}</p>
                                             <!--CONSIGNEE NAME FIELD-->
@@ -189,6 +181,8 @@
                                                     </span>
                                                 @enderror
                                             </div>
+
+
                                             <br>
                                             <form method="POST" action="{{ route('order.submit') }}">
                                                 @csrf
@@ -249,7 +243,12 @@
 
 
 <script>
-let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
+
+// Parse the initial data passed from the backend
+let initialOrderItems = {!! $data !!};
+
+// Use this data to populate the `orderItems` array
+let orderItems = initialOrderItems.length ? initialOrderItems : [];
 let orderTotal = 0;
 
 function addToOrder(productId, productName, productPrice) {
@@ -284,30 +283,38 @@ function addToOrder(productId, productName, productPrice) {
 
 function updateOrderItems() {
     let orderItemsHtml = '';
-    orderTotal = 0;
+    orderTotal = 0; // Ensure orderTotal is reset as a number
+
     orderItems.forEach(item => {
         orderItemsHtml += `
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                <td>${item.quantity}</td>
-                <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button>
-                </td>
-            `;
-        orderTotal += item.total;
+    <tr>
+        <td>${item.name}</td>
+        <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td>${item.quantity}</td>
+        <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td>
+            <button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button>
+        </td>
+    </tr>`;
+
+
+        // Ensure proper addition
+        orderTotal += Number(item.total); // Explicitly convert item.total to a number
     });
+
+    // Update the table
     $('#orderItems').html(orderItemsHtml);
+
+    // Update the total display
     $('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
-    if (orderItems.length > 0) {
-        $('#submitOrderBtn').prop('disabled', false);
-    } else {
-        $('#submitOrderBtn').prop('disabled', true);
-    }
+    // Enable or disable the submit button
+    $('#submitOrderBtn').prop('disabled', orderItems.length === 0);
+
+    // Save the current order items to a hidden input field
     $('#orderItemsInput').val(JSON.stringify(orderItems));
 }
+
 
 function removeFromOrder(productId) {
     // Find the index of the order item to remove
@@ -345,21 +352,6 @@ $(document).ready(function() {
     updateOrderItems();
 });
 
-</script>
-<script>
-    function updatePrice() {
-        // Get values from input fields
-        const length = parseFloat(document.getElementById('length').value) || 0;
-        const width = parseFloat(document.getElementById('width').value) || 0;
-        const height = parseFloat(document.getElementById('height').value) || 0;
-        const multiplier = parseFloat(document.getElementById('multiplier').value) || 0;
-
-        // Calculate the price (length * width * height * multiplier)
-        const calculatedPrice = length * width * height * multiplier;
-
-        // Update the price field with the calculated value
-        document.getElementById('price').value = calculatedPrice.toFixed(2); // Display the result with 2 decimal places
-    }
 </script>
 <style>
     .btn-primary {

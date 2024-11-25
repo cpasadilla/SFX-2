@@ -48,7 +48,7 @@
                                     <td style="text-align: center">{{ $order->destination }}</td>
                                     <td style="text-align: center">{{ $order->totalAmount }}</td>
                                     <td style="text-align: center">
-                                        <a href="{{ route('c.update', ['key' => $order->orderId]) }}">Edit</a>
+                                        <a href="{{ route('c.audit', ['key' => $order->orderId]) }}">Edit</a>
                                     </td>
                                     <td style="text-align: center">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">View</a>
