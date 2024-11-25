@@ -53,7 +53,6 @@
                                     <th scope="col" style="text-align: center;">Customer ID</th>
                                     <th scope="col" style="text-align: center;">First Name</th>
                                     <th scope="col" style="text-align: center;">Last Name</th>
-                                    <!--th scope="col">Email</th-->
                                     <th scope="col" style="text-align: center;">Phone Number</th>
                                     <th scope="col" style="text-align: center;">Edit Info</th>
                                     <th scope="col" style="text-align: center;">View All BL</th>
@@ -64,10 +63,9 @@
                                 @foreach ($users as $user)
                                     <tr class="table-row">
                                         <td style="text-align: center;">{{ $user->cID }}</td>
-                                        <td class="fName" style="text-align: center;">{{ $user->user->fName }}</td>
-                                        <td class="lName" style="text-align: center;">{{ $user->user->lName }}</td>
-                                        <!--td class="email">{{ $user->user->email }}</td-->
-                                        <td class="phoneNum" style="text-align: center;">{{ $user->user->phoneNum }}</td>
+                                        <td class="fName" style="text-align: center;">{{ $user->fName }}</td>
+                                        <td class="lName" style="text-align: center;">{{ $user->lName }}</td>
+                                        <td class="phoneNum" style="text-align: center;">{{ $user->phoneNum }}</td>
                                         <td class="align-middle" style="text-align: center;">
                                             <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->cID }}" style="color:grey"></i>
                                         </td>
@@ -97,7 +95,7 @@
                                                                 <div class="form-group row">
                                                                     <label for="fName" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="fName" type="text" class="form-control @error('fName') is-invalid @enderror" name="fName" value="{{ $user->user->fName }}" required autocomplete="fName" autofocus>
+                                                                        <input id="fName" type="text" class="form-control @error('fName') is-invalid @enderror" name="fName" value="{{ $user->fName }}" required autocomplete="fName" autofocus>
                                                                         @error('fName')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -109,7 +107,7 @@
                                                                 <div class="form-group row">
                                                                     <label for="lName" class="col-md-4 col-form-label text-md-right">{{ __('Last Name') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="lName" type="text" class="form-control @error('lName') is-invalid @enderror" name="lName" value="{{ $user->user->lName }}" required autocomplete="lName" autofocus>
+                                                                        <input id="lName" type="text" class="form-control @error('lName') is-invalid @enderror" name="lName" value="{{ $user->lName }}" required autocomplete="lName" autofocus>
                                                                         @error('lName')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -118,17 +116,6 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="form-group row">
-                                                                    <label for="email"class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-                                                                    <div class="col-md-6">
-                                                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->user->email }}" required autocomplete="email">
-                                                                        @error('email')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
 
                                                                 <div class="form-group row">
                                                                         <label for="phoneNum"
@@ -138,7 +125,7 @@
                                                                             <input id="phoneNum" type="text"
                                                                                 class="form-control @error('phoneNum') is-invalid @enderror"
                                                                                 name="phoneNum"
-                                                                                value="{{ $user->user->phoneNum }}"
+                                                                                value="{{ $user->phoneNum }}"
                                                                                 required autocomplete="phoneNum" autofocus>
 
                                                                             @error('phoneNum')
@@ -149,6 +136,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <input name="id" value="{{ $user->id }}" hidden>
 
                                                                 <button type="submit" class="btn btn-primary" id="submitButton">
                                                                     {{ __('UPDATE') }}
@@ -159,18 +147,10 @@
                                                         <form method="POST" action="{{ route('c.error') }}">
                                                             @csrf
                                                                 <input name="id" value="{{ $user->id }}" hidden>
-                                                                <input name="user" value="{{ $user->user_id }}" hidden>
                                                                 <button type="submit" class="btn btn-danger">{{ __('DELETE') }}</button>
                                                         </form>
                                                         <br><br>
 
-                                                        <form method="POST" action="{{ route('c.reset') }}">
-                                                            @csrf
-                                                                <input name="id" value="{{ $user->id }}" hidden>
-                                                                <input name="user" value="{{ $user->user_id }}" hidden>
-                                                                <button type="submit" class="btn btn-success">Reset Password</button>
-                                                                <P>FOR PASSWORDS THAT WERE RESETED, THE DEFAULT WILL BE "Pass1234"</P>
-                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -226,18 +206,6 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="email"class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-                                            <div class="col-md-6">
-                                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-                                                @error('email')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
                                             <label for="phoneNum" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
                                             <div class="col-md-6">
                                                 <input id="phoneNum" type="text" class="form-control @error('phoneNum') is-invalid @enderror" name="phoneNum" value="{{ old('phoneNum') }}" required autocomplete="phoneNum" autofocus>
@@ -248,15 +216,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="password"
-                                                class="col-md-4 col-form-label text-md-right">{{ __('DEFAULT PASSWORD: ') }}</label>
-                                            <div class="col-md-6">
-                                                <span
-                                                    style="display: inline-block; vetical-align: middle; text-align: center;">
-                                                    {{ __('Pass1234') }}</span>
-                                            </div>
-                                        </div>
+
                                     </div>
 
                                     <div class="modal-footer">

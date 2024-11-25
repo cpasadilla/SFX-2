@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('customer_i_d_s', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->string('cID');
+            $table->string('fName');
+            $table->string('lName');
+            $table->string('phoneNum')->unique();
             $table->timestamps();
 
-            $table->index('user_id');
-           
         });
     }
 

@@ -63,17 +63,17 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr class="table-row">
-                                        <td class="fName">{{ $user->user->fName }} </td>
-                                        <td class="lName">{{ $user->user->lName }}</td>
-                                        <td class="email">{{ $user->user->email }}</td>
-                                        <td class="phoneNum">{{ $user->user->phoneNum }}</td>
+                                        <td class="fName">{{ $user->fName }} </td>
+                                        <td class="lName">{{ $user->lName }}</td>
+                                        <td class="email">{{ $user->email }}</td>
+                                        <td class="phoneNum">{{ $user->phoneNum }}</td>
                                         <td class="position">{{ $user->position }}</td>
                                         <td class="location">{{ $user->location }}</td>
                                         <td class="align-middle">
                                             <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->id }}" style="color:grey"></i>
                                         </td>
                                     </tr>
-                                    <div class="modal fade" id="editCustomerModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel{{ $user->id }}" aria-hidden="true"> 
+                                    <div class="modal fade" id="editCustomerModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel{{ $user->id }}" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -88,7 +88,7 @@
                                                     <form method="POST" action="{{ route('u.edit')}}">
                                                         @csrf
                                                             <div class="input-group mb-3">
-                                                                <input type="text" name="fName" class="form-control @error('fName') is-invalid @enderror" placeholder="{{ __('First Name') }}" required autocomplete="fName" autofocus value="{{ $user->user->fName }}">
+                                                                <input type="text" name="fName" class="form-control @error('fName') is-invalid @enderror" placeholder="{{ __('First Name') }}" required autocomplete="fName" autofocus value="{{ $user->fName }}">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="fas fa-user"></span>
@@ -100,9 +100,9 @@
                                                                     </span>
                                                                 @enderror
                                                             </div>
-                                                            
+
                                                             <div class="input-group mb-3">
-                                                                <input type="text" name="lName" class="form-control @error('lName') is-invalid @enderror" placeholder="{{ __('Last Name') }}" required autocomplete="lName" autofocus value="{{ $user->user->lName }}">
+                                                                <input type="text" name="lName" class="form-control @error('lName') is-invalid @enderror" placeholder="{{ __('Last Name') }}" required autocomplete="lName" autofocus value="{{ $user->lName }}">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="fas fa-user"></span>
@@ -114,9 +114,9 @@
                                                                     </span>
                                                                 @enderror
                                                             </div>
-                                                            
+
                                                             <div class="input-group mb-3">
-                                                                <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus value="{{ $user->user->phoneNum}}">
+                                                                <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="fas fa-phone alt"></span>
@@ -128,9 +128,9 @@
                                                                     </span>
                                                                 @enderror
                                                             </div>
-                                                            
+
                                                             <div class="input-group mb-3">
-                                                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autocomplete="email" value="{{ $user->user->email }}">
+                                                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autocomplete="email" value="{{ $user->email }}">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="fas fa-envelope"></span>
@@ -142,25 +142,25 @@
                                                                     </span>
                                                                 @enderror
                                                             </div>
-                                                                
+
                                                             <div class="input-group mb-3">
                                                                 <select class="form-control" id="location" name="location">
-                                                                    @if ($user->location == "Manila") 
+                                                                    @if ($user->location == "Manila")
                                                                         <option  value="Batanes">Batanes</option>
                                                                         <option selected value="Manila">Manila</option>
                                                                     @else
                                                                         <option selected value="Batanes">Batanes</option>
-                                                                        <option   value="Manila">Manila</option>  
+                                                                        <option   value="Manila">Manila</option>
                                                                     @endif
                                                                 </select>
-                                                                
+
                                                                 @error('location')
                                                                     <span class="error invalid-feedback">
                                                                         {{ $message }}
                                                                     </span>
                                                                 @enderror
                                                             </div>
-                                                            
+
                                                             <div class="input-group mb-3">
                                                                 <select class="form-control" id="position" name="position">
                                                                     @if ($user->position == "Admin")
@@ -186,19 +186,17 @@
                                                         <button type="submit" class="btn btn-primary">Update</button>
                                                     </form>
                                                     <br><br>
-                                                    
+
                                                     <form method="POST" action="{{ route('u.delete')}}">
                                                         @csrf
                                                             <input name="id" value="{{$user->id}}" hidden>
-                                                            <input name="user" value="{{$user->user_id}}" hidden>
                                                         <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                     <br><br>
-                                                    
+
                                                     <form method="POST" action="{{ route('u.reset')}}">
                                                         @csrf
                                                             <input name="id" value="{{$user->id}}" hidden>
-                                                            <input name="user" value="{{$user->user_id}}" hidden>
                                                             <button type="submit" class="btn btn-success">Reset Password</button>
                                                     </form>
                                                     <P>FOR PASSWORDS THAT WERE RESETED, THE DEFAULT WILL BE "Pass1234"</P>
@@ -210,7 +208,7 @@
                             </tbody>
                         </table>
                     </div><!-- /.card-body -->
-                    
+
                     <div class="card-footer clearfix"></div>
                 </div>
             </div>
@@ -244,7 +242,7 @@
                                 </span>
                             @enderror
                         </div>
-                        
+
                         <div class="input-group mb-3">
                             <input type="text" name="lName" class="form-control @error('lName') is-invalid @enderror" placeholder="{{ __('Last Name') }}" required autocomplete="lName" autofocus>
                             <div class="input-group-append">
@@ -258,7 +256,7 @@
                                 </span>
                             @enderror
                         </div>
-                        
+
                         <div class="input-group mb-3">
                             <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
@@ -286,7 +284,7 @@
                                 </span>
                             @enderror
                         </div>
-                        
+
                         <div class="input-group mb-3">
                             <select class="form-control" id="location" name="location">
                                 <option selected>Choose Location</option>
@@ -299,7 +297,7 @@
                                 </span>
                             @enderror
                         </div>
-                        
+
                         <div class="input-group mb-3">
                             <select class="form-control" id="position" name="position">
                                 <option selected>Choose Position</option>
@@ -327,7 +325,7 @@
                                 </span>
                             @enderror
                         </div>
-                        
+
                         <div class="input-group mb-3">
                             <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="{{ __('Confirm Password') }}" required autocomplete="new-password">
                             <div class="input-group-append">
@@ -354,7 +352,7 @@
     switching = true;
     dir = "asc"; // Set the initial sorting direction
     console.log(`Sorting column: ${n}`); // Debugging
-    
+
     while (switching) {
         switching = false;
         rows = table.rows;
@@ -363,14 +361,14 @@
             x = rows[i].getElementsByTagName("TD")[n];
             y = rows[i + 1].getElementsByTagName("TD")[n];
             if (!x || !y) continue; // Skip invalid rows
-            
+
             var xContent = x.textContent.trim().toLowerCase();
             var yContent = y.textContent.trim().toLowerCase();
             var xValue = isNaN(xContent) ? xContent : parseFloat(xContent);
             var yValue = isNaN(yContent) ? yContent : parseFloat(yContent);
-            
+
             console.log(`Comparing ${xValue} with ${yValue}`); // Debugging
-            
+
             if (dir === "asc" && xValue > yValue) {
                 shouldSwitch = true;
                 break;

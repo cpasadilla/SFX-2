@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return redirect(route('login'));
 });
-Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
-
+Route::middleware('auth')->group(function(){
     //Dashboard
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -72,26 +71,12 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
     Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
 
     Route::put('/order/{orderId}/update-status', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
-    
+
     //Route::get('/orders/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     //Route::get('/orders/{shipNum}/{voyageNum}/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
 
 
-    //ORDERS UPDATE
-    Route::get('/shipping', [\App\Http\Controllers\shipController::class, 'index'])->name('o.view');
-    Route::get('/shipping/scan/{key}',  [\App\Http\Controllers\shipController::class,'scanned'])->name('o.scan');
-    Route::get('/shipping/scan',  [\App\Http\Controllers\shipController::class,'scan'])->name('scan');
 
-    Route::get('/shipping/update', [\App\Http\Controllers\shipController::class, 'pick'])->name('o.pick');
-    Route::get('/shipping/update/receive', [\App\Http\Controllers\shipController::class, 'update'])->name('o.update');
-    Route::post('/shipping/update/order', [\App\Http\Controllers\shipController::class,'ship'])->name('o.ship');
-
-    //CARGO WEIGHT
-    Route::get('/shipping/weight', [\App\Http\Controllers\shipController::class, 'weight'])->name('o.weight');
-    Route::post('/shipping/weight/create', [\App\Http\Controllers\shipController::class, 'submit'])->name('o.submit');
-    //CARGO TABLE
-    Route::get('/shipping/table', [\App\Http\Controllers\shipController::class, 'table'])->name('o.table');
-    Route::get('/shipping/table/{key}', [\App\Http\Controllers\shipController::class, 'qr'])->name('o.qr');
 
 
 
@@ -104,9 +89,9 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function(){
 
 Auth::routes();
 
-Route::get('/home',[App\Http\Controllers\InfoController::class, 'index'])->name('cust');
-Route::get('/home/billOfLading/{key}',[App\Http\Controllers\InfoController::class, 'bl'])->name('cust.bl');
-Route::put('/home/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('cust.update');
+//Route::get('/home',[App\Http\Controllers\InfoController::class, 'index'])->name('cust');
+//Route::get('/home/billOfLading/{key}',[App\Http\Controllers\InfoController::class, 'bl'])->name('cust.bl');
+//Route::put('/home/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('cust.update');
 Route::middleware('auth')->group(function () {
 Route::post('/data', 'DataController@store')->name('data.store');
 

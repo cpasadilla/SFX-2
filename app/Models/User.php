@@ -23,7 +23,8 @@ class User extends Authenticatable
         'phoneNum',
         'email',
         'password',
-        'isStaff',
+        'position',
+        'location'
     ];
 
     /**
@@ -49,7 +50,4 @@ class User extends Authenticatable
         return $this->hasOne(CustomerID::class);
     }
 
-    public function staff(){
-            return $this->hasOne(staff::class);
-    }
 }

@@ -83,9 +83,9 @@
                         <form action={{route('c.submit',['key'=>$user->cID])}} method="post" enctype="multipart/form-data">
                                 @csrf
                                     <div class="card-body">
-                                        <p> Name: {{$user->user->fName}} {{$user->user->lName}}</p>
+                                        <p> Name: {{$user->fName}} {{$user->lName}}</p>
                                         <p> Customer ID: {{$user->cID}}</p>
-                                        <p> Phone Number: {{$user->user->phoneNum}}</p>
+                                        <p> Phone Number: {{$user->phoneNum}}</p>
                                         <p> BL: {{$order->orderId}}</p>
                                             <!--CONSIGNEE NAME FIELD-->
                                             <div class="input-group mb-1">

@@ -11,7 +11,7 @@
 
 </div>
 @php
-    $name =  $user->user->fName . ' ' .  $user->user->lName;
+    $name =  $user->fName . ' ' .  $user->lName;
 @endphp
 <br>
 <div class="content">

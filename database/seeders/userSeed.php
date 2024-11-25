@@ -26,101 +26,40 @@ class userSeed extends Seeder
             'phoneNum' => '09123456789',
             'email' => 'admin@plm.edu.ph',
             'password' => Hash::make('admin1234'),
-            'isStaff' => '1',
-        ]);
-
-        $email = 'admin@plm.edu.ph';
-        $id = User::where('email', $email)->get();
-        foreach($id as $value){
-            $store = $value->id;
-        }
-
-        staff::create([
-            'user_id' => $store,
             'position' => 'Admin',
             'location' => 'Manila',
         ]);
-
         User::create([
             'fName' => 'Manila',
             'lName' => 'SFX',
             'phoneNum' => '09453128679',
             'email' => 'm.sfx@sfx.com',
             'password' => Hash::make('admin1234'),
-            'isStaff' => '1',
-        ]);
-    
-        $email = 'm.sfx@sfx.com';
-        $id = User::where('email', $email)->get();
-        foreach($id as $value){
-            $store = $value->id;
-        }
-        
-        staff::create([
-            'user_id' => $store,
             'position' => 'Staff',
             'location' => 'Manila',
         ]);
-        
+
+
         User::create([
             'fName' => 'Batanes',
             'lName' => 'SFX',
             'phoneNum' => '09753124869',
             'email' => 'b.sfx@sfx.com',
             'password' => Hash::make('admin1234'),
-            'isStaff' => '1',
-        ]);
-        
-        $email = 'b.sfx@sfx.com';
-        $id = User::where('email', $email)->get();
-        foreach($id as $value){
-            $store = $value->id;        
-        }
-        
-        staff::create([
-            'user_id' => $store,
             'position' => 'Engineer',
             'location' => 'Batanes',
         ]);
-        
-        User::create([
+
+
+        CustomerID::create([
+            'cID' => '0001',
             'fName' => 'Catherine',
             'lName' => 'Pasadilla',
             'phoneNum' => '09748591632',
-            'email' => 'c.pasadilla@sfx.com',
-            'password' => Hash::make('Pass1234'),
-            'isStaff' => '0',
-        ]);
-        
-        $email = 'c.pasadilla@sfx.com';
-        $id = User::where('email', $email)->get();
-        foreach($id as $value){
-            $store = $value->id;
-        }
-        
-        CustomerID::create([
-            'user_id' => $store,
-            'cID' => '00000001',
         ]);
 
         category::create([
             'name' => 'FIXED PRICE',
-        ]);
-
-        category::create([
-            'name' => 'GENERAL MERCHANDISE',
-        ]);
-
-        category::create([
-            'name' => 'GENERAL MERCHANDISE',
-        ]);
-
-        category::create([
-            'name' => 'GENERAL MERCHANDISE',
-        ]);
-        
-        category::create([
-            'name' => 'GENERAL MERCHANDISE',
         ]);
 
         category::create([
@@ -166,7 +105,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'BIKE ADULT',
             'category' => '1',
@@ -556,7 +495,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'MOTOR SMALL ( MIO / BEAT / CLICK )',
             'category' => '1',
@@ -1025,7 +964,7 @@ class userSeed extends Seeder
             'total' => '62968.02',
             'orderId' => $orderId,
         ]);
-        
+
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i a");
         order::create([

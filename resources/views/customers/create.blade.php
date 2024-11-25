@@ -52,7 +52,7 @@
                                         <td>{{ $product->itemName }}</td>
                                         <td><!--{{ number_format($product->price, 2) }}--></td>
                                         @foreach ($cats as $cat)
-                                            
+
                                         @if ($cat->id == $product->category)
                                         <td style="text-align: center;">{{ $cat->name }}</td>
                                         @endif
@@ -81,9 +81,9 @@
                             <form action={{route('c.submit',['key'=>$user->cID])}} method="post" enctype="multipart/form-data">
                                 @csrf
                                     <div class="card-body">
-                                        <p> Name: {{$user->user->fName}} {{$user->user->lName}}</p>
+                                        <p> Name: {{$user->fName}} {{$user->lName}}</p>
                                         <p> Customer ID: {{$user->cID}}</p>
-                                        <p> Phone Number: {{$user->user->phoneNum}}
+                                        <p> Phone Number: {{$user->phoneNum}}
                                             <!--CONSIGNEE NAME FIELD-->
                                             <div class="input-group mb-1">
                                                 <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
@@ -146,7 +146,7 @@
                                             </div>
                                             <!--CONTAINER NUMBER FIELD-->
                                             <div class="input-group mb-1">
-                                                <input type="text" name="container" class="form-control" 
+                                                <input type="text" name="container" class="form-control"
                                                 placeholder="{{ __('Container Number') }}" autocomplete="container" autofocus>
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
@@ -154,7 +154,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <!--ORIGIN FIELD-->
                                             <div class="input-group mb-1">
                                                 <select class="form-control" id="origin" name="origin">
@@ -183,7 +183,7 @@
                                                 </thead>
                                                 <!--CONTAINER NUMBER FIELD-->
                                                 <div class="input-group mb-1">
-                                                    <input type="text" name="valuation" class="form-control" 
+                                                    <input type="text" name="valuation" class="form-control"
                                                     placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus>
                                                     <div class="input-group-append">
                                                         <div class="input-group-text">
@@ -218,7 +218,7 @@
                 </div>
             <!--/div-->
             <!--div class="col-lg-5">
-                <div class="row" style="padding-left: 10px"> 
+                <div class="row" style="padding-left: 10px">
                     <div class="card">
                         <div class="card-header" id="CREATE">
                             <h5>CREATE LISTING</h5>
@@ -240,7 +240,7 @@
                                                 <div class="form-group row">
                                                     <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
                                                     <div class="col-md-6">
-                                                        <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" 
+                                                        <input id="category" type="text" class="form-control @error('category') is-invalid @enderror"
                                                         name="category" value="{{ old('category') }}" required autocomplete="category" autofocus>
                                                         @error('category')
                                                         <span class="invalid-feedback" role="alert">
@@ -258,7 +258,7 @@
                                     </div>
                                 </div>
                             </div-->
-                            
+
                             <!-- CREATE -->
                             <!-- CREATE -->
                             <!--<form method="POST" action="{{ route('p.create') }}" enctype="multipart/form-data" id="create">
@@ -277,7 +277,7 @@
                                         {{ $message }}
                                     </span>
                                     @enderror
-                                    
+
                                     <div style="padding-top:5px; padding-left:10px">
                                         <a data-toggle="modal" data-target="#exampleModal"><i
                                             class="fa-solid fa-plus fa-xl"></i>
@@ -288,7 +288,7 @@
                                     <label for="cats" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
                                     <div class="col-md-6">
                                         <input id="cats2" type="text" class="form-control @error('cats2') is-invalid @enderror" name="cats2" value="{{ old('cats2') }}" autocomplete="cats2" autofocus>
-                                        
+
                                         @error('cats2')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -300,7 +300,7 @@
                                     <label for="itemName" class="col-md-4 col-form-label text-md-right">{{ __('Item Name') }}</label>
                                     <div class="col-md-6">
                                         <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus>
-                                        
+
                                         @error('itemName')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -308,7 +308,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group row">
                                     <label for="length" class="col-md-4 col-form-label text-md-right">{{ __('Length') }}</label>
                                     <div class="col-md-6">
@@ -375,24 +375,24 @@
                                         @enderror
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group row mb-0">
                                     <div class="col-md-12 d-flex justify-content-center">
-                                        <button type="button" class="btn btn-success" 
+                                        <button type="button" class="btn btn-success"
                                             onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', {{ $product->price }})">
                                             {{ __('Add to Order') }}
                                         </button>
                                     </div>
-                                </div>                                
+                                </div>
                             </form>-->
                         <!--/div-->
                     </div>
                 </div>
-                
+
             <!--/div-->
-            
+
         </div>
-        
+
     </div>
 </div>
 

@@ -31,8 +31,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                 <div class="row">
                     <div class="col-md-7">
 
-                        <h4> <b> ORDER ID: {{$order->orderId}}  </b></h4>  
-                    
+                        <h4> <b> ORDER ID: {{$order->orderId}}  </b></h4>
+
                         <!-- Generate the QR code image -->
                         <div>
                             {{ QrCode::size(400)->generate($order->orderId) }}
@@ -40,30 +40,29 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
                         @endforeach
 
                     </div>
-                    
+
                     <div class="col-md-5" id = "info" style="font-size:30px" style="width: 800px">
 
                         <br><br>
                         <p>CUSTOMER INFORMATION </p>
-                        
-            
+
+
                         @foreach ($data as $user)
-            
+
                         <p>CUSTOMER ID: {{$user->cID}} </p>
-                        <p>NAME: {{$user->user->fName}} {{$user->user->lName}} </p>
-                        <p> Email: {{$user->user->email}}
-            
+                        <p>NAME: {{$user->fName}} {{$user->lName}} </p>
+
                         @endforeach
-    
+
                     </div>
 
                 </div>
-                
+
             </div>
         </div>
     </div>
-           
-            
+
+
 </div>
 
 </body>

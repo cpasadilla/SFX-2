@@ -28,7 +28,6 @@ class CustomerController extends Controller
         return Validator::make($data, [
             'fName' => ['required', 'string', 'max:255'],
             'lName' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phoneNum' => ['required', 'numeric', 'digits:11', 'unique:users'],
         ]);
     }
@@ -43,43 +42,28 @@ class CustomerController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        $user = User::where('isStaff','0')->get();
+        $user = CustomerID::paginate();
         $count = count($user);
-        if($count == null){
-            $count = 0;
-           }
-            $date = date("mdy");
-            $count = $count + 1;
-            if($count < 10){
-              $index = $date."00".$count;
-            }
-            else if($count > 10 && $count < 100 ){
-               $index = $date."0".$count;
-            }
-            else{
-              $index = $date.$count;
-            }
-
-        User::create([
-            'fName' => $request -> fName,
-            'lName' => $request -> lName,
-            'phoneNum' => $request -> phoneNum,
-            'email' => $request -> email,
-            'password' => Hash::make('Pass1234'),
-            'isStaff' => '0',
-        ]);
-
-
-        $email = $request -> email;
-        $id = User::where('email', $email)->get();
-        foreach($id as $value){
-                $store = $value->id;
-
+        $count += 1;
+        if($count >= 1 && $count<=9){
+            $index = '000'. $count;
+        }
+        elseif($count >= 10 && $count<=99){
+            $index = '00'. $count;
+        }
+        elseif($count >= 100 && $count<=999){
+            $index = '0'. $count;
+        }
+        else{
+            $index = strval($count);
         }
         CustomerID::create([
             'cID' => $index,
-            'user_id'=> $store,
+            'fName' => $request -> fName,
+            'lName' => $request -> lName,
+            'phoneNum' => $request -> phoneNum,
         ]);
+
         return redirect() -> route('customer') ;
     }
 
@@ -177,11 +161,10 @@ class CustomerController extends Controller
         $fName = $request -> fName;
         $lName = $request -> lName;
         $phoneNum = $request -> phoneNum;
-        $email = $request -> email;
-
-        DB::table('users')
-                 ->where('email',$email)
-                 ->update(['fName'=>$fName,'lName'=>$lName,'email'=>$email,'phoneNum'=>$phoneNum,]);
+        $id = $request->id;
+        DB::table('customer_i_d_s')
+                 ->where('id',$id)
+                 ->update(['fName'=>$fName,'lName'=>$lName,'phoneNum'=>$phoneNum,]);
         return redirect() -> route('customer') ;
     }
 
@@ -189,11 +172,8 @@ class CustomerController extends Controller
 
     protected function delete(Request $request){
         $id = $request->id;
-        $user = $request->user;
-        $del = User::find($user);
         $del2 = CustomerID::find($id);
 
-        $del->delete();
         $del2->delete();
         return redirect() -> route('customer') ;
 
@@ -246,14 +226,6 @@ class CustomerController extends Controller
         ->get();
     }
     return view('customers.home', compact('users'));
-}
-public function reset(Request $request){
-    $id = $request->id;
-    DB::table('users')
-    ->where('id',$id)
-    ->update(['password' => Hash::make("Pass1234")]);
-    return redirect() -> route('users.index') ;
-
 }
 
 public function showBL(Request $request, $key){

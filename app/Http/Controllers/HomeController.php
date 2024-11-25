@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\CustomerID;
 use App\Models\User;
 use App\Models\order;
 use Illuminate\Http\Request;
@@ -23,9 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $id = User::where('isStaff', '0')->get();
+        $id = User::paginate();
         $id = count($id);
-        $staff = count(User::where('isStaff', '1')->get());
+        $staff = count(CustomerID::paginate());
         $prog = count(order::where('status','inProgress')->get());
         $comp = count(order::where('status','complete')->get());
         return view('home', compact('id','prog','staff','comp'));

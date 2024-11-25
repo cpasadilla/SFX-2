@@ -52,9 +52,8 @@
                     <div class="col-md-6" style="font-size:17px;">
                         @foreach ($data as $user)
                             <p>Shipper <br>
-                                <strong> {{ $user->user->fName }} {{ $user->user->lName }}</strong><br>
-                                {{ $user->user->email }}<br>
-                                {{ $user->user->phoneNum }}<br>
+                                <strong> {{ $user->fName }} {{ $user->lName }}</strong><br>
+                                {{ $user->phoneNum }}<br>
                             </p>
                         @endforeach
                     </div>

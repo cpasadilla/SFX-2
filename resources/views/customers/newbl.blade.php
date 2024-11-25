@@ -97,13 +97,13 @@
                         <div class="col-md-3">
                             <strong>M/V EVERWIN STAR</strong> <span style="text-align: center;display: inline-block; width: 30%; border-bottom: 1px solid black;">{{ $order->shipNum }}</span><br>
                         </div>
-                        <div class="col-md-3"> 
+                        <div class="col-md-3">
                             <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                         </div>
                         <div class="col-md-3">
                             <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
                         </div>
-                        <div class="col-md-3"> 
+                        <div class="col-md-3">
                             <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                     <div class="row" style="padding-left:30px; padding-right:10px;font-size:15px">
                         <div class="col-md-5">
                             @foreach ($data as $user)
-                                <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $user->user->fName }} {{ $user->user->lName }}</span><br>
+                                <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
                             @endforeach
                         </div>
                         <div class="col-md-7" style="text-align: right; padding-right:30px;">
@@ -134,7 +134,7 @@
                     <div class="row" style="padding-left:30px; font-size:15px">
                         <div class="col-md-5">
                             @foreach ($data as $user)
-                                <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;">{{ $user->user->phoneNum }}</span><br>
+                                <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;">{{ $user->phoneNum }}</span><br>
                             @endforeach
                         </div>
                         <div class="col-md-7" style="text-align: right; padding-right:40px;">
@@ -199,7 +199,7 @@
                         </ol>
                     </div>
                     <br>
-                    
+
                     <div class="row pl-3">
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">

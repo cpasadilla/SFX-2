@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-@if (Auth::user()->staff->position == 'Staff')
+@if (Auth::user()->position == 'Staff')
 <script>
 window.location = "{{route('customer')}}";
 </script>
-@elseif(Auth::user()->staff->position == 'Engineer')
+@elseif(Auth::user()->position == 'Engineer')
 <script>
 window.location = "{{route('p.view')}}";
 </script>
@@ -16,7 +16,7 @@ window.location = "{{route('p.view')}}";
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">{{ __('Dashboard') }}</h1>
-                    
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
             <div class="row">
@@ -25,7 +25,7 @@ window.location = "{{route('p.view')}}";
                 <div class="small-box bg-info">
                   <div class="inner">
                     <h3>{{$prog}}</h3>
-  
+
                     <p>In Progress Orders</p>
                   </div>
                   <div class="icon">
@@ -40,7 +40,7 @@ window.location = "{{route('p.view')}}";
                 <div class="small-box bg-success">
                   <div class="inner">
                     <h3>{{$comp}}</h3>
-    
+
                     <p>Complete Orders</p>
                   </div>
                   <div class="icon">
@@ -55,7 +55,7 @@ window.location = "{{route('p.view')}}";
                   <div class="small-box bg-warning">
                     <div class="inner">
                       <h3>{{$id}}</h3>
-      
+
                       <p>Customers</p>
                     </div>
                     <div class="icon">
@@ -70,7 +70,7 @@ window.location = "{{route('p.view')}}";
                   <div class="small-box bg-danger">
                     <div class="inner">
                       <h3>{{$staff}}</h3>
-      
+
                       <p>Staff</p>
                     </div>
                     <div class="icon">
@@ -90,7 +90,7 @@ window.location = "{{route('p.view')}}";
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                
+
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -98,7 +98,7 @@ window.location = "{{route('p.view')}}";
     <!-- /.content -->
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
       .box {
         width: 96.5%;
@@ -107,7 +107,7 @@ window.location = "{{route('p.view')}}";
         margin: 10px auto;
         box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
       }
-      
+
       #line_5 {
         top: 66px;
         left: 1px;
@@ -128,7 +128,7 @@ window.location = "{{route('p.view')}}";
         text-align: center;
         color:#78BF65;
       }
-      
+
       #stfrancislogo {
         padding-left: 15px;
         padding-top: 10px;
@@ -158,7 +158,7 @@ window.location = "{{route('p.view')}}";
 	      text-align: center;
 	      color:#000000;
       }
-      
+
       #mission {
         top: 215px;
         left: 147px;
@@ -342,7 +342,7 @@ window.location = "{{route('p.view')}}";
       <div class="col-md-6">
 
       <div id="about_us" style="margin: 20px auto; text-align: center;">
-						ABOUT US 
+						ABOUT US
 					</div>
 
           <div id="vision" style="margin: 20px auto; text-align: center;">
@@ -378,13 +378,13 @@ window.location = "{{route('p.view')}}";
 					<img src="{{ asset ('images/tondo_email_icon_ek1.png') }}" id="tondo_email_icon_ek1" />
           <span style="white-space: nowrap;">E-mail: <a href="mailto:fxavier_2015@yahoo.com" target="_blank">fxavier_2015@yahoo.com.ph</a></span>
 					</div>
-					
+
 
           <div id="facebook__st__francis_xavier_star_shipping_lines_inc_" style="display: flex; align-items: center; margin: 10px auto; width: fit-content;">
-          <img src="{{ asset ('images/tondo_facebook_icon_ek1.png') }}" id="tondo_facebook_icon_ek1" />  
+          <img src="{{ asset ('images/tondo_facebook_icon_ek1.png') }}" id="tondo_facebook_icon_ek1" />
           <span style="white-space: nowrap;">Facebook: St. Francis Xavier Star Shipping Lines Inc.</span>
 					</div>
-					
+
 
           <div id="basco__batanes_branch" style="margin: 20px auto; text-align: center;" >
 						BASCO, BATANES BRANCH
@@ -409,7 +409,7 @@ window.location = "{{route('p.view')}}";
           <img src="{{ asset ('images/tondo_facebook_icon.png') }}" id="tondo_facebook_icon" />
           <span style="white-space: nowrap;">Facebook: Sfxssli Batanes</span>
 					</div>
-          
+
 
       </div>
       </div>
