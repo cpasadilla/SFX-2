@@ -246,11 +246,7 @@
 
 
 <script>
-    // Clear the previous order items in localStorage
-    localStorage.removeItem('orderItems');
-    localStorage.removeItem('orderTotal');
-
-let initialOrderItems = {!! $data !!};// Parse the initial data passed from the backend
+let initialOrderItems = {!! $data !!}; // Parse the initial data passed from the backend
 
 // Use this data to populate the `orderItems` array
 let orderItems = initialOrderItems.length ? initialOrderItems : [];
@@ -297,7 +293,6 @@ function addToOrder(productId, productName, productUnit, productPrice) {
     event.preventDefault();
 }
 
-
 function updateOrderItems() {
     let orderItemsHtml = '';
     orderTotal = 0; // Ensure orderTotal is reset as a number
@@ -330,7 +325,6 @@ function updateOrderItems() {
     // Save the current order items to a hidden input field
     $('#orderItemsInput').val(JSON.stringify(orderItems));
 }
-
 
 function removeFromOrder(productId) {
     let orderItem = orderItems.find(item => item.id === productId);
