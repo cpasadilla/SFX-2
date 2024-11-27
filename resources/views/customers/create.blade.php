@@ -202,16 +202,10 @@
                                                 </div>
                                                 <br>
                                                 <tbody id="orderItems"></tbody>
-                                                <!--tfoot>
-                                                    <tr>
-                                                        <td colspan="3"><strong>Total:</strong></td>
-                                                        <td id="orderTotal">0.00</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tfoot-->
                                             </table>
                                             <br>
                                             <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
+                                            <button type="button" class="btn btn-danger btn-block" onclick="clearOrderSummary()">Clear All</button>
                                             <button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit Order</button>
                                             </form>
                                     </div>
@@ -219,183 +213,9 @@
                         @endforeach
                     </div>
                 </div>
-            <!--/div-->
-            <!--div class="col-lg-5">
-                <div class="row" style="padding-left: 10px">
-                    <div class="card">
-                        <div class="card-header" id="CREATE">
-                            <h5>CREATE LISTING</h5>
-                        </div>
-                        <div class="card-body">
-                            <-- Modal -->
-                            <!--div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="POST" action="{{ route('p.cat') }}" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="form-group row">
-                                                    <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
-                                                    <div class="col-md-6">
-                                                        <input id="category" type="text" class="form-control @error('category') is-invalid @enderror"
-                                                        name="category" value="{{ old('category') }}" required autocomplete="category" autofocus>
-                                                        @error('category')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                    <button type="submit" class="btn btn-primary">Add</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div-->
-
-                            <!-- CREATE -->
-                            <!-- CREATE -->
-                            <!--<form method="POST" action="{{ route('p.create') }}" enctype="multipart/form-data" id="create">
-                                @csrf
-                                <input style="display:none" id="id" type="text" name="id" value="{{ old('itemName') }}" autocomplete="id">
-                                <div class="form-group row" style="padding-left: 215px" id="cat1">
-                                    <select class="form-control" id="cats" name="cats" style="max-width:85%;">
-                                        <option selected value="0">Choose Category</option>
-                                        @foreach ($cats as $value)
-                                        <option value={{ $value->id }}>{{ $value->name }}</option>
-                                        @endforeach
-                                    </select>
-
-                                    @error('cats')
-                                    <span class="error invalid-feedback">
-                                        {{ $message }}
-                                    </span>
-                                    @enderror
-
-                                    <div style="padding-top:5px; padding-left:10px">
-                                        <a data-toggle="modal" data-target="#exampleModal"><i
-                                            class="fa-solid fa-plus fa-xl"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="form-group row " style="display: none;" id="cat2">
-                                    <label for="cats" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="cats2" type="text" class="form-control @error('cats2') is-invalid @enderror" name="cats2" value="{{ old('cats2') }}" autocomplete="cats2" autofocus>
-
-                                        @error('cats2')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="itemName" class="col-md-4 col-form-label text-md-right">{{ __('Item Name') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus>
-
-                                        @error('itemName')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="length" class="col-md-4 col-form-label text-md-right">{{ __('Length') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="length" type="number" class="form-control" name="length" value="{{ old('length') }}" required autocomplete="length" oninput="updatePrice()">
-                                        @error('length')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="width" class="col-md-4 col-form-label text-md-right">{{ __('Width') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="width" type="number" class="form-control" name="width" value="{{ old('width') }}" required autocomplete="width" oninput="updatePrice()">
-                                        @error('width')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="height" type="number" class="form-control" name="height" value="{{ old('height') }}" required autocomplete="height" oninput="updatePrice()">
-                                        @error('height')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="multiplier" class="col-md-4 col-form-label text-md-right">{{ __('Multiplier') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="multiplier" type="number" class="form-control" name="multiplier" value="{{ old('multiplier') }}" required autocomplete="price" oninput="updatePrice()">
-                                        @error('multiplier')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="price" type="number" class="form-control" name="price" value="{{ old('price') }}" required readonly autocomplete="price">
-                                        @error('price')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="quantity" class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="quantity" type="number" class="form-control" name="quantity" value="{{ old('quantity', 1) }}" required autocomplete="quantity" min="1" oninput="updatePrice()">
-                                        @error('quantity')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-0">
-                                    <div class="col-md-12 d-flex justify-content-center">
-                                        <button type="button" class="btn btn-success"
-                                            onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', {{ $product->price }})">
-                                            {{ __('Add to Order') }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>-->
-                        <!--/div-->
                     </div>
                 </div>
-
-            <!--/div-->
-
         </div>
-
     </div>
 </div>
 
@@ -432,8 +252,6 @@ function addToOrder(productId, productName, productUnit, productPrice) {
     // Prevent form submission
     event.preventDefault();
 }
-//<td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-//<td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
 
 function updateOrderItems() {
     let orderItemsHtml = '';
@@ -499,7 +317,6 @@ $(document).ready(function() {
 
     updateOrderItems();
 });
-
 </script>
 <script>
     function updatePrice() {
@@ -515,6 +332,15 @@ $(document).ready(function() {
         // Update the price field with the calculated value
         document.getElementById('price').value = calculatedPrice.toFixed(2); // Display the result with 2 decimal places
     }
+    function clearOrderSummary() {
+    // Clear the orderItems array
+    orderItems = [];
+    // Remove all items from localStorage
+    localStorage.removeItem('orderItems');
+    // Update the UI to reflect the cleared order
+    updateOrderItems();
+}
+
 </script>
 <style>
     .btn-primary {
@@ -541,9 +367,5 @@ $(document).ready(function() {
     background-color: #fff;
     border: 1px solid #dee2e6;
 }
-
 </style>
-
-
-
 @endsection

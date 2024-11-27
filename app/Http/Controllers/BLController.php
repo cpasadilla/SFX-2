@@ -124,7 +124,7 @@ class BLController extends Controller
              $totalAmount += $item->total;
          }
          $random = strval(rand(1000,9999));
-         $orderId = "BL".$random;
+         $orderId = "BL00".$random;
 
          // Add the order items to the order details table
          foreach ($orderItems as $item) {

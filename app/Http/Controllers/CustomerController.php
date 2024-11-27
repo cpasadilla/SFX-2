@@ -103,6 +103,7 @@ class CustomerController extends Controller
     // Decode JSON order items
     $orderItems = json_decode($request->input('orderItems'));
     //dd($orderItems);
+    
     // Calculate the total order amount
     $totalAmount = 0;
     foreach ($orderItems as $item) {
@@ -110,11 +111,20 @@ class CustomerController extends Controller
     }
 
     // Generate an incrementing orderId
-    $lastOrder = order::latest('orderId')->first(); // Get the last order by orderId
-    $lastId = $lastOrder ? intval(substr($lastOrder->orderId, 2)) : 0; // Extract numeric part of orderId
-    $newId = str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Increment and pad with leading zeros
-    $orderId = "BL" . $newId; // Combine with prefix "BL"
 
+    
+ // Get the last orderId in ascending order
+ $lastOrder = order::latest('orderId')->first(); // Get the last order by orderId
+ $lastId = $lastOrder ? intval(substr($lastOrder->orderId, 2)) : 0; // Extract numeric part of orderId
+
+ // Generate a unique orderId starting from BL01 and incrementing
+ do {
+     $newId = str_pad($lastId + 1, 2, '0', STR_PAD_LEFT); // Increment by 1 and pad to 2 digits
+     $orderId = "BL" . $newId; // Combine with prefix "BL"
+     $lastId++; // Increment for next check
+ } while (order::where('orderId', $orderId)->exists()); // Check if the orderId already exists
+
+    
     // Add the order items to the order details table
     foreach ($orderItems as $item) {
         parcel::create([
