@@ -22,7 +22,7 @@ class listController extends Controller
         return Validator::make($data, [
             'cats' => ['required', 'not_in:0'],
             'itemName' => ['required', 'string', 'max:255'],
-            'unit' => ['nullable', 'numeric'],
+            'unit' => ['nullable', 'string', 'max:255'],
             'price' => ['nullable', 'numeric'],
             'length' => ['nullable', 'numeric'],
             'width' => ['nullable', 'numeric'],
