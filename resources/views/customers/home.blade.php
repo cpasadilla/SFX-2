@@ -68,7 +68,7 @@
                                         <td class="lName">{{ $user->lName }}</td>
                                         <td class="phoneNum">{{ $user->phoneNum }}</td>
                                         <td class="align-middle">
-                                            <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->cID }}" style="color:grey"></i>    
+                                            <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->cID }}" style="color:grey"></i>
                                         </td>
                                         <td class="align-middle" style="text-align: center;">
                                             <a href={{ route('c.parcels', ['key' => $user->cID]) }}><i class='fas fa-folder' style="color:grey"></i></a>
@@ -139,18 +139,46 @@
                                                         </button>
                                                     </form>
                                                     <br><br>
-                                                    <form action="{{ route('c.error') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $user->id }}">
-                                                        <button type="submit" class="btn btn-danger">
-                                                            {{ __('DELETE')}}
-                                                        </button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                                        {{ __('DELETE') }}
+                                                    </button>
+
+
                                                     <br><br>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Customer?') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('This action cannot be undone.') }}</p>
+                <form action="{{ route('c.error') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $user->id }}">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            {{ __('Cancel') }}
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            {{ __('Delete Account') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -161,6 +189,7 @@
         </div>
     </div>
 </div>
+
 
 <!--CREATE CUSTOMER MODAL-->
 <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
@@ -208,7 +237,7 @@
                             <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
+                                    <span class="fas fa-phone"></span>
                                 </div>
                             </div>
                             @error('phoneNum')
@@ -230,6 +259,9 @@
         </div>
     </div>
 </div>
+
+
+
 @endsection
 
 <script>

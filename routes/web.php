@@ -32,15 +32,17 @@ Route::middleware('auth')->group(function(){
     Route::post('/customer/edit', [\App\Http\Controllers\CustomerController::class,'edit'])->name('c.edit');
     Route::post('/customer/delete', [\App\Http\Controllers\CustomerController::class,'delete'])->name('c.error');
     Route::get('/customer/search',  [\App\Http\Controllers\CustomerController::class, 'search'])->name('c.search');
-    Route::post('/customer/reset', [\App\Http\Controllers\CustomerController::class,'reset'])->name('c.reset');
 
     Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'order'])->name('c.order');
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
-    Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
+    Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
+
+    Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
     Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'audit'])->name('c.audit');
+    Route::get('/customer/BL/{key}/search', [\App\Http\Controllers\CustomerController::class, 'find'])->name('c.find');
     Route::post('/BL/update/{key}', [\App\Http\Controllers\CustomerController::class, 'update'])->name('c.update');
 
     //List
@@ -67,17 +69,11 @@ Route::middleware('auth')->group(function(){
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
 
-    //Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showOrdersByShipAndVoyage'])->name('orders.byShipAndVoyage');
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
     Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
 
     Route::put('/order/{orderId}/update-status', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
-
-    //Route::get('/orders/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
-    //Route::get('/orders/{shipNum}/{voyageNum}/bl/{orderId}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
-
-
 
 
 
@@ -91,9 +87,6 @@ Route::middleware('auth')->group(function(){
 
 Auth::routes();
 
-//Route::get('/home',[App\Http\Controllers\InfoController::class, 'index'])->name('cust');
-//Route::get('/home/billOfLading/{key}',[App\Http\Controllers\InfoController::class, 'bl'])->name('cust.bl');
-//Route::put('/home/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('cust.update');
 Route::middleware('auth')->group(function () {
 Route::post('/data', 'DataController@store')->name('data.store');
 

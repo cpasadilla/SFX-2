@@ -19,7 +19,7 @@ $(document).ready(function() {
         $('#width').show();
         $('#height').show();
         $('#multiplier').show();
-        
+
         $('#cats2').val(data.cat);
         $('#id').val(data.id);
 
@@ -28,12 +28,12 @@ $(document).ready(function() {
         $('#width').val(data.width);
         $('#height').val(data.height);
         $('#multiplier').val(data.multiplier);
-        
+
         $('#cat1').hide();
-        
+
         $('#create').attr('action', '{{ route('p.update') }}');
         $('#submitButton').text('UPDATE');
-        
+
         $('#deleteButton').show();
     }
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
                     }
                 });
             }
-            
+
     function handleTableRowClick() {
         var name = $(this).find('.name').text();
         var cat = $(this).find('.cat').text();
@@ -75,7 +75,7 @@ $(document).ready(function() {
             height: height,
             multiplier: multiplier
         };
-        
+
         handleUpdateButtonClick(rowData);
     }
 
@@ -121,13 +121,10 @@ $(document).ready(function() {
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">UNIT</th>
                                     <th scope="col">Item Name</th>
+                                    <th scope="col">Unit</th>
                                     <th scope="col" style="text-align: center;">Category</th>
                                     <th scope="col" style="text-align: center;">Price</th>
-                                    <!--<th scope="col"  style="text-align: center;">Length</th>
-                                    <th scope="col"  style="text-align: center;">Width</th>
-                                    <th scope="col"  style="text-align: center;">Height</th>-->
                                     <th scope="col"  style="text-align: center;">Multiplier</th>
                                     <th scope="col"  style="text-align: center;">Edit Info</th>
                                 </tr>
@@ -137,19 +134,16 @@ $(document).ready(function() {
                                 <tr class="table-row">
                                     <td class="id" ; style="display:none">{{ $item->id }} </td>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->unit }}</td>
                                     <td class="name">{{ $item->itemName }}</td>
-                                    
+                                    <td>{{ $item->unit }}</td>
+
                                     @foreach ($cats as $cat)
                                     @if ($item->category == $cat->id)
                                     <td class="cat" style="text-align: center;">{{ $cat->name }}</td>
                                     @endif
                                     @endforeach
-                                    
+
                                     <td class="price" style="text-align: right;">{{ number_format($item->price, 2) }}</td>
-                                    <!--<td class="length" style="text-align: right;">{{ $item->length }}</td>
-                                    <td class="width" style="text-align: right;">{{ $item->width }}</td>
-                                    <td class="height" style="text-align: right;">{{ $item->height }}</td>-->
                                     <td class="multiplier" style="text-align: right;">{{ $item->multiplier }}</td>
                                     <td class="align-middle"  style="text-align: center;">
                                         <i class="fa fa-edit" id="updateBtn" style="color:grey"></i>
@@ -187,7 +181,7 @@ $(document).ready(function() {
                                             <div class="form-group row">
                                                 <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
                                                 <div class="col-md-6">
-                                                    <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" 
+                                                    <input id="category" type="text" class="form-control @error('category') is-invalid @enderror"
                                                     name="category" value="{{ old('category') }}" required autocomplete="category" autofocus>
                                                     @error('category')
                                                     <span class="invalid-feedback" role="alert">
@@ -205,7 +199,7 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- CREATE -->
                         <form method="POST" action="{{ route('p.create') }}" enctype="multipart/form-data" id="create">
                             @csrf
@@ -223,7 +217,7 @@ $(document).ready(function() {
                                     {{ $message }}
                                 </span>
                                 @enderror
-                                
+
                                 <div style="padding-top:5px; padding-left:10px">
                                     <a data-toggle="modal" data-target="#exampleModal"><i
                                         class="fa-solid fa-plus fa-xl"></i>
@@ -234,7 +228,7 @@ $(document).ready(function() {
                                 <label for="cats" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
                                 <div class="col-md-6">
                                     <input id="cats2" type="text" class="form-control @error('cats2') is-invalid @enderror" name="cats2" value="{{ old('cats2') }}" autocomplete="cats2" autofocus>
-                                    
+
                                     @error('cats2')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -246,7 +240,7 @@ $(document).ready(function() {
                                 <label for="itemName" class="col-md-4 col-form-label text-md-right">{{ __('Item Name') }}</label>
                                 <div class="col-md-6">
                                     <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus>
-                                    
+
                                     @error('itemName')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -258,20 +252,19 @@ $(document).ready(function() {
                                 <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
                                 <div class="col-md-6">
                                     <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" required autocomplete="unit" autofocus>
-                                    
+
                                     @error('unit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
+                            </div><div class="form-group row">
+                                <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
                                 <div class="col-md-6">
-                                    <!--input id="price" type="number"  class="form-control" name="price" value="{{ old('price') }}" readonly autocomplete="price"-->
-                                    <input id="price" type="number"  name="price" step="0.01">
-                                    @error('price')
+                                    <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required autocomplete="price" autofocus step='0.1'>
+
+                                    @error('unit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -281,10 +274,7 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="length" class="col-md-4 col-form-label text-md-right">{{ __('Length') }}</label>
                                 <div class="col-md-6">
-                                    <!--<input id="length" type="length" class="form-control @error('length') is-invalid @enderror" name="length" value="{{ old('length') }}" required autocomplete="price">-->
-                                    <!--<input id="length" type="length" class="form-control" name="length" value="{{ old('length') }}" required autocomplete="length">-->
-                                    <!--<input id="length" type="length" class="form-control" name="length" value="{{ old('length') }}" required autocomplete="length">-->
-                                    <input id="length" type="number" step="any" class="form-control" name="length" value="{{ old('length') }}" autocomplete="length" oninput="updatePrice()">
+                                   <input id="length" type="number" step="any" class="form-control" name="length" value="{{ old('length') }}" autocomplete="length" oninput="updatePrice()">
                                     @error('length')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -295,9 +285,6 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="width" class="col-md-4 col-form-label text-md-right">{{ __('Width') }}</label>
                                 <div class="col-md-6">
-                                    <!--<input id="width" type="width" class="form-control @error('width') is-invalid @enderror" name="width" value="{{ old('width') }}" required autocomplete="price">-->
-                                    <!--<input id="width" type="width" class="form-control" name="width" value="{{ old('width') }}" required autocomplete="width">-->
-                                    <!--<input id="width" type="width" class="form-control" name="width" value="{{ old('width') }}" required autocomplete="width">-->
                                     <input id="width" type="number" step="any" class="form-control" name="width" value="{{ old('width') }}" autocomplete="width" oninput="updatePrice()">
                                     @error('width')
                                     <span class="invalid-feedback" role="alert">
@@ -309,8 +296,6 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height') }}</label>
                                 <div class="col-md-6">
-                                    <!--<input id="height" type="height" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height') }}" required autocomplete="price">-->
-                                    <!--<input id="height" type="height" class="form-control" name="height" value="{{ old('height') }}" required autocomplete="height">-->
                                     <input id="height" type="number" step="any" class="form-control" name="height" value="{{ old('height') }}" autocomplete="height" oninput="updatePrice()">
                                     @error('height')
                                     <span class="invalid-feedback" role="alert">
@@ -322,7 +307,6 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="multiplier" class="col-md-4 col-form-label text-md-right">{{ __('Multiplier') }}</label>
                                 <div class="col-md-6">
-                                    <!--<input id="multiplier" type="multiplier" class="form-control @error('multiplier') is-invalid @enderror" name="multiplier" value="{{ old('multiplier') }}" required autocomplete="price">-->
                                     <input id="multiplier" type="number" class="form-control" name="multiplier" value="{{ old('multiplier') }}" autocomplete="multiplier" oninput="updatePrice()">
                                     @error('multiplier')
                                     <span class="invalid-feedback" role="alert">
@@ -370,7 +354,7 @@ $(document).ready(function() {
         background-color: #fff;
         border: 1px solid #dee2e6;
     }
-    
+
     </style>
 @endsection
 <script>

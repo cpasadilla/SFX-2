@@ -14,8 +14,10 @@
         </div><!-- /.container-fluid -->
     </div><!-- /.content-header -->
     <div class="row mb-2" style="padding-left:8px;">
+        @foreach ($users as $user)
+
         <div class="col-md-6">
-            <form action="{{ route('l.search') }}" method="GET">
+            <form action="{{ route('c.scout', ['key' => $user->cID]) }}" method="GET">
                 <div class="input-group">
                     <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
                     <div class="input-group-append">
@@ -24,6 +26,8 @@
                 </div>
             </form>
         </div>
+        @endforeach
+
     </div>
     <br>
     <div class="content" style="padding-left:8px; padding-right:8px;">
@@ -78,6 +82,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5>ORDER SUMMARY</h5>
+                            <p> NOTE: Collect order first before inputting all neccesarry information</p>
                         </div>
                         @foreach ($users as $user)
                             <form action={{route('c.submit',['key'=>$user->cID])}} method="post" enctype="multipart/form-data">
@@ -339,8 +344,12 @@ $(document).ready(function() {
     localStorage.removeItem('orderItems');
     // Update the UI to reflect the cleared order
     updateOrderItems();
-}
 
+}
+document.getElementById('submitOrderBtn').addEventListener('click', function() {
+    // Clear orderItems from localStorage
+    localStorage.removeItem('orderItems');
+});
 </script>
 <style>
     .btn-primary {

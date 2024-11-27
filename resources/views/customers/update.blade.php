@@ -14,7 +14,19 @@
         </div><!-- /.container-fluid -->
     </div><!-- /.content-header -->
     <div class="row mb-2" style="padding-left:8px;">
+        @foreach ($orders as $order)
 
+        <div class="col-md-6">
+            <form action="{{ route('c.find', ['key'=>$order->orderId]) }}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @endforeach
     </div>
     <br>
     <div class="content" style="padding-left:8px; padding-right:8px;">
@@ -229,7 +241,7 @@
                                                 </table>
                                             <br>
                                             <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
-                                            <button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit Order</button>
+                                            <button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Update Order</button>
                                             </form>
                                     </div>
                             </form>

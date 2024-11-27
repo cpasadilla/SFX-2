@@ -960,6 +960,7 @@ class userSeed extends Seeder
         parcel::create([
             'itemName' => 'CHARTERED 20FTR',
             'quantity' => '1',
+            'unit' => 'KG',
             'price' => '62968.02',
             'total' => '62968.02',
             'orderId' => $orderId,

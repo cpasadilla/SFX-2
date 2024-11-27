@@ -187,11 +187,9 @@
                                                     </form>
                                                     <br><br>
                                                     <!--DELETE BUTTON-->
-                                                    <form action="{{ route('u.delete') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $user->id }}">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                                        {{ __('DELETE') }}
+                                                    </button>
                                                     <br><br>
                                                     <!--RESET BUTTON-->
                                                     <form action="{{ route('u.reset') }}" method="POST">
@@ -204,6 +202,36 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Staff?') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('This action cannot be undone.') }}</p>
+                <form action="{{ route('c.error') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $user->id }}">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            {{ __('Cancel') }}
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            {{ __('Delete Account') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
                                 @endforeach
                             </tbody>
                         </table>

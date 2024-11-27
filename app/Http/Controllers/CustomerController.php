@@ -11,6 +11,7 @@ use App\Models\priceList;
 use App\Models\order;
 use App\Models\parcel;
 use App\Models\category;
+use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,7 @@ class CustomerController extends Controller
         return Validator::make($data, [
             'fName' => ['required', 'string', 'max:255'],
             'lName' => ['required', 'string', 'max:255'],
-            'phoneNum' => ['required', 'numeric', 'digits:11', 'unique:users'],
+            'phoneNum' => ['required', 'numeric', 'digits:11', 'unique:customer_i_d_s'],
         ]);
     }
 
@@ -81,13 +82,43 @@ class CustomerController extends Controller
 
     }
 
+    public function scout(Request $request, $key)
+{
+    $search = $request->input('search');
+
+    // Perform the search query and retrieve the filtered results
+    $items = priceList::where('itemName', 'like', "%$search%")
+        ->get();
+        $cats = category::paginate();
+
+        if($items->isEmpty())
+        {
+            $cats = category::where('name', 'like', "%$search%")
+            ->get();
+            $key = $cats;
+            foreach($key as $keys){
+                $id = $keys->id;
+            }
+            $items = priceList::where('category', 'like', "%$id%");
+        }
+        else{
+            $items = priceList::where('itemName', 'like', "%$search%");
+        }
+        $products = $items->paginate();
+        $cats = category::paginate();
+        $users = CustomerID::where('cID', $key)->get();
+
+        return view('customers.create', compact('users','products','cats'));
+}
+
     //ORDER SUBMISSION
     protected function submit(Request $request, $key)
 {
+    $messages2 = [    'origin.required' => 'Please select a valid origin.',    'origin.not_in' => 'Please select a valid origin.'];
     // Validate form data
     $validator = Validator::make($request->all(), [
         'ship' => ['required', 'string', 'max:255'],
-        'origin' => ['required', 'string', 'max:255'],
+        'origin' => ['required', 'string', 'max:255',Rule::notIn(['Choose Origin'])],
         'recs' => ['required', 'string', 'max:255'],
         'cont' => ['required', 'numeric', 'digits:11'],
         'voyage' => ['required', 'string', 'max:255'],
@@ -103,7 +134,7 @@ class CustomerController extends Controller
     // Decode JSON order items
     $orderItems = json_decode($request->input('orderItems'));
     //dd($orderItems);
-    
+
     // Calculate the total order amount
     $totalAmount = 0;
     foreach ($orderItems as $item) {
@@ -112,7 +143,7 @@ class CustomerController extends Controller
 
     // Generate an incrementing orderId
 
-    
+
  // Get the last orderId in ascending order
  $lastOrder = order::latest('orderId')->first(); // Get the last order by orderId
  $lastId = $lastOrder ? intval(substr($lastOrder->orderId, 2)) : 0; // Extract numeric part of orderId
@@ -124,7 +155,7 @@ class CustomerController extends Controller
      $lastId++; // Increment for next check
  } while (order::where('orderId', $orderId)->exists()); // Check if the orderId already exists
 
-    
+
     // Add the order items to the order details table
     foreach ($orderItems as $item) {
         parcel::create([
@@ -239,6 +270,7 @@ class CustomerController extends Controller
     return view('customers.home', compact('users'));
 }
 
+//NEW FUNCTIONS
 public function showBL(Request $request, $key){
     $users = CustomerID::where('cID', $key)->get();
 
@@ -271,6 +303,8 @@ public function audit(Request $request, $key){
 
     return view('customers.update', compact('users','orders','products','cats','data'));
 }
+
+
 protected function update(Request $request, $key)
 {
     // Validate form data
@@ -342,5 +376,52 @@ protected function update(Request $request, $key)
 
     // Redirect to the order confirmation page
     return redirect()->route('c.confirm', ['key' => $orderId]);
+}
+
+
+public function find(Request $request, $key)
+{
+    $search = $request->input('search');
+
+    // Perform the search query and retrieve the filtered results
+    $items = priceList::where('itemName', 'like', "%$search%")
+        ->get();
+        $cats = category::paginate();
+
+        if($items->isEmpty())
+        {
+            $cats = category::where('name', 'like', "%$search%")
+            ->get();
+            $key = $cats;
+            foreach($key as $keys){
+                $id = $keys->id;
+            }
+            $items = priceList::where('category', 'like', "%$id%");
+        }
+        else{
+            $items = priceList::where('itemName', 'like', "%$search%");
+        }
+        $products = $items->paginate();
+        $cats = category::paginate();
+
+        $orders = Order::where('orderID', $key)->get();
+        foreach($orders as $order){
+            $id = $order->cID;
+        }
+        $users = CustomerID::where('cID', $id)->get();
+        $parcels = parcel::where('orderId',$key)->get();
+        $array = array();
+        foreach ($parcels as $parcel){
+            array_push($array,array(
+                'name' => $parcel->itemName,
+                'unit' => $parcel->unit,
+                'price' => $parcel->price,
+                'quantity' => $parcel->quantity,
+                'total' => $parcel->total,
+            ));
+        }
+
+        $data = json_encode($array);
+        return view('customers.update', compact('users','orders','products','cats','data'));
 }
 }
