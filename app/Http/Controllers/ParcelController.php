@@ -157,7 +157,7 @@ public function blnew($key)
         }
         $data = CustomerID::where('cID',$customer)->get();
         $parcel = parcel::where('orderId',$oId)->get();
-        return view('customers.newbl', compact('key','data','parcel'));
+        return view('customers.new', compact('key','data','parcel'));
 }
 
 

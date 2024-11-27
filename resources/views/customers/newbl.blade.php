@@ -170,19 +170,19 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><!--{{ $parcel->price }}--></td>
-                                        <td><!--{{ number_format($parcel->total, 2) }}--></td>
+                                        <td>{{ $parcel->price }}</td>
+                                        <td>{{ number_format($parcel->total, 2) }}</td>
                                     </tr>
                                 @endforeach
                                     <tr>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong style="color: white;">{{ number_format($order->value, 2) }}</strong></td>
+                                        <td><strong style="color: rgb(0, 0, 0);">{{ number_format($order->value, 2) }}</strong></td>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong><!--{{ number_format($order->totalAmount, 2) }}--></strong></td>
+                                        <td><strong>{{ number_format($order->totalAmount, 2) }}</strong></td>
                                     </tr>
                                 @endforeach
                                 <!-- Add more rows as needed -->
@@ -206,7 +206,7 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">Freight :</span>
-                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.<!--{{ number_format($order->totalAmount, 2) }}--></span>
+                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:rgb(0, 0, 0);">{{ number_format($order->totalAmount, 2) }}</span>
                         </div>
                         <div class="col-md-1" style="padding-left:20px;""></div>
                     </div>
@@ -214,7 +214,7 @@
                         <div class="col-md-7" style="padding-left:60px;">Received on board vessel in apparent good condition.</div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">Valuation :</span>
-                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white; ">.<!--{{ number_format(($order->value) * 0.0075, 2) }}--></span>
+                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:rgb(0, 0, 0); ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
 
                         </div>
                         <div class="col-md-1" style="padding-left:20px;"></div>
@@ -257,8 +257,8 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <strong style="text-align: right;">TOTAL :</strong>
-                            <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.
-                                <!--{{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}-->
+                            <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: rgb(0, 0, 0);">
+                                {{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}
                             </strong>
                         </div>
                         <div class="col-md-1" style="padding-left:20px;""></div>

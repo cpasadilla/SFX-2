@@ -162,7 +162,7 @@
                                 @foreach ($parcel as $parcel)
                                     <tr>
                                         <td style="font-size:15px;">{{ $parcel->quantity }}</td>
-                                        <td>{{ $parcel->quantity }}</td>
+                                        <td>{{ $parcel->unit }}</td>
                                         <td>{{ $parcel->itemName }}</td>
                                         <td><!--{{ $parcel->price }}--></td>
                                         <td><!--{{ $parcel->price }}--></td>

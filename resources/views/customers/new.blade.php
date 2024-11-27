@@ -176,7 +176,7 @@
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong style="color: white;">{{ number_format($order->value, 2) }}</strong></td>
+                                        <td><strong style="color: white;">.<!--{{ number_format($order->value, 2) }}--></strong></td>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
