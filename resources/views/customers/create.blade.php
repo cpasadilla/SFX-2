@@ -41,6 +41,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Name</th>
+                                    <th>Unit</th>
                                     <th><!--Price--></th>
                                     <th style="text-align: center;">Category</th>
                                     <th style="text-align: center;">Action</th>
@@ -50,6 +51,7 @@
                                 @foreach($products as $product)
                                     <tr>
                                         <td>{{ $product->itemName }}</td>
+                                        <td>{{ $product->unit }}</td>
                                         <td><!--{{ number_format($product->price, 2) }}--></td>
                                         @foreach ($cats as $cat)
 
@@ -58,7 +60,7 @@
                                         @endif
                                         @endforeach
                                         <td style="text-align: center;">
-                                            <button type="button" class="btn btn-success" onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', {{ $product->price }})" >Add to Order</button>
+                                            <button type="button" class="btn btn-success" onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', '{{ $product->unit }}', {{ $product->price }})" >Add to Order</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -175,6 +177,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>ItemName</th>
+                                                        <th>Unit</th>
                                                         <th><!--Price--></th>
                                                         <th>Quantity</th>
                                                         <th><!--Total--></th>
@@ -401,7 +404,7 @@
 let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
 let orderTotal = 0;
 
-function addToOrder(productId, productName, productPrice) {
+function addToOrder(productId, productName, productUnit, productPrice) {
     // Check if the product is already in the order
     let orderItem = orderItems.find(item => item.id === productId);
     if (orderItem) {
@@ -413,6 +416,7 @@ function addToOrder(productId, productName, productPrice) {
         orderItem = {
             id: productId,
             name: productName,
+            unit: productUnit,
             price: productPrice,
             quantity: 1,
             total: productPrice
@@ -438,13 +442,14 @@ function updateOrderItems() {
         orderItemsHtml += `
             <tr>
                 <td>${item.name}</td>
+                <td>${item.unit}</td>
                 <td></td>
                 <td>${item.quantity}</td>
                 <td></td>
                 <td>
                     <button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button>
                 </td>
-            `;
+            </tr>`;
         orderTotal += item.total;
     });
     $('#orderItems').html(orderItemsHtml);
@@ -481,9 +486,10 @@ $(document).ready(function() {
             productsHtml += `
                 <tr>
                     <td>${product.itemName}</td>
+                    <td>${product.unit}</td>
                     <td>${product.price}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', ${product.price})">Add to Order</button>
+                        <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button>
                     </td>
                 </tr>
             `;

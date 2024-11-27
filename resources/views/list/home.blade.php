@@ -121,6 +121,7 @@ $(document).ready(function() {
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">UNIT</th>
                                     <th scope="col">Item Name</th>
                                     <th scope="col" style="text-align: center;">Category</th>
                                     <th scope="col" style="text-align: center;">Price</th>
@@ -136,6 +137,7 @@ $(document).ready(function() {
                                 <tr class="table-row">
                                     <td class="id" ; style="display:none">{{ $item->id }} </td>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->unit }}</td>
                                     <td class="name">{{ $item->itemName }}</td>
                                     
                                     @foreach ($cats as $cat)
@@ -246,6 +248,18 @@ $(document).ready(function() {
                                     <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus>
                                     
                                     @error('itemName')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
+                                <div class="col-md-6">
+                                    <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" required autocomplete="unit" autofocus>
+                                    
+                                    @error('unit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

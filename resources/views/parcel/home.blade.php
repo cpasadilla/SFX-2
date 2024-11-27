@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="content-header">
-    <h1 style="padding-left:10px;">Master List</h1>
+    <h1 style="padding-left:10px;">MASTERLIST</h1>
 </div>
 
 <div class="content">
@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-body">
                         <a href="{{ route('parcels.showShip', [$shipNum]) }}">
-                          M/V EVERWIN STAR # {{ $shipNum }}
+                          M/V EVERWIN STAR {{ $shipNum }}
                         </a>
                     </div>
                 </div>

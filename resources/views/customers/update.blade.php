@@ -32,6 +32,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Name</th>
+                                    <th>Unit</th>
                                     <th>Price</th>
                                     <th style="text-align: center;">Category</th>
                                     <th style="text-align: center;">Action</th>
@@ -41,6 +42,7 @@
                                 @foreach($products as $product)
                                     <tr>
                                         <td>{{ $product->itemName }}</td>
+                                        <td>{{ $product->unit }}</td>
                                         <td>{{ number_format($product->price, 2) }}</td>
                                         @foreach ($cats as $cat)
 
@@ -49,7 +51,7 @@
                                         @endif
                                         @endforeach
                                         <td style="text-align: center;">
-                                            <button type="button" class="btn btn-success" onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', {{ $product->price }})" >Add to Order</button>
+                                            <button type="button" class="btn btn-success" onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', '{{ $product->unit }}', {{ $product->price }})" >Add to Order</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -190,6 +192,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>ItemName</th>
+                                                            <th>Unit</th>
                                                             <th>Price</th>
                                                             <th>Quantity</th>
                                                             <th>Total</th>
@@ -243,26 +246,36 @@
 
 
 <script>
+    // Clear the previous order items in localStorage
+    localStorage.removeItem('orderItems');
+    localStorage.removeItem('orderTotal');
 
-// Parse the initial data passed from the backend
-let initialOrderItems = {!! $data !!};
+let initialOrderItems = {!! $data !!};// Parse the initial data passed from the backend
 
 // Use this data to populate the `orderItems` array
 let orderItems = initialOrderItems.length ? initialOrderItems : [];
 let orderTotal = 0;
 
-function addToOrder(productId, productName, productPrice) {
-    // Check if the product is already in the order
-    let orderItem = orderItems.find(item => item.id === productId);
+// Check if there are saved order items in localStorage and load them
+if (localStorage.getItem('orderItems')) {
+    orderItems = JSON.parse(localStorage.getItem('orderItems'));
+    orderTotal = JSON.parse(localStorage.getItem('orderTotal')) || 0;
+}
+
+function addToOrder(productId, productName, productUnit, productPrice) {
+    // Check if the product is already in the order based on the name
+    let orderItem = orderItems.find(item => item.name === productName);
+
     if (orderItem) {
-        // If so, increase the quantity
+        // If the item exists, just increase the quantity and update the total
         orderItem.quantity++;
         orderItem.total = orderItem.quantity * productPrice;
     } else {
-        // If not, add it to the order
+        // If it's a new item, create a new object and add it to the order
         orderItem = {
             id: productId,
             name: productName,
+            unit: productUnit,
             price: productPrice,
             quantity: 1,
             total: productPrice
@@ -270,15 +283,19 @@ function addToOrder(productId, productName, productPrice) {
         orderItems.push(orderItem);
     }
 
-    // Update the UI
+    // Recalculate the order total after adding the item
+    orderTotal = orderItems.reduce((total, item) => total + item.total, 0);
+
+    // Update the UI with the new order summary
     updateOrderItems();
-    // Save the updated order items to localStorage
+
+    // Save the updated order items to localStorage to persist across pages
     localStorage.setItem('orderItems', JSON.stringify(orderItems));
+    localStorage.setItem('orderTotal', JSON.stringify(orderTotal));  // Optionally, store the total too
 
     // Prevent form submission
     event.preventDefault();
 }
-
 
 
 function updateOrderItems() {
@@ -287,17 +304,16 @@ function updateOrderItems() {
 
     orderItems.forEach(item => {
         orderItemsHtml += `
-    <tr>
-        <td>${item.name}</td>
-        <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>${item.quantity}</td>
-        <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>
-            <button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button>
-        </td>
-    </tr>`;
-
-
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.unit}</td>
+                <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td>${item.quantity}</td>
+                <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button>
+                </td>
+            </tr>`;
         // Ensure proper addition
         orderTotal += Number(item.total); // Explicitly convert item.total to a number
     });
@@ -317,31 +333,38 @@ function updateOrderItems() {
 
 
 function removeFromOrder(productId) {
-    // Find the index of the order item to remove
-    let index = orderItems.findIndex(item => item.id === productId);
-    if (index !== -1) {
-        // If found, remove it from the order
-        orderItems.splice(index, 1);
+    let orderItem = orderItems.find(item => item.id === productId);
+
+    if (orderItem) {
+        // Decrease quantity if more than 1
+        if (orderItem.quantity > 1) {
+            orderItem.quantity--;
+            orderItem.total = orderItem.quantity * orderItem.price;  // Update the total
+        } else {
+            // If quantity is 1, remove the item completely from the array
+            let index = orderItems.findIndex(item => item.id === productId);
+            if (index !== -1) {
+                orderItems.splice(index, 1);
+            }
+        }
     }
 
-    // Update the UI
-    updateOrderItems();
-    // Save the updated order items to localStorage
-    localStorage.setItem('orderItems', JSON.stringify(orderItems));
+    updateOrderItems();  // Update the UI
+    localStorage.setItem('orderItems', JSON.stringify(orderItems));  // Update localStorage
 }
 
 // Load all data from the JSON file upon page load
 $(document).ready(function() {
     $.getJSON('/path/to/json/file.json', function(data) {
-        // Process the data and add it to the product catalog
         let productsHtml = '';
         data.forEach(product => {
             productsHtml += `
                 <tr>
                     <td>${product.itemName}</td>
+                    <td>${product.unit}</td>
                     <td>${product.price}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', ${product.price})">Add to Order</button>
+                        <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button>
                     </td>
                 </tr>
             `;
@@ -349,7 +372,7 @@ $(document).ready(function() {
         $('#productCatalog').html(productsHtml);
     });
 
-    updateOrderItems();
+    updateOrderItems();  // Initialize order items
 });
 
 </script>

@@ -1,3 +1,5 @@
+<!--AFTER CREATING A ORDER-->
+
 @extends('layouts.app')
 @section('content')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/pdfmake.min.js"></script>
@@ -101,7 +103,7 @@
                             <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                         </div>
                         <div class="col-md-3">
-                            <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
+                            <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black; color: white;"><!--{{ $order->containerNum }}--></span><br>
                         </div>
                         <div class="col-md-3">
                             <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
@@ -163,24 +165,24 @@
                                 @foreach ($parcel as $parcel)
                                     <tr>
                                         <td style="font-size:15px;">{{ $parcel->quantity }}</td>
-                                        <td>{{ $parcel->quantity }}</td>
+                                        <td>{{ $parcel->unit }}</td>
                                         <td>{{ $parcel->itemName }}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>{{ $parcel->price }}</td>
-                                        <td>{{ number_format($parcel->total, 2) }}</td>
+                                        <td><!--{{ $parcel->price }}--></td>
+                                        <td><!--{{ number_format($parcel->total, 2) }}--></td>
                                     </tr>
                                 @endforeach
                                     <tr>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong style="color: black;">{{ number_format($order->value, 2) }}</strong></td>
+                                        <td><strong style="color: white;">{{ number_format($order->value, 2) }}</strong></td>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong>{{ number_format($order->totalAmount, 2) }}</strong></td>
+                                        <td><strong><!--{{ number_format($order->totalAmount, 2) }}--></strong></td>
                                     </tr>
                                 @endforeach
                                 <!-- Add more rows as needed -->
@@ -204,7 +206,7 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">Freight :</span>
-                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black;">{{ number_format($order->totalAmount, 2) }}</span>
+                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.<!--{{ number_format($order->totalAmount, 2) }}--></span>
                         </div>
                         <div class="col-md-1" style="padding-left:20px;""></div>
                     </div>
@@ -212,7 +214,7 @@
                         <div class="col-md-7" style="padding-left:60px;">Received on board vessel in apparent good condition.</div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">Valuation :</span>
-                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black; ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
+                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white; ">.<!--{{ number_format(($order->value) * 0.0075, 2) }}--></span>
 
                         </div>
                         <div class="col-md-1" style="padding-left:20px;"></div>
@@ -255,8 +257,8 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <strong style="text-align: right;">TOTAL :</strong>
-                            <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
-                                {{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}
+                            <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.
+                                <!--{{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}-->
                             </strong>
                         </div>
                         <div class="col-md-1" style="padding-left:20px;""></div>

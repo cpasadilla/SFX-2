@@ -12,6 +12,7 @@ class priceList extends Model
     protected $fillable = [
         'category',
         'itemName',
+        'unit',
         'price',
         'length',
         'width',

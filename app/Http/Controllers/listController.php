@@ -22,6 +22,7 @@ class listController extends Controller
         return Validator::make($data, [
             'cats' => ['required', 'not_in:0'],
             'itemName' => ['required', 'string', 'max:255'],
+            'unit' => ['nullable', 'numeric'],
             'price' => ['nullable', 'numeric'],
             'length' => ['nullable', 'numeric'],
             'width' => ['nullable', 'numeric'],
@@ -37,6 +38,7 @@ class listController extends Controller
         priceList::create([
             'category' => $request -> cats,
             'itemName' => $request -> itemName,
+            'unit' => $request -> unit,
             'price' => $request->price ?? 0, // Set default value
             'length' => $request -> length,
             'width' => $request -> width,
@@ -75,6 +77,7 @@ class listController extends Controller
     {
         $cat = $request-> cats2;
         $itemName = $request->itemName;
+        $unit = $request->unit;
         $price = $request->price;
         $length = $request->length;
         $width = $request->width;
@@ -88,7 +91,7 @@ class listController extends Controller
         }
         DB::table('price_lists')
                  ->where('id',$id)
-                 ->update(['itemName'=>$itemName,'price'=>$price,'category'=>$category,'length'=>$length,'width'=>$width,'height'=>$height,'multiplier'=>$multiplier]);
+                 ->update(['itemName'=>$itemName,'unit'=>$unit,'price'=>$price,'category'=>$category,'length'=>$length,'width'=>$width,'height'=>$height,'multiplier'=>$multiplier]);
 
         return redirect() -> route('price');
     }

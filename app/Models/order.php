@@ -39,4 +39,7 @@ class order extends Model
     public function parcel(){
         return $this->hasMany(parcel::class);
     }
+    public function customer(){
+        return $this->belongsTo(CustomerID::class, 'cID', 'cID'); // Adjust foreign and local keys as per your database
+    }
 }

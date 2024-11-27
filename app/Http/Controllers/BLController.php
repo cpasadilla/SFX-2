@@ -11,6 +11,8 @@ use App\Models\priceList;
 use App\Models\order;
 use App\Models\parcel;
 use App\Models\category;
+use App\Models\OrderItem; // Add this line to import the OrderItem model
+
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -122,7 +124,7 @@ class BLController extends Controller
              $totalAmount += $item->total;
          }
          $random = strval(rand(1000,9999));
-         $orderId = "BL000".$random;
+         $orderId = "BL".$random;
 
          // Add the order items to the order details table
          foreach ($orderItems as $item) {
@@ -187,6 +189,7 @@ class BLController extends Controller
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_name' => $item['itemName'],
+                'unit' => $item['unit'],
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'total' => $item['total'],

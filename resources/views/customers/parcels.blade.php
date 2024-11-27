@@ -34,7 +34,8 @@
                                 <th style="text-align: center">Destination</th>
                                 <th>Total Amount</th>
                                 <th style="text-align: center">Update</th>
-                                <th style="text-align: center">View Bill of Lading</th>
+                                <th style="text-align: center">View BL w/ price</th>
+                                <th style="text-align: center">View BL w/o price</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +53,9 @@
                                     </td>
                                     <td style="text-align: center">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">View</a>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <a href="{{ route('p.blnew', ['key' => $order->orderId]) }}">View</a>
                                     </td>
 
                                 </tr>

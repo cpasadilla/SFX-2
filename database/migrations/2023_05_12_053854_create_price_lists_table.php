@@ -22,6 +22,7 @@ return new class extends Migration
             //$table->decimal('height');
             //$table->string('multiplier')->default('default_value')->nullable();
 
+            $table->string(column: 'unit')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('length', 8, 2)->nullable();
             $table->decimal('width', 8, 2)->nullable();

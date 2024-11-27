@@ -12,6 +12,7 @@ class parcel extends Model
     protected $fillable = [
         'quantity',
         'itemName',
+        'unit',
         'price',
         'orderId',
         'total'

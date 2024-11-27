@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('parcels', function (Blueprint $table) {
             $table->id();
             $table->string('itemName');
+            $table->string(column: 'unit');
             $table->integer('quantity');            
             $table->string('price');
             $table->string('total');            

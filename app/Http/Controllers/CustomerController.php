@@ -119,6 +119,7 @@ class CustomerController extends Controller
     foreach ($orderItems as $item) {
         parcel::create([
             'itemName' => $item->name,
+            'unit' => $item->unit,
             'quantity' => $item->quantity,
             'price' => $item->price,
             'total' => $item->total,
@@ -247,6 +248,7 @@ public function audit(Request $request, $key){
     foreach ($parcels as $parcel){
         array_push($array,array(
             'name' => $parcel->itemName,
+            'unit' => $parcel->unit,
             'price' => $parcel->price,
             'quantity' => $parcel->quantity,
             'total' => $parcel->total,
@@ -295,6 +297,7 @@ protected function update(Request $request, $key)
     foreach ($orderItems as $item) {
         parcel::create([
             'itemName' => $item->name,
+            'unit' => $item->unit,
             'quantity' => $item->quantity,
             'price' => $item->price,
             'total' => $item->total,

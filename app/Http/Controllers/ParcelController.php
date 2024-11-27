@@ -43,14 +43,23 @@ class ParcelController extends Controller
         return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
     }
 
-    public function showVoyages()
-    {
+    //public function showVoyages()
+    //{
         // Fetch orders grouped by voyage number
-        $orders = Order::all(); // Replace with your actual query logic
-        $voyages = $orders->groupBy('voyageNum'); // Group orders by voyage number
+    //    $orders = Order::all(); // Replace with your actual query logic
+    //    $voyages = $orders->groupBy('voyageNum'); // Group orders by voyage number
     
-        return view('voyage', compact('voyages'));
-    }
+    //    return view('voyage', compact('voyages'));
+    //}
+    public function showVoyages($shipNum, $voyageNum)
+{
+    $orders = Order::with('customer') // Include the customer relationship
+        ->where('shipNum', $shipNum)
+        ->where('voyageNum', $voyageNum)
+        ->get();
+
+    return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
+}
     public function search(Request $request)
 {
     $search = $request->query('search');
@@ -128,6 +137,27 @@ public function bl($key)
         $data = CustomerID::where('cID',$customer)->get();
         $parcel = parcel::where('orderId',$oId)->get();
         return view('parcel.new', compact('key','data','parcel'));
+}
+
+public function blnew($key)
+{
+    // Fetch the order using the correct primary key
+    //$order = Order::where('orderId', $key)->first();
+
+    //if (!$order) {
+      //  return redirect()->back()->with('error', 'Order not found.');
+    //}
+
+    //return view('parcel.new', compact('order'));
+
+    $key = order::where('orderId', $key)->get();
+        foreach($key as $kiss){
+            $customer = $kiss->cID;
+            $oId = $kiss->orderId;
+        }
+        $data = CustomerID::where('cID',$customer)->get();
+        $parcel = parcel::where('orderId',$oId)->get();
+        return view('customers.newbl', compact('key','data','parcel'));
 }
 
 

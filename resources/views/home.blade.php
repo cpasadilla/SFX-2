@@ -15,7 +15,7 @@ window.location = "{{route('p.view')}}";
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('Dashboard') }}</h1>
+                    <h1 class="m-0">{{ __('DASHBOARD') }}</h1>
 
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -26,7 +26,7 @@ window.location = "{{route('p.view')}}";
                   <div class="inner">
                     <h3>{{$prog}}</h3>
 
-                    <p>In Progress Orders</p>
+                    <p>IN PROGRESS ORDERS</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -41,7 +41,7 @@ window.location = "{{route('p.view')}}";
                   <div class="inner">
                     <h3>{{$comp}}</h3>
 
-                    <p>Complete Orders</p>
+                    <p>CHARTERED ORDERS</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -56,12 +56,12 @@ window.location = "{{route('p.view')}}";
                     <div class="inner">
                       <h3>{{$id}}</h3>
 
-                      <p>Customers</p>
+                      <p>STAFF</p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-person-add"></i>
                     </div>
-                    <a href={{route('customer')}} class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="/users" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -71,12 +71,12 @@ window.location = "{{route('p.view')}}";
                     <div class="inner">
                       <h3>{{$staff}}</h3>
 
-                      <p>Staff</p>
+                      <p>CUSTOMER</p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="/staff/users" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href={{route('customer')}} class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->

@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="content-header">
-    <h1 style="padding-left:10px;">Ship Number: {{ $shipNum }}</h1>
+    <h1 style="padding-left:10px;">M/V EVERWIN STAR {{ $shipNum }}</h1>
 </div>
 
 <div class="content">
@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-body">
                         <a href="{{ route('parcels.showVoyage', [$shipNum, $voyageNum]) }}">
-                            VOYAGE # {{ $voyageNum }}
+                            VOYAGE {{ $voyageNum }}
                         </a>
                     </div>
                 </div>

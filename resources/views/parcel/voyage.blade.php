@@ -2,60 +2,66 @@
 @section('content')
 
 <div class="content-header">
-    <h1 style="padding-left:10px;">Orders for Ship Number: {{ $shipNum }}, Voyage Number: {{ $voyageNum }}</h1>
-</div>
+    <h1 style="padding-left: 10px;">MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $voyageNum }}</h1>
+    <br>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <!--Search Form-->
+                <form action="{{ route('p.search') }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by Order ID or Customer ID"" name="search">
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit">SEARCH</button>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div><!-- /.content-header -->
 
+<!--Main Content-->
 <div class="content">
-    <div class="col-md-6">
-        <form action="{{ route('p.search') }}" method="GET">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search by Order ID or Customer ID" value="{{ request()->query('search') }}">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-success">Search</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<br>
-<div class="content">
-    <div class="container fluid">
-        <div class="card">
-            <div class="card-header">
-                <h5>Voyage Number: {{ $voyageNum }}</h5>
-            </div>
-                <div class="card-body">
-                    <table class="table" id="myTable2">
-                        <thead class="thead-light">
-                            <tr>
-                                <th style="text-align: center">Order ID</th>
-                                <th style="text-align: center">Customer ID</th>
-                                <th style="text-align: center">Date Created</th>
-                                <th style="text-align: center">Voyage Number</th>
-                                <th style="text-align: center">Ship Number</th>
-                                <th style="text-align: center">Origin</th>
-                                <th style="text-align: center">Destination</th>
-                                <th>Total Amount</th>
-                                <th style="text-align: center">Status</th>
-                                <th style="text-align: center">View Bill of Lading</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orders as $order)
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>VOYAGE {{ $voyageNum }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <table id="myTable2" class="table">
+                            <thead class="thead-light">
                                 <tr>
-                                    <td style="text-align: center">{{ $order->orderId }}</td>
-                                    <td style="text-align: center">{{ $order->cID }}</td>
-                                    <td style="text-align: center">{{ $order->created_at }}</td>
-                                    <td style="text-align: center">{{ $order->voyageNum }}</td>
-                                    <td style="text-align: center">{{ $order->shipNum }}</td>
-                                    <td style="text-align: center">{{ $order->origin }}</td>
-                                    <td style="text-align: center">{{ $order->destination }}</td>
-                                    <td style="text-align: center">{{ $order->totalAmount }}</td>
-                                    <!--td style="text-align: center">
-                                        <a href="{{ route('p.qr', ['key' => $order->orderId]) }}">Print</a>
-                                    </td-->
-                                    <td>
+                                    <th style="text-align: center;">ORDER ID</th>
+                                    <th style="text-align: center;">CUSTOMER ID</th>
+                                    <th style="text-align: center;">CUSTOMER NAME</th>
+                                    <th style="text-align: center;">CONSIGNEE NAME</th>
+                                    <th style="text-align: center;">DATE CREATED</th>
+                                    <th style="text-align: center;">SHIP NUMBER</th>
+                                    <!--th style="text-align: center;">ORIGIN</th>
+                                    <th style="text-align: center;">DESTINATION</th-->
+                                    <th style="text-align: center;">TOTAL AMOUNT</th>
+                                    <th style="text-align: center;">STATUS</th>
+                                    <th style="text-align: center;">VIEW BL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($orders as $order)
+                                <tr>
+                                    <td style="text-align: center;">{{ $order->orderId }}</td>
+                                    <td style="text-align: center;">{{ $order->cID }}</td>
+                                    <td style="text-align: center;">
+                                        {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
+                                    </td>
+                                    <td style="text-align: center;">{{ $order->consigneeName }}</td>
+                                    <td style="text-align: center;">{{ $order->created_at }}</td>
+                                    <td style="text-align: center;">{{ $order->shipNum }}</td>
+                                    <!--td style="text-align: center;">{{ $order->origin }}</td>
+                                    <td style="text-align: center;">{{ $order->destination }}</td-->
+                                    <td style="text-align: center;">{{ $order->totalAmount }}</td>
+                                    <td style="text-align: center;">
                                         <form action="{{ route('parcels.updateStatus', ['orderId' => $order->orderId]) }}" method="POST">
                                             @csrf
                                             @method('PUT')
@@ -63,25 +69,24 @@
                                                 <option value="IN PROGRESS" {{ $order->status == 'IN PROGRESS' ? 'selected' : '' }}>IN PROGRESS</option>
                                                 <option value="TRANSFER" {{ $order->status == 'TRANSFER' ? 'selected' : '' }}>TRANSFER</option>
                                                 <option value="CHARTERED" {{ $order->status == 'CHARTERED' ? 'selected' : '' }}>CHARTERED</option>
-                                                <option value="CANCELLED" {{ $order->status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>
-                                                <option value="OFFLOAD" {{ $order->status == 'OFFLOAD' ? 'selected' : '' }}>OFFLOAD</option>
-                                                <option value="TOPLOAD" {{ $order->status == 'TOPLOAD' ? 'selected' : '' }}>TOPLOAD</option>
+                                                <option value="CANCELLED"> {{ $order->status == 'CANCELLED' ? 'selected' : ''}}CANCELLED</option>
+                                                <option value="OFFLOAD">{{ $order->status == 'OFFLOAD' ? 'selected' : ''}}OFFLOAD</option>
+                                                <option value="TOPLOAD">{{ $order->status == 'TOPLOAD' ? 'selected' : ''}}TOPLOAD</option>
                                             </select>
                                         </form>
                                     </td>
-                                    <td style="text-align: center">
-                                        <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">View</a>
+                                    <td style="text-align: center;">
+                                        <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
-                                    
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <hr style="border: none; border-top: 1px solid #d2d5dd; margin: 10px 0;">
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <hr style="border: none; border-top: 1px solid #D2D5DD; margin: 10px 0;">
+                    </div>
                 </div>
-            
-        </div>                    
+            </div>
+        </div>
     </div>
 </div>
-
 @endsection
