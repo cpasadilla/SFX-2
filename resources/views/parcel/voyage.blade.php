@@ -38,6 +38,7 @@
                                     <th style="text-align: center;">CUSTOMER ID</th>
                                     <th style="text-align: center;">CUSTOMER NAME</th>
                                     <th style="text-align: center;">CONSIGNEE NAME</th>
+                                    <th style="text-align: center;">CHECKER NAME</th>
                                     <th style="text-align: center;">DATE CREATED</th>
                                     <th style="text-align: center;">SHIP NUMBER</th>
                                     <!--th style="text-align: center;">ORIGIN</th>
@@ -56,6 +57,7 @@
                                         {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
                                     <td style="text-align: center;">{{ $order->consigneeName }}</td>
+                                    <td style="text-align: center;">{{ $order->check }}</td>
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ $order->shipNum }}</td>
                                     <!--td style="text-align: center;">{{ $order->origin }}</td>

@@ -28,13 +28,14 @@
                     <p>{{ __('STAFF') }}</p>
                 </a>
             </li>
+            @endif
             <li class="nav-item">
                 <a href="{{ route('price') }}" class="nav-link" style="color:white">
                     <i class="nav-icon fas fa-tags"></i>
                     <p>{{ __('PRICE LIST') }}</p>
                 </a>
             </li>
-            @endif
+            
             @endif
             <li class="nav-item" >
                 <a href="{{ route('p.view') }}" class="nav-link" style="color:white">
