@@ -25,11 +25,12 @@ return new class extends Migration
                 $table->string('cargoNum')->default(0);
                 $table->string('voyageNum')->nullable();
                 $table->string('containerNum')->nullable();
-                $table->string('value')->nullable();
+                //$table->string('value')->nullable();
+                $table->string('check')->nullable();
                 $table->string('status')->default('inProgress'); // Add status column once
 
                 $table->string('orderCreated');
-                $table->string('inWarehouse')->default("0");
+                $table->string('value')->nullable();
                 $table->string('loading')->default("0");
                 $table->string('inTransit')->default("0");
                 $table->string('arrival')->default("0");

@@ -125,6 +125,7 @@ class CustomerController extends Controller
         'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
         'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
         'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
+        'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
     ]);
 
     if ($validator->fails()) {
@@ -190,6 +191,7 @@ class CustomerController extends Controller
         'voyageNum' => $request->input('voyage'),
         'containerNum' => $request->input('container'), // Get container number if provided
         'value' => $request->input('valuation'),
+        'check' => $request->input('checker'),
     ]);
     $order->save();
 
@@ -234,7 +236,7 @@ class CustomerController extends Controller
         }
         $data = CustomerID::where('cID',$customer)->get();
         $parcel = parcel::where('orderId',$oId)->get();
-        return view('customers.newbl', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
+        return view('customers.new', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
     }
     protected function bl($key){
         $key = order::where('orderId', $key)->get();
@@ -317,6 +319,7 @@ protected function update(Request $request, $key)
         'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
         'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
         'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
+        'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
     ]);
 
     if ($validator->fails()) {
@@ -371,6 +374,7 @@ protected function update(Request $request, $key)
         'voyageNum' => $request->input('voyage'),
         'containerNum' => $request->input('container'), // Get container number if provided
         'value' => $request->input('valuation'),
+        'check' => $request->input('checker'),
     ]);
     $order->save();
 
