@@ -44,9 +44,9 @@
                                             @endif
                                         @endforeach
                                         <td style="text-align: center;">
-                                            <input type="number" class="form-control quantity-input" min="1" value="1" 
+                                            <input type="number" class="form-control quantity-input" min="1" value="1"
                                                    id="quantity-{{ $product->id }}" style="width: 80px; display: inline;">
-                                            <button type="button" class="btn btn-success" 
+                                            <button type="button" class="btn btn-success"
                                                    onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', '{{ $product->unit }}', {{ $product->price }})" >
                                                    Add
                                            </button>
@@ -209,7 +209,7 @@
                                                 </table>
                                             <br>
                                             <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
-                                            <button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit Order</button>
+                                            <button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Update Order</button>
                                             </form>
                                     </div>
                             </form>
@@ -221,19 +221,48 @@
     </div>
 </div>
 <script>
-    let initialOrderItems = {!! $data !!}; 
-    let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
-    let orderTotal = 0;
+// Retrieve initial order items from the server
+let initialOrderItems = {!! $data !!};
 
-    if (localStorage.getItem('orderItems')) {
-        orderItems = JSON.parse(localStorage.getItem('orderItems'));
-        orderTotal = JSON.parse(localStorage.getItem('orderTotal')) || 0;
+// Retrieve local storage items, default to an empty array if not present
+let storedOrderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
+
+// Combine initialOrderItems with storedOrderItems, ensuring no duplicates
+let orderItems = [...storedOrderItems]; // Start with items from local storage
+
+initialOrderItems.forEach(item => {
+    // Check if the item already exists in orderItems by its ID
+    let existingItem = orderItems.find(orderItem => orderItem.name === item.name);
+    if (!existingItem) {
+        // Add the item if it doesn't already exist
+        orderItems.push({
+            id: item.id,
+            name: item.name || item.itemName, // Use 'itemName' if 'name' is missing
+            unit: item.unit,
+            price: item.price,
+            quantity: item.quantity, // Default quantity for new items
+            total: item.price, // Default total for new items
+        });
     }
+});
+
+// Calculate the total order amount
+let orderTotal = orderItems.reduce((total, item) => total + item.total, 0);
+
+// Save the combined orderItems and orderTotal back to localStorage
+localStorage.setItem('orderItems', JSON.stringify(orderItems));
+localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
+
+// Debugging Logs
+console.log("Initial Order Items:", initialOrderItems);
+console.log("Stored Order Items:", storedOrderItems);
+console.log("Merged Order Items:", orderItems);
+console.log("Order Total:", orderTotal);
 
     function addToOrder(productId, productName, productUnit, productPrice) {
         const quantityInput = document.getElementById(`quantity-${productId}`);
         const quantity = parseInt(quantityInput.value) || 1;
-        
+
         let orderItem = orderItems.find(item => item.name === productName);
         if (orderItem) {
             orderItem.quantity += quantity;
@@ -265,8 +294,8 @@ function updateOrderItems() {
                 <td>${item.unit}</td>
                 <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                 <td>
-                    <input type="number" min="1" value="${item.quantity}" 
-       class="form-control" 
+                    <input type="number" min="1" value="${item.quantity}"
+       class="form-control"
        onchange="updateQuantity(${item.id}, this.value)" />
                 </td>
                 <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
@@ -322,6 +351,10 @@ $(document).ready(function() {
 
     updateOrderItems();
 });
+
+document.getElementById('submitOrderBtn').addEventListener('click', function() { // Clear orderItems from localStorage
+    localStorage.removeItem('orderItems');
+})
 </script>
 <style>
     .btn-primary {

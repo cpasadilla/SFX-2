@@ -69,5 +69,13 @@
     </div>
 </div>
 <br>
+<script>
 
+window.addEventListener('popstate', function(event) {
+    // Clear orderItems from localStorage when the back button or Alt + Left Arrow is pressed
+    localStorage.removeItem('orderItems');
+    console.log('orderItems have been cleared from localStorage due to navigation.');
+});
+
+</script>
 @endsection

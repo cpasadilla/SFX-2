@@ -57,13 +57,9 @@ class UserController extends Controller
         ->orWhere('email','like',"%$search%")
         ->get();
 
-
-        $key = $users;
-        foreach($key as $keys){
-            $id = $keys->id;
+        if($users->isEmpty()){
+            $users = User::paginate();
         }
-        $users = User::where('user_id', 'like', "%$id%")
-        ->get();
         return view('users.index', compact('users'));
 
 }

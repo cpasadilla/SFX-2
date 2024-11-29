@@ -58,9 +58,9 @@
                                             @endif
                                         @endforeach
                                         <td style="text-align: center;">
-                                            <input type="number" class="form-control quantity-input" min="1" value="1" 
+                                            <input type="number" class="form-control quantity-input" min="1" value="1"
                                                    id="quantity-{{ $product->id }}" style="width: 80px; display: inline;">
-                                            <button type="button" class="btn btn-success" 
+                                            <button type="button" class="btn btn-success"
                                                     onclick="addToOrder({{ $product->id }}, '{{ $product->itemName }}', '{{ $product->unit }}', {{ $product->price }})">
                                                 Add
                                             </button>
@@ -193,7 +193,7 @@
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div--><br>
-                                                    
+
                                                     <tbody id="orderItems"></tbody>
                                                 </table><br>
                                                 <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
@@ -214,11 +214,11 @@
 <script>
     let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
     let orderTotal = 0;
-    
+
     function addToOrder(productId, productName, productUnit, productPrice) {
     const quantityInput = document.getElementById(`quantity-${productId}`);
     const quantity = parseInt(quantityInput.value) || 1;
-        
+
         let orderItem = orderItems.find(item => item.id === productId);
         if (orderItem) {
             orderItem.quantity += quantity;
@@ -236,12 +236,12 @@
 
             quantityInput.value = 1;
         }
-        
+
         updateOrderItems(); // Update the UI
         localStorage.setItem('orderItems', JSON.stringify(orderItems));// Save the updated order items to localStorage
         //event.preventDefault();// Prevent form submission
     }
-    
+
     function updateOrderItems() {
         let orderItemsHtml = '';
         orderTotal = 0;
@@ -257,7 +257,7 @@
             </tr>`;
             orderTotal += item.total;
         });
-        
+
         $('#orderItems').html(orderItemsHtml);//$('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
         if (orderItems.length > 0) {
             $('#submitOrderBtn').prop('disabled', false);
@@ -303,7 +303,7 @@ function updateOrderItems() {
 
                      <input type="number" value="${item.quantity}" min="1" onchange="updateItemQuantity(${item.id}, this.value)" style="width: 60px; text-align: center;">
                     <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                   
+
                     <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
                 </td>
                 <td><!--${item.total.toFixed(2)}--></td>
@@ -322,7 +322,7 @@ function updateOrderItems() {
 document.addEventListener('DOMContentLoaded', () => {
     updateOrderItems(); // Load and update items on page load
 });
-    
+
     $(document).ready(function() { // Load all data from the JSON file upon page load
         $.getJSON('/path/to/json/file.json', function(data) { // Process the data and add it to the product catalog
             let productsHtml = '';
@@ -353,14 +353,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('price').value = calculatedPrice.toFixed(2); // Display the result with 2 decimal places
     }
-    
+
     function clearOrderSummary() { // Clear the orderItems array
     orderItems = []; // Remove all items from localStorage
     localStorage.removeItem('orderItems'); // Update the UI to reflect the cleared order
-    
+
     updateOrderItems();
     }
-    
+
     document.getElementById('submitOrderBtn').addEventListener('click', function() { // Clear orderItems from localStorage
         localStorage.removeItem('orderItems');
     });

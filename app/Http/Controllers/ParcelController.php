@@ -43,14 +43,7 @@ class ParcelController extends Controller
         return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
     }
 
-    //public function showVoyages()
-    //{
-        // Fetch orders grouped by voyage number
-    //    $orders = Order::all(); // Replace with your actual query logic
-    //    $voyages = $orders->groupBy('voyageNum'); // Group orders by voyage number
-    
-    //    return view('voyage', compact('voyages'));
-    //}
+
     public function showVoyages($shipNum, $voyageNum)
 {
     $orders = Order::with('customer') // Include the customer relationship
@@ -66,58 +59,53 @@ class ParcelController extends Controller
     $orders = Order::where('orderId', 'like', '%' . $search . '%')
                    ->orWhere('cID', 'like', '%' . $search . '%')
                    ->get();
+        if($orders->isEmpty()){
 
-    // Assuming $shipNum and $voyageNum are part of the data passed to the view
-    return view('parcel.voyage', [
-        'orders' => $orders,
-        'shipNum' => $request->query('shipNum'), // Ensure shipNum is passed
-        'voyageNum' => $request->query('voyageNum') // Ensure voyageNum is passed
-    ]);
-    
+            $groupedOrders = Order::orderBy('shipNum')
+                ->orderBy('voyageNum')
+                ->get()
+                ->groupBy('shipNum');
+
+            return view('parcel.home', compact('groupedOrders'));
+        }
+        foreach ($orders as $order){
+            $shipNum = $order->shipNum;
+            $voyageNum = $order->voyageNum;
+        }
+        // Assuming $shipNum and $voyageNum are part of the data passed to the view
+        return view('parcel.voyage', [
+            'orders' => $orders,
+            'shipNum' => $shipNum, // Ensure shipNum is passed
+            'voyageNum' => $voyageNum // Ensure voyageNum is passed
+        ]);
 }
 
-public function qr($key)
-{
-    // Fetch the order using the correct primary key
-    //$order = Order::where('orderId', $key)->first();
-    //if (!$order) {
-//        return redirect()->back()->with('error', 'Order not found.');
-//    }
 
-    // Add logic for generating a QR code if necessary
-    //return view('parcel.confirm', compact('order'));
-    $key = order::where('orderId', $key)->get();
-        foreach($key as $kiss){
-            $customer = $kiss->cID;
-            $oId = $kiss->orderId;
-        }
-        $data = CustomerID::where('cID',$customer)->get();
-        $parcel = parcel::where('orderId',$oId)->get();
-        return view('parcel.confirm', compact('key','data','parcel'));
-    }
-    
-    public function updateStatus(Request $request, $orderId)
+    public function updateStatus(Request $request, $shipNum, $voyageNum, $orderId)
     {
         // Validate the incoming request
         $request->validate([
             'status' => 'required|string'
         ]);
-    
         // Find the order by orderId
         $order = Order::find($orderId);
-    
         if ($order) {
             // Update the status
             $order->status = $request->input('status');
             $order->save(); // Save the updated order
-    
+
+            $orders = Order::where('shipNum', $shipNum)
+            ->where('voyageNum', $voyageNum)
+            ->get();
+
+
             // Redirect or respond
-            return redirect()->route('p.view')->with('success', 'Status updated successfully!');
+            return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders'));
         }
-    
-        return redirect()->route('parcels.showVoyage')->with('error', 'Order not found!');
+
+        return redirect()->route('p.view')->with('error', 'Order not found!');
     }
-    
+
 public function bl($key)
 {
     // Fetch the order using the correct primary key
@@ -166,7 +154,7 @@ public function blnew($key)
         //$array = [];
         //foreach($order as $key){
         //        $cID = $key->cID;
-        //        array_push($array,$cID); 
+        //        array_push($array,$cID);
         //}
         //return view('parcel.home',compact('order'));
 

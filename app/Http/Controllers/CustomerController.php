@@ -95,16 +95,25 @@ class CustomerController extends Controller
         {
             $cats = category::where('name', 'like', "%$search%")
             ->get();
+            if($cats->isEmpty()){
+                $items = priceList::paginate(12);
+            }
+            else{
             $key = $cats;
             foreach($key as $keys){
                 $id = $keys->id;
             }
             $items = priceList::where('category', 'like', "%$id%");
+            $items = $items->paginate();
+
+        }
         }
         else{
             $items = priceList::where('itemName', 'like', "%$search%");
+            $items = $items->paginate();
+
         }
-        $products = $items->paginate();
+        $products = $items;
         $cats = category::paginate();
         $users = CustomerID::where('cID', $key)->get();
 
@@ -258,16 +267,13 @@ class CustomerController extends Controller
         ->get();
     if($users->isEmpty())
     {
-        $users = User::where('fName', 'like', "%$search%")
+        $users = CustomerID::where('fName', 'like', "%$search%")
         ->orWhere('lName', 'like', "%$search%")
         ->get();
-
-        $key = $users;
-        foreach($key as $keys){
-            $id = $keys->id;
+        if($users->isEmpty()){
+            $users = CustomerID::paginate();
         }
-        $users = CustomerID::where('user_id', 'like', "%$id%")
-        ->get();
+
     }
     return view('customers.home', compact('users'));
 }
@@ -290,6 +296,7 @@ public function audit(Request $request, $key){
     $parcels = parcel::where('orderId',$key)->get();
     $array = array();
     foreach ($parcels as $parcel){
+
         array_push($array,array(
             'name' => $parcel->itemName,
             'unit' => $parcel->unit,
@@ -396,6 +403,9 @@ public function find(Request $request, $key)
         {
             $cats = category::where('name', 'like', "%$search%")
             ->get();
+            if($cats->isEmpty()){
+
+            }
             $key = $cats;
             foreach($key as $keys){
                 $id = $keys->id;
@@ -426,6 +436,7 @@ public function find(Request $request, $key)
         }
 
         $data = json_encode($array);
+
         return view('customers.update', compact('users','orders','products','cats','data'));
 }
 }

@@ -114,20 +114,29 @@ class listController extends Controller
         ->get();
         $cats = category::paginate();
 
-        if($items->isEmpty())   
+        if($items->isEmpty())
         {
             $cats = category::where('name', 'like', "%$search%")
             ->get();
+            if($cats->isEmpty()){
+                $items = priceList::paginate(12);
+            }
+            else{
             $key = $cats;
             foreach($key as $keys){
                 $id = $keys->id;
             }
             $items = priceList::where('category', 'like', "%$id%");
+            $items = $items->paginate();
+
+        }
         }
         else{
             $items = priceList::where('itemName', 'like', "%$search%");
+            $items = $items->paginate();
+
         }
-        $items = $items->paginate();
+        $products = $items;
         $cats = category::paginate();
 
         return view('list.home',compact('items','cats'));

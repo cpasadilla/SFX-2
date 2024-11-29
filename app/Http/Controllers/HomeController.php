@@ -29,7 +29,7 @@ class HomeController extends Controller
         $id = count($id);
         $staff = count(CustomerID::paginate());
         $prog = count(order::where('status','inProgress')->get());
-        $comp = count(order::where('status','complete')->get());
+        $comp = count(order::where('status','CHARTERED')->get());
         return view('home', compact('id','prog','staff','comp'));
     }
 }

@@ -71,16 +71,16 @@ class BLController extends Controller
             'isStaff' => '0',
         ]);
 
-        
+
         $email = $request -> email;
         $id = User::where('email', $email)->get();
         foreach($id as $value){
                 $store = $value->id;
-            
+
         }
         CustomerID::create([
             'cID' => $index,
-            'user_id'=> $store,            
+            'user_id'=> $store,
         ]);
         return redirect() -> route('customer') ;
     }
@@ -112,7 +112,7 @@ class BLController extends Controller
             'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -136,7 +136,7 @@ class BLController extends Controller
                 'orderId' => $orderId,
             ]);
         }
-       
+
          // Create a new order in the database
          $origin = $request->input('origin');
          if($origin == "Manila"){
@@ -146,7 +146,7 @@ class BLController extends Controller
             $destination = "Manila";
 
          }
-         
+
          date_default_timezone_set('Asia/Manila');
          $date = date("F d 20y - g:i a");
          $order = order::create([
@@ -165,8 +165,8 @@ class BLController extends Controller
             'value' => $request->input('valuation'),
          ]);
          $order->save();
-         
-         
+
+
          // Redirect to the order confirmation page
          return redirect() -> route('c.confirm',['key'=> $orderId]);
     }
@@ -176,14 +176,14 @@ class BLController extends Controller
         $orderItems = json_decode($request->input('orderItems'), true);
         $valuation = $request->input('valuation');
         $customerId = $request->input('customerId'); // Add hidden input for customer ID if needed
-    
+
         // Create the order in the database
         $order = order::create([
             'cID' => $customerId,
             'valuation' => $valuation,
             'orderCreated' => now(),
         ]);
-    
+
         // Save each order item
         foreach ($orderItems as $item) {
             OrderItem::create([
@@ -195,10 +195,10 @@ class BLController extends Controller
                 'total' => $item['total'],
             ]);
         }
-    
+
         return redirect()->back()->with('success', 'Order submitted successfully!');
     }
-    
+
 
     protected function edit(Request $request){
         $fName = $request -> fName;
@@ -225,7 +225,7 @@ class BLController extends Controller
         return redirect() -> route('customer') ;
 
         //return response()->json(['message' => 'Item deleted successfully']);
-        
+
     }
 
 
@@ -259,7 +259,7 @@ class BLController extends Controller
     // Perform the search query and retrieve the filtered results
     $users = CustomerID::where('cID', 'like', "%$search%")
         ->get();
-    if($users->isEmpty())   
+    if($users->isEmpty())
     {
         $users = User::where('fName', 'like', "%$search%")
         ->orWhere('lName', 'like', "%$search%")

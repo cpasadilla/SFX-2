@@ -70,10 +70,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
 
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
-    Route::get('/orders/{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
-    Route::get('/orders/{shipNum}/{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
+    Route::get('/orders/ship_{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
+    Route::get('/orders/ship_{shipNum}/voyage_{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
 
-    Route::put('/order/{orderId}/update-status', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
+    Route::put('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/update-status/', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
 
 
 
