@@ -352,9 +352,6 @@ $(document).ready(function() {
     updateOrderItems();
 });
 
-document.getElementById('submitOrderBtn').addEventListener('click', function() { // Clear orderItems from localStorage
-    localStorage.removeItem('orderItems');
-})
 </script>
 <style>
     .btn-primary {

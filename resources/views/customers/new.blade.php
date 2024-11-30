@@ -278,5 +278,13 @@
             // Restore visibility
             element1.style.display = "block";
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+    // Clear orderItems from localStorage when the page loads
+    localStorage.removeItem('orderItems');
+
+    // Optional: If you want to confirm it's cleared, you can log to console
+    console.log('orderItems have been cleared from localStorage.');
+});
     </script>
 @endsection

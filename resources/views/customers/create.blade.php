@@ -361,9 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateOrderItems();
     }
 
-    document.getElementById('submitOrderBtn').addEventListener('click', function() { // Clear orderItems from localStorage
-        localStorage.removeItem('orderItems');
-    });
 </script>
 <style>
     .btn-primary {
