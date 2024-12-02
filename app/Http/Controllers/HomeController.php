@@ -33,3 +33,4 @@ class HomeController extends Controller
         return view('home', compact('id','prog','staff','comp'));
     }
 }
+//<!-- CONTROLLER FOR DASHBOARD-->

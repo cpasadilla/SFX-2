@@ -26,6 +26,7 @@
                     <table class="table" id="myTable2">
                         <thead class="thead-light">
                             <tr>
+                                <th style="text-align: center">#</th>
                                 <th style="text-align: center">Order ID</th>
                                 <th style="text-align: center">Date Created</th>
                                 <th style="text-align: center">Voyage Number</th>
@@ -41,6 +42,8 @@
                         <tbody>
                             @foreach ($orders as $order)
                                 <tr>
+                                    <td class="id" ; style="display:none">{{ $order->id }} </td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td style="text-align: center">{{ $order->orderId }}</td>
                                     <td style="text-align: center">{{ $order->created_at }}</td>
                                     <td style="text-align: center">{{ $order->voyageNum }}</td>

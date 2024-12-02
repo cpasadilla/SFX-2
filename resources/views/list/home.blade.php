@@ -144,7 +144,7 @@ $(document).ready(function() {
                                     @endforeach
 
                                     <td class="price" style="text-align: right;">{{ number_format($item->price, 2) }}</td>
-                                    <td class="multiplier" style="text-align: right;">{{ $item->multiplier }}</td>
+                                    <td class="multiplier" style="text-align: right;">{{ number_format ($item->multiplier, 2) }}</td>
                                     <td class="align-middle"  style="text-align: center;">
                                         <i class="fa fa-edit" id="updateBtn" style="color:grey"></i>
                                     </td>
@@ -251,7 +251,7 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
                                 <div class="col-md-6">
-                                    <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" required autocomplete="unit" autofocus>
+                                    <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" autocomplete="unit" autofocus>
 
                                     @error('unit')
                                     <span class="invalid-feedback" role="alert">
@@ -260,11 +260,10 @@ $(document).ready(function() {
                                     @enderror
                                 </div>
                             </div><div class="form-group row">
-                                <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
+                                <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
                                 <div class="col-md-6">
-                                    <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required autocomplete="price" autofocus step='0.1'>
-
-                                    @error('unit')
+                                    <input id="price" type="number" step="any" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" autocomplete="price" autofocus step='0.1'>
+                                    @error('price')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

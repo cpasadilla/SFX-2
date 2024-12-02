@@ -1,5 +1,5 @@
 <!--AFTER CREATING A ORDER-->
-
+<!--No Price-->
 @extends('layouts.app')
 @section('content')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/pdfmake.min.js"></script>
@@ -8,14 +8,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <style>
         @media print {
-            @page {
-                size: 8.5in 11in;
-            }
             html, body {
                 margin: 0;
                 padding: 0;
                 width: 100%; /* Full width */
                 height: 100%; /* Full height */
+                overflow: hidden;
             }
             .card {
                 display: block;
@@ -57,6 +55,7 @@
             }
             .content-container {
                 width: 100%; /* Expands the content to fill the width */
+                max-width: none; /* Removes any max-width constraints */
             }
         }
     </style>
@@ -104,7 +103,7 @@
                             <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                         </div>
                         <div class="col-md-3">
-                            <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black; color: white;"><!--{{ $order->containerNum }}--></span><br>
+                            <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;"><!--{{ $order->containerNum }}--></span><br>
                         </div>
                         <div class="col-md-3">
                             <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
@@ -171,19 +170,19 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>{{ $parcel->price }}</td>
-                                        <td>{{ number_format($parcel->total, 2) }}</td>
+                                        <td><!--{{ $parcel->price }}--></td>
+                                        <td><!--{{ number_format($parcel->total, 2) }}--></td>
                                     </tr>
                                 @endforeach
                                     <tr>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong style="color: rgb(0, 0, 0);">{{ number_format($order->value, 2) }}</strong></td>
+                                        <td><strong style="color: white;">.<!--{{ number_format($order->value, 2) }}--></strong></td>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
-                                        <td><strong>{{ number_format($order->totalAmount, 2) }}</strong></td>
+                                        <td><!--<strong>{{ number_format($order->totalAmount, 2) }}</strong>--></td>
                                     </tr>
                                 @endforeach
                                 <!-- Add more rows as needed -->
@@ -207,7 +206,7 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">Freight :</span>
-                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:rgb(0, 0, 0);">{{ number_format($order->totalAmount, 2) }}</span>
+                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.<!--{{ number_format($order->totalAmount, 2) }}--></span>
                         </div>
                         <div class="col-md-1" style="padding-left:20px;""></div>
                     </div>
@@ -215,7 +214,7 @@
                         <div class="col-md-7" style="padding-left:60px;">Received on board vessel in apparent good condition.</div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">Valuation :</span>
-                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:rgb(0, 0, 0); ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
+                            <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white; ">. <!--{{ number_format(($order->value) * 0.0075, 2) }}--></span>
 
                         </div>
                         <div class="col-md-1" style="padding-left:20px;"></div>
@@ -258,8 +257,8 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <strong style="text-align: right;">TOTAL :</strong>
-                            <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: rgb(0, 0, 0);">
-                                {{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}
+                            <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.
+                                <!--{{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}-->
                             </strong>
                         </div>
                         <div class="col-md-1" style="padding-left:20px;""></div>
@@ -272,26 +271,22 @@
     </div>
     <script>
         function printContent(containerId) {
-        var container = document.getElementById(containerId);
-        var element1 = document.getElementById("element1");
+            var container = document.getElementById(containerId);
+            var element1 = document.getElementById("element1");
+            // Temporarily hide unnecessary elements
+            element1.style.display = "none";
+            // Print the content
+            window.print();
+            // Restore visibility
+            element1.style.display = "block";
+        }
 
-        // Temporarily hide unnecessary elements
-        element1.style.display = "none";
+        document.addEventListener('DOMContentLoaded', function() {
+    // Clear orderItems from localStorage when the page loads
+    localStorage.removeItem('orderItems');
 
-        // Adjust table if needed
-        container.querySelectorAll('table').forEach(function(table) {
-            table.style.width = "100%"; // Ensure table fits within printable width
-        });
-
-        // Force reflow to make sure styles are applied
-        window.getComputedStyle(container).width;
-
-        // Trigger print
-        window.print();
-
-        // Restore visibility
-        element1.style.display = "block";
-    }
-
-        </script>
+    // Optional: If you want to confirm it's cleared, you can log to console
+    console.log('orderItems have been cleared from localStorage.');
+});
+    </script>
 @endsection
