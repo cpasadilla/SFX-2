@@ -1,3 +1,5 @@
+<!-- DASHBOARD FRONT-END -->
+
 @extends('layouts.app')
 
 @section('content')

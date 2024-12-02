@@ -1,3 +1,4 @@
+<!--No Price-->
 @extends('layouts.app')
 @section('content')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/pdfmake.min.js"></script>

@@ -226,7 +226,7 @@
                     </div>
                     <div class="row pl-3">
                         <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;">
-                            <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;"></span>
+                            <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ $order->check }}</span>
                         </div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="text-align: right;">VAT :</span>
