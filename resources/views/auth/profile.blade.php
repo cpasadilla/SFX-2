@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -57,7 +60,7 @@
                                     </span>
                                     @enderror
                                 </div>
-                                
+
 
                                 <div class="input-group mb-3">
                                     <input type="email" name="email"

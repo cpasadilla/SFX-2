@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Validator;
 use PDF;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
 
 class CustomerController extends Controller
 {
@@ -39,6 +40,15 @@ class CustomerController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
+
+    //CUSTOMER VIEW
+    protected function index(){
+        $users = CustomerID::paginate();
+        return view('customers.home', compact('users'));
+    }
+
+    //customer creation
     protected function create(Request $request)
     {
         $this->validator($request->all())->validate();
@@ -68,11 +78,42 @@ class CustomerController extends Controller
         return redirect() -> route('customer') ;
     }
 
-    //CUSTOMER VIEW
-    protected function index(){
-        $users = CustomerID::paginate();
+    //customer search
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        // Perform the search query and retrieve the filtered results
+        $users = CustomerID::where('cID', 'like', "%$search%")
+            ->get();
+        if($users->isEmpty())
+        {
+            $users = CustomerID::where('fName', 'like', "%$search%")
+            ->orWhere('lName', 'like', "%$search%")
+            ->get();
+            if($users->isEmpty()){
+                $users = CustomerID::paginate();
+            }
+
+        }
         return view('customers.home', compact('users'));
     }
+
+
+    //customer edit
+    protected function edit(Request $request){
+        $fName = $request -> fName;
+        $lName = $request -> lName;
+        $phoneNum = $request -> phoneNum;
+        $id = $request->id;
+        DB::table('customer_i_d_s')
+                 ->where('id',$id)
+                 ->update(['fName'=>$fName,'lName'=>$lName,'phoneNum'=>$phoneNum,]);
+        return redirect() -> route('customer') ;
+    }
+
+
+
     //ORDER CREATION
     protected function order($key){
         $users = CustomerID::where('cID', $key)->get();
@@ -82,6 +123,7 @@ class CustomerController extends Controller
 
     }
 
+    //search order page
     public function scout(Request $request, $key)
 {
     $search = $request->input('search');
@@ -151,20 +193,59 @@ class CustomerController extends Controller
         $totalAmount += $item->total;
     }
 
+
+    // Set the current date and time
+    date_default_timezone_set('Asia/Manila');
+    $date = date("F d 20y - g:i a");
+    $year = date("y");
+    $year = "-".$year;
+    $voyageNum = $request->input('voyage');
+    $voyage = intval($voyageNum);
+
+    //PAKI BURA NG NOTE IF D GAGAWIN PARA D MAGULO
+    //NOTE kung gagamit ka din ng ship num tanggalin mo na lang yung /* para sa comment
+    /*$ship = $request->input('ship');
+    if($ship < 10){
+        $ship = "0".$ship;
+    }
+    $voyageNum = $voyage.$ship;
+    */
+    if($voyage >= 10){
+        $bl = "BL".$voyageNum."-";
+    }
+    else{
+        $bl = "BL0".$voyageNum."-";
+    }
+
     // Generate an incrementing orderId
-
-
- // Get the last orderId in ascending order
- $lastOrder = order::latest('orderId')->first(); // Get the last order by orderId
- $lastId = $lastOrder ? intval(substr($lastOrder->orderId, 2)) : 0; // Extract numeric part of orderId
-
- // Generate a unique orderId starting from BL01 and incrementing
- do {
-     $newId = str_pad($lastId + 1, 2, '0', STR_PAD_LEFT); // Increment by 1 and pad to 2 digits
-     $orderId = "BL" . $newId; // Combine with prefix "BL"
-     $lastId++; // Increment for next check
- } while (order::where('orderId', $orderId)->exists()); // Check if the orderId already exists
-
+    $first = order::where('orderId', 'like', "%$year%")
+        ->where('orderId', 'like', "%$bl%")
+        ->latest()->first();
+    if($first === null ){
+        $orderId = $bl."0001".$year;
+    }
+    else{
+        $last = $first->orderId;
+        preg_match('/(\d{4})(?=-)/', $last, $matches);
+        $int = intval($matches[1]);
+        $int +=1;
+        if($int<=9){
+            $str = "000".$int;
+            $orderId = $bl.$str.$year;
+        }
+        elseif($int<=99){
+            $str = "00".$int;
+            $orderId = $bl.$str.$year;
+        }
+        elseif($int<=999){
+            $str = "0".$int;
+            $orderId = $bl.$str.$year;
+        }
+        else{
+            $str = $int;
+            $orderId = $bl.$str.$year;
+        }
+    }
 
     // Add the order items to the order details table
     foreach ($orderItems as $item) {
@@ -181,10 +262,6 @@ class CustomerController extends Controller
     // Determine destination
     $origin = $request->input('origin');
     $destination = $origin == "Manila" ? "Batanes" : "Manila";
-
-    // Set the current date and time
-    date_default_timezone_set('Asia/Manila');
-    $date = date("F d 20y - g:i a");
 
     // Create a new order in the database
     $order = order::create([
@@ -207,19 +284,6 @@ class CustomerController extends Controller
     // Redirect to the order confirmation page
     return redirect()->route('c.confirm', ['key' => $orderId]);
 }
-
-
-
-    protected function edit(Request $request){
-        $fName = $request -> fName;
-        $lName = $request -> lName;
-        $phoneNum = $request -> phoneNum;
-        $id = $request->id;
-        DB::table('customer_i_d_s')
-                 ->where('id',$id)
-                 ->update(['fName'=>$fName,'lName'=>$lName,'phoneNum'=>$phoneNum,]);
-        return redirect() -> route('customer') ;
-    }
 
 
 
@@ -257,26 +321,6 @@ class CustomerController extends Controller
         $parcel = parcel::where('orderId',$oId)->get();
         return view('customers.new', compact('key','data','parcel'));
     }
-
-    public function search(Request $request)
-{
-    $search = $request->input('search');
-
-    // Perform the search query and retrieve the filtered results
-    $users = CustomerID::where('cID', 'like', "%$search%")
-        ->get();
-    if($users->isEmpty())
-    {
-        $users = CustomerID::where('fName', 'like', "%$search%")
-        ->orWhere('lName', 'like', "%$search%")
-        ->get();
-        if($users->isEmpty()){
-            $users = CustomerID::paginate();
-        }
-
-    }
-    return view('customers.home', compact('users'));
-}
 
 //NEW FUNCTIONS
 public function showBL(Request $request, $key){

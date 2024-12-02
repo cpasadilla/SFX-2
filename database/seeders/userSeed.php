@@ -956,7 +956,7 @@ class userSeed extends Seeder
             'multiplier' => '1.00'
         ]);
 
-        $orderId = "BL0001";
+        $orderId = "BL02-0001-24";
         parcel::create([
             'itemName' => 'CHARTERED 20FTR',
             'quantity' => '1',

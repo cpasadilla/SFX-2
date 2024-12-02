@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
     <h1 style="padding-left:10px;">M/V EVERWIN STAR {{ $shipNum }}</h1>
 </div>
