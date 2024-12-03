@@ -32,5 +32,10 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Profile updated.');
+
+    }
+
+    protected function test(){
+        return view("layouts.guest");
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Middleware\PreventRegisterAccess;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -86,9 +87,14 @@ Route::middleware('auth')->group(function(){
 });
 
 Auth::routes();
-
+//Route::get('/test', [\App\Http\Controllers\ProfileController::class, 'test'])->name('test.show'); bl testing
+Route::middleware([PreventRegisterAccess::class])->group(function () {
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
 Route::middleware('auth')->group(function () {
 Route::post('/data', 'DataController@store')->name('data.store');
 
 });
+
 

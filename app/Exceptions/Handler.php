@@ -5,6 +5,12 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -26,5 +32,18 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    //FOR REDIRECTING USER TO HOME PAGE AND NOT ACCESSING 404 PAGES
+    public function render($request, Throwable $exception)
+    {
+        // Check if the exception is a 404 error
+        if ($exception instanceof NotFoundHttpException) {
+            // Redirect to login page if the user is not authenticated
+            if (!Auth::check()) {
+                return redirect()->route('login');
+            }
+        }
+
+        return parent::render($request, $exception);
     }
 }

@@ -57,6 +57,32 @@
                 width: 100%; /* Expands the content to fill the width */
                 max-width: none; /* Removes any max-width constraints */
             }
+
+            /*NEW ADDITIONS*/
+            #con {
+                display: flex;
+                flex-wrap: wrap;
+                }
+            #cd-1{
+                flex: 0 0 8.33%;
+                max-width: 8.33%;
+              }
+            #cd-3{
+                flex: 0 0 25%;
+                max-width: 25%;
+              }
+            #cd-4{
+                flex: 0 0 33.33%;
+                max-width: 33.33%;
+              }
+            #cd-5{
+                flex: 0 0 41.67%;
+                max-width: 41.67%;
+              }
+            #cd-7{
+                flex: 0 0 58.33%;
+                max-width: 58.33%;
+              }
         }
     </style>
     <div class="container" id="element1">
@@ -68,6 +94,7 @@
     </div>
     <br>
     @foreach ($key as $order)
+    <!--PRINT BLOCK -->
         <div class="d-print-block">
             <div class="container d-flex justify-content-center align-items-center">
                 <div class="card">
@@ -96,50 +123,50 @@
                     </div>
                     <br>
                     <div class="row" style="padding-left:30px; padding-right:10px;font-size:15px">
-                        <div class="col-md-3">
+                        <div class="col-md-3"id="cd-3">
                             <strong>M/V EVERWIN STAR</strong> <span style="text-align: center;display: inline-block; width: 30%; border-bottom: 1px solid black;">{{ $order->shipNum }}</span><br>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3"id="cd-3">
                             <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3"id="cd-3">
                             <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;"><!--{{ $order->containerNum }}--></span><br>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3"id="cd-3">
                             <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
                         </div>
                     </div>
                     <div class="row" style="padding-left:30px; padding-right:10px;font-size:15px">
-                        <div class="col-md-4">
+                        <div class="col-md-4"id="cd-4">
                             <strong>ORIGIN:</strong> <span style="text-align: center;display: inline-block; width: 70%; border-bottom: 1px solid black;"> {{ $order->origin }}</span><br>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4"id="cd-4">
                             <strong>DESTINATION:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->destination }}</span><br>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4"id="cd-4">
                             <strong>DATE:</strong> <span style="text-align: center;display: inline-block; width: 75%; border-bottom: 1px solid black;"> {{ $order->created_at->format('F j, Y') }}</span><br>
                         </div>
                     </div>
                     <br>
                     <div class="row" style="padding-left:30px; padding-right:10px;font-size:15px">
-                        <div class="col-md-5">
+                        <div class="col-md-5"id="cd-5">
                             @foreach ($data as $user)
                                 <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
                             @endforeach
                         </div>
-                        <div class="col-md-7" style="text-align: right; padding-right:30px;">
+                        <div class="col-md-7" style="text-align: right; padding-right:30px;"id="cd-7">
                             @foreach ($data as $user)
                                 <strong>CONSIGNEE:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeName }}</span><br>
                             @endforeach
                         </div>
                     </div>
                     <div class="row" style="padding-left:30px; font-size:15px">
-                        <div class="col-md-5">
+                        <div class="col-md-5"id="cd-5">
                             @foreach ($data as $user)
                                 <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;">{{ $user->phoneNum }}</span><br>
                             @endforeach
                         </div>
-                        <div class="col-md-7" style="text-align: right; padding-right:40px;">
+                        <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                             @foreach ($data as $user)
                                 <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeNum }}</span><br>
                             @endforeach
@@ -191,7 +218,7 @@
                     </div>
                     <br>
                     <div class="row pl-3">
-                        <div class="col-md-3">
+                        <div class="col-md-3"id="cd-3">
                             <p><strong>Terms and Conditions:</strong></p>
                         </div>
                         <ol>
@@ -203,65 +230,65 @@
                     <br>
 
                     <div class="row pl-3">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right;">Freight :</span>
                             <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.<!--{{ number_format($order->totalAmount, 2) }}--></span>
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;""></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7" style="padding-left:60px;">Received on board vessel in apparent good condition.</div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-7" style="padding-left:60px;"id="cd-7">Received on board vessel in apparent good condition.</div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right;">Valuation :</span>
                             <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white; ">. <!--{{ number_format(($order->value) * 0.0075, 2) }}--></span>
 
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;"></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right;">Wharfage :</span>
                             <span style="text-align: left; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;""></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;">
+                        <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
                             <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;"></span>
                         </div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right;">VAT :</span>
                             <span style="text-align: left; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;""></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7" style="padding-left:85px;">Vessel's Checker or Authorized Representative</div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-7" style="padding-left:85px;"id="cd-7">Vessel's Checker or Authorized Representative</div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right;">Other Charges :</span>
                             <span style="text-align: left; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;""></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right;">Stuffing/Stippings :</span>
                             <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;""></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <strong style="text-align: right;">TOTAL :</strong>
                             <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.
                                 <!--{{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}-->
                             </strong>
                         </div>
-                        <div class="col-md-1" style="padding-left:20px;""></div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <br>
                     <br>
@@ -269,6 +296,7 @@
             </div>
         </div>
     </div>
+    <!-- END PRINT-->
     <script>
         function printContent(containerId) {
             var container = document.getElementById(containerId);
