@@ -16,14 +16,14 @@
             .card {
                 display: block;
                 width: 8.5in; /* Exactly the paper width */
-                height: 16in; /* Exactly the paper height */
+                height: 30in; /* Exactly the paper height */
                 margin: 0 !important; /* Remove margins */
                 padding: 0 !important; /* Remove padding */
                 box-sizing: border-box;
             }
             #printContainer {
                 width: 8.5in;
-                height: 16in;
+                height: 30in;
                 margin: 0 !important;
                 padding: 0 !important;
                 box-sizing: border-box;
