@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function(){
 
     //Staffs
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::get('users/create', [\App\Http\Controllers\staffControl::class, 'index'])->name('u.create');
+    Route::post('users/create', [\App\Http\Controllers\staffControl::class, 'create'])->name('u.create');
     Route::post('users/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('u.edit');
     Route::post('users/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('u.delete');
     Route::get('/users/search',  [\App\Http\Controllers\UserController::class, 'search'])->name('u.search');

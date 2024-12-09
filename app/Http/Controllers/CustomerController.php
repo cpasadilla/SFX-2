@@ -61,8 +61,8 @@ class CustomerController extends Controller {
         }
         CustomerID::create([
             'cID' => $index,
-            'fName' => $request -> fName,
-            'lName' => $request -> lName,
+            'fName' => ucfirst(strtolower($request -> fName)),
+            'lName' => ucfirst(strtolower($request -> lName)),
             'phoneNum' => $request -> phoneNum,
         ]);
         return redirect() -> route('customer') ;
@@ -71,7 +71,7 @@ class CustomerController extends Controller {
     //customer search
     public function search(Request $request) {
         $search = $request->input('search');
-        
+
         // Perform the search query and retrieve the filtered results
         $users = CustomerID::where('cID', 'like', "%$search%")
             ->get();
@@ -85,7 +85,7 @@ class CustomerController extends Controller {
         }
         return view('customers.home', compact('users'));
     }
-    
+
     //customer edit
     protected function edit(Request $request){
         $fName = $request -> fName;
@@ -109,12 +109,12 @@ class CustomerController extends Controller {
     //search order page
     public function scout(Request $request, $key){
         $search = $request->input('search');
-        
+
         // Perform the search query and retrieve the filtered results
         $items = priceList::where('itemName', 'like', "%$search%")
             ->get();
         $cats = category::paginate();
-        
+
         if($items->isEmpty()){
             $cats = category::where('name', 'like', "%$search%")
                 ->get();
@@ -141,10 +141,10 @@ class CustomerController extends Controller {
     //ORDER SUBMISSION
     protected function submit(Request $request, $key){
         $messages2 = [
-            'origin.required' => 'Please select a valid origin.',    
+            'origin.required' => 'Please select a valid origin.',
             'origin.not_in' => 'Please select a valid origin.'
         ];
-        
+
         // Validate form data
         $validator = Validator::make($request->all(), [
             'ship' => ['required', 'string', 'max:255'],
@@ -157,39 +157,39 @@ class CustomerController extends Controller {
             'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         // Decode JSON order items
         $orderItems = json_decode($request->input('orderItems'));
         //dd($orderItems);
-        
+
         // Calculate the total order amount
         $totalAmount = 0;
         foreach ($orderItems as $item) {
             $totalAmount += $item->total;
         }
-        
+
         // Set the current date and time
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i a");
         $year = date("y");
         $year = "-".$year;
-            
+
         $voyageNum = $request->input('voyage');
         $voyage = intval($voyageNum);
         $ship = $request->input('ship');
 
         //PAKI BURA NG NOTE IF D GAGAWIN PARA D MAGULO
         //NOTE kung gagamit ka din ng ship num tanggalin mo na lang yung /* para sa comment
-        
+
         if($ship < 10){
             $ship = "".$ship;
         }
             //$voyageNum = $voyage.$ship;
-        
+
 
         // Generate the BL prefix
         if($voyage >= 10){
@@ -197,17 +197,17 @@ class CustomerController extends Controller {
         } else{
             $bl = "BL0".$ship."-";
         }
-        
+
         // Generate an incrementing orderId
         $first = order::where('orderId', 'like', "%$bl%")
             //->where('orderId', 'like', "%$year%")
             ->latest()->first();
-            
+
         if($first === null ) {
             $orderId = $bl."01";//.$year;
         } else {
             $last = $first->orderId;
-            
+
             // Adjust regex to match only the numerical portion
             if (preg_match('/(\d+)$/', $last, $matches)) {
                 $int = intval($matches[1]);
@@ -215,7 +215,7 @@ class CustomerController extends Controller {
                 $int = 0; // Default to 0 if no match is found
             }
             $int +=1;
-            
+
             if($int<=9){
                 $str = "0".$int;
                 $orderId = $bl.$str;//.$year;
@@ -246,7 +246,7 @@ class CustomerController extends Controller {
         // Determine destination
         $origin = $request->input('origin');
         $destination = $origin == "Manila" ? "Batanes" : "Manila";
-        
+
         // Create a new order in the database
         $order = order::create([
             'shipNum' => $request->input('ship'),
@@ -264,7 +264,7 @@ class CustomerController extends Controller {
             'check' => $request->input('checker'),
         ]);
         $order->save();
-        
+
         // Redirect to the order confirmation page
         return redirect()->route('c.confirm', ['key' => $orderId]);
     }
@@ -274,7 +274,7 @@ class CustomerController extends Controller {
         $del2 = CustomerID::find($id);
         $del2->delete();
         return redirect() -> route('customer') ;
-        
+
         //return response()->json(['message' => 'Item deleted successfully']);
     }
 
@@ -288,7 +288,7 @@ class CustomerController extends Controller {
         $parcel = parcel::where('orderId',$oId)->get();
         return view('customers.newbl', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
     }
-    
+
     protected function bl($key){
         $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
@@ -301,12 +301,13 @@ class CustomerController extends Controller {
     }
 
     //NEW FUNCTIONS
+    //SHOW CUSTOMER BL
     public function showBL(Request $request, $key){
         $users = CustomerID::where('cID', $key)->get();
         $orders = Order::where('cID', $key)->get();
         return view('customers.parcels', compact('users','orders'));
     }
-    
+    //update page CUSTOMER BL
     public function audit(Request $request, $key){
         $orders = Order::where('orderID', $key)->get();
         foreach($orders as $order){
@@ -329,7 +330,7 @@ class CustomerController extends Controller {
         $cats = category::all();
         return view('customers.update', compact('users','orders','products','cats','data'));
     }
-    
+    //UPDATE CUSTOMER BL
     protected function update(Request $request, $key) {
         // Validate form data
         $validator = Validator::make($request->all(), [
@@ -349,17 +350,17 @@ class CustomerController extends Controller {
         // Decode JSON order items
         $orderItems = json_decode($request->input('orderItems'));
         //dd($orderItems);
-        
+
         // Calculate the total order amount
         $totalAmount = 0;
         foreach ($orderItems as $item) {
             $totalAmount += $item->total;
         }
         $orderId = $key;
-        
+
         parcel::where('orderId', $orderId)->delete();
         order::where('orderId', $orderId)->delete();
-        
+
         // Add the order items to the order details table
         foreach ($orderItems as $item) {
             parcel::create([
@@ -371,15 +372,15 @@ class CustomerController extends Controller {
                 'orderId' => $orderId,
             ]);
         }
-        
+
         // Determine destination
         $origin = $request->input('origin');
         $destination = $origin == "Manila" ? "Batanes" : "Manila";
-        
+
         // Set the current date and time
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i a");
-        
+
         // Create a new order in the database
         $order = order::create([
             'shipNum' => $request->input('ship'),
@@ -400,13 +401,15 @@ class CustomerController extends Controller {
         // Redirect to the order confirmation page
         return redirect()->route('c.confirm', ['key' => $orderId]);
     }
+
+    //SEARCH UPDATE BL
     public function find(Request $request, $key) {
         $search = $request->input('search');
         // Perform the search query and retrieve the filtered results
         $items = priceList::where('itemName', 'like', "%$search%")
             ->get();
         $cats = category::paginate();
-        
+
         if($items->isEmpty()){
             $cats = category::where('name', 'like', "%$search%")
                 ->get();

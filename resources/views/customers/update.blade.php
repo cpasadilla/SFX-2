@@ -12,7 +12,21 @@
             </div>
         </div>
     </div>
-    <div class="row mb-2" style="padding-left:8px;"></div>
+    <div class="row mb-2" style="padding-left:8px;">
+        @foreach ($orders as $order)
+        <div class="col-md-6">
+            <form action="{{ route('c.find', ['key' => $order->orderId]) }}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    @endforeach
+
+    </div>
     <div class="content" style="padding-left:8px; padding-right:8px;">
         <div class="row">
             <div class="col-lg-7">

@@ -243,7 +243,7 @@
     </div>
 </div>
 
-<!--CREATE CUSTOMER MODAL-->
+<!--CREATE USER MODAL-->
 <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -254,7 +254,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('register') }}" method="POST">
+                <form action="{{ route('u.create') }}" method="POST">
                     @csrf
                         <!--FIRST NAME FIELD-->
                         <div class="input-group mb-3">
@@ -314,7 +314,7 @@
                         </div>
                         <!--LOCATION FIELD-->
                         <div class="input-group mb-3">
-                            <select class="form-control" id="location" name="location">
+                            <select id="location" name="location" class="form-control @error('location') is-invalid @enderror" placeholder="{{ __('Location') }}" required autocomplete="location" autofocus>
                                 <option selected>Choose Location</option>
                                 <option value="Batanes">Batanes</option>
                                 <option value="Manila">Manila</option>
@@ -327,7 +327,7 @@
                         </div>
                         <!--POSITION FIELD-->
                         <div class="input-group mb-3">
-                            <select class="form-control" id="position" name="position">
+                            <select id="position" name="position" class="form-control @error('position') is-invalid @enderror" placeholder="{{ __('Position') }}" required autocomplete="position" autofocus>
                                 <option selected>Choose Position</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Staff">Staff</option>

@@ -20,7 +20,7 @@ class staffControl extends Controller
 
     protected function validator(array $data)
     {
-        $messages2 = [    'position.required' => 'Please select a valid position.',    'position.not_in' => 'Please select a valid position.',
+        $message = [    'position.required' => 'Please select a valid position.',    'position.not_in' => 'Please select a valid position.',
         'location.required' => 'Please select a valid location.',    'location.not_in' => 'Please select a valid location.'];
 
         return Validator::make($data, [
@@ -31,7 +31,7 @@ class staffControl extends Controller
             'location' => ['required', 'string', 'max:255',Rule::notIn(['Choose Location'])],
             'position' => ['required', 'string', 'max:255',Rule::notIn(['Choose Position'])],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ],$messages2,);
+        ],$message,);
     }
 
     /**
@@ -40,31 +40,21 @@ class staffControl extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        
+       $data = $this->validator($request->all())->validate();
+
         User::create([
-            'fName' => $data['fName'],
-            'lName' => $data['lName'],
+            'fName' => ucfirst(strtolower($data['fName'])),
+            'lName' => ucfirst(strtolower($data['lName'])),
             'phoneNum' => $data['phoneNum'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'isStaff' => '1',
-        ]);
-        $email = $data['email'];
-        $id = User::where('email', $email)->get();
-        foreach($id as $value){
-                $store = $value->id;
-            
-        }
-        staff::create([
-            'user_id' => $store,
             'position' => $data['position'],
             'location' => $data['location'],
         ]);
-
         return redirect()->route('users.index');
     }
 
-    
+
 }
