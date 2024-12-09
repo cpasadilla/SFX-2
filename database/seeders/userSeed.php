@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -23,7 +24,7 @@ class userSeed extends Seeder
         User::create([
             'fName' => 'admin',
             'lName' => 'admin',
-            'phoneNum' => '09123456789',
+            'phoneNum' => '09123414588',
             'email' => 'admin@plm.edu.ph',
             'password' => Hash::make('admin1234'),
             'position' => 'Admin',
@@ -32,7 +33,7 @@ class userSeed extends Seeder
         User::create([
             'fName' => 'Manila',
             'lName' => 'SFX',
-            'phoneNum' => '09453128679',
+            'phoneNum' => '09453128689',
             'email' => 'm.sfx@sfx.com',
             'password' => Hash::make('admin1234'),
             'position' => 'Staff',
@@ -1725,7 +1726,7 @@ class userSeed extends Seeder
         priceList::create([
             'itemName' => 'UKAY-UKAY ( REGULAR SIZE ) 45 kg',
             'category' => '2',
-            'price' => ' ',
+            'price' => '0.00',
             'length' => '1.00',
             'width' => '1.00',
             'height' => '1.00',
@@ -2086,7 +2087,7 @@ class userSeed extends Seeder
         priceList::create([
             'itemName' => 'FLAT TELEVISION 29',
             'category' => '4',
-            'price' => ' ',
+            'price' => '383.04',
             'length' => '1.00',
             'width' => '1.00',
             'height' => '1.00',
@@ -2685,173 +2686,2022 @@ class userSeed extends Seeder
         priceList::create([
             'itemName' => 'TILES 8 x 12 (20cm x 30 cm)',
             'category' => '5',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'TILES 8 x 8 (20cm x 20cm)',
-            'category' => '5',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
-            'length' => '1.00',
-            'width' => '1.00',
-            'height' => '1.00',
-            'multiplier' => '1.00'
-        ]);priceList::create([
-            'itemName' => 'WASHING',
-            'category' => '4',
-            'price' => ' ',
+            'price' => '0.00',
             'length' => '1.00',
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-///////end
+        
+        priceList::create([
+            'itemName' => 'TILES 8 x 8 (20cm x 20cm)',
+            'category' => '5',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'TILES (ALL SIZES) ctn',
+            'category' => '5',
+            'price' => '84.03',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'TILES 12 x 12 (30cm x 30cm)',
+            'category' => '5',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'TILES 16 x 16 (40cm x 40cm)',
+            'category' => '5',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'TILES 24 x 24 (60cm x 60cm)',
+            'category' => '5',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'TRAILER HAND (SMALL)',
+            'category' => '5',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'TRAILER HAND (REGULAR)',
+            'category' => '5',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'WATER CLOSET, 2 PCS/SET',
+            'category' => '5',
+            'price' => ' 0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'WATER TANK',
+            'category' => '5',
+            'price' => '1970.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'WELDED WIRE',
+            'category' => '5',
+            'price' => '140.45',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'WOODEN DOOR',
+            'category' => '5',
+            'price' => '368.95',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/2(12) x 3 x 6',
+            'category' => '6',
+            'price' => '347.60',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/2(12) x 4 x 6',
+            'category' => '6',
+            'price' => '463.46',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/2(12) x 6 x 6',
+            'category' => '6',
+            'price' => '695.20',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/4(6.0) x 1-1/2 x 6',
+            'category' => '6',
+            'price' => '86.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/4(6.0) x 2 x 6',
+            'category' => '6',
+            'price' => '115.87',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/4(6.0) x 2-1/2 x 6',
+            'category' => '6',
+            'price' => '114.85',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+         priceList::create([
+            'itemName' => 'ANGLE BAR, 1/4(6.0) x 3 x 6',
+            'category' => '6',
+            'price' => '173.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/4(6.0) x 4 x 6',
+            'category' => '6',
+            'price' => '231.73',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/4(6mm) x 1 x 6',
+            'category' => '6',
+            'price' => '57.93',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/8(3.175) x 1 x 6',
+            'category' => '6',
+            'price' => '30.63',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/8(3.175) x 1-1/2 x 6',
+            'category' => '6',
+            'price' => '45.93',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/8(3.175) x 2 x 6',
+            'category' => '6',
+            'price' => '61.30',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/8(3.175) x 2-1/2 x 6',
+            'category' => '6',
+            'price' => '76.63',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/8(3.175) x 3 x 6',
+            'category' => '6',
+            'price' => '91.96',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 1/8(3.175) x 4 x 6',
+            'category' => '6',
+            'price' => '122.63',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 3/16(4.76) x 1 x 6',
+            'category' => '6',
+            'price' => '45.93',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 3/16(4.76) x 1-1/2 x 6',
+            'category' => '6',
+            'price' => '68.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 3/16(4.76) x 2 x 6',
+            'category' => '6',
+            'price' => '91.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 3/16(4.76) x 2-1/2 x 6',
+            'category' => '6',
+            'price' => '114.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 3/16(4.76) x 3 x 6',
+            'category' => '6',
+            'price' => '137.88',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ANGLE BAR, 3/16(4.76) x 4 x 6',
+            'category' => '6',
+            'price' => '183.84',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'CHANNEL BAR, 1/4(6.0) x 3 x 6',
+            'category' => '6',
+            'price' => '144.85',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'CHANNEL BAR, 1/4(6.0) x 4 x 6',
+            'category' => '6',
+            'price' => '173.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'CHANNEL BAR, 3/16(4.76) x 3 x 6',
+            'category' => '6',
+            'price' => '144.88',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'CHANNEL BAR, 3/16(4.76) x 4 x 6',
+            'category' => '6',
+            'price' => '137.84',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/4(6.0) x 1 x 6',
+            'category' => '6',
+            'price' => '28.99',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/4(6.0) x 1-1/2 x 6',
+            'category' => '6',
+            'price' => '43.46',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/4(6.0) x 2 x 6',
+            'category' => '6',
+            'price' => '57.93',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/4(6.0) x 2-1/2 x 6',
+            'category' => '6',
+            'price' => '72.41',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+         priceList::create([
+            'itemName' => 'FLAT BAR, 1/4(6.0) x 3 x 6',
+            'category' => '6',
+            'price' => '86.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/4(6.0) x 4 x 6',
+            'category' => '6',
+            'price' => '115.87',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/8(3.175) x 1 x 6',
+            'category' => '6',
+            'price' => '15.33',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/8(3.175) x 1-1/2 x 6',
+            'category' => '6',
+            'price' => '23.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/8(3.175) x 2 x 6',
+            'category' => '6',
+            'price' => '30.67',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/8(3.175) x 2-1/2 x 6',
+            'category' => '6',
+            'price' => '38.34',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/8(3.175) x 3 x 6',
+            'category' => '6',
+            'price' => '46.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'FLAT BAR, 1/8(3.175) x 4 x 6',
+            'category' => '6',
+            'price' => '61.30',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 3/16(4.76) x 1 x 6',
+            'category' => '6',
+            'price' => '22.96',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 3/16(4.76) x 1-1/2 x 6',
+            'category' => '6',
+            'price' => '34.48',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 3/16(4.76) x 2 x 6',
+            'category' => '6',
+            'price' => '45.96',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 3/16(4.76) x 2-1/2 x 6',
+            'category' => '6',
+            'price' => '57.40',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 3/16(4.76) x 3 x 6',
+            'category' => '6',
+            'price' => '68.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FLAT BAR, 3/16(4.76) x 4 x 6',
+            'category' => '6',
+            'price' => '91.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 1/2 x 6m',
+            'category' => '6',
+            'price' => '22.14',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 3/4 x 6m',
+            'category' => '6',
+            'price' => '29.73',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 1 x 6m',
+            'category' => '6',
+            'price' => '45.10',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 1-1/2 x 6m',
+            'category' => '6',
+            'price' => '73.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 1-1/4 x 6m',
+            'category' => '6',
+            'price' => '59.45',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 2 x 6m',
+            'category' => '6',
+            'price' => '98.40',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 3 x 6m',
+            'category' => '6',
+            'price' => '159.90',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'GI PIPE, 4 x 6m',
+            'category' => '6',
+            'price' => '229.60',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'H-FRAME 1.25 x 1.70 x 7',
+            'category' => '6',
+            'price' => '266.12',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'H-FRAME 1.70 x 1.24 x 4',
+            'category' => '6',
+            'price' => '150.84',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MS PLATE 5mm x 4 x 8',
+            'category' => '6',
+            'price' => '478.39',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MS PLATE 10mm x 4 x 8',
+            'category' => '6',
+            'price' => '956.82',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MS PLATE 18mm x 4 x 8',
+            'category' => '6',
+            'price' => '1722.21',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ROUND BAR (same as RSBAR)',
+            'category' => '6',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 6mm x 6m',
+            'category' => '6',
+            'price' => '5.45',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 7mm x 6m',
+            'category' => '6',
+            'price' => '7.42',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+                priceList::create([
+            'itemName' => 'RSBAR, 8mm x 6m',
+            'category' => '6',
+            'price' => '9.72',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+        priceList::create([
+            'itemName' => 'RSBAR, 9mm x 6m',
+            'category' => '6',
+            'price' => '12.30',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 10mm x 10.5m',
+            'category' => '6',
+            'price' => '26.53',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 10mm x 12m',
+            'category' => '6',
+            'price' => '5.45',
+            'length' => '30.30',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 10mm x 6m',
+            'category' => '6',
+            'price' => '15.17',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 10mm x 7.5m',
+            'category' => '6',
+            'price' => '18.94',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 10mm x 9m',
+            'category' => '6',
+            'price' => '22.71',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'STEEL BAR 6mm x 1.6m',
+            'category' => '6',
+            'price' => '4.47',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 12mm x 10.5m',
+            'category' => '6',
+            'price' => '38.25',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 12mm x 12m',
+            'category' => '6',
+            'price' => '43.71',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 12mm x 6m',
+            'category' => '6',
+            'price' => '21.85',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 12mm x 7.5m',
+            'category' => '6',
+            'price' => '27.31',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 12mm x 9m',
+            'category' => '6',
+            'price' => '32.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 16mm x 10.5m',
+            'category' => '6',
+            'price' => '67.98',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 16mm x 12m',
+            'category' => '6',
+            'price' => '77.70',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 16mm x 6m',
+            'category' => '6',
+            'price' => '38.83',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 16mm x 7.5m',
+            'category' => '6',
+            'price' => '48.54',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 16mm x 9m',
+            'category' => '6',
+            'price' => '58.26',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 20mm x 10.5m',
+            'category' => '6',
+            'price' => '106.19',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 20mm x 12m',
+            'category' => '6',
+            'price' => '121.36',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 20mm x 6m',
+            'category' => '6',
+            'price' => '60.68',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 20mm x 7.5m',
+            'category' => '6',
+            'price' => '75.85',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 20mm x 9m',
+            'category' => '6',
+            'price' => '90.98',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 25mm x 10.5m',
+            'category' => '6',
+            'price' => '165.93',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 25mm x 12m',
+            'category' => '6',
+            'price' => '189.63',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 25mm x 6m',
+            'category' => '6',
+            'price' => '94.79',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 25mm x 7.5m',
+            'category' => '6',
+            'price' => '118.53',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 25mm x 9m',
+            'category' => '6',
+            'price' => '142.23',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 32mm x 10.5m',
+            'category' => '6',
+            'price' => '271.75',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 32mm x 12m',
+            'category' => '6',
+            'price' => '310.62',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 32mm x 6m',
+            'category' => '6',
+            'price' => '155.31',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 32mm x 7.5m',
+            'category' => '6',
+            'price' => '177.74',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RSBAR, 32mm x 9m',
+            'category' => '6',
+            'price' => '232.96',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SHORING JACK',
+            'category' => '6',
+            'price' => '25.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SQUARE BAR, 10mm x 6m',
+            'category' => '6',
+            'price' => '19.31',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SQUARE BAR, 16mm x 6m',
+            'category' => '6',
+            'price' => '27.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SQUARE BAR, 10mm x 6m',
+            'category' => '6',
+            'price' => '49.45',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.35MM X 6FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '14.76',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.35MM X 7FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '17.22',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.35MM X 8FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '19.68',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.35MM X 9FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '22.14',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.35MM X 10FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '24.60',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.35MM X 12FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '29.52',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.50MM X 6FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '22.14',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.50MM X 7FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '25.83',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.50MM X 8FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '29.52',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.50MM X 9FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '33.21',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.50MM X 10FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '36.90',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '0.50MM X 12FT Corr. G I. Sheet',
+            'category' => '7',
+            'price' => '44.28',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ACRYCLIC ( 3/16 x 4 x 8 )',
+            'category' => '7',
+            'price' => '51.66',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ACRYCLIC ( 1/4 x 4 x 8 )',
+            'category' => '7',
+            'price' => '51.66',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ACRYCLIC ( 1/8 x 4 x 8 )',
+            'category' => '7',
+            'price' => '51.66',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PLAIN SHEET, 0.35mm x 3 x 8',
+            'category' => '7',
+            'price' => '25.13',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PLAIN SHEET, 0.35mm x 4 x 8',
+            'category' => '7',
+            'price' => '33.50',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PLAIN SHEET, 0.50mm x 4 x 8',
+            'category' => '7',
+            'price' => '47.81',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PLAIN SHEET, 1.10mm x 4 x 8',
+            'category' => '7',
+            'price' => '105.25',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PLAIN SHEET, 1.30mm x 4 x 8',
+            'category' => '7',
+            'price' => '124.39',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PRE-PAINTED COLOR ROOF 0.50 x 3 x Lft',
+            'category' => '7',
+            'price' => '4.47',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'PRE-PAINTED COLOR ROOF 0.50 x 4 x Lft',
+            'category' => '7',
+            'price' => '5.99',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'RIDGE ROLL',
+            'category' => '7',
+            'price' => '34.32',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMO CORR ( 1.5mm x 814mm x 12 )',
+            'category' => '7',
+            'price' => '54.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMO CORR ( 1.5mm x 814mm x 8 )',
+            'category' => '7',
+            'price' => '36.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMO CORR ( 2.0mm x 814mm x 12 )',
+            'category' => '7',
+            'price' => '60.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMO CORR ( 2.0mm x 814mm x 16 )',
+            'category' => '7',
+            'price' => '80.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMO CORR ( 2.0mm x 814mm x 8 )',
+            'category' => '7',
+            'price' => '40.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMO CORR ( 2.0mm x 814mm x 9 )',
+            'category' => '7',
+            'price' => '45.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMOPLASTIC, 1.5mm x L(ft)',
+            'category' => '7',
+            'price' => '4.50',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'THERMOPLASTIC, 2.0mm x L(ft)',
+            'category' => '7',
+            'price' => '5.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'TUBULAR 2 x 3 x 20 ft',
+            'category' => '7',
+            'price' => '49.45',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MOULDING',
+            'category' => '7',
+            'price' => '3',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '5mm(1/4) PLYWOOD',
+            'category' => '8',
+            'price' => '45.92',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '10mm(1/2) PLYWOOD',
+            'category' => '8',
+            'price' => '91.84',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '18mm(3/4) PLYWOOD/PLYBOARD',
+            'category' => '8',
+            'price' => '137.76',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => '244mm(1) PLYWOOD',
+            'category' => '8',
+            'price' => '183.68',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'LUMBER',
+            'category' => '8',
+            'price' => '5.74',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FUEL ( DRUM )',
+            'category' => '9',
+            'price' => '1035.30',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FUEL (CONTAINER / NAVY CUBE ) 5kl',
+            'category' => '9',
+            'price' => '24650.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'FUEL, DIESEL, GASOLINE IN CONTAINER (PER LITER)',
+            'category' => '9',
+            'price' => '4.93',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'KEROSENE IN JUG',
+            'category' => '9',
+            'price' => '93.48',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'LPG BIG 50KG ( FULL )',
+            'category' => '9',
+            'price' => '330.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'LPG MEDIUM 22KG ( FULL )',
+            'category' => '9',
+            'price' => '148.50',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'LPG SMALL 11KG ( FULL )',
+            'category' => '9',
+            'price' => '72.60',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SUPER KALAN 5KG ( FULL )',
+            'category' => '9',
+            'price' => '29.51',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'AUV',
+            'category' => '10',
+            'price' => '29820.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BICYCLE ( SMALL )',
+            'category' => '10',
+            'price' => '14.45',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BICYCLE ( BIG )',
+            'category' => '10',
+            'price' => '418.15',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BICYCLE W/ SIDECAR',
+            'category' => '10',
+            'price' => '811.69',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ENGINE 12HP',
+            'category' => '10',
+            'price' => '1067.66',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '5900.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ENGINE DIESEL 289HP',
+            'category' => '10',
+            'price' => '17229.18',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '5900.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'HIGH ACE COMMUTER',
+            'category' => '10',
+            'price' => '32163.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'L300',
+            'category' => '10',
+            'price' => '30459.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MAZDA DROPSIDE',
+            'category' => '10',
+            'price' => '32163.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MINI DUMP',
+            'category' => '10',
+            'price' => '35698.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'HIGH ACE COMMUTER',
+            'category' => '10',
+            'price' => '32163.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MOTORCYCLE SMALL',
+            'category' => '10',
+            'price' => '2124.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MOTORCYCLE TMX / XRM / WAVE ',
+            'category' => '10',
+            'price' => '4035.60',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'MOTORCYCLE W/SIDECAR',
+            'category' => '10',
+            'price' => '10095.84',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '1.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SUV TUCSON',
+            'category' => '10',
+            'price' => '33334.50',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'TRUCK 14 / FORK LIFT / BACK HOE',
+            'category' => '10',
+            'price' => '52802.70',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'TRUCK WIDE / TRANSIT MIXER',
+            'category' => '10',
+            'price' => '61365.30',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '2130.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER ( CASE ONLY )',
+            'category' => '11',
+            'price' => '15.54',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER ( CASE ONLY )',
+            'category' => '11',
+            'price' => '15.54',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER, EMPTY ( CASE & BOTTLE )',
+            'category' => '11',
+            'price' => '24.35',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER, LIGHTS, EMPTY',
+            'category' => '11',
+            'price' => '24.35',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER, PILSEN, EMPTY',
+            'category' => '11',
+            'price' => '24.35',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER, REDHORSE 1L, EMPTY',
+            'category' => '11',
+            'price' => '24.35',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'BEER, REDHORSE 1L, EMPTY',
+            'category' => '11',
+            'price' => '24.35',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'COKE, EMPTY',
+            'category' => '11',
+            'price' => '24.35',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'DOCUMENTS',
+            'category' => '11',
+            'price' => '133.10',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'EMPTY CONTAINER VAN 10',
+            'category' => '11',
+            'price' => '15742.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'EMPTY CONTAINER VAN 20',
+            'category' => '11',
+            'price' => '31484.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'EMPTY DRUM',
+            'category' => '11',
+            'price' => '202.25',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'EMPTY BOTTLE',
+            'category' => '11',
+            'price' => '34.61',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'EMPTY NAVY CUBE / FUEL TANK 5KL',
+            'category' => '11',
+            'price' => '7871.01',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'EMPTY SHELL',
+            'category' => '11',
+            'price' => '16.10',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'GARLIC',
+            'category' => '11',
+            'price' => '135.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        
+        priceList::create([
+            'itemName' => 'GARLIC IN SACKS',
+            'category' => '11',
+            'price' => '122.98',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'LPG BIG (EMPTY)',
+            'category' => '11',
+            'price' => '140.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'LPG MEDIUM (EMPTY)',
+            'category' => '11',
+            'price' => '70.40',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'LPG SMALL (EMPTY)',
+            'category' => '11',
+            'price' => '32.91',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'OXYGEN / ACETYLENE',
+            'category' => '11',
+            'price' => '140.80',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'PALLETS (CAYCO ONLY)',
+            'category' => '11',
+            'price' => '70.40',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+        
+        priceList::create([
+            'itemName' => 'ROOT CROPS BX',
+            'category' => '11',
+            'price' => '84.03',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'ROOT CROPS SACKS REG',
+            'category' => '11',
+            'price' => '84.03',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SCRAP (20 FOOTER CONTAINER)',
+            'category' => '11',
+            'price' => '6600.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SCRAP, METAL',
+            'category' => '11',
+            'price' => '1650.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SCRAP (10 FOOTER CONTAINER)',
+            'category' => '11',
+            'price' => '3300.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SOFTDRINKS (CASE ONLY)',
+            'category' => '11',
+            'price' => '15.54',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SOFTDRINKS, EMPTY (CASE & BOTTLE)',
+            'category' => '11',
+            'price' => '24.34',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'SUPER KALAN 5KG',
+            'category' => '11',
+            'price' => '23.82',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
+        priceList::create([
+            'itemName' => 'VECHICLE (BACK LOAD)',
+            'category' => '11',
+            'price' => '0.00',
+            'length' => '1.00',
+            'width' => '1.00',
+            'height' => '1.00',
+            'multiplier' => '0.00'
+        ]);
+
         $orderId = "BL1-01";
         parcel::create([
             'itemName' => 'CHARTERED 20FTR',
@@ -2874,7 +4724,7 @@ class userSeed extends Seeder
             'orderCreated' => $date,
             'consigneeName' => 'Janus',
             'consigneeNum' => '09451278396',
-            'voyageNum' => '2',
+            'voyageNum' => '22-OUT',
             'containerNum' => '2',
             'cargoNum' => '2',
             'value' => '123'
