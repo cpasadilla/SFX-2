@@ -1091,7 +1091,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
-        ]);    
+        ]);
 
         priceList::create([
             'itemName' => 'COKE 1.5L PET',
@@ -1101,7 +1101,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
-        ]);       
+        ]);
 
         priceList::create([
             'itemName' => 'COKE 1.75L',
@@ -1111,7 +1111,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
-        ]);       
+        ]);
 
         priceList::create([
             'itemName' => 'COKE 12oz',
@@ -1121,7 +1121,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
-        ]);      
+        ]);
 
         priceList::create([
             'itemName' => '	COKE 2L',
@@ -1131,7 +1131,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
-        ]);       
+        ]);
 
         priceList::create([
             'itemName' => 'COKE 8oz',
@@ -1622,7 +1622,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TIRE 15',
             'category' => '2',
@@ -1751,7 +1751,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '1.00'
-        ]);      
+        ]);
 
         priceList::create([
             'itemName' => 'APPLIANCES ( HIGH VALUE )',
@@ -1782,7 +1782,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '5900.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FURNITURE',
             'category' => '3',
@@ -1852,7 +1852,7 @@ class userSeed extends Seeder
             'width' => '1.00',
             'height' => '1.00',
             'multiplier' => '5420.00'
-        ]);      
+        ]);
 
         priceList::create([
             'itemName' => 'HIGH VALUE SPECIAL ITEMS',
@@ -1883,7 +1883,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '3935.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PLASTIC PRODUCTS / CABINETS',
             'category' => '3',
@@ -2113,7 +2113,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT TELEVISION 43',
             'category' => '4',
@@ -2123,7 +2123,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT TELEVISION 46',
             'category' => '4',
@@ -2382,7 +2382,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'CWN',
             'category' => '5',
@@ -2392,7 +2392,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'CYCLONE WIRE 4',
             'category' => '5',
@@ -2402,7 +2402,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ])
-        
+
         ;priceList::create([
             'itemName' => 'CYCLONE WIRE 6',
             'category' => '5',
@@ -2412,7 +2412,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'GUTTER',
             'category' => '5',
@@ -2422,7 +2422,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'HARDWARES (REGULAR)',
             'category' => '5',
@@ -2432,7 +2432,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '2960.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'HARDWARES (SMALL)',
             'category' => '5',
@@ -2442,7 +2442,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '2960.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'HOG WIRE',
             'category' => '5',
@@ -2452,7 +2452,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'LADDER, ALUMINUM',
             'category' => '5',
@@ -2462,7 +2462,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PAINTS',
             'category' => '5',
@@ -2472,7 +2472,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 1"(32mm) x 100m',
             'category' => '5',
@@ -2482,7 +2482,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 1-1/4"(40mm) x 60m',
             'category' => '5',
@@ -2492,7 +2492,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 1-1/2"(50mm) x 60m',
             'category' => '5',
@@ -2502,7 +2502,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 2"(63mm) x 60m',
             'category' => '5',
@@ -2512,7 +2512,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 2-1/2"(75mm) x 60m',
             'category' => '5',
@@ -2522,7 +2522,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 3"(90mm) x 6m',
             'category' => '5',
@@ -2532,7 +2532,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PIPE HDPE 4"(110mm) x 6m',
             'category' => '5',
@@ -2542,7 +2542,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC DOOR',
             'category' => '5',
@@ -2552,7 +2552,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC MOLDING',
             'category' => '5',
@@ -2562,7 +2562,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 1/2(20mm) x 3m',
             'category' => '5',
@@ -2572,7 +2572,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 3/4(25mm) x 3m',
             'category' => '5',
@@ -2582,7 +2582,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 1(32mm) x 3m',
             'category' => '5',
@@ -2592,7 +2592,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 2(63mm) x 3m',
             'category' => '5',
@@ -2602,7 +2602,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 3(90mm) x 3m',
             'category' => '5',
@@ -2612,7 +2612,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 4(110mm) x 3m',
             'category' => '5',
@@ -2622,7 +2622,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PVC PIPE 6(160mm) x 3m',
             'category' => '5',
@@ -2632,7 +2632,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ROOF TILES',
             'category' => '5',
@@ -2642,7 +2642,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TIE WIRE 25 kg',
             'category' => '5',
@@ -2652,7 +2652,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TIE WIRE 30 kg',
             'category' => '5',
@@ -2662,7 +2662,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TIE WIRE 45 kg',
             'category' => '5',
@@ -2672,7 +2672,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILE ADHESIVE 20 kg',
             'category' => '5',
@@ -2682,7 +2682,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILES 8 x 12 (20cm x 30 cm)',
             'category' => '5',
@@ -2692,7 +2692,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILES 8 x 8 (20cm x 20cm)',
             'category' => '5',
@@ -2702,7 +2702,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILES (ALL SIZES) ctn',
             'category' => '5',
@@ -2712,7 +2712,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILES 12 x 12 (30cm x 30cm)',
             'category' => '5',
@@ -2722,7 +2722,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILES 16 x 16 (40cm x 40cm)',
             'category' => '5',
@@ -2732,7 +2732,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TILES 24 x 24 (60cm x 60cm)',
             'category' => '5',
@@ -2742,7 +2742,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TRAILER HAND (SMALL)',
             'category' => '5',
@@ -2752,7 +2752,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'TRAILER HAND (REGULAR)',
             'category' => '5',
@@ -2762,7 +2762,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'WATER CLOSET, 2 PCS/SET',
             'category' => '5',
@@ -2772,7 +2772,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'WATER TANK',
             'category' => '5',
@@ -2782,7 +2782,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'WELDED WIRE',
             'category' => '5',
@@ -2792,7 +2792,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'WOODEN DOOR',
             'category' => '5',
@@ -2802,7 +2802,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/2(12) x 3 x 6',
             'category' => '6',
@@ -2812,7 +2812,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/2(12) x 4 x 6',
             'category' => '6',
@@ -2822,7 +2822,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/2(12) x 6 x 6',
             'category' => '6',
@@ -2832,7 +2832,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/4(6.0) x 1-1/2 x 6',
             'category' => '6',
@@ -2842,7 +2842,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/4(6.0) x 2 x 6',
             'category' => '6',
@@ -2852,7 +2852,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/4(6.0) x 2-1/2 x 6',
             'category' => '6',
@@ -2862,7 +2862,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
          priceList::create([
             'itemName' => 'ANGLE BAR, 1/4(6.0) x 3 x 6',
             'category' => '6',
@@ -2872,7 +2872,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/4(6.0) x 4 x 6',
             'category' => '6',
@@ -2882,7 +2882,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/4(6mm) x 1 x 6',
             'category' => '6',
@@ -2902,7 +2902,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/8(3.175) x 1-1/2 x 6',
             'category' => '6',
@@ -2922,7 +2922,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/8(3.175) x 2-1/2 x 6',
             'category' => '6',
@@ -2942,7 +2942,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 1/8(3.175) x 4 x 6',
             'category' => '6',
@@ -2952,7 +2952,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 3/16(4.76) x 1 x 6',
             'category' => '6',
@@ -2962,7 +2962,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 3/16(4.76) x 1-1/2 x 6',
             'category' => '6',
@@ -2982,7 +2982,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 3/16(4.76) x 2-1/2 x 6',
             'category' => '6',
@@ -3002,7 +3002,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ANGLE BAR, 3/16(4.76) x 4 x 6',
             'category' => '6',
@@ -3032,7 +3032,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'CHANNEL BAR, 3/16(4.76) x 3 x 6',
             'category' => '6',
@@ -3072,7 +3072,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT BAR, 1/4(6.0) x 2 x 6',
             'category' => '6',
@@ -3082,7 +3082,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT BAR, 1/4(6.0) x 2-1/2 x 6',
             'category' => '6',
@@ -3092,7 +3092,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
          priceList::create([
             'itemName' => 'FLAT BAR, 1/4(6.0) x 3 x 6',
             'category' => '6',
@@ -3102,7 +3102,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT BAR, 1/4(6.0) x 4 x 6',
             'category' => '6',
@@ -3112,7 +3112,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT BAR, 1/8(3.175) x 1 x 6',
             'category' => '6',
@@ -3142,7 +3142,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT BAR, 1/8(3.175) x 2-1/2 x 6',
             'category' => '6',
@@ -3162,7 +3162,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '1.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'FLAT BAR, 1/8(3.175) x 4 x 6',
             'category' => '6',
@@ -4540,7 +4540,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'GARLIC',
             'category' => '11',
@@ -4551,7 +4551,7 @@ class userSeed extends Seeder
             'multiplier' => '0.00'
         ]);
 
-        
+
         priceList::create([
             'itemName' => 'GARLIC IN SACKS',
             'category' => '11',
@@ -4561,7 +4561,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'LPG BIG (EMPTY)',
             'category' => '11',
@@ -4571,7 +4571,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'LPG MEDIUM (EMPTY)',
             'category' => '11',
@@ -4581,7 +4581,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'LPG SMALL (EMPTY)',
             'category' => '11',
@@ -4591,7 +4591,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'OXYGEN / ACETYLENE',
             'category' => '11',
@@ -4601,7 +4601,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'PALLETS (CAYCO ONLY)',
             'category' => '11',
@@ -4611,7 +4611,7 @@ class userSeed extends Seeder
             'height' => '1.00',
             'multiplier' => '0.00'
         ]);
-        
+
         priceList::create([
             'itemName' => 'ROOT CROPS BX',
             'category' => '11',

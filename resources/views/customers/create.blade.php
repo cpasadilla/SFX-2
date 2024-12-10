@@ -145,13 +145,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-6 ml-1"> ORIGIN </div>
+                                                <div class="col-md-5"> DESTINATION</div>
+                                            </div>
                                         <div class="input-group mb-1"><!--ORIGIN FIELD-->
-                                            <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
+                                            <select id="origin" name="origin" onchange="updateDestinationOptions()"
+                                            class="form-control @error('origin') is-invalid @enderror"
+                                            placeholder="{{ __('origin') }}" required autocomplete="origin" autofocus>
                                                 <option value="Manila">Manila</option>
                                                 <option value="Batanes">Batanes</option>
                                                 <option value="Infanta">Infanta</option>
                                             </select>
-                                            
+
                                             <!-- Destination Dropdown -->
                                             <select id="destination" name="destination" class="form-control">
                                                 <!-- This will be dynamically populated based on the origin -->
@@ -163,8 +169,8 @@
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        
-                                        <br>
+
+
                                         <form method="POST" action="{{ route('order.submit') }}">
                                             @csrf
                                                 <table class="table" id="orderSummary">
@@ -178,7 +184,7 @@
                                                             <th>ACTION</th>
                                                         </tr>
                                                     </thead>
-                                                    <div class="input-group mb-1"><!--CONTAINER NUMBER FIELD-->
+                                                    <div class="input-group mb-1">
                                                         <input type="text" name="valuation" class="form-control"
                                                         placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus>
                                                         <div class="input-group-append">
@@ -224,7 +230,7 @@
     function updateDestinationOptions() {
         var origin = document.getElementById('origin').value;
         var destination = document.getElementById('destination');
-        
+
         // Clear existing options
         destination.innerHTML = '';
 

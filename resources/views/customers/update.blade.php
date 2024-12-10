@@ -108,7 +108,7 @@
                                             value = "{{$order->consigneeNum}}">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <i class="fa-solid fa-hashtag"></i>
+                                                    <i class="fa-solid fa-phone"></i>
                                                 </div>
                                             </div>
                                             @error('cont')
@@ -157,7 +157,7 @@
                                                 <option value="Batanes">Batanes</option>
                                                 <option value="Infanta">Infanta</option>
                                             </select>
-                                            
+
                                             <!-- Destination Dropdown -->
                                             <select id="destination" name="destination" class="form-control">
                                                 <!-- This will be dynamically populated based on the origin -->
@@ -203,7 +203,7 @@
                                                         value = "{{$order->check}}">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-hashtag"></i>
+                                                                <i class="fa-solid fa-user"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -239,7 +239,7 @@
     function updateDestinationOptions() {
         var origin = document.getElementById('origin').value;
         var destination = document.getElementById('destination');
-        
+
         // Clear existing options
         destination.innerHTML = '';
 

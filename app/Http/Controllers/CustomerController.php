@@ -142,7 +142,7 @@ class CustomerController extends Controller {
 
     //ORDER SUBMISSION
     protected function submit(Request $request, $key){
-        $messages2 = [
+        $message = [
             'origin.required' => 'Please select a valid origin.',
             'origin.not_in' => 'Please select a valid origin.'
         ];
@@ -158,7 +158,7 @@ class CustomerController extends Controller {
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
             'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
-        ]);
+        ],$message,);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -181,24 +181,9 @@ class CustomerController extends Controller {
         $year = "-".$year;
 
         $voyageNum = $request->input('voyage');
-        $voyage = intval($voyageNum);
         $ship = $request->input('ship');
-
-        //PAKI BURA NG NOTE IF D GAGAWIN PARA D MAGULO
-        //NOTE kung gagamit ka din ng ship num tanggalin mo na lang yung /* para sa comment
-
-        if($ship < 10){
-            $ship = "".$ship;
-        }
-            //$voyageNum = $voyage.$ship;
-
-
-        // Generate the BL prefix
-        if($voyage >= 10){
-            $bl = "BL".$ship."-";
-        } else{
-            $bl = "BL0".$ship."-";
-        }
+        $ship = intval($ship);
+        $bl = "BL".$ship;
 
         // Generate an incrementing orderId
         $first = order::where('orderId', 'like', "%$bl%")
@@ -206,7 +191,7 @@ class CustomerController extends Controller {
             ->latest()->first();
 
         if($first === null ) {
-            $orderId = $bl."01";//.$year;
+            $orderId = $bl."-01";//.$year;
         } else {
             $last = $first->orderId;
 
@@ -217,19 +202,12 @@ class CustomerController extends Controller {
                 $int = 0; // Default to 0 if no match is found
             }
             $int +=1;
-
             if($int<=9){
                 $str = "0".$int;
-                $orderId = $bl.$str;//.$year;
-            } elseif($int<=99){
-                $str = "".$int;
-                $orderId = $bl.$str;//.$year;
-            } elseif($int<=999){
-                $str = "".$int;
-                $orderId = $bl.$str;//.$year;
+                $orderId = $bl."-".$str;//.$year;
             } else{
                 $str = $int;
-                $orderId = $bl.$str;//.$year;
+                $orderId = $bl."-".$str;//.$year;
             }
         }
 
@@ -247,13 +225,7 @@ class CustomerController extends Controller {
 
         // Determine destination
         $origin = $request->input('origin');
-        $destination = match ($origin) {
-            "Manila" => "Batanes",
-            "Batanes" => "Manila",
-            "Infanta" => "Manila",
-            default => "Unknown"
-        };
-
+        $destination =  $request->input('destination');
         // Create a new order in the database
         $order = order::create([
             'shipNum' => $request->input('ship'),
@@ -382,7 +354,7 @@ class CustomerController extends Controller {
 
         // Determine destination
         $origin = $request->input('origin');
-        $destination = $origin == "Manila" ? "Batanes" : "Manila";
+        $destination =  $request->input('destination');
 
         // Set the current date and time
         date_default_timezone_set('Asia/Manila');
