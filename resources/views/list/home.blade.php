@@ -13,7 +13,6 @@ $(document).ready(function() {
     function handleUpdateButtonClick(data) {
         console.log(data); // Debugging output to verify data
         $('#itemName').val(data.name);
-        $('#price').val(data.price);
         $('#cat2').show();
         $('#length').show();
         $('#width').show();
@@ -22,12 +21,22 @@ $(document).ready(function() {
 
         $('#cats2').val(data.cat);
         $('#id').val(data.id);
+        $('#unit').val(data.unit);
 
         // Corrected this section to ensure the fields are populated
         $('#length').val(data.length);
         $('#width').val(data.width);
         $('#height').val(data.height);
-        $('#multiplier').val(data.multiplier);
+
+
+        let inputValue = data.price;
+        let sanitizedValue = inputValue.replace(/,/g, '');
+        let numericValue = parseFloat(sanitizedValue);
+        $('#price').val(numericValue);
+        inputValue = data.multiplier;
+        sanitizedValue = inputValue.replace(/,/g, '');
+        numericValue = parseFloat(sanitizedValue);
+        $('#multiplier').val(numericValue);
 
         $('#cat1').hide();
 
@@ -63,6 +72,8 @@ $(document).ready(function() {
         var width = $(this).find('.width').text();
         var height = $(this).find('.height').text();
         var multiplier = $(this).find('.multiplier').text();
+        var unit = $(this).find('.unit').text();
+
         key = id;
 
         rowData = {
@@ -73,7 +84,8 @@ $(document).ready(function() {
             length: length,
             width: width,
             height: height,
-            multiplier: multiplier
+            multiplier: multiplier,
+            unit:unit
         };
 
         handleUpdateButtonClick(rowData);
@@ -135,13 +147,16 @@ $(document).ready(function() {
                                     <td class="id" ; style="display:none">{{ $item->id }} </td>
                                     <td>{{ $loop->iteration }}</td>
                                     <td class="name">{{ $item->itemName }}</td>
-                                    <td>{{ $item->unit }}</td>
+                                    <td class="unit">{{ $item->unit }}</td>
 
                                     @foreach ($cats as $cat)
                                     @if ($item->category == $cat->id)
                                     <td class="cat" style="text-align: center;">{{ $cat->name }}</td>
                                     @endif
                                     @endforeach
+                                    <td class="length" hidden>{{ $item->length }}</td>
+                                    <td class="width" hidden>{{ $item->width }}</td>
+                                    <td class="height" hidden>{{ $item->height }}</td>
 
                                     <td class="price" style="text-align: right;">{{ number_format($item->price, 2) }}</td>
                                     <td class="multiplier" style="text-align: right;">{{ number_format ($item->multiplier, 2) }}</td>

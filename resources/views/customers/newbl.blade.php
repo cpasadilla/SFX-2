@@ -309,7 +309,7 @@
             element1.style.display = "block";
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     // Clear orderItems from localStorage when the page loads
     localStorage.removeItem('orderItems');
 

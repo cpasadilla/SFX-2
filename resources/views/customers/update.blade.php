@@ -152,12 +152,26 @@
                                             </div>
                                         </div>
                                         <div class="input-group mb-1"><!--ORIGIN FIELD-->
+
+                                            @if ($order->containerNum == "Manila")
                                             <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
-                                                <option value="Manila">Manila</option>
+                                                <option value="Manila" selected>Manila</option>
                                                 <option value="Batanes">Batanes</option>
                                                 <option value="Infanta">Infanta</option>
                                             </select>
-
+                                            @elseif ($order->origin == "Batanes")
+                                            <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
+                                                <option value="Manila">Manila</option>
+                                                <option value="Batanes" selected>Batanes</option>
+                                                <option value="Infanta">Infanta</option>
+                                            </select>
+                                            @else
+                                            <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
+                                                <option value="Manila">Manila</option>
+                                                <option value="Batanes">Batanes</option>
+                                                <option value="Infanta" selected>Infanta</option>
+                                            </select>
+                                            @endif
                                             <!-- Destination Dropdown -->
                                             <select id="destination" name="destination" class="form-control">
                                                 <!-- This will be dynamically populated based on the origin -->
@@ -242,9 +256,11 @@
 
         // Clear existing options
         destination.innerHTML = '';
-
+        @foreach ($orders as $order)
         // Dynamically add destination options based on the selected origin
         if (origin === 'Manila') {
+
+            @if ($order->destination == "Batanes")
             var option1 = document.createElement("option");
             option1.value = "Batanes";
             option1.text = "Batanes";
@@ -254,7 +270,23 @@
             option2.value = "Infanta";
             option2.text = "Infanta";
             destination.appendChild(option2);
+
+            @else
+
+            var option2 = document.createElement("option");
+            option2.value = "Infanta";
+            option2.text = "Infanta";
+            destination.appendChild(option2);
+            var option1 = document.createElement("option");
+            option1.value = "Batanes";
+            option1.text = "Batanes";
+            destination.appendChild(option1);
+
+            @endif
+
         } else if (origin === 'Batanes') {
+            @if ($order->destination == "Manila")
+
             var option1 = document.createElement("option");
             option1.value = "Manila";
             option1.text = "Manila";
@@ -264,7 +296,34 @@
             option2.value = "Infanta";
             option2.text = "Infanta";
             destination.appendChild(option2);
+            @else
+
+            var option2 = document.createElement("option");
+            option2.value = "Infanta";
+            option2.text = "Infanta";
+            destination.appendChild(option2);
+
+            var option1 = document.createElement("option");
+            option1.value = "Manila";
+            option1.text = "Manila";
+            destination.appendChild(option1);
+
+            @endif
+
         } else if (origin === 'Infanta') {
+            @if ($order->destination == "Batanes")
+
+            var option2 = document.createElement("option");
+            option2.value = "Batanes";
+            option2.text = "Batanes";
+            destination.appendChild(option2);
+
+            var option1 = document.createElement("option");
+            option1.value = "Manila";
+            option1.text = "Manila";
+            destination.appendChild(option1);
+
+            @else
             var option1 = document.createElement("option");
             option1.value = "Manila";
             option1.text = "Manila";
@@ -274,7 +333,13 @@
             option2.value = "Batanes";
             option2.text = "Batanes";
             destination.appendChild(option2);
+
+
+            @endif
+
         }
+
+        @endforeach
     }
 
     // Call the function on page load to initialize the destination options based on the default origin
