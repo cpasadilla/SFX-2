@@ -4715,7 +4715,7 @@ class userSeed extends Seeder
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i a");
         order::create([
-            'shipNum'=> '3',
+            'shipNum'=> '1',
             'origin' => 'Manila',
             'destination' => 'Batanes',
             'totalAmount' => '381.63',
@@ -4724,7 +4724,7 @@ class userSeed extends Seeder
             'orderCreated' => $date,
             'consigneeName' => 'Janus',
             'consigneeNum' => '09451278396',
-            'voyageNum' => '22-OUT',
+            'voyageNum' => '1-OUT',
             'containerNum' => '2',
             'cargoNum' => '2',
             'value' => '123'
