@@ -322,6 +322,7 @@ initialOrderItems.forEach(item => {
             quantity: item.quantity, // Default quantity for new items
             total: item.price, // Default total for new items
         });
+        console.log(item.id);
     }
 });
 

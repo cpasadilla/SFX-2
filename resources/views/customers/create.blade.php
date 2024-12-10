@@ -113,13 +113,14 @@
                                             @enderror
                                         </div>
                                         <div class="input-group mb-1"><!--SHIP NUMBER FIELD-->
-                                            <input type="text" name="ship" class="form-control @error('ship') is-invalid @enderror"
-                                            placeholder="{{ __('SHIP NUMBER') }}" required autocomplete="ship" autofocus>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-ship"></i>
-                                                </div>
-                                            </div>
+                                            <select id="ship" name="ship"
+                                            class="form-control @error('ship') is-invalid @enderror"
+                                            placeholder="{{ __('ship') }}" required autocomplete="ship" autofocus>
+                                            @foreach ($ship as $ships)
+                                            <option value={{$ships->number}}>SHIP {{$ships->number}}</option>
+                                            @endforeach
+
+                                            </select>
                                             @error('ship')
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror

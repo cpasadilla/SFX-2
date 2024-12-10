@@ -11,6 +11,7 @@ use App\Models\priceList;
 use App\Models\order;
 use App\Models\parcel;
 use App\Models\category;
+use App\Models\ship;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -105,7 +106,8 @@ class CustomerController extends Controller {
         $users = CustomerID::where('cID', $key)->get();
         $products = priceList::paginate(12);
         $cats = category::all();
-        return view('customers.create', compact('users','products','cats'));
+        $ship = ship::all();
+        return view('customers.create', compact('users','products','cats','ship'));
     }
 
     //search order page
@@ -297,6 +299,7 @@ class CustomerController extends Controller {
         $array = array();
         foreach ($parcels as $parcel){
             array_push($array,array(
+                'id'=>$parcel->id,
                 'name' => $parcel->itemName,
                 'unit' => $parcel->unit,
                 'price' => $parcel->price,
