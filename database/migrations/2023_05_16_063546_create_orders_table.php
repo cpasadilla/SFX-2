@@ -20,8 +20,11 @@ return new class extends Migration
                 $table->string('shipNum');
                 $table->string('consigneeName');
                 $table->string('consigneeNum');
-                $table->string('origin');
-                $table->string('destination');
+                //$table->string('origin');
+                //$table->string('destination');
+                $table->string('origin')->default('CHOOSE ORIGIN'); // Optional default
+                $table->string('destination')->default('CHOOSE DESTINATION');
+                
                 $table->string('cargoNum')->default(0);
                 $table->string('voyageNum')->nullable();
                 $table->string('containerNum')->nullable();

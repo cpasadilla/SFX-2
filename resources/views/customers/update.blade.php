@@ -151,21 +151,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="input-group mb-1">
-                                            <select class="form-control" id="origin" name="origin">
-                                                @if ($order->origin == 'Manila')
-                                                    <option  value="Batanes">Batanes</option>
-                                                    <option selected value="Manila">Manila</option>
-                                                @elseif ($order->origin == 'Batanes')
-                                                    <option  selected  value="Batanes">Batanes</option>
-                                                    <option value="Manila">Manila</option>
-                                                @else
-                                                    <option selected>Choose Origin</option>
-                                                    <option value="Batanes">Batanes</option>
-                                                    <option value="Manila">Manila</option>
-                                                @endif
+                                        <div class="input-group mb-1"><!--ORIGIN FIELD-->
+                                            <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
+                                                <option value="Manila">Manila</option>
+                                                <option value="Batanes">Batanes</option>
+                                                <option value="Infanta">Infanta</option>
+                                            </select>
+                                            
+                                            <!-- Destination Dropdown -->
+                                            <select id="destination" name="destination" class="form-control">
+                                                <!-- This will be dynamically populated based on the origin -->
                                             </select>
                                             @error('origin')
+                                                <span class="error invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                            @error('destination')
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -234,6 +234,52 @@
         </div>
     </div>
 </div>
+<script>
+    // Function to dynamically update the destination options based on the selected origin
+    function updateDestinationOptions() {
+        var origin = document.getElementById('origin').value;
+        var destination = document.getElementById('destination');
+        
+        // Clear existing options
+        destination.innerHTML = '';
+
+        // Dynamically add destination options based on the selected origin
+        if (origin === 'Manila') {
+            var option1 = document.createElement("option");
+            option1.value = "Batanes";
+            option1.text = "Batanes";
+            destination.appendChild(option1);
+
+            var option2 = document.createElement("option");
+            option2.value = "Infanta";
+            option2.text = "Infanta";
+            destination.appendChild(option2);
+        } else if (origin === 'Batanes') {
+            var option1 = document.createElement("option");
+            option1.value = "Manila";
+            option1.text = "Manila";
+            destination.appendChild(option1);
+
+            var option2 = document.createElement("option");
+            option2.value = "Infanta";
+            option2.text = "Infanta";
+            destination.appendChild(option2);
+        } else if (origin === 'Infanta') {
+            var option1 = document.createElement("option");
+            option1.value = "Manila";
+            option1.text = "Manila";
+            destination.appendChild(option1);
+
+            var option2 = document.createElement("option");
+            option2.value = "Batanes";
+            option2.text = "Batanes";
+            destination.appendChild(option2);
+        }
+    }
+
+    // Call the function on page load to initialize the destination options based on the default origin
+    window.onload = updateDestinationOptions;
+</script>
 <script>
 // Retrieve initial order items from the server
 let initialOrderItems = {!! $data !!};

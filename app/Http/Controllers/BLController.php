@@ -137,15 +137,19 @@ class BLController extends Controller
             ]);
         }
 
-         // Create a new order in the database
-         $origin = $request->input('origin');
-         if($origin == "Manila"){
-            $destination = "Batanes";
-         }
-         else{
-            $destination = "Manila";
+        // Create a new order in the database
+        $origin = $request->input('origin');
 
-         }
+        // Determine the destination based on the origin
+        if ($origin == "Manila") {
+            $destination = "Batanes";
+        } elseif ($origin == "Batanes") {
+            $destination = "Manila";
+        } elseif ($origin == "Infanta") {
+            $destination = "Batanes";
+        } else {
+            $destination = "Unknown"; // Optional: Handle unexpected origin values
+        }
 
          date_default_timezone_set('Asia/Manila');
          $date = date("F d 20y - g:i a");

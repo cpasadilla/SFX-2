@@ -59,12 +59,14 @@ class CustomerController extends Controller {
         } else{
             $index = strval($count);
         }
+
         CustomerID::create([
             'cID' => $index,
             'fName' => ucfirst(strtolower($request -> fName)),
             'lName' => ucfirst(strtolower($request -> lName)),
             'phoneNum' => $request -> phoneNum,
         ]);
+
         return redirect() -> route('customer') ;
     }
 
@@ -245,7 +247,12 @@ class CustomerController extends Controller {
 
         // Determine destination
         $origin = $request->input('origin');
-        $destination = $origin == "Manila" ? "Batanes" : "Manila";
+        $destination = match ($origin) {
+            "Manila" => "Batanes",
+            "Batanes" => "Manila",
+            "Infanta" => "Manila",
+            default => "Unknown"
+        };
 
         // Create a new order in the database
         $order = order::create([
