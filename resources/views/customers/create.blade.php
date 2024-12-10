@@ -155,7 +155,7 @@
                                             placeholder="{{ __('origin') }}" required autocomplete="origin" autofocus>
                                                 <option value="Manila">Manila</option>
                                                 <option value="Batanes">Batanes</option>
-                                                <option value="Infanta">Infanta</option>
+                                                <!--option value="Infanta">Infanta</option-->
                                             </select>
 
                                             <!-- Destination Dropdown -->
@@ -240,31 +240,11 @@
             option1.value = "Batanes";
             option1.text = "Batanes";
             destination.appendChild(option1);
-
-            var option2 = document.createElement("option");
-            option2.value = "Infanta";
-            option2.text = "Infanta";
-            destination.appendChild(option2);
         } else if (origin === 'Batanes') {
             var option1 = document.createElement("option");
             option1.value = "Manila";
             option1.text = "Manila";
             destination.appendChild(option1);
-
-            var option2 = document.createElement("option");
-            option2.value = "Infanta";
-            option2.text = "Infanta";
-            destination.appendChild(option2);
-        } else if (origin === 'Infanta') {
-            var option1 = document.createElement("option");
-            option1.value = "Manila";
-            option1.text = "Manila";
-            destination.appendChild(option1);
-
-            var option2 = document.createElement("option");
-            option2.value = "Batanes";
-            option2.text = "Batanes";
-            destination.appendChild(option2);
         }
     }
 

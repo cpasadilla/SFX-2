@@ -157,19 +157,19 @@
                                             <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
                                                 <option value="Manila" selected>Manila</option>
                                                 <option value="Batanes">Batanes</option>
-                                                <option value="Infanta">Infanta</option>
+                                                <!--option value="Infanta">Infanta</option-->
                                             </select>
                                             @elseif ($order->origin == "Batanes")
                                             <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
                                                 <option value="Manila">Manila</option>
                                                 <option value="Batanes" selected>Batanes</option>
-                                                <option value="Infanta">Infanta</option>
+                                                <!--option value="Infanta">Infanta</option-->
                                             </select>
                                             @else
                                             <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
                                                 <option value="Manila">Manila</option>
                                                 <option value="Batanes">Batanes</option>
-                                                <option value="Infanta" selected>Infanta</option>
+                                                <!--option value="Infanta" selected>Infanta</option-->
                                             </select>
                                             @endif
                                             <!-- Destination Dropdown -->
@@ -266,17 +266,8 @@
             option1.text = "Batanes";
             destination.appendChild(option1);
 
-            var option2 = document.createElement("option");
-            option2.value = "Infanta";
-            option2.text = "Infanta";
-            destination.appendChild(option2);
-
             @else
 
-            var option2 = document.createElement("option");
-            option2.value = "Infanta";
-            option2.text = "Infanta";
-            destination.appendChild(option2);
             var option1 = document.createElement("option");
             option1.value = "Batanes";
             option1.text = "Batanes";
@@ -292,53 +283,16 @@
             option1.text = "Manila";
             destination.appendChild(option1);
 
-            var option2 = document.createElement("option");
-            option2.value = "Infanta";
-            option2.text = "Infanta";
-            destination.appendChild(option2);
             @else
 
-            var option2 = document.createElement("option");
-            option2.value = "Infanta";
-            option2.text = "Infanta";
-            destination.appendChild(option2);
-
             var option1 = document.createElement("option");
             option1.value = "Manila";
             option1.text = "Manila";
             destination.appendChild(option1);
-
-            @endif
-
-        } else if (origin === 'Infanta') {
-            @if ($order->destination == "Batanes")
-
-            var option2 = document.createElement("option");
-            option2.value = "Batanes";
-            option2.text = "Batanes";
-            destination.appendChild(option2);
-
-            var option1 = document.createElement("option");
-            option1.value = "Manila";
-            option1.text = "Manila";
-            destination.appendChild(option1);
-
-            @else
-            var option1 = document.createElement("option");
-            option1.value = "Manila";
-            option1.text = "Manila";
-            destination.appendChild(option1);
-
-            var option2 = document.createElement("option");
-            option2.value = "Batanes";
-            option2.text = "Batanes";
-            destination.appendChild(option2);
-
 
             @endif
 
         }
-
         @endforeach
     }
 
