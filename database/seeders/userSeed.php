@@ -47,7 +47,7 @@ class userSeed extends Seeder
             'phoneNum' => '09753124869',
             'email' => 'b.sfx@sfx.com',
             'password' => Hash::make('admin1234'),
-            'position' => 'Engineer',
+            'position' => 'Checker',
             'location' => 'Batanes',
         ]);
 

@@ -110,7 +110,7 @@
                                 </span>
                             </p>
                         </div>
-                        <p style="font-family: Arial; font-size:16px; position: relative; left: 150pt;  margin-bottom: 0pt; margin-right: 13.5pt; "><br><br>National Road Brgy. Kaychanrianan Basco Batanes</p>
+                        <p style="font-family: Arial; font-size:16px; position: relative; left: 150pt;  margin-bottom: 0pt; margin-right: 13.5pt; "><br><br>National Road Brgy. Kaychanarianan Basco Batanes</p>
                         <p style="font-family: Arial; font-size:16px; position: relative; left: 110pt;  margin-bottom: 0pt; margin-right: 13.5pt; ">Cellphone Nos.: 0908-815-9300 / 0999-889-5848 / 0999-889-5849</p>
                         <p style="font-family: Arial; font-size:16px; position: relative; left: 160pt; text-align:center; margin-bottom: 0pt; margin-right: 13.5pt; ">Email Address: fxavier_2015@yahoo.com.ph</p>
                     </div>
