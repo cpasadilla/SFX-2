@@ -58,6 +58,10 @@
                                                     @if ($ship->status == 'DRYDOCKED')
                                                     <option value="READY" {{ $ship->status == 'READY' ? 'selected' : '' }}>READY</option>
                                                     <option value="ON LAND" {{ $ship->status == 'ON LAND' ? 'selected' : '' }} disabled>ON LAND</option>
+                                                    @elseif ($ship->status == 'ON SEA')
+                                                    <option value="READY" {{ $ship->status == 'READY' ? 'selected' : '' }}disabled>READY</option>
+                                                    <option value="ON LAND" {{ $ship->status == 'ON LAND' ? 'selected' : '' }} disabled>ON LAND</option>
+
                                                     @else
                                                     <option value="READY" {{ $ship->status == 'READY' ? 'selected' : '' }} disabled>READY</option>
                                                     <option value="ON LAND" {{ $ship->status == 'ON LAND' ? 'selected' : '' }}>ON LAND</option>
