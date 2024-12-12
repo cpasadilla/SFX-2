@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ships', function (Blueprint $table) {
             $table->id();
             $table->string('number');
+            $table->string('reference')->nullable();
             $table->string('status');
             $table->timestamps();
         });

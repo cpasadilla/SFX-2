@@ -34,6 +34,8 @@ class order extends Model
         'check', // Add containerNum
         'cargoID',
         'status',
+        'OR',
+        'AR',
 
     ];
 

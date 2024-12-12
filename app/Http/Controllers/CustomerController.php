@@ -12,6 +12,7 @@ use App\Models\order;
 use App\Models\parcel;
 use App\Models\category;
 use App\Models\ship;
+use App\Models\voyage;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -155,7 +156,6 @@ class CustomerController extends Controller {
             'origin' => ['required', 'string', 'max:255',Rule::notIn(['Choose Origin'])],
             'recs' => ['required', 'string', 'max:255'],
             'cont' => ['required', 'numeric', 'digits:11'],
-            'voyage' => ['required', 'string', 'max:255'],
             'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
             'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
@@ -178,11 +178,10 @@ class CustomerController extends Controller {
 
         // Set the current date and time
         date_default_timezone_set('Asia/Manila');
-        $date = date("F d 20y - g:i a");
+        $date = date("F d 20y - g:i:s a");
         $year = date("y");
         $year = "-".$year;
 
-        $voyageNum = $request->input('voyage');
         $ship = $request->input('ship');
         $ship = intval($ship);
         $bl = "BL".$ship;
@@ -213,6 +212,73 @@ class CustomerController extends Controller {
             }
         }
 
+        //VOYAGE LOGIC
+        $checks = ship::where('number',$ship)->get();
+        foreach($checks as $check){
+            $status = $check->status;
+        }
+
+        $trip = voyage::where('ship',$ship)->orderBy('date','desc')->first();
+        if($status == 'READY'){
+
+            $dock = intval($trip->dock);
+            $dock +=1;
+
+            $voyage = 1;
+            foreach($checks as $check){
+            $check->status = "ON LAND";
+            $check->save();
+        }
+            voyage::create([
+                'ship' => $ship,
+                'trip_num' => $voyage,
+                'date' => $date,
+                'dock' => $dock,
+                'orderId' => $orderId
+            ]);
+        }
+        elseif($status == 'ARRIVED'){
+            $voyage = intval($trip->trip_num);
+            $voyage+=1;
+            foreach($checks as $check){
+            $check->status = "ON LAND";
+            $check->save();
+            }
+            $dock = $trip?->dock;
+            if($dock != NULL){
+                $dock = intval($trip->dock);
+            }
+            voyage::create([
+                'ship' => $ship,
+                'trip_num' => $voyage,
+                'date' => $date,
+                'dock' => $dock,
+                'orderId' => $orderId
+            ]);
+        }
+        else{
+
+            if($trip){
+                $voyage = intval($trip->trip_num);
+            }
+            else{
+                $voyage = 1;
+            }
+            $dock = $trip?->dock;
+            if($dock != NULL){
+                $dock = intval($trip->dock);
+            }
+            voyage::create([
+                'ship' => $ship,
+                'trip_num' => $voyage,
+                'date' => $date,
+                'dock' => $dock,
+                'orderId' => $orderId
+            ]);
+        }
+
+
+
         // Add the order items to the order details table
         foreach ($orderItems as $item) {
             parcel::create([
@@ -239,7 +305,7 @@ class CustomerController extends Controller {
             'orderCreated' => $date,
             'consigneeName' => $request->input('recs'),
             'consigneeNum' => $request->input('cont'),
-            'voyageNum' => $request->input('voyage'),
+            'voyageNum' => $voyage,
             'containerNum' => $request->input('container'), // Get container number if provided
             'value' => $request->input('valuation'),
             'check' => $request->input('checker'),
@@ -427,4 +493,42 @@ class CustomerController extends Controller {
         $data = json_encode($array);
         return view('customers.update', compact('users','orders','products','cats','data'));
     }
+
+
+
+     //OR AND AR SUBMIT
+     public function OR(Request $request, $key, $orderId)
+     {
+         // Find the order by orderId
+         $order = order::find($orderId);
+         if ($order) {
+             // Update the status
+             $order->OR = $request->input('OR');
+             $order->save(); // Save the updated order
+
+
+
+             // Redirect or respond
+             return redirect()->route('c.parcels', ['key' => $key]);
+         }
+
+         return redirect()->route('p.view')->with('error', 'Order not found!');
+     }
+
+
+     public function AR(Request $request, $key, $orderId)
+     {
+         // Find the order by orderId
+         $order = order::find($orderId);
+         if ($order) {
+             // Update the status
+             $order->AR = $request->input('AR');
+             $order->save(); // Save the updated order
+
+             return redirect()->route('c.parcels', ['key' => $key]);
+
+         }
+
+         return redirect()->route('p.view')->with('error', 'Order not found!');
+     }
 }

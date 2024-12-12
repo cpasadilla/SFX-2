@@ -14,6 +14,9 @@ use App\Models\order;
 use App\Models\parcel;
 
 use App\Models\category;
+use App\Models\ship;
+use App\Models\voyage;
+
 class userSeed extends Seeder
 {
     /**
@@ -4724,11 +4727,30 @@ class userSeed extends Seeder
             'orderCreated' => $date,
             'consigneeName' => 'Janus',
             'consigneeNum' => '09451278396',
-            'voyageNum' => '1-OUT',
+            'voyageNum' => '1',
             'containerNum' => '2',
             'cargoNum' => '2',
             'value' => '123'
 
+        ]);
+
+        ship::create([
+            'number' => '1',
+            'reference' => '',
+            'status' => 'ON LAND'
+        ]);
+
+        ship::create([
+            'number' => '2',
+            'reference' => '',
+            'status' => 'ON LAND'
+        ]);
+
+        voyage::create([
+            'ship' => '1',
+            'trip_num' => '1',
+            'date' => 'December 12 2024 - 6:17:43 pm',
+            'orderId' => 'BL1-01'
         ]);
     }
 }

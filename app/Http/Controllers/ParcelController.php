@@ -9,37 +9,51 @@ use App\Models\User;
 use App\Models\priceList;
 use App\Models\order;
 use App\Models\parcel;
+use App\Models\ship;
+use App\Models\voyage;
+
 class ParcelController extends Controller
 {
 
     public function index()
     {
-        $groupedOrders = Order::orderBy('shipNum')
-            ->orderBy('voyageNum')
-            ->get()
-            ->groupBy('shipNum');
 
-        return view('parcel.home', compact('groupedOrders'));
+        $ships = ship::paginate();
+        return view('parcel.home', compact( 'ships'));
     }
 
     // Display voyages for a specific ship number
     public function showShip($shipNum)
     {
-        $voyages = Order::where('shipNum', $shipNum)
-            ->orderBy('voyageNum')
-            ->get()
-            ->groupBy('voyageNum');
+        $voyages = voyage::where('ship',$shipNum)->orderBy('dock')->get();
+        $data = [];
 
-        return view('parcel.ship', compact('shipNum', 'voyages'));
+        foreach($voyages as $row){
+            if($row->dock == NULL){
+            $data[0][$row->trip_num] = $row->trip_num;
+            }
+            else{
+            $data[$row->dock][$row->trip_num] = $row->trip_num;
+        }
+        }
+        return view('parcel.ship', compact('shipNum','data'));
     }
 
     // Display orders for a specific ship number and voyage number
-    public function showVoyage($shipNum, $voyageNum)
+    public function showVoyage($shipNum, $voyageNum, $dock)
     {
-        $orders = Order::where('shipNum', $shipNum)
-            ->where('voyageNum', $voyageNum)
-            ->get();
+        if($dock == 0){
+            $dock = NULL;
+        }
+        $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
+        ->where('trip_num',$voyageNum)->get();
+        $orders = collect();
+        foreach($voyage as $data){
+            $search = $data->orderId;
+            $find = Order::where('orderId',$search)->get();
+            $orders = $orders->merge($find);
 
+        }
         return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
     }
 

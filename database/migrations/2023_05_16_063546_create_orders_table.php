@@ -24,7 +24,7 @@ return new class extends Migration
                 //$table->string('destination');
                 $table->string('origin')->default('CHOOSE ORIGIN'); // Optional default
                 $table->string('destination')->default('CHOOSE DESTINATION');
-                
+
                 $table->string('cargoNum')->default(0);
                 $table->string('voyageNum')->nullable();
                 $table->string('containerNum')->nullable();
@@ -34,13 +34,9 @@ return new class extends Migration
 
                 $table->string('orderCreated');
                 $table->string('value')->nullable();
-                $table->string('loading')->default("0");
-                $table->string('inTransit')->default("0");
-                $table->string('arrival')->default("0");
-                $table->string('unloading')->default("0");
-                $table->string('parcelReceived')->default("0");
-                $table->string('personRec')->default("0");
-                $table->string('personNum')->default("0");
+
+                $table->string('OR')->nullable();
+                $table->string('AR')->nullable();
 
                 $table->timestamps();
                 $table->index('cargoNum');

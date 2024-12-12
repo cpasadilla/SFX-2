@@ -42,12 +42,12 @@
                                     <th style="text-align: center;">CONSIGNEE NAME</th>
                                     <th style="text-align: center;">CHECKER NAME</th>
                                     <th style="text-align: center;">DATE CREATED</th>
-                                    <th style="text-align: center;">SHIP NUMBER</th>
-                                    <!--th style="text-align: center;">ORIGIN</th>
-                                    <th style="text-align: center;">DESTINATION</th-->
+                                    <th style="text-align: center;">OR#</th>
+                                    <th style="text-align: center;">AR#</th>
                                     <th style="text-align: center;">TOTAL AMOUNT</th>
                                     <th style="text-align: center;">STATUS</th>
                                     <th style="text-align: center;">VIEW BL</th>
+                                    <th style="text-align: center;">ADD OR/AR</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,9 +61,8 @@
                                     <td style="text-align: center;">{{ $order->consigneeName }}</td>
                                     <td style="text-align: center;">{{ $order->check }}</td>
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
-                                    <td style="text-align: center;">{{ $order->shipNum }}</td>
-                                    <!--td style="text-align: center;">{{ $order->origin }}</td>
-                                    <td style="text-align: center;">{{ $order->destination }}</td-->
+                                    <td style="text-align: center;">{{ $order->OR }}</td>
+                                    <td style="text-align: center;">{{ $order->AR }}</td>
                                     <td style="text-align: center;">{{ $order->totalAmount }}</td>
                                     <td style="text-align: center;">
                                         <form action="{{ route('parcels.updateStatus', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId]) }}" method="POST">
@@ -85,7 +84,81 @@
                                     <td style="text-align: center;">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
+                                    <td style="text-align: center;">
+                                        <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->id }}" style="color:grey"></i>
+                                    </td>
                                 </tr>
+
+
+<!-- ADD OR/AR -->
+<div class="modal fade" id="deleteUserModal{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->id }}">{{ __('ADD OR/AR') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{{ route('s.or', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <div class="input-group mb-3">
+                            <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-hashtag"></span>
+                                </div>
+                            </div>
+                            @error('OR')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success">
+                                {{ __('Submit OR') }}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-md-6">
+                    <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <div class="input-group mb-3">
+                            <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-hashtag"></span>
+                                </div>
+                            </div>
+                            @error('AR')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success">
+                                {{ __('Submit AR') }}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    </div>
                                 @endforeach
                             </tbody>
                         </table>

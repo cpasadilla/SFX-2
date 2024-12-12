@@ -12,5 +12,6 @@ class voyage extends Model
         'trip_num',
         'date',
         'dock',
+        'orderId',
     ];
 }

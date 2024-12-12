@@ -10,5 +10,6 @@ class ship extends Model
     protected $fillable = [
         'number',
         'status',
+        'reference',
     ];
 }

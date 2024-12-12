@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/ship_{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
-    Route::get('/orders/ship_{shipNum}/voyage_{voyageNum}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
+    Route::get('/orders/ship_{shipNum}/voyage_{voyageNum}/dock_{dock}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
 
     Route::put('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/update-status/', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
 
@@ -85,6 +85,15 @@ Route::middleware('auth')->group(function(){
 
     //SHIP AND VOYAge
     Route::post('ship/create', [\App\Http\Controllers\shipController::class, 'create'])->name('s.create');
+    Route::post('ship/delete', [\App\Http\Controllers\shipController::class, 'delete'])->name('s.error');
+    Route::post('ship/update/{shipId}', [\App\Http\Controllers\shipController::class, 'update'])->name('s.update');
+
+    //OR AR NUMBER
+    Route::post('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/update/OR', [\App\Http\Controllers\shipController::class, 'OR'])->name('s.or');
+    Route::post('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/update/AR', [\App\Http\Controllers\shipController::class, 'AR'])->name('s.ar');
+    Route::post('/order/{key}/{orderId}/update/AR', [\App\Http\Controllers\CustomerController::class, 'AR'])->name('c.ar');
+    Route::post('/order/{key}/{orderId}/update/OR', [\App\Http\Controllers\CustomerController::class, 'OR'])->name('c.or');
+
 
 });
 

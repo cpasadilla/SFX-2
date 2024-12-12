@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('ship');
             $table->string('trip_num');
             $table->string('date');
+            $table->string('orderId');
             $table->string('dock')->nullable();
             $table->timestamps();
         });

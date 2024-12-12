@@ -9,13 +9,18 @@
 
 <div class="content">
     <div class="container fluid">
-        <div class="card"
-            @foreach ($voyages as $voyageNum => $orders)
+        <div class="card">
+            @foreach ($data as $dock => $voyages)
+            <h4>DOCK {{$dock}}</h4>
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('parcels.showVoyage', [$shipNum, $voyageNum]) }}">
-                            VOYAGE {{ $voyageNum }}
+                        @foreach ($voyages as $voyage)
+                        <a href="{{ route('parcels.showVoyage', [$shipNum, $voyage, $dock]) }}">
+                            VOYAGE {{ $voyage }}
                         </a>
+                         @endforeach
+
+
                     </div>
                 </div>
             @endforeach

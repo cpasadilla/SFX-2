@@ -35,10 +35,14 @@
                                     <th style="text-align: center">Voyage Number</th>
                                     <th style="text-align: center">Origin</th>
                                     <th style="text-align: center">Destination</th>
-                                    <th>Total Amount</th>
+                                    <th style="text-align: center">Total Amount</th>
+                                    <th style="text-align: center">OR#</th>
+                                    <th style="text-align: center">AR#</th>
                                     <th style="text-align: center">Update</th>
                                     <th style="text-align: center">View BL w/ price</th>
                                     <th style="text-align: center">View BL w/o price</th>
+                                    <th style="text-align: center">Add OR/AR</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,6 +57,9 @@
                                         <td style="text-align: center">{{ $order->origin }}</td>
                                         <td style="text-align: center">{{ $order->destination }}</td>
                                         <td style="text-align: center">{{ $order->totalAmount }}</td>
+                                        <td style="text-align: center">{{ $order->OR }}</td>
+                                        <td style="text-align: center">{{ $order->AR}}</td>
+
                                         <td style="text-align: center">
                                             <a href="{{ route('c.audit', ['key' => $order->orderId]) }}">Edit</a>
                                         </td>
@@ -62,7 +69,88 @@
                                         <td style="text-align: center">
                                             <a href="{{ route('p.blnew', ['key' => $order->orderId]) }}">View</a>
                                         </td>
+                                        <td style="text-align: center;">
+                                            <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->id }}" style="color:grey"></i>
+                                        </td>
                                     </tr>
+
+
+
+
+
+
+
+
+
+<!-- ADD OR/AR -->
+<div class="modal fade" id="deleteUserModal{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->id }}">{{ __('ADD OR/AR') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{{ route('c.or', ['key' => $order->cID, 'orderId' => $order->orderId]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <div class="input-group mb-3">
+                            <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-hashtag"></span>
+                                </div>
+                            </div>
+                            @error('OR')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success">
+                                {{ __('Submit OR') }}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-md-6">
+                    <form action="{{ route('c.ar', ['key' => $order->cID,'orderId' => $order->orderId]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <div class="input-group mb-3">
+                            <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-hashtag"></span>
+                                </div>
+                            </div>
+                            @error('AR')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success">
+                                {{ __('Submit AR') }}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -83,6 +171,6 @@
         localStorage.removeItem('orderItems');
         console.log('orderItems have been cleared from localStorage due to navigation.');
     });
-    
+
 </script>
 @endsection

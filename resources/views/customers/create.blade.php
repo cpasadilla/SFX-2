@@ -116,24 +116,20 @@
                                             <select id="ship" name="ship"
                                             class="form-control @error('ship') is-invalid @enderror"
                                             placeholder="{{ __('ship') }}" required autocomplete="ship" autofocus>
+                                            <option value="" disabled selected>Select a ship</option>
                                             @foreach ($ship as $ships)
+                                            @if ($ships->status == "ON SEA" || $ships->status == 'DRYDOCKED')
+                                            <option value="" disabled >
+                                                SHIP {{ $ships->number }}
+                                            </option>
+                                            @else
                                             <option value={{$ships->number}}>SHIP {{$ships->number}}</option>
+
+                                            @endif
                                             @endforeach
 
                                             </select>
                                             @error('ship')
-                                                <span class="error invalid-feedback">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="input-group mb-1"><!--VOYAGE NUMBER FIELD-->
-                                            <input type="text" name="voyage" class="form-control @error('voyage') is-invalid @enderror"
-                                            placeholder="{{ __('VOAYGE NUMBER') }}" autocomplete="voyage" autofocus>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-ship"></i>
-                                                </div>
-                                            </div>
-                                            @error('voyage')
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
