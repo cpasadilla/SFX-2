@@ -77,6 +77,7 @@
                                                 <option value="OFFLOAD" {{ $order->status == 'OFFLOAD' ? 'selected' : '' }}>OFFLOAD</option>
                                                 <option value="TOPLOAD" {{ $order->status == 'TOPLOAD' ? 'selected' : '' }}>TOPLOAD</option>
                                                 <option value="SHIP" {{ $order->status == 'SHIP' ? 'selected' : '' }}>SHIP</option>
+                                                <option value="COMPLETE" {{ $order->status == 'COMPLETE' ? 'selected' : '' }}>COMPLETE</option>
                                             </select>
                                         </form>
                                     </td>
