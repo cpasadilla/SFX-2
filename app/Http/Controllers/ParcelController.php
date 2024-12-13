@@ -40,29 +40,22 @@ class ParcelController extends Controller
     }
 
     // Display orders for a specific ship number and voyage number
-// Display orders for a specific ship number and voyage number, categorized by IN and OUT
-public function showVoyage($shipNum, $voyageNum, $dock)
-{
-    if ($dock == 0) {
-        $dock = null;
+    public function showVoyage($shipNum, $voyageNum, $dock)
+    {
+        if($dock == 0){
+            $dock = NULL;
+        }
+        $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
+        ->where('trip_num',$voyageNum)->get();
+        $orders = collect();
+        foreach($voyage as $data){
+            $search = $data->orderId;
+            $find = Order::where('orderId',$search)->get();
+            $orders = $orders->merge($find);
+
+        }
+        return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
     }
-
-    $voyages = Voyage::where('dock', $dock)->where('ship', $shipNum)
-        ->where('trip_num', $voyageNum)->get();
-
-    $orders = collect();
-    foreach ($voyages as $data) {
-        $search = $data->orderId;
-        $find = Order::where('orderId', $search)->get();
-        $orders = $orders->merge($find);
-    }
-
-    $voyageIN = $voyages->filter(fn($voyage) => str_contains($voyage->voyage_number, '-IN'));
-    $voyageOUT = $voyages->filter(fn($voyage) => str_contains($voyage->voyage_number, '-OUT'));
-
-    return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders', 'voyageIN', 'voyageOUT'));
-}
-
 //    public function showVoyages($shipNum, $voyageNum)
 //{
 //    $orders = Order::with('customer') // Include the customer relationship
