@@ -144,7 +144,8 @@ class CustomerController extends Controller {
     }
 
     //ORDER SUBMISSION
-    protected function submit(Request $request, $key){
+    protected function submit(Request $request, $key)
+    {
         $message = [
             'origin.required' => 'Please select a valid origin.',
             'origin.not_in' => 'Please select a valid origin.'
@@ -153,14 +154,15 @@ class CustomerController extends Controller {
         // Validate form data
         $validator = Validator::make($request->all(), [
             'ship' => ['required', 'string', 'max:255'],
-            'origin' => ['required', 'string', 'max:255',Rule::notIn(['Choose Origin'])],
+            'origin' => ['required', 'string', 'max:255', Rule::notIn(['Choose Origin'])],
+            'destination' => ['required', 'string', 'max:255'],
             'recs' => ['required', 'string', 'max:255'],
             'cont' => ['required', 'numeric', 'digits:11'],
-            'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
-            'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
-            'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
-            'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
-        ],$message,);
+            'containerNum' => ['nullable', 'string', 'max:255'],
+            'orderItems' => ['required', 'json'],
+            'value' => ['nullable', 'string', 'max:255'],
+            'check' => ['nullable', 'string', 'max:255'],
+        ], $message);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -168,7 +170,6 @@ class CustomerController extends Controller {
 
         // Decode JSON order items
         $orderItems = json_decode($request->input('orderItems'));
-        //dd($orderItems);
 
         // Calculate the total order amount
         $totalAmount = 0;
@@ -179,20 +180,17 @@ class CustomerController extends Controller {
         // Set the current date and time
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i:s a");
-        $year = date("y");
-        $year = "-".$year;
 
-        $ship = $request->input('ship');
-        $ship = intval($ship);
-        $bl = "BL".$ship;
+        $ship = intval($request->input('ship'));
+        $bl = "BL" . $ship;
 
         // Generate an incrementing orderId
-        $first = order::where('orderId', 'like', "%$bl%")
-            //->where('orderId', 'like', "%$year%")
-            ->latest()->first();
+        $first = Order::where('orderId', 'like', "%$bl%")
+            ->latest()
+            ->first();
 
-        if($first === null ) {
-            $orderId = $bl."-01";//.$year;
+        if ($first === null) {
+            $orderId = $bl . "-01";
         } else {
             $last = $first->orderId;
 
@@ -202,86 +200,73 @@ class CustomerController extends Controller {
             } else {
                 $int = 0; // Default to 0 if no match is found
             }
-            $int +=1;
-            if($int<=9){
-                $str = "0".$int;
-                $orderId = $bl."-".$str;//.$year;
-            } else{
-                $str = $int;
-                $orderId = $bl."-".$str;//.$year;
-            }
+
+            $int += 1;
+            $str = $int <= 9 ? "0$int" : "$int";
+            $orderId = $bl . "-" . $str;
         }
 
-        //VOYAGE LOGIC
-        $checks = ship::where('number',$ship)->get();
-        foreach($checks as $check){
+        $origin = $request->input('origin');
+        $destination = $request->input('destination');
+        $voyageSuffix = ($origin === 'Manila' && $destination === 'Batanes') ? '-OUT' : (($origin === 'Batanes' && $destination === 'Manila') ? '-IN' : '');
+
+        // VOYAGE LOGIC
+        $checks = Ship::where('number', $ship)->get();
+        foreach ($checks as $check) {
             $status = $check->status;
         }
 
-        $trip = voyage::where('ship',$ship)->orderBy('date','desc')->first();
-        if($status == 'READY'){
-
-            $dock = intval($trip->dock);
-            $dock +=1;
+        $trip = Voyage::where('ship', $ship)->orderBy('date', 'desc')->first();
+        if ($status === 'READY') {
+            $dock = intval($trip->dock) + 1;
 
             $voyage = 1;
-            foreach($checks as $check){
-            $check->status = "ON LAND";
-            $check->save();
-        }
-            voyage::create([
+            foreach ($checks as $check) {
+                $check->status = "ON LAND";
+                $check->save();
+            }
+
+            Voyage::create([
                 'ship' => $ship,
                 'trip_num' => $voyage,
                 'date' => $date,
                 'dock' => $dock,
-                'orderId' => $orderId
+                'orderId' => $orderId,
+                'voyage_number' => $voyage . $voyageSuffix,
             ]);
-        }
-        elseif($status == 'ARRIVED'){
-            $voyage = intval($trip->trip_num);
-            $voyage+=1;
-            foreach($checks as $check){
-            $check->status = "ON LAND";
-            $check->save();
+        } elseif ($status === 'ARRIVED') {
+            $voyage = intval($trip->trip_num) + 1;
+            foreach ($checks as $check) {
+                $check->status = "ON LAND";
+                $check->save();
             }
-            $dock = $trip?->dock;
-            if($dock != NULL){
-                $dock = intval($trip->dock);
-            }
-            voyage::create([
+            $dock = $trip?->dock ? intval($trip->dock) : null;
+
+            Voyage::create([
                 'ship' => $ship,
                 'trip_num' => $voyage,
                 'date' => $date,
                 'dock' => $dock,
-                'orderId' => $orderId
+                'orderId' => $orderId,
+                'voyage_number' => $voyage . $voyageSuffix,
             ]);
-        }
-        else{
+        } else {
+            $voyage = $trip ? intval($trip->trip_num) : 1;
+            $dock = $trip?->dock ? intval($trip->dock) : null;
 
-            if($trip){
-                $voyage = intval($trip->trip_num);
-            }
-            else{
-                $voyage = 1;
-            }
-            $dock = $trip?->dock;
-            if($dock != NULL){
-                $dock = intval($trip->dock);
-            }
-            voyage::create([
+            Voyage::create([
                 'ship' => $ship,
                 'trip_num' => $voyage,
                 'date' => $date,
                 'dock' => $dock,
-                'orderId' => $orderId
+                'orderId' => $orderId,
+                'voyage_number' => $voyage . $voyageSuffix,
             ]);
         }
-
-
 
         // Add the order items to the order details table
         foreach ($orderItems as $item) {
-            parcel::create([
+            Parcel::create([
                 'itemName' => $item->name,
                 'unit' => $item->unit,
                 'quantity' => $item->quantity,
@@ -291,11 +276,8 @@ class CustomerController extends Controller {
             ]);
         }
 
-        // Determine destination
-        $origin = $request->input('origin');
-        $destination =  $request->input('destination');
         // Create a new order in the database
-        $order = order::create([
+        $order = Order::create([
             'shipNum' => $request->input('ship'),
             'origin' => $origin,
             'destination' => $destination,
@@ -305,10 +287,10 @@ class CustomerController extends Controller {
             'orderCreated' => $date,
             'consigneeName' => $request->input('recs'),
             'consigneeNum' => $request->input('cont'),
-            'voyageNum' => $voyage,
-            'containerNum' => $request->input('container'), // Get container number if provided
-            'value' => $request->input('valuation'),
-            'check' => $request->input('checker'),
+            'voyageNum' => $voyage . $voyageSuffix,
+            'containerNum' => $request->input('containerNum'),
+            'value' => $request->input('value'),
+            'check' => $request->input('check'),
         ]);
         $order->save();
 

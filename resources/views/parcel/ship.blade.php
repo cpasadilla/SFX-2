@@ -3,28 +3,36 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <div class="content-header">
-    <h1 style="padding-left:10px;">M/V EVERWIN STAR {{ $shipNum }}</h1>
-</div>
-
-<div class="content">
-    <div class="container fluid">
-        <div class="card">
-            @foreach ($data as $dock => $voyages)
-            <h4>DOCK {{$dock}}</h4>
-                <div class="card">
-                    <div class="card-body">
-                        @foreach ($voyages as $voyage)
-                        <a href="{{ route('parcels.showVoyage', [$shipNum, $voyage, $dock]) }}">
-                            VOYAGE {{ $voyage }}
-                        </a>
-                         @endforeach
-
-
-                    </div>
-                </div>
-            @endforeach
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0 text-left">M/V EVERWIN STAR {{ $shipNum }}</h1>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="content">
+    <div class="container-fluid">
+        @foreach ($data as $dock => $voyages)
+            <div class="card mt-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="m-0">Dock {{ $dock }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach ($voyages as $voyage)
+                            <a href="{{ route('parcels.showVoyage', [$shipNum, $voyage, $dock]) }}" class="list-group-item list-group-item-action">
+                                <strong>VOYAGE NO. {{ $voyage }} - OUT</strong>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
+
 @endsection

@@ -4,7 +4,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
-    <h1 style="padding-left: 10px;">MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $voyageNum }}</h1>
+    <h1 style="padding-left: 10px;">MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $voyageNum }}-OUT</h1>
     <br>
     <div class="container-fluid">
         <div class="row mb-2">
@@ -30,7 +30,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>VOYAGE {{ $voyageNum }}</h5>
+                        <h5>VOYAGE {{ $voyageNum }}-OUT</h5>
                     </div>
                     <div class="card-body">
                         <table id="myTable2" class="table">
