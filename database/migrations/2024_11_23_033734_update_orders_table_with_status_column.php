@@ -4,16 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
+    
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    
+    public function up(): void {
         Schema::table('orders', function (Blueprint $table) {
             // Check for each column's existence before dropping
-            $columns = ['TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP'];
+            $columns = ['IN PROGRESS','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
             foreach ($columns as $column) {
                 if (Schema::hasColumn('orders', $column)) {
                     $table->dropColumn($column);
@@ -30,11 +30,11 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+
+    public function down(): void {
         Schema::table('orders', function (Blueprint $table) {
             // Re-add the old status columns if rolling back
-            $columns = ['TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP'];
+            $columns = ['IN PROGRESS','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
             foreach ($columns as $column) {
                 if (!Schema::hasColumn('orders', $column)) {
                     $table->string($column)->default('0');

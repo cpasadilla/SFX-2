@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class parcel extends Model
-{
+class parcel extends Model {
     protected $guarded = [];
 
     protected $fillable = [
@@ -18,8 +17,7 @@ class parcel extends Model
         'total'
     ];
 
-    public function order(){
+    public function order() {
         return $this->belongsTo(order::class);
     }
-
 }

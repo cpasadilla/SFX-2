@@ -9,17 +9,13 @@ use App\Models\staff;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-class staffControl extends Controller
-{
 
-    public function index()
-    {
-
+class staffControl extends Controller {
+    public function index() {
         return view('users.create');
     }
 
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         $message = [    'position.required' => 'Please select a valid position.',    'position.not_in' => 'Please select a valid position.',
         'location.required' => 'Please select a valid location.',    'location.not_in' => 'Please select a valid location.'];
 
@@ -40,10 +36,9 @@ class staffControl extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(Request $request)
-    {
-       $data = $this->validator($request->all())->validate();
-
+    protected function create(Request $request) {
+        $data = $this->validator($request->all())->validate();
+        
         User::create([
             'fName' => ucfirst(strtolower($data['fName'])),
             'lName' => ucfirst(strtolower($data['lName'])),
@@ -53,8 +48,7 @@ class staffControl extends Controller
             'position' => $data['position'],
             'location' => $data['location'],
         ]);
+        
         return redirect()->route('users.index');
     }
-
-
 }

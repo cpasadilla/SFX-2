@@ -10,7 +10,6 @@
         left: 50%;
     }
 </style>
-
 <!--CONTENT HEADER (PAGE HEADER)-->
 <div class="content-header">
     <h1 style="padding-left: 10px;">CUSTOMERS</h1>
@@ -37,7 +36,6 @@
             </div>
         </div>
 </div>
-
 <!--MAIN CONTENT-->
 <div class="content">
     <div class="container-fluid">
@@ -142,43 +140,39 @@
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
                                                         {{ __('DELETE') }}
                                                     </button>
-
-
                                                     <br><br>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
-<!-- DELETE MODAL -->
-<div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Customer?') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>{{ __('This action cannot be undone.') }}</p>
-                <form action="{{ route('c.error') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $user->id }}">
-                    <div class="text-right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            {{ __('Cancel') }}
-                        </button>
-                        <button type="submit" class="btn btn-danger">
-                            {{ __('Delete Account') }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                                    <!-- DELETE MODAL -->
+                                    <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Customer?') }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>{{ __('This action cannot be undone.') }}</p>
+                                                    <form action="{{ route('c.error') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $user->id }}">
+                                                        <div class="text-right">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                {{ __('Cancel') }}
+                                                            </button>
+                                                            <button type="submit" class="btn btn-danger">
+                                                                {{ __('Delete Account') }}
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -189,8 +183,6 @@
         </div>
     </div>
 </div>
-
-
 <!--CREATE CUSTOMER MODAL-->
 <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -259,9 +251,6 @@
         </div>
     </div>
 </div>
-
-
-
 @endsection
 
 <script>
@@ -306,7 +295,6 @@
             }
         }
     }
-
 
     document.addEventListener('DOMContentLoaded', function() {
     // Clear orderItems from localStorage when the page loads

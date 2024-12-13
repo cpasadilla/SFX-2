@@ -35,7 +35,6 @@
                     <p>{{ __('PRICE LIST') }}</p>
                 </a>
             </li>
-            
             @endif
             <li class="nav-item" >
                 <a href="{{ route('p.view') }}" class="nav-link" style="color:white">
@@ -44,7 +43,5 @@
                 </a>
             </li>
         </ul>
-    </nav>
-    <!-- /.sidebar-menu -->
-</div>
-<!-- /.sidebar -->
+    </nav><!-- /.sidebar-menu -->
+</div><!-- /.sidebar -->

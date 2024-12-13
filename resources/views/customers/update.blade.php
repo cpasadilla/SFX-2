@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
 <div class="container-fluid">
     <div class="content-header">
         <h1>ORDER UPDATE</h1>
@@ -14,18 +16,17 @@
     </div>
     <div class="row mb-2" style="padding-left:8px;">
         @foreach ($orders as $order)
-        <div class="col-md-6">
-            <form action="{{ route('c.find', ['key' => $order->orderId]) }}" method="GET">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-success">Search</button>
+            <div class="col-md-6">
+                <form action="{{ route('c.find', ['key' => $order->orderId]) }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-    @endforeach
-
+                </form>
+            </div>
+        @endforeach
     </div>
     <div class="content" style="padding-left:8px; padding-right:8px;">
         <div class="row">
@@ -152,7 +153,6 @@
                                             </div>
                                         </div>
                                         <div class="input-group mb-1"><!--ORIGIN FIELD-->
-
                                             @if ($order->containerNum == "Manila")
                                             <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
                                                 <option value="Manila" selected>Manila</option>
@@ -257,87 +257,77 @@
         // Clear existing options
         destination.innerHTML = '';
         @foreach ($orders as $order)
-        // Dynamically add destination options based on the selected origin
-        if (origin === 'Manila') {
+            // Dynamically add destination options based on the selected origin
+            if (origin === 'Manila') {
 
-            @if ($order->destination == "Batanes")
-            var option1 = document.createElement("option");
-            option1.value = "Batanes";
-            option1.text = "Batanes";
-            destination.appendChild(option1);
-
-            @else
-
-            var option1 = document.createElement("option");
-            option1.value = "Batanes";
-            option1.text = "Batanes";
-            destination.appendChild(option1);
-
-            @endif
-
-        } else if (origin === 'Batanes') {
-            @if ($order->destination == "Manila")
-
-            var option1 = document.createElement("option");
-            option1.value = "Manila";
-            option1.text = "Manila";
-            destination.appendChild(option1);
-
-            @else
-
-            var option1 = document.createElement("option");
-            option1.value = "Manila";
-            option1.text = "Manila";
-            destination.appendChild(option1);
-
-            @endif
-
-        }
+                @if ($order->destination == "Batanes")
+                    var option1 = document.createElement("option");
+                    option1.value = "Batanes";
+                    option1.text = "Batanes";
+                    destination.appendChild(option1);
+                @else
+                    var option1 = document.createElement("option");
+                    option1.value = "Batanes";
+                    option1.text = "Batanes";
+                    destination.appendChild(option1);
+                @endif
+            } else if (origin === 'Batanes') {
+                @if ($order->destination == "Manila")
+                    var option1 = document.createElement("option");
+                    option1.value = "Manila";
+                    option1.text = "Manila";
+                    destination.appendChild(option1);
+                @else
+                    var option1 = document.createElement("option");
+                    option1.value = "Manila";
+                    option1.text = "Manila";
+                    destination.appendChild(option1);
+                @endif
+            }
         @endforeach
     }
-
     // Call the function on page load to initialize the destination options based on the default origin
     window.onload = updateDestinationOptions;
 </script>
 <script>
-// Retrieve initial order items from the server
-let initialOrderItems = {!! $data !!};
+    // Retrieve initial order items from the server
+    let initialOrderItems = {!! $data !!};
 
-// Retrieve local storage items, default to an empty array if not present
-let storedOrderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
+    // Retrieve local storage items, default to an empty array if not present
+    let storedOrderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
 
-// Combine initialOrderItems with storedOrderItems, ensuring no duplicates
-let orderItems = [...storedOrderItems]; // Start with items from local storage
+    // Combine initialOrderItems with storedOrderItems, ensuring no duplicates
+    let orderItems = [...storedOrderItems]; // Start with items from local storage
 
-initialOrderItems.forEach(item => {
-    // Check if the item already exists in orderItems by its ID
-    let existingItem = orderItems.find(orderItem => orderItem.name === item.name);
-    if (!existingItem) {
-        // Add the item if it doesn't already exist
-        orderItems.push({
-            id: item.id,
-            name: item.name || item.itemName, // Use 'itemName' if 'name' is missing
-            unit: item.unit,
-            price: item.price,
-            quantity: item.quantity, // Default quantity for new items
-            total: item.price, // Default total for new items
-        });
-        console.log(item.id);
-    }
-});
+    initialOrderItems.forEach(item => {
+        // Check if the item already exists in orderItems by its ID
+        let existingItem = orderItems.find(orderItem => orderItem.name === item.name);
+        if (!existingItem) {
+            // Add the item if it doesn't already exist
+            orderItems.push({
+                id: item.id,
+                name: item.name || item.itemName, // Use 'itemName' if 'name' is missing
+                unit: item.unit,
+                price: item.price,
+                quantity: item.quantity, // Default quantity for new items
+                total: item.price, // Default total for new items
+            });
+            console.log(item.id);
+        }
+    });
 
-// Calculate the total order amount
-let orderTotal = orderItems.reduce((total, item) => total + item.total, 0);
+    // Calculate the total order amount
+    let orderTotal = orderItems.reduce((total, item) => total + item.total, 0);
 
-// Save the combined orderItems and orderTotal back to localStorage
-localStorage.setItem('orderItems', JSON.stringify(orderItems));
-localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
+    // Save the combined orderItems and orderTotal back to localStorage
+    localStorage.setItem('orderItems', JSON.stringify(orderItems));
+    localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
 
-// Debugging Logs
-console.log("Initial Order Items:", initialOrderItems);
-console.log("Stored Order Items:", storedOrderItems);
-console.log("Merged Order Items:", orderItems);
-console.log("Order Total:", orderTotal);
+    // Debugging Logs
+    console.log("Initial Order Items:", initialOrderItems);
+    console.log("Stored Order Items:", storedOrderItems);
+    console.log("Merged Order Items:", orderItems);
+    console.log("Order Total:", orderTotal);
 
     function addToOrder(productId, productName, productUnit, productPrice) {
         const quantityInput = document.getElementById(`quantity-${productId}`);
@@ -364,97 +354,99 @@ console.log("Order Total:", orderTotal);
         localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
         event.preventDefault();
     }
-function updateOrderItems() {
-    let orderItemsHtml = '';
-    orderTotal = 0;
-    orderItems.forEach(item => {
-        orderItemsHtml += `
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.unit}</td>
-                <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                <td>
-                    <input type="number" min="1" value="${item.quantity}"
-       class="form-control"
-       onchange="updateQuantity(${item.id}, this.value)" />
-                </td>
-                <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                <td>
-                    <button type="button" class="btn btn-danger" onclick="removeFromOrder(${item.id})">Remove</button>
-                </td>
-            </tr>`;
-            orderTotal += Number(item.total);
-    });
-    $('#orderItems').html(orderItemsHtml);
-    $('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-    $('#submitOrderBtn').prop('disabled', orderItems.length === 0);
-    $('#orderItemsInput').val(JSON.stringify(orderItems));
-}
-function updateQuantity(productId, quantity) {
-    console.log("Updating productId:", productId, "to quantity:", quantity);
-    let orderItem = orderItems.find(item => item.id === productId);
-    console.log("Found orderItem:", orderItem);
-    if (orderItem) {
-        orderItem.quantity = parseInt(quantity, 10); // Ensure integer conversion
-        orderItem.total = orderItem.quantity * orderItem.price;
-        updateOrderItems();
-        localStorage.setItem('orderItems', JSON.stringify(orderItems));
-        localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
-    }
-}
-function removeFromOrder(productId) {
-    const index = orderItems.findIndex(item => item.id === productId);
-    if (index !== -1) {
-        orderItems.splice(index, 1); // Remove the item
-        updateOrderItems();
-        localStorage.setItem('orderItems', JSON.stringify(orderItems));
-        localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
-    }
-}
-$(document).ready(function() {
-    $.getJSON('/path/to/json/file.json', function(data) {
-        let productsHtml = '';
-        data.forEach(product => {
-            productsHtml += `
+
+    function updateOrderItems() {
+        let orderItemsHtml = '';
+        orderTotal = 0;
+        orderItems.forEach(item => {
+            orderItemsHtml += `
                 <tr>
-                    <td>${product.itemName}</td>
-                    <td>${product.unit}</td>
-                    <td>${product.price}</td>
+                    <td>${item.name}</td>
+                    <td>${item.unit}</td>
+                    <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button>
+                        <input type="number" min="1" value="${item.quantity}" class="form-control" onchange="updateQuantity(${item.id}, this.value)" />
+                    </td>
+                    <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeFromOrder(${item.id})">Remove</button>
                     </td>
                 </tr>
             `;
+            orderTotal += Number(item.total);
         });
-        $('#productCatalog').html(productsHtml);
+        $('#orderItems').html(orderItemsHtml);
+        $('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        $('#submitOrderBtn').prop('disabled', orderItems.length === 0);
+        $('#orderItemsInput').val(JSON.stringify(orderItems));
+    }
+
+    function updateQuantity(productId, quantity) {
+        console.log("Updating productId:", productId, "to quantity:", quantity);
+        let orderItem = orderItems.find(item => item.id === productId);
+        console.log("Found orderItem:", orderItem);
+        if (orderItem) {
+            orderItem.quantity = parseInt(quantity, 10); // Ensure integer conversion
+            orderItem.total = orderItem.quantity * orderItem.price;
+            updateOrderItems();
+            localStorage.setItem('orderItems', JSON.stringify(orderItems));
+            localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
+        }
+    }
+
+    function removeFromOrder(productId) {
+        const index = orderItems.findIndex(item => item.id === productId);
+        if (index !== -1) {
+            orderItems.splice(index, 1); // Remove the item
+            updateOrderItems();
+            localStorage.setItem('orderItems', JSON.stringify(orderItems));
+            localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
+        }
+    }
+
+    $(document).ready(function() {
+        $.getJSON('/path/to/json/file.json', function(data) {
+            let productsHtml = '';
+            data.forEach(product => {
+                productsHtml += `
+                    <tr>
+                        <td>${product.itemName}</td>
+                        <td>${product.unit}</td>
+                        <td>${product.price}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#productCatalog').html(productsHtml);
+        });
+
+        updateOrderItems();
     });
-
-    updateOrderItems();
-});
-
 </script>
 <style>
     .btn-primary {
-    color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
-    box-shadow: none;
-}
-.page-item.active .page-link {
-    z-index: 3;
-    color: #fff;
-    background-color: #28a544;
-    border-color: #28a544;
-}
-.page-link {
-    position: relative;
-    display: block;
-    padding: 0.5rem 0.75rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #000000;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-}
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        box-shadow: none;
+    }
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #28a544;
+        border-color: #28a544;
+    }
+    .page-link {
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #000000;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
 </style>
 @endsection

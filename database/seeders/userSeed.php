@@ -62,6 +62,27 @@ class userSeed extends Seeder
             'phoneNum' => '09748591632',
         ]);
 
+        CustomerID::create([
+            'cID' => '0002',
+            'fName' => 'Leah',
+            'lName' => 'Pasadilla',
+            'phoneNum' => '09321654987',
+        ]);
+
+        CustomerID::create([
+            'cID' => '0003',
+            'fName' => 'Cat',
+            'lName' => 'Pasadi',
+            'phoneNum' => '09987654321',
+        ]);
+
+        CustomerID::create([
+            'cID' => '0004',
+            'fName' => 'Cathy',
+            'lName' => 'Legarda',
+            'phoneNum' => '09741258963',
+        ]);
+
         category::create([
             'name' => 'FIXED PRICE',
         ]);
@@ -4714,7 +4735,7 @@ class userSeed extends Seeder
             'total' => '62968.02',
             'orderId' => $orderId,
         ]);
-
+        
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i a");
         order::create([

@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderItem extends Model
-{
+class OrderItem extends Model {
     use HasFactory;
 
     // Define the table name (if different from the pluralized model name)
@@ -23,8 +22,7 @@ class OrderItem extends Model
     ];
 
     // Define any relationships (if applicable)
-    public function order()
-    {
+    public function order() {
         return $this->belongsTo(Order::class);
     }
 }

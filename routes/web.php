@@ -56,6 +56,11 @@ Route::middleware('auth')->group(function(){
     Route::get('/priceList/submit-order', [\App\Http\Controllers\listController::class,'submitOrder'])->name('order.submit');
     Route::get('/priceList/search', [\App\Http\Controllers\listController::class,'search'])->name('l.search');
 
+    Route::post('/priceList/addCategory', [\App\Http\Controllers\listController::class, 'addCategory'])->name('category.add');
+    Route::post('/priceList/updateCategory', [\App\Http\Controllers\listController::class, 'updateCategory'])->name('category.update');
+    Route::post('/priceList/deleteCategory', [\App\Http\Controllers\listController::class, 'deleteCategory'])->name('category.delete');
+    
+
     //Staffs
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::post('users/create', [\App\Http\Controllers\staffControl::class, 'create'])->name('u.create');

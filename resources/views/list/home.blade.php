@@ -1,101 +1,97 @@
 @extends('layouts.app')
 @section('content')
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-
 <script>
-$(document).ready(function() {
-    var rowData;
-    var key;
+    $(document).ready(function() {
+        var rowData;
+        var key;
 
-    function handleUpdateButtonClick(data) {
-        console.log(data); // Debugging output to verify data
-        $('#itemName').val(data.name);
-        $('#cat2').show();
-        $('#length').show();
-        $('#width').show();
-        $('#height').show();
-        $('#multiplier').show();
+        function handleUpdateButtonClick(data) {
+            console.log(data); // Debugging output to verify data
+            $('#itemName').val(data.name);
+            $('#cat2').show();
+            $('#length').show();
+            $('#width').show();
+            $('#height').show();
+            $('#multiplier').show();
 
-        $('#cats2').val(data.cat);
-        $('#id').val(data.id);
-        $('#unit').val(data.unit);
+            $('#cats2').val(data.cat);
+            $('#id').val(data.id);
+            $('#unit').val(data.unit);
 
-        // Corrected this section to ensure the fields are populated
-        $('#length').val(data.length);
-        $('#width').val(data.width);
-        $('#height').val(data.height);
+            // Corrected this section to ensure the fields are populated
+            $('#length').val(data.length);
+            $('#width').val(data.width);
+            $('#height').val(data.height);
 
+            let inputValue = data.price;
+            let sanitizedValue = inputValue.replace(/,/g, '');
+            let numericValue = parseFloat(sanitizedValue);
 
-        let inputValue = data.price;
-        let sanitizedValue = inputValue.replace(/,/g, '');
-        let numericValue = parseFloat(sanitizedValue);
-        $('#price').val(numericValue);
-        inputValue = data.multiplier;
-        sanitizedValue = inputValue.replace(/,/g, '');
-        numericValue = parseFloat(sanitizedValue);
-        $('#multiplier').val(numericValue);
+            $('#price').val(numericValue);
+            inputValue = data.multiplier;
+            sanitizedValue = inputValue.replace(/,/g, '');
+            numericValue = parseFloat(sanitizedValue);
 
-        $('#cat1').hide();
+            $('#multiplier').val(numericValue);
+            $('#cat1').hide();
+            $('#create').attr('action', '{{ route('p.update') }}');
+            $('#submitButton').text('UPDATE');
+            $('#deleteButton').show();
+        }
 
-        $('#create').attr('action', '{{ route('p.update') }}');
-        $('#submitButton').text('UPDATE');
+        // Function to handle delete button click event
+        function handleDeleteButtonClick(data) {
+            // Perform delete operation here
+            var id = key;
 
-        $('#deleteButton').show();
-    }
+            $.ajax({
+                url: '{{ route('p.delete') }}', // Replace with your server-side endpoint URL
+                type: 'GET',
+                data: {
+                    id: id,
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
 
-    // Function to handle delete button click event
-    function handleDeleteButtonClick(data) {
-                // Perform delete operation here
-                var id = key;
+        function handleTableRowClick() {
+            var name = $(this).find('.name').text();
+            var cat = $(this).find('.cat').text();
+            var price = $(this).find('.price').text();
+            var id = $(this).find('.id').text();
+            var length = $(this).find('.length').text();
+            var width = $(this).find('.width').text();
+            var height = $(this).find('.height').text();
+            var multiplier = $(this).find('.multiplier').text();
+            var unit = $(this).find('.unit').text();
 
-                $.ajax({
-                    url: '{{ route('p.delete') }}', // Replace with your server-side endpoint URL
-                    type: 'GET',
-                    data: {
-                        id: id,
-                    },
-                    success: function(response) {
-                        location.reload();
-                    }
-                });
-            }
+            key = id;
 
-    function handleTableRowClick() {
-        var name = $(this).find('.name').text();
-        var cat = $(this).find('.cat').text();
-        var price = $(this).find('.price').text();
-        var id = $(this).find('.id').text();
-        var length = $(this).find('.length').text();
-        var width = $(this).find('.width').text();
-        var height = $(this).find('.height').text();
-        var multiplier = $(this).find('.multiplier').text();
-        var unit = $(this).find('.unit').text();
+            rowData = {
+                name: name,
+                cat: cat,
+                price: price,
+                id: id,
+                length: length,
+                width: width,
+                height: height,
+                multiplier: multiplier,
+                unit:unit
+            };
 
-        key = id;
+            handleUpdateButtonClick(rowData);
+        }
 
-        rowData = {
-            name: name,
-            cat: cat,
-            price: price,
-            id: id,
-            length: length,
-            width: width,
-            height: height,
-            multiplier: multiplier,
-            unit:unit
-        };
-
-        handleUpdateButtonClick(rowData);
-    }
-
-    $('.table-row').on('click', handleTableRowClick);
-    $('#deleteButton').on('click', handleDeleteButtonClick);
-});
+        $('.table-row').on('click', handleTableRowClick);
+        $('#deleteButton').on('click', handleDeleteButtonClick);
+    });
 </script>
-
 <!-- Content Header (Page header) -->
 <div class="content-header" style="background-color: #f5f6fa">
     <h1 style="padding-left:10px;">PRICE LIST</h1>
@@ -105,7 +101,6 @@ $(document).ready(function() {
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div><!-- /.content-header -->
-
 <!-- Main content -->
 <div class="content" style="background-color: #f5f6fa">
     <div class="container-fluid">
@@ -143,34 +138,30 @@ $(document).ready(function() {
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
-                                <tr class="table-row">
-                                    <td class="id" ; style="display:none">{{ $item->id }} </td>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td class="name">{{ $item->itemName }}</td>
-                                    <td class="unit">{{ $item->unit }}</td>
-
-                                    @foreach ($cats as $cat)
-                                    @if ($item->category == $cat->id)
-                                    <td class="cat" style="text-align: center;">{{ $cat->name }}</td>
-                                    @endif
-                                    @endforeach
-                                    <td class="length" hidden>{{ $item->length }}</td>
-                                    <td class="width" hidden>{{ $item->width }}</td>
-                                    <td class="height" hidden>{{ $item->height }}</td>
-
-                                    <td class="price" style="text-align: right;">{{ number_format($item->price, 2) }}</td>
-                                    <td class="multiplier" style="text-align: right;">{{ number_format ($item->multiplier, 2) }}</td>
-                                    <td class="align-middle"  style="text-align: center;">
-                                        <i class="fa fa-edit" id="updateBtn" style="color:grey"></i>
-                                    </td>
-                                </tr>
+                                    <tr class="table-row">
+                                        <td class="id" ; style="display:none">{{ $item->id }} </td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="name">{{ $item->itemName }}</td>
+                                        <td class="unit">{{ $item->unit }}</td>
+                                        @foreach ($cats as $cat)
+                                            @if ($item->category == $cat->id)
+                                                <td class="cat" style="text-align: center;">{{ $cat->name }}</td>
+                                            @endif
+                                        @endforeach
+                                        <td class="length" hidden>{{ $item->length }}</td>
+                                        <td class="width" hidden>{{ $item->width }}</td>
+                                        <td class="height" hidden>{{ $item->height }}</td>
+                                        <td class="price" style="text-align: right;">{{ number_format($item->price, 2) }}</td>
+                                        <td class="multiplier" style="text-align: right;">{{ number_format ($item->multiplier, 2) }}</td>
+                                        <td class="align-middle"  style="text-align: center;">
+                                            <i class="fa fa-edit" id="updateBtn" style="color:grey"></i>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- Display current page number -->
-                        <p>Page: {{ $items->currentPage() }}</p>
-                        <!-- Display pagination links -->
-                        {{ $items->appends(['cats' => $cats])->links() }}
+                        <p>Page: {{ $items->currentPage() }}</p><!-- Display current page number -->
+                        {{ $items->appends(['cats' => $cats])->links() }}<!-- Display pagination links -->
                     </div>
                 </div>
             </div>
@@ -191,7 +182,7 @@ $(document).ready(function() {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="{{ route('p.cat') }}" enctype="multipart/form-data">
+                                        <!--form method="POST" action="{{ route('p.cat') }}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group row">
                                                 <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
@@ -199,22 +190,46 @@ $(document).ready(function() {
                                                     <input id="category" type="text" class="form-control @error('category') is-invalid @enderror"
                                                     name="category" value="{{ old('category') }}" required autocomplete="category" autofocus>
                                                     @error('category')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
                                                     @enderror
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <a class="btn btn-secondary" data-dismiss="modal">Close</a>
                                                 <button type="submit" class="btn btn-primary">Add</button>
+                                                <button type="submit" class="btn btn-primary">Delete</button>
+                                                <button type="submit" class="btn btn-primary">Edit</button>
                                             </div>
+                                        </form-->
+                                        <form id="categoryForm">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="categorySelect">Select Category</label>
+                                                <select class="form-control" id="categorySelect" name="selectedCategory">
+                                                    <option value="">-- Select Category --</option>
+                                                    @foreach($cats as $cat)
+                                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                        
+                                            <!-- Input for Add/Edit -->
+                                            <div class="form-group">
+                                                <label for="categoryName">Category Name</label>
+                                                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name">
+                                            </div>
+                                            
+                                            <!-- Buttons -->
+                                            <button type="button" class="btn btn-primary" id="addCategory">Add</button>
+                                            <button type="button" class="btn btn-warning" id="editCategory">Edit</button>
+                                            <button type="button" class="btn btn-danger" id="deleteCategory">Delete</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <!-- CREATE -->
                         <form method="POST" action="{{ route('p.create') }}" enctype="multipart/form-data" id="create">
                             @csrf
@@ -226,13 +241,11 @@ $(document).ready(function() {
                                     <option value={{ $value->id }}>{{ $value->name }}</option>
                                     @endforeach
                                 </select>
-
                                 @error('cats')
-                                <span class="error invalid-feedback">
-                                    {{ $message }}
-                                </span>
+                                    <span class="error invalid-feedback">
+                                        {{ $message }}
+                                    </span>
                                 @enderror
-
                                 <div style="padding-top:5px; padding-left:10px">
                                     <a data-toggle="modal" data-target="#exampleModal"><i
                                         class="fa-solid fa-plus fa-xl"></i>
@@ -243,11 +256,10 @@ $(document).ready(function() {
                                 <label for="cats" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
                                 <div class="col-md-6">
                                     <input id="cats2" type="text" class="form-control @error('cats2') is-invalid @enderror" name="cats2" value="{{ old('cats2') }}" autocomplete="cats2" autofocus>
-
                                     @error('cats2')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
@@ -255,11 +267,10 @@ $(document).ready(function() {
                                 <label for="itemName" class="col-md-4 col-form-label text-md-right">{{ __('Item Name') }}</label>
                                 <div class="col-md-6">
                                     <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus>
-
                                     @error('itemName')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
@@ -267,32 +278,32 @@ $(document).ready(function() {
                                 <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
                                 <div class="col-md-6">
                                     <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" autocomplete="unit" autofocus>
-
                                     @error('unit')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
-                            </div><div class="form-group row">
+                            </div>
+                            <div class="form-group row">
                                 <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
                                 <div class="col-md-6">
                                     <input id="price" type="number" step="any" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" autocomplete="price" autofocus step='0.1'>
                                     @error('price')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="length" class="col-md-4 col-form-label text-md-right">{{ __('Length') }}</label>
                                 <div class="col-md-6">
-                                   <input id="length" type="number" step="any" class="form-control" name="length" value="{{ old('length') }}" autocomplete="length" oninput="updatePrice()">
+                                    <input id="length" type="number" step="any" class="form-control" name="length" value="{{ old('length') }}" autocomplete="length" oninput="updatePrice()">
                                     @error('length')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
@@ -301,9 +312,9 @@ $(document).ready(function() {
                                 <div class="col-md-6">
                                     <input id="width" type="number" step="any" class="form-control" name="width" value="{{ old('width') }}" autocomplete="width" oninput="updatePrice()">
                                     @error('width')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
@@ -312,9 +323,9 @@ $(document).ready(function() {
                                 <div class="col-md-6">
                                     <input id="height" type="number" step="any" class="form-control" name="height" value="{{ old('height') }}" autocomplete="height" oninput="updatePrice()">
                                     @error('height')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
@@ -323,9 +334,9 @@ $(document).ready(function() {
                                 <div class="col-md-6">
                                     <input id="multiplier" type="number" class="form-control" name="multiplier" value="{{ old('multiplier') }}" autocomplete="multiplier" oninput="updatePrice()">
                                     @error('multiplier')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
@@ -349,15 +360,13 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-
-    <style>
+<style>
     .page-item.active .page-link {
         z-index: 3;
         color: #fff;
         background-color: #78BF65;
         border-color: #78BF65;
     }
-
     .page-link {
         position: relative;
         display: block;
@@ -368,9 +377,55 @@ $(document).ready(function() {
         background-color: #fff;
         border: 1px solid #dee2e6;
     }
-
-    </style>
+</style>
 @endsection
+<script>
+    $(document).ready(function () {
+        $('#addCategory').click(function () {
+            const name = $('#categoryName').val();
+            if (!name) {
+                alert('Please enter a category name');
+                return;
+            }
+            $.post("{{ route('category.add') }}", {name, _token: "{{ csrf_token() }}"})
+                .done(response => {
+                    alert(response.message);
+                    location.reload();
+                })
+                .fail(err => alert('Error adding category.'));
+        });
+
+        $('#editCategory').click(function () {
+            const id = $('#categorySelect').val();
+            const name = $('#categoryName').val();
+            if (!id || !name) {
+                alert('Please select a category and enter a new name');
+                return;
+            }
+            $.post("{{ route('category.update') }}", {id, name, _token: "{{ csrf_token() }}"})
+                .done(response => {
+                    alert(response.message);
+                    location.reload();
+                })
+                .fail(err => alert('Error updating category.'));
+        });
+
+        $('#deleteCategory').click(function () {
+            const id = $('#categorySelect').val();
+            if (!id) {
+                alert('Please select a category to delete');
+                return;
+            }
+            $.post("{{ route('category.delete') }}", {id, _token: "{{ csrf_token() }}"})
+                .done(response => {
+                    alert(response.message);
+                    location.reload();
+                })
+                .fail(err => alert('Error deleting category.'));
+        });
+    });
+</script>
+
 <script>
     function updatePrice() {
         // Get values from input fields
@@ -413,57 +468,53 @@ $(document).ready(function() {
 </script>
 <script>
     function sortTable(n) {
-      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-      table = document.getElementById("myTable2");
-      switching = true;
-      // Set the sorting direction to ascending:
-      dir = "asc";
-      /* Make a loop that will continue until
-      no switching has been done: */
-      while (switching) {
-        // Start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /* Loop through all table rows (except the
-        first, which contains table headers): */
-        for (i = 1; i < (rows.length - 1); i++) {
-          // Start by saying there should be no switching:
-          shouldSwitch = false;
-          /* Get the two elements you want to compare,
-          one from current row and one from the next: */
-          x = rows[i].getElementsByTagName("TD")[n];
-          y = rows[i + 1].getElementsByTagName("TD")[n];
-          /* Check if the two rows should switch place,
-          based on the direction, asc or desc: */
-          if (dir == "asc") {
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable2");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until no switching has been done: */
+        
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare, one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place, based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
             }
-          } else if (dir == "desc") {
-            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;  
+
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                /* If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
             }
-          }
         }
-        if (shouldSwitch) {
-          /* If a switch has been marked, make the switch
-          and mark that a switch has been done: */
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-          switching = true;
-          // Each time a switch is done, increase this count by 1:
-          switchcount ++;
-        } else {
-          /* If no switching has been done AND the direction is "asc",
-          set the direction to "desc" and run the while loop again. */
-          if (switchcount == 0 && dir == "asc") {
-            dir = "desc";
-            switching = true;
-          }
-        }
-      }
     }
-    </script>
+</script>

@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
 <div class="container-fluid">
     <div class="content-header">
         <h1>ORDERS CREATED</h1>
@@ -81,7 +83,6 @@
                         <p> NOTE: Collect order first before inputting all neccesarry information</p>
                     </div>
                     @foreach ($users as $user)
-
                         <form action={{route('c.submit',['key'=>$user->cID])}} method="post" enctype="multipart/form-data">
                             @csrf
                                 <div class="card-body">
@@ -154,7 +155,6 @@
                                                 <option value="Batanes">Batanes</option>
                                                 <!--option value="Infanta">Infanta</option-->
                                             </select>
-
                                             <!-- Destination Dropdown -->
                                             <select id="destination" name="destination" class="form-control">
                                                 <!-- This will be dynamically populated based on the origin -->
@@ -166,8 +166,6 @@
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
-
-
                                         <form method="POST" action="{{ route('order.submit') }}">
                                             @csrf
                                                 <table class="table" id="orderSummary">
@@ -205,7 +203,6 @@
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div--><br>
-
                                                     <tbody id="orderItems"></tbody>
                                                 </table><br>
                                                 <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
@@ -222,6 +219,7 @@
         </div>
     </div> <!--/div></div-->
 </div>
+
 <script>
     // Function to dynamically update the destination options based on the selected origin
     function updateDestinationOptions() {
@@ -248,6 +246,7 @@
     // Call the function on page load to initialize the destination options based on the default origin
     window.onload = updateDestinationOptions;
 </script>
+
 <script>
     let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
     let orderTotal = 0;
@@ -303,82 +302,84 @@
         }
         $('#orderItemsInput').val(JSON.stringify(orderItems));
     }
+
     function updateItemQuantity(productId, quantity) {
-    let orderItem = orderItems.find(item => item.id === productId);
-    if (orderItem) {
-        orderItem.quantity = parseInt(quantity, 10); // Ensure valid number
-        orderItem.total = orderItem.quantity * orderItem.price;
-        updateOrderItems();
-        localStorage.setItem('orderItems', JSON.stringify(orderItems));
+        let orderItem = orderItems.find(item => item.id === productId);
+        
+        if (orderItem) {
+            orderItem.quantity = parseInt(quantity, 10); // Ensure valid number
+            orderItem.total = orderItem.quantity * orderItem.price;
+            updateOrderItems();
+            localStorage.setItem('orderItems', JSON.stringify(orderItems));
+        }
     }
-}
-function removeFromOrder(productId) {
-    const index = orderItems.findIndex(item => item.id === productId);
-    if (index !== -1) {
-        orderItems.splice(index, 1); // Remove item from the array
-        updateOrderItems();
-        localStorage.setItem('orderItems', JSON.stringify(orderItems));
+
+    function removeFromOrder(productId) {
+        const index = orderItems.findIndex(item => item.id === productId);
+        if (index !== -1) {
+            orderItems.splice(index, 1); // Remove item from the array
+            updateOrderItems();
+            localStorage.setItem('orderItems', JSON.stringify(orderItems));
+        }
     }
-}
-function clearOrderSummary() {
-    orderItems = []; // Clear the order items array
-    localStorage.removeItem('orderItems'); // Remove items from localStorage
-    updateOrderItems(); // Update UI
-}
+    
+    function clearOrderSummary() {
+        orderItems = []; // Clear the order items array
+        localStorage.removeItem('orderItems'); // Remove items from localStorage
+        updateOrderItems(); // Update UI
+    }
 
-function updateOrderItems() {
-    let orderItemsHtml = '';
-    orderTotal = 0;
+    function updateOrderItems() {
+        let orderItemsHtml = '';
+        orderTotal = 0;
 
-    orderItems.forEach(item => {
-        orderItemsHtml += `
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.unit}</td>
-                <td><!--${item.price.toFixed(2)}--></td>
-                <td>
+        orderItems.forEach(item => {
+            orderItemsHtml += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.unit}</td>
+                    <td><!--${item.price.toFixed(2)}--></td>
+                    <td>
+                        <input type="number" value="${item.quantity}" min="1" onchange="updateItemQuantity(${item.id}, this.value)" style="width: 60px; text-align: center;">
+                        <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                        <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                    </td>
+                    <td><!--${item.total.toFixed(2)}--></td>
+                    <td><button class="btn btn-danger btn-sm" onclick="removeFromOrder(${item.id})">Remove</button></td>
+                </tr>`;
+            orderTotal += item.total;
+        });
 
-                     <input type="number" value="${item.quantity}" min="1" onchange="updateItemQuantity(${item.id}, this.value)" style="width: 60px; text-align: center;">
-                    <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+        document.getElementById('orderItems').innerHTML = orderItemsHtml;
+        document.getElementById('orderItemsInput').value = JSON.stringify(orderItems);
 
-                    <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
-                </td>
-                <td><!--${item.total.toFixed(2)}--></td>
-                <td><button class="btn btn-danger btn-sm" onclick="removeFromOrder(${item.id})">Remove</button></td>
-            </tr>`;
-        orderTotal += item.total;
-    });
-
-    document.getElementById('orderItems').innerHTML = orderItemsHtml;
-    document.getElementById('orderItemsInput').value = JSON.stringify(orderItems);
-
-    // Enable or disable the submit button based on orderItems length
-    document.getElementById('submitOrderBtn').disabled = orderItems.length === 0;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
+        // Enable or disable the submit button based on orderItems length
+        document.getElementById('submitOrderBtn').disabled = orderItems.length === 0;
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
     updateOrderItems(); // Load and update items on page load
 });
 
-    $(document).ready(function() { // Load all data from the JSON file upon page load
-        $.getJSON('/path/to/json/file.json', function(data) { // Process the data and add it to the product catalog
-            let productsHtml = '';
-            data.forEach(product => {
-                productsHtml += `
+$(document).ready(function() { // Load all data from the JSON file upon page load
+    $.getJSON('/path/to/json/file.json', function(data) { // Process the data and add it to the product catalog
+        let productsHtml = '';
+        data.forEach(product => {
+            productsHtml += `
                 <tr>
                     <td>${product.itemName}</td>
                     <td>${product.unit}</td>
                     <td>${product.price}</td>
                     <td><button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button></td>
                 </tr>
-                `;
-            });
-            $('#productCatalog').html(productsHtml);
+            `;
         });
-
-        updateOrderItems();
+        $('#productCatalog').html(productsHtml);
     });
+    updateOrderItems();
+});
 </script>
+
 <script>
     function updatePrice() { // Get values from input fields
         const length = parseFloat(document.getElementById('length').value) || 0;
@@ -397,8 +398,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateOrderItems();
     }
-
 </script>
+
 <style>
     .btn-primary {
         color: #fff;
