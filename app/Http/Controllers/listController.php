@@ -80,7 +80,7 @@ class listController extends Controller {
         $id = $request->id;
 
         $cats = category::where('name',$cat)->get();
-        
+
         foreach($cats as $key) {
             $category = $key->id;
         }
@@ -115,11 +115,11 @@ class listController extends Controller {
                 $items = priceList::paginate(12);
             } else {
                 $key = $cats;
-                
+
                 foreach($key as $keys){
                     $id = $keys->id;
                 }
-                
+
                 $items = priceList::where('category', 'like', "%$id%");
                 $items = $items->paginate();
             }
@@ -127,38 +127,40 @@ class listController extends Controller {
             $items = priceList::where('itemName', 'like', "%$search%");
             $items = $items->paginate();
         }
-        
+
         $products = $items;
         $cats = category::paginate();
 
         return view('list.home',compact('items','cats'));
     }
+
+
     // Create a new category
 protected function addCategory(Request $request)
 {
-    $validated = $request->validate(['name' => 'required|string|max:255']);
-    category::create(['name' => $validated['name']]);
-    return response()->json(['message' => 'Category added successfully']);
+    $validated = $request->validate(['categoryName' => 'required|string|max:255']);
+    category::create(['name' => $validated['categoryName']]);
+    return redirect()->route('price');
 }
 
 // Update an existing category
 protected function updateCategory(Request $request)
 {
     $validated = $request->validate([
-        'id' => 'required|exists:categories,id',
-        'name' => 'required|string|max:255',
+        'categorySelect' => 'required|exists:categories,id',
+        'categoryName' => 'required|string|max:255',
     ]);
-    $category = category::find($validated['id']);
-    $category->name = $validated['name'];
+    $category = category::find($validated['categorySelect']);
+    $category->name = $validated['categoryName'];
     $category->save();
-    return response()->json(['message' => 'Category updated successfully']);
+    return redirect()->route('price');
 }
 
 // Delete a category
 protected function deleteCategory(Request $request)
 {
-    $validated = $request->validate(['id' => 'required|exists:categories,id']);
-    category::find($validated['id'])->delete();
-    return response()->json(['message' => 'Category deleted successfully']);
+    $validated = $request->categorySelect;
+    category::find($validated)->delete();
+    return redirect()->route('price');
 }
 }
