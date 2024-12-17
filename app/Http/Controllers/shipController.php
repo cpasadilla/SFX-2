@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\order;
 use App\Models\ship;
+use App\Models\voyage;
 use Illuminate\Http\Request;
 
 class shipController extends Controller
@@ -49,28 +50,32 @@ class shipController extends Controller
 
 
      //OR AND AR SUBMIT
-     public function OR(Request $request, $shipNum, $voyageNum, $orderId)
+     public function OR(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
      {
          // Find the order by orderId
-         $order = order::find($orderId);
+         $or = $request->or;
+         $order = order::find($or);
+         dd($or);
          if ($order) {
              // Update the status
              $order->OR = $request->input('OR');
              $order->save(); // Save the updated order
-             $orders = Order::where('shipNum', $shipNum)
-             ->where('voyageNum', $voyageNum)
-             ->get();
-
-
-             // Redirect or respond
-             return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders'));
+             $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
+            ->where('trip_num',$voyageNum)->get();
+            $orders = collect();
+            foreach($voyage as $data){
+            $search = $data->orderId;
+            $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
+            $orders = $orders->merge($find);
+            }
+            return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
          }
 
          return redirect()->route('p.view')->with('error', 'Order not found!');
      }
 
 
-     public function AR(Request $request, $shipNum, $voyageNum, $orderId)
+     public function AR(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
      {
          // Find the order by orderId
          $order = order::find($orderId);
@@ -81,10 +86,16 @@ class shipController extends Controller
              $orders = Order::where('shipNum', $shipNum)
              ->where('voyageNum', $voyageNum)
              ->get();
+             $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
+             ->where('trip_num',$voyageNum)->get();
+             $orders = collect();
+             foreach($voyage as $data){
+             $search = $data->orderId;
+             $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
+             $orders = $orders->merge($find);
 
-
-             // Redirect or respond
-             return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders'));
+             }
+             return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
          }
 
          return redirect()->route('p.view')->with('error', 'Order not found!');

@@ -179,7 +179,7 @@
                                                             <th>ACTION</th>
                                                         </tr>
                                                     </thead>
-                                                    <div class="input-group mb-1">
+                                                    <!--<div class="input-group mb-1">
                                                         <input type="text" name="valuation" class="form-control"
                                                         placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus>
                                                         <div class="input-group-append">
@@ -191,7 +191,7 @@
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-                                                    <!--div class="input-group mb-1"><!--CHECKER NAME FIELD>
+                                                    div class="input-group mb-1"><!--CHECKER NAME FIELD>
                                                         <input type="text" name="checker" class="form-control"
                                                         placeholder="{{ __('CHECKER NAME') }}" autocomplete="checker" autofocus>
                                                         <div class="input-group-append">
@@ -305,7 +305,7 @@
 
     function updateItemQuantity(productId, quantity) {
         let orderItem = orderItems.find(item => item.id === productId);
-        
+
         if (orderItem) {
             orderItem.quantity = parseInt(quantity, 10); // Ensure valid number
             orderItem.total = orderItem.quantity * orderItem.price;
@@ -322,7 +322,7 @@
             localStorage.setItem('orderItems', JSON.stringify(orderItems));
         }
     }
-    
+
     function clearOrderSummary() {
         orderItems = []; // Clear the order items array
         localStorage.removeItem('orderItems'); // Remove items from localStorage
@@ -356,7 +356,7 @@
         // Enable or disable the submit button based on orderItems length
         document.getElementById('submitOrderBtn').disabled = orderItems.length === 0;
     }
-    
+
     document.addEventListener('DOMContentLoaded', () => {
     updateOrderItems(); // Load and update items on page load
 });

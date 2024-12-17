@@ -222,7 +222,7 @@ class CustomerController extends Controller {
 
             $voyage = 1;
             foreach ($checks as $check) {
-                $check->status = "ON LAND";
+                $check->status = "ON PORT";
                 $check->save();
             }
 
@@ -237,7 +237,7 @@ class CustomerController extends Controller {
         } elseif ($status === 'ARRIVED') {
             $voyage = intval($trip->trip_num) + 1;
             foreach ($checks as $check) {
-                $check->status = "ON LAND";
+                $check->status = "ON PORT";
                 $check->save();
             }
             $dock = $trip?->dock ? intval($trip->dock) : null;
@@ -289,7 +289,7 @@ class CustomerController extends Controller {
             'consigneeNum' => $request->input('cont'),
             'voyageNum' => $voyage . $voyageSuffix,
             'containerNum' => $request->input('containerNum'),
-            'value' => $request->input('value'),
+            'value' => $request->input('valuation'),
             'check' => $request->input('check'),
         ]);
         $order->save();
