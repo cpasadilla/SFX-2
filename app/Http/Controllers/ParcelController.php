@@ -27,44 +27,50 @@ class ParcelController extends Controller
     {
         $voyages = voyage::where('ship',$shipNum)->orderBy('dock')->get();
         $data = [];
+        $order = order::where('shipNum',$shipNum)->get();
 
         foreach($voyages as $row){
-            if($row->dock == NULL){
-            $data[0][$row->trip_num] = $row->trip_num;
+            foreach($order as $num){
+            $check = $num->voyageNum;
+            preg_match('/\d+/', $check, $matches);
+            $orig = explode("-",$check);
+            $trip = $row->trip_num;
+            $dock = $row->dock;
+            if($trip == $matches[0]){
+                if($row->dock == NULL){
+                    //$data[0][$trip] = $check;
+                    $data[0][$orig[1]][$check] = $trip;
+                    }
+                else{
+                $data[$dock][$orig[1]][$check] = $trip;
+                    }
+                }
             }
-            else{
-            $data[$row->dock][$row->trip_num] = $row->trip_num;
         }
-        }
+
+        ($data);
         return view('parcel.ship', compact('shipNum','data'));
     }
 
     // Display orders for a specific ship number and voyage number
-    public function showVoyage($shipNum, $voyageNum, $dock)
+    public function showVoyage($shipNum, $voyageNum, $dock, $orig)
     {
+        $docks = $dock;
         if($dock == 0){
-            $dock = NULL;
+            $docks = NULL;
         }
-        $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
+        $voyage = voyage::where('dock',$docks)->where('ship',$shipNum)
         ->where('trip_num',$voyageNum)->get();
         $orders = collect();
         foreach($voyage as $data){
             $search = $data->orderId;
-            $find = Order::where('orderId',$search)->get();
+            $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
             $orders = $orders->merge($find);
 
         }
-        return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
+        return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
     }
-//    public function showVoyages($shipNum, $voyageNum)
-//{
-//    $orders = Order::with('customer') // Include the customer relationship
-//        ->where('shipNum', $shipNum)
-//        ->where('voyageNum', $voyageNum)
-//        ->get();
 
-//    return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders'));
-//}
     public function search(Request $request)
 {
     $search = $request->query('search');
@@ -73,27 +79,38 @@ class ParcelController extends Controller
                    ->get();
         if($orders->isEmpty()){
 
-            $groupedOrders = Order::orderBy('shipNum')
-                ->orderBy('voyageNum')
-                ->get()
-                ->groupBy('shipNum');
+            $ships = ship::paginate();
 
-            return view('parcel.home', compact('groupedOrders'));
+            return view('parcel.home', compact('ships'));
         }
+
         foreach ($orders as $order){
             $shipNum = $order->shipNum;
             $voyageNum = $order->voyageNum;
+
+            $voyage = $order->orderId;
+        }
+        $voyage = voyage::where('orderId',$voyage)->get();
+        $check = $voyageNum;
+        preg_match('/\d+/', $check, $matches);
+        foreach($voyage as $voy){
+            $dock = $voy->dock;
+            if($dock === NULL){
+                $dock = 0;
+            }
         }
         // Assuming $shipNum and $voyageNum are part of the data passed to the view
         return view('parcel.voyage', [
             'orders' => $orders,
             'shipNum' => $shipNum, // Ensure shipNum is passed
-            'voyageNum' => $voyageNum // Ensure voyageNum is passed
+            'voyageNum' => $matches[0],
+            'dock'=>$dock,
+            'orig'=>$voyageNum // Ensure voyageNum is passed
         ]);
 }
 
 
-    public function updateStatus(Request $request, $shipNum, $voyageNum, $orderId)
+    public function updateStatus(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
     {
         // Validate the incoming request
         $request->validate([
@@ -106,13 +123,16 @@ class ParcelController extends Controller
             $order->status = $request->input('status');
             $order->save(); // Save the updated order
 
-            $orders = Order::where('shipNum', $shipNum)
-            ->where('voyageNum', $voyageNum)
-            ->get();
+            $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
+            ->where('trip_num',$voyageNum)->get();
+            $orders = collect();
+            foreach($voyage as $data){
+            $search = $data->orderId;
+            $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
+            $orders = $orders->merge($find);
 
-
-            // Redirect or respond
-            return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders'));
+            }
+            return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
         }
 
         return redirect()->route('p.view')->with('error', 'Order not found!');
@@ -120,14 +140,6 @@ class ParcelController extends Controller
 
 public function bl($key)
 {
-    // Fetch the order using the correct primary key
-    //$order = Order::where('orderId', $key)->first();
-
-    //if (!$order) {
-      //  return redirect()->back()->with('error', 'Order not found.');
-    //}
-
-    //return view('parcel.new', compact('order'));
 
     $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
@@ -141,14 +153,6 @@ public function bl($key)
 
 public function blnew($key)
 {
-    // Fetch the order using the correct primary key
-    //$order = Order::where('orderId', $key)->first();
-
-    //if (!$order) {
-      //  return redirect()->back()->with('error', 'Order not found.');
-    //}
-
-    //return view('parcel.new', compact('order'));
 
     $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
@@ -160,74 +164,4 @@ public function blnew($key)
         return view('customers.new', compact('key','data','parcel'));
 }
 
-
-   //protected function index(){
-        //$order = order::paginate();
-        //$array = [];
-        //foreach($order as $key){
-        //        $cID = $key->cID;
-        //        array_push($array,$cID);
-        //}
-        //return view('parcel.home',compact('order'));
-
-     //   $orders = order::orderBy('shipNum')->orderBy('voyageNum')->get();
-
-        // Group orders by shipNum, then by voyageNum
-       // $groupedOrders = $orders->groupBy('shipNum')->map(function ($shipOrders) {
-       //     return $shipOrders->groupBy('voyageNum');
-    //    });
-      //  return view('parcel.home', compact('groupedOrders'));
-//}
-
-//public function showOrdersByShipAndVoyage($shipNum, $voyageNum)
-//{
-    // Fetch orders by shipNum and voyageNum
-    //$orders = order::where('shipNum', $shipNum)
-    //               ->where('voyageNum', $voyageNum)
-    //               ->get();
-
-    //return view('parcel.orders', compact('orders', 'shipNum', 'voyageNum'));
-//}
-
-
-//public function search(Request $request)
-//{
-  //  $search = $request->input('search');
-
-    // Perform the search query and retrieve the filtered results
-  //  $orders = Order::where('orderId', 'like', "%$search%")
-    //    ->orWhere('cID', 'like', "%$search%")
-      //  ->orderBy('shipNum')
-        //->orderBy('voyageNum')
-//        ->get();
-
-    // Group the search results similar to the index method
-//    $groupedOrders = $orders->groupBy('shipNum')->map(function ($shipOrders) {
-  //      return $shipOrders->groupBy('voyageNum');
-    //});
-
-//    return view('parcel.home', compact('groupedOrders'));
-//}
-
-//protected function confirm($key){
-//        $key = order::where('orderId', $key)->get();
-//        foreach($key as $kiss){
-            //$customer = $kiss->cID;
-//            $oId = $kiss->orderId;
-//        }
-//        $data = CustomerID::where('cID',$customer)->get();
-//        $parcel = parcel::where('orderId',$oId)->get();
-//        return view('parcel.confirm', compact('key','data','parcel'));
-//    }
-
-  //  protected function bl($key){
-//        $key = order::where('orderId', $key)->get();
-//        foreach($key as $kiss){
-//            $customer = $kiss->cID;
-//            $oId = $kiss->orderId;
-//        }
-//        $data = CustomerID::where('cID',$customer)->get();
-//        $parcel = parcel::where('orderId',$oId)->get();
-//        return view('parcel.new', compact('key','data','parcel'));
-//    }
 }

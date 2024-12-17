@@ -55,8 +55,18 @@
                                     <form action="{{ route('s.update', ['shipId'=>$ship->id]) }}" method="POST">
                                         @csrf
                                         <select name="status" class="form-control" onchange="this.form.submit()">
+
+                                            @if ($ship->status == 'DRYDOCKED')
                                             <option value="READY" {{ $ship->status == 'READY' ? 'selected' : '' }}>READY</option>
-                                            <option value="ON LAND" {{ $ship->status == 'ON LAND' ? 'selected' : '' }}>ON PORT</option>
+                                            <option value="ON PORT" {{ $ship->status == 'ON PORT' ? 'selected' : '' }} disabled>ON PORT</option>
+                                            @elseif ($ship->status == 'ON SEA')
+                                            <option value="READY" {{ $ship->status == 'READY' ? 'selected' : '' }}disabled>READY</option>
+                                            <option value="ON PORT" {{ $ship->status == 'ON PORT' ? 'selected' : '' }} disabled>ON PORT</option>
+                                            @else
+                                            <option value="READY" {{ $ship->status == 'READY' ? 'selected' : '' }} disabled>READY</option>
+                                            <option value="ON PORT" {{ $ship->status == 'ON PORT' ? 'selected' : '' }}>ON PORT</option>
+                                            @endif
+
                                             <option value="ON SEA" {{ $ship->status == 'ON SEA' ? 'selected' : '' }}>ON SEA</option>
                                             <option value="ARRIVED" {{ $ship->status == 'ARRIVED' ? 'selected' : '' }}>ARRIVED</option>
                                             <option value="DRYDOCKED" {{ $ship->status == 'DRYDOCKED' ? 'selected' : '' }}>DRYDOCKED</option>
@@ -67,7 +77,7 @@
                                     <i class="fas fa-trash" data-toggle="modal" data-target="#deleteUserModal{{ $ship->id }}" style="color:grey"></i>
                                 </td>
                             </tr>
-                            
+
                             <!-- DELETE MODAL -->
                             <div class="modal fade" id="deleteUserModal{{ $ship->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $ship->id }}" aria-hidden="true">
                                 <div class="modal-dialog" role="document">

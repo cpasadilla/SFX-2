@@ -4,7 +4,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
-    <h1 style="padding-left: 10px;">MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $voyageNum }}-OUT</h1>
+    <h1 style="padding-left: 10px;">MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h1>
     <br>
     <div class="container-fluid">
         <div class="row mb-2">
@@ -67,7 +67,8 @@
                                     <td style="text-align: center;">{{ $order->AR }}</td>
                                     <td style="text-align: center;">{{ $order->totalAmount }}</td>
                                     <td style="text-align: center;">
-                                        <form action="{{ route('parcels.updateStatus', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId]) }}" method="POST">
+                                        <form action="{{ route('parcels.updateStatus', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum,
+                                        'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <select name="status" class="form-control" onchange="this.form.submit()">
@@ -87,17 +88,17 @@
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
                                     <td style="text-align: center;">
-                                        <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->id }}" style="color:grey"></i>
+                                        <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
                                     </td>
                                 </tr>
 
 
 <!-- ADD OR/AR -->
-<div class="modal fade" id="deleteUserModal{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->id }}" aria-hidden="true">
+<div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->id }}">{{ __('ADD OR/AR') }}</h5>
+            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->orderId }}">{{ __('ADD OR/AR') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -106,9 +107,9 @@
             <br>
             <div class="row">
                 <div class="col-md-6">
-                    <form action="{{ route('s.or', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId]) }}" method="POST">
+                    <form action="{{ route('s.or', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <input type="hidden" name="or" value="{{ $order->orderId }}">
                         <div class="input-group mb-3">
                             <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
                             <div class="input-group-append">
@@ -131,9 +132,9 @@
 
                 </div>
                 <div class="col-md-6">
-                    <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId]) }}" method="POST">
+                    <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <input type="hidden" name="ar" value="{{ $order->orderId }}">
                         <div class="input-group mb-3">
                             <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
                             <div class="input-group-append">
@@ -189,7 +190,7 @@
                     return ascending ? cellA - cellB : cellB - cellA;
                 } else {
                     // Compare as strings otherwise
-                    return ascending 
+                    return ascending
                         ? cellA.localeCompare(cellB)
                         : cellB.localeCompare(cellA);
                 }
@@ -230,5 +231,5 @@
     }
 </style>
 
-    
+
 @endsection

@@ -16,17 +16,24 @@
 
 <div class="content">
     <div class="container-fluid">
-        @foreach ($data as $dock => $voyages)
+        @foreach ($data as $dock => $origin)
             <div class="card mt-4">
                 <div class="card-header bg-success text-white">
                     <h4 class="m-0">Dock {{ $dock }}</h4>
                 </div>
                 <div class="card-body">
+                    @foreach ($origin as $orig=>$trip)
+                    @if ($orig == "IN")
+                        <h5>MANILA</h5>
+                    @else
+                        <h5>BATANES</h5>
+                    @endif
                     <div class="list-group">
-                        @foreach ($voyages as $voyage)
-                            <a href="{{ route('parcels.showVoyage', [$shipNum, $voyage, $dock]) }}" class="list-group-item list-group-item-action">
-                                <strong>VOYAGE NO. {{ $voyage }} - OUT</strong>
+                            @foreach ($trip as $voyage=>$value)
+                            <a href="{{ route('parcels.showVoyage', [$shipNum, $value, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
+                                <strong>VOYAGE NO. {{ $voyage }}</strong>
                             </a>
+                            @endforeach
                         @endforeach
                     </div>
                 </div>
@@ -34,5 +41,4 @@
         @endforeach
     </div>
 </div>
-
 @endsection

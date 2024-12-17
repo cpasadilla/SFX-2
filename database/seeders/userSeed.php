@@ -4735,7 +4735,7 @@ class userSeed extends Seeder
             'total' => '62968.02',
             'orderId' => $orderId,
         ]);
-        
+
         date_default_timezone_set('Asia/Manila');
         $date = date("F d 20y - g:i a");
         order::create([
@@ -4748,7 +4748,7 @@ class userSeed extends Seeder
             'orderCreated' => $date,
             'consigneeName' => 'Janus',
             'consigneeNum' => '09451278396',
-            'voyageNum' => '1',
+            'voyageNum' => '1-OUT',
             'containerNum' => '2',
             'cargoNum' => '2',
             'value' => '123'
@@ -4758,13 +4758,13 @@ class userSeed extends Seeder
         ship::create([
             'number' => '1',
             'reference' => '',
-            'status' => 'ON LAND'
+            'status' => 'ON PORT'
         ]);
 
         ship::create([
             'number' => '2',
             'reference' => '',
-            'status' => 'ON LAND'
+            'status' => 'ON PORT'
         ]);
 
         voyage::create([

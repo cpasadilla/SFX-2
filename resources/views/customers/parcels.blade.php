@@ -81,7 +81,7 @@
                                             <a href="{{ route('p.blnew', ['key' => $order->orderId]) }}">View</a>
                                         </td>
                                         <td style="text-align: center;">
-                                            <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->id }}" style="color:grey"></i>
+                                            <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
                                         </td>
                                     </tr>
 
@@ -94,11 +94,11 @@
 
 
 <!-- ADD OR/AR -->
-<div class="modal fade" id="deleteUserModal{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->id }}" aria-hidden="true">
+<div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->id }}">{{ __('ADD OR/AR') }}</h5>
+            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->orderId }}">{{ __('ADD OR/AR') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -109,7 +109,7 @@
                 <div class="col-md-6">
                     <form action="{{ route('c.or', ['key' => $order->cID, 'orderId' => $order->orderId]) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <input type="hidden" name="id" value="{{ $order->orderId }}">
                         <div class="input-group mb-3">
                             <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
                             <div class="input-group-append">
@@ -134,7 +134,7 @@
                 <div class="col-md-6">
                     <form action="{{ route('c.ar', ['key' => $order->cID,'orderId' => $order->orderId]) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $order->id }}">
+                        <input type="hidden" name="id" value="{{ $order->orderId }}">
                         <div class="input-group mb-3">
                             <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
                             <div class="input-group-append">
@@ -203,7 +203,7 @@
                     return ascending ? cellA - cellB : cellB - cellA;
                 } else {
                     // Compare as strings otherwise
-                    return ascending 
+                    return ascending
                         ? cellA.localeCompare(cellB)
                         : cellB.localeCompare(cellA);
                 }
