@@ -251,56 +251,61 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.getElementById('myTable2');
+        const headers = table.querySelectorAll('th');
+        const tableBody = table.querySelector('tbody');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
 
-<script>
-    function sortTable(n) {
-        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        table = document.getElementById("myTable2");
-        switching = true;
-        dir = "asc"; // SORTING DIRECTION
-        console.log(`Sorting column: ${n}`); // DEBUGGING
+        // Function to sort rows based on the column index
+        const sortTable = (index, ascending) => {
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[index].textContent.trim();
+                const cellB = rowB.children[index].textContent.trim();
 
-        while(switching) {
-            switching = false;
-            rows = table.rows;
-            for (i = 1; i < (row.length -1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[n];
-                y = rows[i + 1].getElementsByTagName("TD")[n];
-                if (!x || !y) continue; // SKIP INVALID ROWS
-
-                var xContent = x.textContent.trim().toLowerCase();
-                var yContent = y.textContent.trim().toLowerCase();
-                var xValue = isNaN(xContent) ? xContent : parseFloat(xContent);
-                var yValue = isNaN(yContent) ? yContent : parseFloat(yContent);
-
-                console.log(`Comparing ${xValue} with ${yValue}`); //DEBUGGING
-
-                if (dir === "asc" && xValue > yValue) {
-                    shouldSwitch = true;
-                    break;
-                } else if (dir === "desc" && xValue < yValue) {
-                    shouldSwitch = true;
-                    break;
+                if (!isNaN(cellA) && !isNaN(cellB)) {
+                    // Compare as numbers if both values are numeric
+                    return ascending ? cellA - cellB : cellB - cellA;
+                } else {
+                    // Compare as strings otherwise
+                    return ascending 
+                        ? cellA.localeCompare(cellB)
+                        : cellB.localeCompare(cellA);
                 }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-                switchcount++;
-            } else if (switchcount === 0 && dir === "asc") {
-                dir = "desc";
-                switching = true;
-            }
-        }
+            });
+
+            // Append the sorted rows back to the table
+            rows.forEach(row => tableBody.appendChild(row));
+        };
+
+        // Attach click events to headers for sorting
+        headers.forEach((header, index) => {
+            let ascending = true; // Initial sort order
+
+            header.addEventListener('click', () => {
+                // Toggle sort order on subsequent clicks
+                ascending = !ascending;
+                sortTable(index, ascending);
+
+                // Optionally, update header styles to indicate sort order
+                headers.forEach(h => h.classList.remove('ascending', 'descending'));
+                header.classList.add(ascending ? 'ascending' : 'descending');
+            });
+        });
+    });
+</script>
+
+<style>
+    th {
+        cursor: pointer;
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-    // Clear orderItems from localStorage when the page loads
-    localStorage.removeItem('orderItems');
+    th.ascending::after {
+        content: ' \25B2'; /* Up arrow */
+    }
 
-    // Optional: If you want to confirm it's cleared, you can log to console
-    console.log('orderItems have been cleared from localStorage.');
-});
-</script>
+    th.descending::after {
+        content: ' \25BC'; /* Down arrow */
+    }
+</style>

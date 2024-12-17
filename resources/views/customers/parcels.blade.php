@@ -7,8 +7,19 @@
 <!--CONTENT HEADER (PAGE HEADER)-->
 <div class="content-header">
     @foreach ($users as $user)
-    <h1 style="padding-left: 10px;">ORDERS FOR CUSTOMERS # </h1>
+    <h1 style="padding-left:10px;">Orders for Customer#: {{$user->cID}}</h1>
     @endforeach
+</div>
+<div class="col-md-6"> <!--<div class="col-sm-6"> recommended only-->
+    <!--SEARCH FORM-->
+    <form action="{{ route('c.search') }}" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search by Customer ID, First Name, Last Name" name="search">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success"><!--i class="fa fa-search"></i-->SEARCH</button>
+            </div>
+        </div>
+    </form>
 </div>
 <br>
 @php
@@ -28,20 +39,20 @@
                         <table class="table" id="myTable2">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="text-align: center">#</th>
-                                    <th style="text-align: center">Order ID</th>
-                                    <th style="text-align: center">Date Created</th>
-                                    <th style="text-align: center">Ship Number</th>
-                                    <th style="text-align: center">Voyage Number</th>
-                                    <th style="text-align: center">Origin</th>
-                                    <th style="text-align: center">Destination</th>
-                                    <th style="text-align: center">Total Amount</th>
-                                    <th style="text-align: center">OR#</th>
-                                    <th style="text-align: center">AR#</th>
-                                    <th style="text-align: center">Update</th>
-                                    <th style="text-align: center">View BL w/ price</th>
-                                    <th style="text-align: center">View BL w/o price</th>
-                                    <th style="text-align: center">Add OR/AR</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(0)">#</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(1)">Order ID</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(2)">Date Created</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(3)">Ship Number</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(4)">Voyage Number</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(5)">Origin</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(6)">Destination</th>
+                                    <th style="text-align: center" scope="col" onclick="sortTable(7)">Total Amount</th>
+                                    <th style="text-align: center" scope="col" >OR#</th>
+                                    <th style="text-align: center" scope="col" >AR#</th>
+                                    <th style="text-align: center" scope="col" >Update</th>
+                                    <th style="text-align: center" scope="col" >View BL w/ price</th>
+                                    <th style="text-align: center" scope="col" >View BL w/o price</th>
+                                    <th style="text-align: center" scope="col" >Add OR/AR</th>
 
                                 </tr>
                             </thead>
@@ -173,4 +184,64 @@
     });
 
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.getElementById('myTable2');
+        const headers = table.querySelectorAll('th');
+        const tableBody = table.querySelector('tbody');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+        // Function to sort rows based on the column index
+        const sortTable = (index, ascending) => {
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[index].textContent.trim();
+                const cellB = rowB.children[index].textContent.trim();
+
+                if (!isNaN(cellA) && !isNaN(cellB)) {
+                    // Compare as numbers if both values are numeric
+                    return ascending ? cellA - cellB : cellB - cellA;
+                } else {
+                    // Compare as strings otherwise
+                    return ascending 
+                        ? cellA.localeCompare(cellB)
+                        : cellB.localeCompare(cellA);
+                }
+            });
+
+            // Append the sorted rows back to the table
+            rows.forEach(row => tableBody.appendChild(row));
+        };
+
+        // Attach click events to headers for sorting
+        headers.forEach((header, index) => {
+            let ascending = true; // Initial sort order
+
+            header.addEventListener('click', () => {
+                // Toggle sort order on subsequent clicks
+                ascending = !ascending;
+                sortTable(index, ascending);
+
+                // Optionally, update header styles to indicate sort order
+                headers.forEach(h => h.classList.remove('ascending', 'descending'));
+                header.classList.add(ascending ? 'ascending' : 'descending');
+            });
+        });
+    });
+</script>
+
+<style>
+    th {
+        cursor: pointer;
+    }
+
+    th.ascending::after {
+        content: ' \25B2'; /* Up arrow */
+    }
+
+    th.descending::after {
+        content: ' \25BC'; /* Down arrow */
+    }
+</style>
+
 @endsection

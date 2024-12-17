@@ -30,21 +30,22 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>VOYAGE {{ $voyageNum }}-OUT</h5>
+                        <h5>VOYAGE {{ $voyageNum }}</h5>
                     </div>
                     <div class="card-body">
                         <table id="myTable2" class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="text-align: center;">ORDER ID</th>
-                                    <th style="text-align: center;">CUSTOMER ID</th>
-                                    <th style="text-align: center;">CUSTOMER NAME</th>
-                                    <th style="text-align: center;">CONSIGNEE NAME</th>
-                                    <th style="text-align: center;">CHECKER NAME</th>
-                                    <th style="text-align: center;">DATE CREATED</th>
-                                    <th style="text-align: center;">OR#</th>
-                                    <th style="text-align: center;">AR#</th>
-                                    <th style="text-align: center;">TOTAL AMOUNT</th>
+                                    <th style="text-align: center;" onclick="sortTable(0)">ORDER ID</th>
+                                    <th style="text-align: center;" onclick="sortTable(1)">CUSTOMER ID</th>
+                                    <th style="text-align: center;" onclick="sortTable(2)">VOYAGE NUMBER</th>
+                                    <th style="text-align: center;" onclick="sortTable(3)">CUSTOMER NAME</th>
+                                    <th style="text-align: center;" onclick="sortTable(4)">CONSIGNEE NAME</th>
+                                    <th style="text-align: center;" onclick="sortTable(5)">CHECKER NAME</th>
+                                    <th style="text-align: center;" onclick="sortTable(6)">DATE CREATED</th>
+                                    <th style="text-align: center;" onclick="sortTable(7)">OR#</th>
+                                    <th style="text-align: center;" onclick="sortTable(8)">AR#</th>
+                                    <th style="text-align: center;" onclick="sortTable(9)">TOTAL AMOUNT</th>
                                     <th style="text-align: center;">STATUS</th>
                                     <th style="text-align: center;">VIEW BL</th>
                                     <th style="text-align: center;">ADD OR/AR</th>
@@ -55,6 +56,7 @@
                                 <tr>
                                     <td style="text-align: center;">{{ $order->orderId }}</td>
                                     <td style="text-align: center;">{{ $order->cID }}</td>
+                                    <td style="text-align: center;">{{ $order->voyageNum }}</td>
                                     <td style="text-align: center;">
                                         {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
@@ -169,4 +171,64 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.getElementById('myTable2');
+        const headers = table.querySelectorAll('th');
+        const tableBody = table.querySelector('tbody');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+        // Function to sort rows based on the column index
+        const sortTable = (index, ascending) => {
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[index].textContent.trim();
+                const cellB = rowB.children[index].textContent.trim();
+
+                if (!isNaN(cellA) && !isNaN(cellB)) {
+                    // Compare as numbers if both values are numeric
+                    return ascending ? cellA - cellB : cellB - cellA;
+                } else {
+                    // Compare as strings otherwise
+                    return ascending 
+                        ? cellA.localeCompare(cellB)
+                        : cellB.localeCompare(cellA);
+                }
+            });
+
+            // Append the sorted rows back to the table
+            rows.forEach(row => tableBody.appendChild(row));
+        };
+
+        // Attach click events to headers for sorting
+        headers.forEach((header, index) => {
+            let ascending = true; // Initial sort order
+
+            header.addEventListener('click', () => {
+                // Toggle sort order on subsequent clicks
+                ascending = !ascending;
+                sortTable(index, ascending);
+
+                // Optionally, update header styles to indicate sort order
+                headers.forEach(h => h.classList.remove('ascending', 'descending'));
+                header.classList.add(ascending ? 'ascending' : 'descending');
+            });
+        });
+    });
+</script>
+
+<style>
+    th {
+        cursor: pointer;
+    }
+
+    th.ascending::after {
+        content: ' \25B2'; /* Up arrow */
+    }
+
+    th.descending::after {
+        content: ' \25BC'; /* Down arrow */
+    }
+</style>
+
+    
 @endsection
