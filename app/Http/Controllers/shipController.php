@@ -55,7 +55,7 @@ class shipController extends Controller
          // Find the order by orderId
          $or = $request->or;
          $order = order::find($or);
-         dd($or);
+         
          if ($order) {
              // Update the status
              $order->OR = $request->input('OR');

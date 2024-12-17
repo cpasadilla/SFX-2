@@ -24,7 +24,7 @@
                 <div class="card-body">
                     @foreach ($origin as $orig=>$trip)
                     @if ($orig == "IN")
-                        <h5>MANILA</h5>
+                    <br><h5>MANILA</h5>
                     @else
                         <h5>BATANES</h5>
                     @endif
