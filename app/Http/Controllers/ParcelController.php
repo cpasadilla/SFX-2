@@ -31,24 +31,24 @@ class ParcelController extends Controller
 
         foreach($voyages as $row){
             foreach($order as $num){
-            $check = $num->voyageNum;
-            preg_match('/\d+/', $check, $matches);
-            $orig = explode("-",$check);
-            $trip = $row->trip_num;
-            $dock = $row->dock;
-            if($trip == $matches[0]){
-                if($row->dock == NULL){
-                    //$data[0][$trip] = $check;
-                    $data[0][$orig[1]][$check] = $trip;
-                    }
-                else{
-                $data[$dock][$orig[1]][$check] = $trip;
+                $check = $num->voyageNum;
+
+                preg_match('/\d+/', $check, $matches);
+                $orig = explode("-",$check);
+                $trip = $row->trip_num;
+                $dock = $row->dock;
+                if($trip == $matches[0]){
+                    if($row->dock == NULL){
+                        //$data[0][$trip] = $check;
+                        $data[0][$orig[1]][$check] = $trip;
+                    } else {
+                        $data[$dock][$orig[1]][$check] = $trip;
                     }
                 }
             }
         }
-
         ($data);
+        
         return view('parcel.ship', compact('shipNum','data'));
     }
 

@@ -169,6 +169,19 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class="row" style="padding-left:30px; font-size:15px">
+                        <div class="col-md-5"id="cd-5"></div>
+                        <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
+                            @foreach ($data as $user)
+                                <strong>REMARK: </strong> 
+                                <span style="text-align: center; display: inline-block; width: 60%; border-bottom: 1px solid black;">
+                                    <span style="color: white;">.</span>
+                                    <span style="color: black;">{{ $order->mark }}</span>
+                                </span>
+                                <br>
+                            @endforeach
+                        </div>
+                    </div>
                     <br>
                     <div class="row pl-5 pr-4" style=" max-width:100%; font-size:15px ">
                         <table class="table table-bordered table-condensed">

@@ -34,6 +34,7 @@ return new class extends Migration {
 
                 $table->string('orderCreated');
                 $table->string('value')->nullable();
+                $table->string('mark')->nullable();
 
                 $table->string('OR')->nullable();
                 $table->string('AR')->nullable();

@@ -212,7 +212,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="input-group mb-1">
-                                                        <input type="text" name="checker" class="form-control"
+                                                        <input type="text" name="checker" class="form-control @error('checker') is-invalid @enderror"
                                                         placeholder="{{ __('CHECKER') }}" autocomplete="checker" autofocus
                                                         value = "{{$order->check}}">
                                                         <div class="input-group-append">
@@ -222,6 +222,20 @@
                                                         </div>
                                                     </div>
                                                         @error('checker')
+                                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <input  type="text" name="remark" class="form-control @error('remark') is-invalid @enderror"
+                                                                placeholder="{{ __('REMARK') }}" required autocomplete="remark" autofocus
+                                                                value = "{{$order->mark}}">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        @error('remark')
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>

@@ -168,7 +168,21 @@
                             <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeNum }}</span><br>
                         @endforeach
                     </div>
-                </div><br>
+                </div>
+                <div class="row" style="padding-left:30px; font-size:15px">
+                    <div class="col-md-5"id="cd-5"></div>
+                    <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
+                        @foreach ($data as $user)
+                            <strong>REMARK: </strong> 
+                            <span style="text-align: center; display: inline-block; width: 60%; border-bottom: 1px solid black;">
+                                <span style="color: white;">.</span>
+                                <span style="color: black;">{{ $order->mark }}</span>
+                            </span>
+                            <br>
+                        @endforeach
+                    </div>
+                </div>
+                <br>
                 <div class="row pl-5 pr-4" style=" max-width:100%; font-size:15px ">
                     <table class="table table-bordered table-condensed">
                         <thead style="background-color: #78BF65; color:white;">
@@ -201,7 +215,7 @@
                                     <td> </td>
                                     <td> </td>
                                     <td> </td>
-                                    <td><strong style="color: white;">.<!--{{ number_format($order->value, 2) }}--></strong></td>
+                                    <td><strong style="color: black;">{{ number_format($order->value, 2) }}</strong></td>
                                     <td> </td>
                                     <td> </td>
                                     <td> </td>
@@ -234,7 +248,7 @@
                     <div class="col-md-7" style="padding-left:60px;"id="cd-7">Received on board vessel in apparent good condition.</div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right;">Valuation :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white; ">. <!--{{ number_format(($order->value) * 0.0075, 2) }}--></span>
+                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black; ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                 </div>

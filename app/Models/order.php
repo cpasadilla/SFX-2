@@ -31,6 +31,8 @@ class order extends Model
         'voyageNum', // Add voyageNum
         'containerNum', // Add containerNum
         'value', // Add containerNum
+        'value', // Add containerNum
+        'mark', // Add containerNum
         'check', // Add containerNum
         'cargoID',
         'status',

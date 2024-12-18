@@ -161,6 +161,7 @@ class CustomerController extends Controller {
             'containerNum' => ['nullable', 'string', 'max:255'],
             'orderItems' => ['required', 'json'],
             'value' => ['nullable', 'string', 'max:255'],
+            'mark' => ['nullable', 'string', 'max:255'],
             'check' => ['nullable', 'string', 'max:255'],
         ], $message);
 
@@ -290,6 +291,7 @@ class CustomerController extends Controller {
             'voyageNum' => $voyage . $voyageSuffix,
             'containerNum' => $request->input('containerNum'),
             'value' => $request->input('valuation'),
+            'mark' => $request->input('remark'),
             'check' => $request->input('check'),
         ]);
         $order->save();
@@ -353,6 +355,7 @@ class CustomerController extends Controller {
                 'price' => $parcel->price,
                 'quantity' => $parcel->quantity,
                 'total' => $parcel->total,
+                //'mark' => $parcel->remark,
             ));
         }
         $data = json_encode($array);
@@ -372,6 +375,7 @@ class CustomerController extends Controller {
             'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON
             'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
+            'mark' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
         ]);
         if ($validator->fails()) {
@@ -425,6 +429,7 @@ class CustomerController extends Controller {
             'voyageNum' => $request->input('voyage'),
             'containerNum' => $request->input('container'), // Get container number if provided
             'value' => $request->input('valuation'),
+            'mark' => $request->input('remark'),
             'check' => $request->input('checker'),
         ]);
         $order->save();

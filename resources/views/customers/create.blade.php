@@ -179,7 +179,7 @@
                                                             <th>ACTION</th>
                                                         </tr>
                                                     </thead>
-                                                    <!--<div class="input-group mb-1">
+                                                    <div class="input-group mb-1">
                                                         <input type="text" name="valuation" class="form-control"
                                                         placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus>
                                                         <div class="input-group-append">
@@ -191,7 +191,20 @@
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-                                                    div class="input-group mb-1"><!--CHECKER NAME FIELD>
+
+                                                    <div class="input-group mb-1">
+                                                        <input type="text" name="remark" class="form-control"
+                                                        placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa-solid fa-hashtag"></i>
+                                                            </div>
+                                                        </div>
+                                                        @error('remark')
+                                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <!--div class="input-group mb-1"><CHECKER NAME FIELD>
                                                         <input type="text" name="checker" class="form-control"
                                                         placeholder="{{ __('CHECKER NAME') }}" autocomplete="checker" autofocus>
                                                         <div class="input-group-append">
