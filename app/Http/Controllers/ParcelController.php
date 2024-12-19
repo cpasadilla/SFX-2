@@ -38,7 +38,7 @@ class ParcelController extends Controller
             $trip = $row->trip_num;
             $dock = $row->dock;
             if ($trip == $matches[0]) {
-                if ($shipNum == 3) {
+                if ($shipNum == 3|| $shipNum == 4) {
                     // No distinction between OUT and IN for ship 3
                     if ($row->dock == NULL) {
                         $data[0][$orig[0]][$check] = $trip;

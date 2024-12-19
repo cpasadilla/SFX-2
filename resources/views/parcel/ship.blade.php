@@ -22,7 +22,7 @@
             <h4 class="m-0">Dock {{ $dock }}</h4>
         </div>
         <div class="card-body">
-            @if ($shipNum == 3)
+            @if ($shipNum == 3 || $shipNum == 4)
             @foreach ($origin as $orig => $trip)
                 <div class="list-group">
                     @foreach ($trip as $voyage => $value)

@@ -221,7 +221,7 @@ protected function submit(Request $request, $key)
     $destination = $request->input('destination');
 
     // If the ship is not 3, append '-OUT' or '-IN' to the voyage number
-    if ($ship == 3) {
+    if ($ship == 3 || $ship == 4) {
         $voyageSuffix = ''; // No suffix for ship 3
     } else {
         $voyageSuffix = ($origin === 'Manila' && $destination === 'Batanes') ? '-OUT' : (($origin === 'Batanes' && $destination === 'Manila') ? '-IN' : '');
