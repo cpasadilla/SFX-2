@@ -102,6 +102,16 @@ class CustomerController extends Controller {
         return redirect() -> route('customer') ;
     }
 
+    //customer delete
+    protected function delete(Request $request){
+        $id = $request->id;
+        $del2 = CustomerID::find($id);
+        $del2->delete();
+        return redirect() -> route('customer') ;
+
+        //return response()->json(['message' => 'Item deleted successfully']);
+    }
+
     //ORDER CREATION
     protected function order($key){
         $users = CustomerID::where('cID', $key)->get();
@@ -114,7 +124,7 @@ class CustomerController extends Controller {
     //search order page
     public function scout(Request $request, $key){
         $search = $request->input('search');
-
+        $ship = ship::all();
         // Perform the search query and retrieve the filtered results
         $items = priceList::where('itemName', 'like', "%$search%")
             ->get();
@@ -140,7 +150,7 @@ class CustomerController extends Controller {
         $products = $items;
         $cats = category::paginate();
         $users = CustomerID::where('cID', $key)->get();
-        return view('customers.create', compact('users','products','cats'));
+        return view('customers.create', compact('users','products','cats','ship'));
     }
 
 // ORDER SUBMISSION
@@ -306,16 +316,7 @@ protected function submit(Request $request, $key)
     return redirect()->route('c.confirm', ['key' => $orderId]);
 }
 
-
-    protected function delete(Request $request){
-        $id = $request->id;
-        $del2 = CustomerID::find($id);
-        $del2->delete();
-        return redirect() -> route('customer') ;
-
-        //return response()->json(['message' => 'Item deleted successfully']);
-    }
-
+    //SHOW CONFIRMED ORDER
     protected function confirm($key){
         $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
@@ -327,6 +328,7 @@ protected function submit(Request $request, $key)
         return view('customers.newbl', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
     }
 
+    //show BL
     protected function bl($key){
         $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
@@ -338,6 +340,7 @@ protected function submit(Request $request, $key)
         return view('customers.new', compact('key','data','parcel'));
     }
 
+
     //NEW FUNCTIONS
     //SHOW CUSTOMER BL
     public function showBL(Request $request, $key){
@@ -345,6 +348,8 @@ protected function submit(Request $request, $key)
         $orders = Order::where('cID', $key)->get();
         return view('customers.parcels', compact('users','orders'));
     }
+
+
     //update page CUSTOMER BL
     public function audit(Request $request, $key){
         $orders = Order::where('orderID', $key)->get();
@@ -370,6 +375,9 @@ protected function submit(Request $request, $key)
         $cats = category::all();
         return view('customers.update', compact('users','orders','products','cats','data'));
     }
+
+
+
     //UPDATE CUSTOMER BL
     protected function update(Request $request, $key) {
         // Validate form data
@@ -525,4 +533,16 @@ protected function submit(Request $request, $key)
 
          return redirect()->route('p.view')->with('error', 'Order not found!');
      }
+
+
+
+    public function found(Request $request, $key){
+
+        $search = $request->input('search');
+
+        $users = CustomerID::where('cID', $key)->get();
+        $orders = Order::where('orderId', 'like', "%$search%")->get();
+        return view('customers.parcels', compact('users','orders'));
+    }
+
 }

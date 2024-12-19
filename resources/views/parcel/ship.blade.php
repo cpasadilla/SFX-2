@@ -23,12 +23,13 @@
         </div>
         <div class="card-body">
             @if ($shipNum == 3)
+            @foreach ($origin as $orig => $trip)
                 <div class="list-group">
-                    @foreach ($origin as $voyage => $trip)
-                    <a href="{{ route('parcels.showVoyage', [$shipNum, $trip, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
+                    @foreach ($trip as $voyage => $value)
+                    <a href="{{ route('parcels.showVoyage', [$shipNum, $value, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
                         <strong>VOYAGE NO. {{ $voyage }}</strong>
                     </a>
-                    
+                    @endforeach
                     @endforeach
                 </div>
             @else

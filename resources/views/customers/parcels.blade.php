@@ -8,18 +8,19 @@
 <div class="content-header">
     @foreach ($users as $user)
     <h1 style="padding-left:10px;">Orders for Customer#: {{$user->cID}}</h1>
-    @endforeach
 </div>
-<!--div class="col-md-6">
-    <form action="{{ route('c.search') }}" method="GET">
+<div class="col-md-6">
+    <form action="{{ route('c.found', ['key' => $user->cID]) }}" method="GET">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search by Customer ID, First Name, Last Name" name="search">
+            <input type="text" class="form-control" placeholder="Search by Order ID" name="search">
             <div class="input-group-append">
                 <button type="submit" class="btn btn-success">SEARCH</button>
             </div>
         </div>
     </form>
-</div-->
+    @endforeach
+
+</div>
 <br>
 @php
     $name =  $user->fName . ' ' .  $user->lName;

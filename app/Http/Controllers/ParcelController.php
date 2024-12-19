@@ -14,7 +14,7 @@ use App\Models\voyage;
 
 class ParcelController extends Controller
 {
-
+    //index
     public function index()
     {
 
@@ -37,11 +37,14 @@ class ParcelController extends Controller
             $orig = explode("-", $check);
             $trip = $row->trip_num;
             $dock = $row->dock;
-
             if ($trip == $matches[0]) {
                 if ($shipNum == 3) {
                     // No distinction between OUT and IN for ship 3
-                    $data[$dock][$check] = $trip;
+                    if ($row->dock == NULL) {
+                        $data[0][$orig[0]][$check] = $trip;
+                    } else {
+                        $data[$dock][$orig[0]][$check] = $trip;
+                    }
                 } else {
                     if ($row->dock == NULL) {
                         $data[0][$orig[1]][$check] = $trip;
@@ -52,6 +55,7 @@ class ParcelController extends Controller
             }
         }
     }
+    //dd($data);
 
     return view('parcel.ship', compact('shipNum', 'data'));
 }
@@ -59,10 +63,12 @@ class ParcelController extends Controller
     // Display orders for a specific ship number and voyage number
     public function showVoyage($shipNum, $voyageNum, $dock, $orig)
     {
+        //dd($dock,$orig);
         $docks = $dock;
         if($dock == 0){
             $docks = NULL;
         }
+
         $voyage = voyage::where('dock',$docks)->where('ship',$shipNum)
         ->where('trip_num',$voyageNum)->get();
         $orders = collect();
@@ -75,6 +81,7 @@ class ParcelController extends Controller
         return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
     }
 
+    //search
     public function search(Request $request)
 {
     $search = $request->query('search');
@@ -113,7 +120,7 @@ class ParcelController extends Controller
         ]);
 }
 
-
+    //update staus
     public function updateStatus(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
     {
         // Validate the incoming request
@@ -142,6 +149,7 @@ class ParcelController extends Controller
         return redirect()->route('p.view')->with('error', 'Order not found!');
     }
 
+//cancel out
 public function bl($key)
 {
 
