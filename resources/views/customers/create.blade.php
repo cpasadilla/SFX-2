@@ -16,16 +16,16 @@
     </div>
     <div class="row mb-2" style="padding-left:8px;">
         @foreach ($users as $user)
-            <div class="col-md-6">
-                <form action="{{ route('c.scout', ['key' => $user->cID]) }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success">Search</button>
-                        </div>
+        <div class="col-md-6">
+            <form action="{{ route('c.scout', ['key' => $user->cID]) }}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success">Search</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
         @endforeach
     </div>
     <br>

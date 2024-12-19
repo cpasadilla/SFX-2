@@ -33,18 +33,15 @@ Route::middleware('auth')->group(function(){
     Route::post('/customer/edit', [\App\Http\Controllers\CustomerController::class,'edit'])->name('c.edit');
     Route::post('/customer/delete', [\App\Http\Controllers\CustomerController::class,'delete'])->name('c.error');
     Route::get('/customer/search',  [\App\Http\Controllers\CustomerController::class, 'search'])->name('c.search');
-
+    //ORDER CREATIONS
     Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('c.order');
-
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
-    Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
+    Route::get('/customer/{key}/search/', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
-    Route::get('/search-orders', [\App\Http\Controllers\CustomerController::class, 'searchOrders'])->name('orders.search');
-
+    // CUSTOMER BL;S
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
-    Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'found'])->name('c.found');
 
     //BL UPDATE
     Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'audit'])->name('c.audit');
