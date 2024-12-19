@@ -98,21 +98,20 @@
     <div class="container d-flex justify-content-center align-items-center">
         <div class="card">
             <div class="card-body" id="printContainer" style="width: 800px; padding:0;">
-                <div class="row" id="top" style="background-color: #ffffff; color: black; margin-left:0.2px; margin-right:0.2px; padding:10px; ">
-                    <div class="" style="display:flex; ">
-                        <p style="margin-right: -18pt; text-align: right;">
-                            <span style="font-family: Arial; min-height: 10pt; font-size: 10pt;">
-                                <div style="display: inline-block; position: relative; text-indent: 0px; width: 472.47pt; height: 76.2pt;">
-                                    <br>
-                                    <img style="position: relative; left: 100pt; top: 0pt; width: 494.35pt; height: 83.3pt;" src="{{ asset('images/logo-sfx.png') }}">
-                                </div>
-                            </span>
-                        </p>
+                <div class="row" id="top" style="background-color: #ffffff; color: black; margin: 0.2px; padding: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <div style="display: flex; justify-content: center; align-items: center; padding-left:100px; padding-top:20px;">
+                        <img style="width: 600px; height: 100px;" src="{{ asset('images/logo-sfx.png') }}" alt="Logo">
                     </div>
-                    <p style="font-family: Arial; font-size:16px; position: relative; left: 150pt;  margin-bottom: 0pt; margin-right: 13.5pt; "><br><br>National Road Brgy. Kaychanarianan Basco Batanes</p>
-                    <p style="font-family: Arial; font-size:16px; position: relative; left: 110pt;  margin-bottom: 0pt; margin-right: 13.5pt; ">Cellphone Nos.: 0908-815-9300 / 0999-889-5848 / 0999-889-5849</p>
-                    <p style="font-family: Arial; font-size:16px; position: relative; left: 160pt; text-align:center; margin-bottom: 0pt; margin-right: 13.5pt; ">Email Address: fxavier_2015@yahoo.com.ph</p>
-                </div>
+                    <p style="font-family: Arial; font-size: 16px; margin: 10px 0 0;">
+                        National Road Brgy. Kaychanarianan Basco Batanes
+                    </p>
+                    <p style="font-family: Arial; font-size: 16px; margin: 5px 0;">
+                        Cellphone Nos.: 0908-815-9300 / 0999-889-5848 / 0999-889-5849
+                    </p>
+                    <p style="font-family: Arial; font-size: 16px; margin: 5px 0;">
+                        Email Address: fxavier_2015@yahoo.com.ph
+                    </p>
+                </div>               
                 <div class="row" style="padding-left:300px; padding-right:20px;">
                     <div style="font-size:20px;" >
                         <p style="margin-bottom: 0pt; margin-right: 13.5pt; text-align: center;">
