@@ -19,14 +19,14 @@
         .card {
             display: block;
             width: 8.5in; /* Exactly the paper width */
-            height: 16in; /* Exactly the paper height */
+            height: 14in; /* Exactly the paper height */
             margin: 0 !important; /* Remove margins */
             padding: 0 !important; /* Remove padding */
             box-sizing: border-box;
         }
         #printContainer {
             width: 8.5in;
-            height: 16in;
+            height: 14in;
             margin: 0 !important;
             padding: 0 !important;
             box-sizing: border-box;
@@ -127,7 +127,7 @@
                         <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
-                        <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;"><!--{{ $order->containerNum }}--></span><br>
+                        <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
                         <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
