@@ -17,28 +17,36 @@
 <div class="content">
     <div class="container-fluid">
         @foreach ($data as $dock => $origin)
-            <div class="card mt-4">
-                <div class="card-header bg-success text-white">
-                    <h4 class="m-0">Dock {{ $dock }}</h4>
+    <div class="card mt-4">
+        <div class="card-header bg-success text-white">
+            <h4 class="m-0">Dock {{ $dock }}</h4>
+        </div>
+        <div class="card-body">
+            @if ($shipNum == 3)
+                <div class="list-group">
+                    @foreach ($origin as $voyage => $trip)
+                    <a href="{{ route('parcels.showVoyage', [$shipNum, $trip, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
+                        <strong>VOYAGE NO. {{ $voyage }}</strong>
+                    </a>
+                    
+                    @endforeach
                 </div>
-                <div class="card-body">
-                    @foreach ($origin as $orig=>$trip)
-                    @if ($orig == "IN")
-                    <br><h5>MANILA</h5>
-                    @else
-                        <h5>BATANES</h5>
-                    @endif
+            @else
+                @foreach ($origin as $orig => $trip)
+                    <h5>{{ $orig == 'IN' ? 'MANILA' : 'BATANES' }}</h5>
                     <div class="list-group">
-                            @foreach ($trip as $voyage=>$value)
+                        @foreach ($trip as $voyage => $value)
                             <a href="{{ route('parcels.showVoyage', [$shipNum, $value, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
                                 <strong>VOYAGE NO. {{ $voyage }}</strong>
                             </a>
-                            @endforeach
                         @endforeach
                     </div>
-                </div>
-            </div>
-        @endforeach
+                @endforeach
+            @endif
+        </div>
+    </div>
+@endforeach
+
     </div>
 </div>
 @endsection

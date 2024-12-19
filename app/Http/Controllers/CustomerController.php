@@ -143,162 +143,169 @@ class CustomerController extends Controller {
         return view('customers.create', compact('users','products','cats'));
     }
 
-    //ORDER SUBMISSION
-    protected function submit(Request $request, $key)
-    {
-        $message = [
-            'origin.required' => 'Please select a valid origin.',
-            'origin.not_in' => 'Please select a valid origin.'
-        ];
+// ORDER SUBMISSION
+protected function submit(Request $request, $key)
+{
+    $message = [
+        'origin.required' => 'Please select a valid origin.',
+        'origin.not_in' => 'Please select a valid origin.'
+    ];
 
-        // Validate form data
-        $validator = Validator::make($request->all(), [
-            'ship' => ['required', 'string', 'max:255'],
-            'origin' => ['required', 'string', 'max:255', Rule::notIn(['Choose Origin'])],
-            'destination' => ['required', 'string', 'max:255'],
-            'recs' => ['required', 'string', 'max:255'],
-            'cont' => ['required', 'numeric', 'digits:11'],
-            'containerNum' => ['nullable', 'string', 'max:255'],
-            'orderItems' => ['required', 'json'],
-            'value' => ['nullable', 'string', 'max:255'],
-            'mark' => ['nullable', 'string', 'max:255'],
-            'check' => ['nullable', 'string', 'max:255'],
-        ], $message);
+    // Validate form data
+    $validator = Validator::make($request->all(), [
+        'ship' => ['required', 'string', 'max:255'],
+        'origin' => ['required', 'string', 'max:255', Rule::notIn(['Choose Origin'])],
+        'destination' => ['required', 'string', 'max:255'],
+        'recs' => ['required', 'string', 'max:255'],
+        'cont' => ['required', 'numeric', 'digits:11'],
+        'containerNum' => ['nullable', 'string', 'max:255'],
+        'orderItems' => ['required', 'json'],
+        'value' => ['nullable', 'string', 'max:255'],
+        'mark' => ['nullable', 'string', 'max:255'],
+        'check' => ['nullable', 'string', 'max:255'],
+    ], $message);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        // Decode JSON order items
-        $orderItems = json_decode($request->input('orderItems'));
-
-        // Calculate the total order amount
-        $totalAmount = 0;
-        foreach ($orderItems as $item) {
-            $totalAmount += $item->total;
-        }
-
-        // Set the current date and time
-        date_default_timezone_set('Asia/Manila');
-        $date = date("F d 20y - g:i:s a");
-
-        $ship = intval($request->input('ship'));
-        $bl = "BL" . $ship;
-
-        // Generate an incrementing orderId
-        $first = Order::where('orderId', 'like', "%$bl%")
-            ->latest()
-            ->first();
-
-        if ($first === null) {
-            $orderId = $bl . "-01";
-        } else {
-            $last = $first->orderId;
-
-            // Adjust regex to match only the numerical portion
-            if (preg_match('/(\d+)$/', $last, $matches)) {
-                $int = intval($matches[1]);
-            } else {
-                $int = 0; // Default to 0 if no match is found
-            }
-
-            $int += 1;
-            $str = $int <= 9 ? "0$int" : "$int";
-            $orderId = $bl . "-" . $str;
-        }
-
-        $origin = $request->input('origin');
-        $destination = $request->input('destination');
-        $voyageSuffix = ($origin === 'Manila' && $destination === 'Batanes') ? '-OUT' : (($origin === 'Batanes' && $destination === 'Manila') ? '-IN' : '');
-
-        // VOYAGE LOGIC
-        $checks = Ship::where('number', $ship)->get();
-        foreach ($checks as $check) {
-            $status = $check->status;
-        }
-
-        $trip = Voyage::where('ship', $ship)->orderBy('date', 'desc')->first();
-        if ($status === 'READY') {
-            $dock = intval($trip->dock) + 1;
-
-            $voyage = 1;
-            foreach ($checks as $check) {
-                $check->status = "ON PORT";
-                $check->save();
-            }
-
-            Voyage::create([
-                'ship' => $ship,
-                'trip_num' => $voyage,
-                'date' => $date,
-                'dock' => $dock,
-                'orderId' => $orderId,
-                'voyage_number' => $voyage . $voyageSuffix,
-            ]);
-        } elseif ($status === 'ARRIVED') {
-            $voyage = intval($trip->trip_num) + 1;
-            foreach ($checks as $check) {
-                $check->status = "ON PORT";
-                $check->save();
-            }
-            $dock = $trip?->dock ? intval($trip->dock) : null;
-
-            Voyage::create([
-                'ship' => $ship,
-                'trip_num' => $voyage,
-                'date' => $date,
-                'dock' => $dock,
-                'orderId' => $orderId,
-                'voyage_number' => $voyage . $voyageSuffix,
-            ]);
-        } else {
-            $voyage = $trip ? intval($trip->trip_num) : 1;
-            $dock = $trip?->dock ? intval($trip->dock) : null;
-
-            Voyage::create([
-                'ship' => $ship,
-                'trip_num' => $voyage,
-                'date' => $date,
-                'dock' => $dock,
-                'orderId' => $orderId,
-                'voyage_number' => $voyage . $voyageSuffix,
-            ]);
-        }
-
-        // Add the order items to the order details table
-        foreach ($orderItems as $item) {
-            Parcel::create([
-                'itemName' => $item->name,
-                'unit' => $item->unit,
-                'quantity' => $item->quantity,
-                'price' => $item->price,
-                'total' => $item->total,
-                'orderId' => $orderId,
-            ]);
-        }
-
-        // Create a new order in the database
-        $order = Order::create([
-            'shipNum' => $request->input('ship'),
-            'origin' => $origin,
-            'destination' => $destination,
-            'totalAmount' => $totalAmount,
-            'cID' => $key,
-            'orderId' => $orderId,
-            'orderCreated' => $date,
-            'consigneeName' => $request->input('recs'),
-            'consigneeNum' => $request->input('cont'),
-            'voyageNum' => $voyage . $voyageSuffix,
-            'containerNum' => $request->input('containerNum'),
-            'value' => $request->input('valuation'),
-            'mark' => $request->input('remark'),
-            'check' => $request->input('check'),
-        ]);
-        $order->save();
-
-        // Redirect to the order confirmation page
-        return redirect()->route('c.confirm', ['key' => $orderId]);
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
     }
+
+    // Decode JSON order items
+    $orderItems = json_decode($request->input('orderItems'));
+
+    // Calculate the total order amount
+    $totalAmount = 0;
+    foreach ($orderItems as $item) {
+        $totalAmount += $item->total;
+    }
+
+    // Set the current date and time
+    date_default_timezone_set('Asia/Manila');
+    $date = date("F d 20y - g:i:s a");
+
+    $ship = intval($request->input('ship'));
+    $bl = "BL" . $ship;
+
+    // Generate an incrementing orderId
+    $first = Order::where('orderId', 'like', "%$bl%")
+        ->latest()
+        ->first();
+
+    if ($first === null) {
+        $orderId = $bl . "-01";
+    } else {
+        $last = $first->orderId;
+
+        // Adjust regex to match only the numerical portion
+        if (preg_match('/(\d+)$/', $last, $matches)) {
+            $int = intval($matches[1]);
+        } else {
+            $int = 0; // Default to 0 if no match is found
+        }
+
+        $int += 1;
+        $str = $int <= 9 ? "0$int" : "$int";
+        $orderId = $bl . "-" . $str;
+    }
+
+    $origin = $request->input('origin');
+    $destination = $request->input('destination');
+
+    // If the ship is not 3, append '-OUT' or '-IN' to the voyage number
+    if ($ship == 3) {
+        $voyageSuffix = ''; // No suffix for ship 3
+    } else {
+        $voyageSuffix = ($origin === 'Manila' && $destination === 'Batanes') ? '-OUT' : (($origin === 'Batanes' && $destination === 'Manila') ? '-IN' : '');
+    }
+
+    // VOYAGE LOGIC
+    $checks = Ship::where('number', $ship)->get();
+    foreach ($checks as $check) {
+        $status = $check->status;
+    }
+
+    $trip = Voyage::where('ship', $ship)->orderBy('date', 'desc')->first();
+    if ($status === 'READY') {
+        $dock = intval($trip->dock) + 1;
+
+        $voyage = 1;
+        foreach ($checks as $check) {
+            $check->status = "ON PORT";
+            $check->save();
+        }
+
+        Voyage::create([
+            'ship' => $ship,
+            'trip_num' => $voyage,
+            'date' => $date,
+            'dock' => $dock,
+            'orderId' => $orderId,
+            'voyage_number' => $voyage . $voyageSuffix,
+        ]);
+    } elseif ($status === 'ARRIVED') {
+        $voyage = intval($trip->trip_num) + 1;
+        foreach ($checks as $check) {
+            $check->status = "ON PORT";
+            $check->save();
+        }
+        $dock = $trip?->dock ? intval($trip->dock) : null;
+
+        Voyage::create([
+            'ship' => $ship,
+            'trip_num' => $voyage,
+            'date' => $date,
+            'dock' => $dock,
+            'orderId' => $orderId,
+            'voyage_number' => $voyage . $voyageSuffix,
+        ]);
+    } else {
+        $voyage = $trip ? intval($trip->trip_num) : 1;
+        $dock = $trip?->dock ? intval($trip->dock) : null;
+
+        Voyage::create([
+            'ship' => $ship,
+            'trip_num' => $voyage,
+            'date' => $date,
+            'dock' => $dock,
+            'orderId' => $orderId,
+            'voyage_number' => $voyage . $voyageSuffix,
+        ]);
+    }
+
+    // Add the order items to the order details table
+    foreach ($orderItems as $item) {
+        Parcel::create([
+            'itemName' => $item->name,
+            'unit' => $item->unit,
+            'quantity' => $item->quantity,
+            'price' => $item->price,
+            'total' => $item->total,
+            'orderId' => $orderId,
+        ]);
+    }
+
+    // Create a new order in the database
+    $order = Order::create([
+        'shipNum' => $request->input('ship'),
+        'origin' => $origin,
+        'destination' => $destination,
+        'totalAmount' => $totalAmount,
+        'cID' => $key,
+        'orderId' => $orderId,
+        'orderCreated' => $date,
+        'consigneeName' => $request->input('recs'),
+        'consigneeNum' => $request->input('cont'),
+        'voyageNum' => $voyage . $voyageSuffix,
+        'containerNum' => $request->input('containerNum'),
+        'value' => $request->input('valuation'),
+        'mark' => $request->input('remark'),
+        'check' => $request->input('check'),
+    ]);
+    $order->save();
+
+    // Redirect to the order confirmation page
+    return redirect()->route('c.confirm', ['key' => $orderId]);
+}
+
 
     protected function delete(Request $request){
         $id = $request->id;

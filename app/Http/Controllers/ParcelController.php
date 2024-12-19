@@ -24,22 +24,26 @@ class ParcelController extends Controller
 
     // Display voyages for a specific ship number
     public function showShip($shipNum)
-    {
-        $voyages = voyage::where('ship',$shipNum)->orderBy('dock')->get();
-        $data = [];
-        $order = order::where('shipNum',$shipNum)->get();
+{
+    $voyages = voyage::where('ship', $shipNum)->orderBy('dock')->get();
+    $data = [];
+    $order = order::where('shipNum', $shipNum)->get();
 
-        foreach($voyages as $row){
-            foreach($order as $num){
-                $check = $num->voyageNum;
+    foreach ($voyages as $row) {
+        foreach ($order as $num) {
+            $check = $num->voyageNum;
 
-                preg_match('/\d+/', $check, $matches);
-                $orig = explode("-",$check);
-                $trip = $row->trip_num;
-                $dock = $row->dock;
-                if($trip == $matches[0]){
-                    if($row->dock == NULL){
-                        //$data[0][$trip] = $check;
+            preg_match('/\d+/', $check, $matches);
+            $orig = explode("-", $check);
+            $trip = $row->trip_num;
+            $dock = $row->dock;
+
+            if ($trip == $matches[0]) {
+                if ($shipNum == 3) {
+                    // No distinction between OUT and IN for ship 3
+                    $data[$dock][$check] = $trip;
+                } else {
+                    if ($row->dock == NULL) {
                         $data[0][$orig[1]][$check] = $trip;
                     } else {
                         $data[$dock][$orig[1]][$check] = $trip;
@@ -47,10 +51,10 @@ class ParcelController extends Controller
                 }
             }
         }
-        ($data);
-        
-        return view('parcel.ship', compact('shipNum','data'));
     }
+
+    return view('parcel.ship', compact('shipNum', 'data'));
+}
 
     // Display orders for a specific ship number and voyage number
     public function showVoyage($shipNum, $voyageNum, $dock, $orig)

@@ -34,11 +34,14 @@ Route::middleware('auth')->group(function(){
     Route::post('/customer/delete', [\App\Http\Controllers\CustomerController::class,'delete'])->name('c.error');
     Route::get('/customer/search',  [\App\Http\Controllers\CustomerController::class, 'search'])->name('c.search');
 
-    Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'order'])->name('c.order');
+    //Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'order'])->name('c.order');
+    Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('c.order');
+
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
     Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
+    Route::get('/search-orders', [\App\Http\Controllers\CustomerController::class, 'searchOrders'])->name('orders.search');
 
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
@@ -75,6 +78,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
 
+
+    
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/ship_{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
     Route::get('/orders/ship_{shipNum}/voyage_{voyageNum}/dock_{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
