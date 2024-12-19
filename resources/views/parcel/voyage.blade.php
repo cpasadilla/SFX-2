@@ -72,7 +72,7 @@
                                             @csrf
                                             @method('PUT')
                                             <select name="status" class="form-control" onchange="this.form.submit()">
-                                                <option value="IN PROGRESS" {{ $order->status == 'IN PROGRESS' ? 'selected' : '' }}>IN PROGRESS</option>
+                                                <option value="inProgress" {{ $order->status == 'inProgress' ? 'selected' : '' }}>IN PROGRESS</option>
                                                 <option value="TRANSFER" {{ $order->status == 'TRANSFER' ? 'selected' : '' }}>TRANSFER</option>
                                                 <option value="CHARTERED" {{ $order->status == 'CHARTERED' ? 'selected' : '' }}>CHARTERED</option>
                                                 <option value="CANCELLED" {{ $order->status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>

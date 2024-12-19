@@ -4767,6 +4767,24 @@ class userSeed extends Seeder
             'status' => 'ON PORT'
         ]);
 
+        ship::create([
+            'number' => '3',
+            'reference' => '',
+            'status' => 'ON PORT'
+        ]);
+
+        ship::create([
+            'number' => '4',
+            'reference' => '',
+            'status' => 'ON PORT'
+        ]);
+
+        ship::create([
+            'number' => '5',
+            'reference' => '',
+            'status' => 'ON PORT'
+        ]);
+
         voyage::create([
             'ship' => '1',
             'trip_num' => '1',

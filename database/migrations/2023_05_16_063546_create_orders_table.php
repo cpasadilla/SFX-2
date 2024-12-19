@@ -65,7 +65,7 @@ return new class extends Migration {
                 }
 
                 // Re-add the individual status columns if rolling back
-                $columns = ['IN PROGRESS','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
+                $columns = ['inProgress','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
                 foreach ($columns as $column) {
                     if (!Schema::hasColumn('orders', $column)) {
                         $table->string($column)->default('0');

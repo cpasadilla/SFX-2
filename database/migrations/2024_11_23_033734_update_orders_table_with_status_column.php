@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::table('orders', function (Blueprint $table) {
             // Check for each column's existence before dropping
-            $columns = ['IN PROGRESS','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
+            $columns = ['inProgress','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
             foreach ($columns as $column) {
                 if (Schema::hasColumn('orders', $column)) {
                     $table->dropColumn($column);
@@ -34,7 +34,7 @@ return new class extends Migration {
     public function down(): void {
         Schema::table('orders', function (Blueprint $table) {
             // Re-add the old status columns if rolling back
-            $columns = ['IN PROGRESS','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
+            $columns = ['inProgress','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE'];
             foreach ($columns as $column) {
                 if (!Schema::hasColumn('orders', $column)) {
                     $table->string($column)->default('0');

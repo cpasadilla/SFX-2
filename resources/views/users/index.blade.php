@@ -116,7 +116,7 @@
                                                         </div>
                                                         <!--EMAIL FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autocomplete="email" value="{{ $user->email }}">
+                                                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autocomplete="email" value="{{ $user->email }}"readonly>
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-envelope"></span>

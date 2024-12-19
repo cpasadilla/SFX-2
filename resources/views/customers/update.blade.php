@@ -119,7 +119,7 @@
                                         <div class="input-group mb-1">
                                             <input type="text" name="ship" class="form-control @error('ship') is-invalid @enderror"
                                             placeholder="{{ __('Ship Number') }}" required autocomplete="ship" autofocus
-                                            value = "{{$order->shipNum}}">
+                                            value = "{{$order->shipNum}}"readonly>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fas fa-ship"></i>
@@ -132,7 +132,7 @@
                                         <div class="input-group mb-1">
                                             <input type="text" name="voyage" class="form-control @error('voyage') is-invalid @enderror"
                                             placeholder="{{ __('Voyage Number') }}" autocomplete="voyage" autofocus
-                                            value = "{{$order->voyageNum}}">
+                                            value = "{{$order->voyageNum}}" readonly>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fas fa-ship"></i>
