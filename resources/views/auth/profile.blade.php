@@ -78,12 +78,14 @@
                                     @enderror
                                 </div>
 
+                                <!-- Password -->
                                 <div class="input-group mb-3">
                                     <input type="password" name="password"
-                                           class="form-control @error('password') is-invalid @enderror"
-                                           placeholder="{{ __('New password') }}">
+                                        id="password" 
+                                        class="form-control @error('password') is-invalid @enderror"
+                                        placeholder="{{ __('New password') }}">
                                     <div class="input-group-append">
-                                        <div class="input-group-text">
+                                        <div class="input-group-text" id="togglePassword">
                                             <span class="fas fa-lock"></span>
                                         </div>
                                     </div>
@@ -94,13 +96,15 @@
                                     @enderror
                                 </div>
 
+                                <!-- Password Confirmation -->
                                 <div class="input-group mb-3">
                                     <input type="password" name="password_confirmation"
-                                           class="form-control @error('password_confirmation') is-invalid @enderror"
-                                           placeholder="{{ __('New password confirmation') }}"
-                                           autocomplete="new-password">
+                                        id="password_confirmation"
+                                        class="form-control @error('password_confirmation') is-invalid @enderror"
+                                        placeholder="{{ __('New password confirmation') }}"
+                                        autocomplete="new-password">
                                     <div class="input-group-append">
-                                        <div class="input-group-text">
+                                        <div class="input-group-text" id="togglePasswordConfirmation">
                                             <span class="fas fa-lock"></span>
                                         </div>
                                     </div>
@@ -118,6 +122,29 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+    <script>
+        $(document).ready(function() {
+            // Toggle password visibility
+            $('#togglePassword').on('click', function() {
+                var passwordField = $('#password');
+                var type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                passwordField.attr('type', type);
+                
+                // Change icon based on visibility
+                $(this).find('span').toggleClass('fa-lock fa-unlock');
+            });
+    
+            // Toggle password confirmation visibility
+            $('#togglePasswordConfirmation').on('click', function() {
+                var passwordConfirmationField = $('#password_confirmation');
+                var type = passwordConfirmationField.attr('type') === 'password' ? 'text' : 'password';
+                passwordConfirmationField.attr('type', type);
+    
+                // Change icon based on visibility
+                $(this).find('span').toggleClass('fa-lock fa-unlock');
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')

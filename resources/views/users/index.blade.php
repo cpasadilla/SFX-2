@@ -340,28 +340,29 @@
                             @enderror
                         </div>
                         <!--PASSWORD FIELD-->
-                        <div class="input-group mb-3">
-                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" required autocomplete="new-password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
-                            </div>
-                            @error('password')
-                                <span class="error invalid-feedback">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                        <!--CONFIRM PASSWORD FIELD-->
-                        <div class="input-group mb-3">
-                            <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="{{ __('Confirm Password') }}" required autocomplete="new-password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
-                            </div>
-                        </div>
+<div class="input-group mb-3">
+    <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" required autocomplete="new-password">
+    <div class="input-group-append">
+        <div class="input-group-text">
+            <span class="fas fa-lock" id="togglePassword"></span>
+        </div>
+    </div>
+    @error('password')
+        <span class="error invalid-feedback">
+            {{ $message }}
+        </span>
+    @enderror
+</div>
+
+<!--CONFIRM PASSWORD FIELD-->
+<div class="input-group mb-3">
+    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="{{ __('Confirm Password') }}" required autocomplete="new-password">
+    <div class="input-group-append">
+        <div class="input-group-text">
+            <span class="fas fa-lock" id="toggleConfirmPassword"></span>
+        </div>
+    </div>
+</div>
                         <!--SUBMIT BUTTON-->
                         <div class="row">
                             <div class="col-12">
@@ -374,6 +375,40 @@
     </div>
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Get password and confirm password fields
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('password_confirmation');
+
+    // Get the toggle password icons
+    const togglePasswordIcon = document.getElementById('togglePassword');
+    const toggleConfirmPasswordIcon = document.getElementById('toggleConfirmPassword');
+
+    // Function to toggle password visibility
+    const togglePasswordVisibility = (field, icon) => {
+        if (field.type === 'password') {
+            field.type = 'text';  // Show password
+            icon.classList.remove('fa-lock');  // Remove lock icon
+            icon.classList.add('fa-eye');  // Add eye icon
+        } else {
+            field.type = 'password';  // Hide password
+            icon.classList.remove('fa-eye');  // Remove eye icon
+            icon.classList.add('fa-lock');  // Add lock icon
+        }
+    };
+
+    // Add event listeners to toggle password visibility when the icon is clicked
+    togglePasswordIcon.addEventListener('click', () => {
+        togglePasswordVisibility(passwordField, togglePasswordIcon);
+    });
+
+    toggleConfirmPasswordIcon.addEventListener('click', () => {
+        togglePasswordVisibility(confirmPasswordField, toggleConfirmPasswordIcon);
+    });
+});
+
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const table = document.getElementById('myTable2');
