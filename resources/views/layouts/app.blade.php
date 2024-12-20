@@ -31,11 +31,13 @@
             <nav class="main-header navbar navbar-expand navbar-light" style="background-color: rgba(40, 165, 68, 1);">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
-                    <li class="nav-item" style="display: flex; align-items: center;">
-                        <a class="nav-link" data-widget="pushmenu" href="#" role="button" style="display: flex; align-items: center;">
-                            <i class="fas fa-bars" style="color: white;"></i>
-                            <span class="brand-link" style="display: flex; align-items: center;">
-                                <span class="brand-text font-weight-light" style="color: white; font-size: 18px;">ST. FRANCIS XAVIER STAR SHIPPING LINES INC.</span>
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="nav-link d-flex align-items-center" data-widget="pushmenu" href="#" role="button">
+                            <i class="fas fa-bars" style="color: white; margin-right: 10px;"></i>
+                            <span class="brand-link d-flex align-items-center">
+                                <span class="brand-text font-weight-light" style="color: white; font-size: 20px; font-weight: bold;">
+                                    ST. FRANCIS XAVIER STAR SHIPPING LINES INC.
+                                </span>
                             </span>
                         </a>
                     </li>
@@ -43,8 +45,11 @@
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <img src="{{ asset('images/icon.png') }}" style=" height: 20px;">
+                        <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <span style="color: white; margin-right: 10px;">
+                                {{ Auth::user()->fName }} {{ Auth::user()->lName }} - {{ Auth::user()->position }}
+                            </span>
+                            <img src="{{ asset('images/icon.png') }}" style="height: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
                             <a href="{{ route('profile.show') }}" class="dropdown-item">
@@ -55,7 +60,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <a href="{{ route('logout') }}" class="dropdown-item"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                   onclick="event.preventDefault(); this.closest('form').submit();">
                                     <i class="mr-2 fas fa-sign-out-alt"></i>
                                     {{ __('Log Out') }}
                                 </a>
@@ -63,18 +68,20 @@
                         </div>
                     </li>
                 </ul>
-            </nav> <!-- /.navbar -->
+            </nav>
+            
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544">
                 <!-- Brand Logo -->
-                <span class="brand-link">
+                <span class="brand-link d-flex align-items-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo"
                         class="brand-image img-circle elevation-3"
-                        style="opacity: .8">
-                    <span class="brand-text font-weight-light" style="color:green; font-size:18px;"> .</span>
+                        style="opacity: .8; height: 60px; margin-right: 10px;">
+                    <strong class="brand-text font-weight-light" style="color: white; font-size: 24px; font-weight: bold;">SFXSSLI</strong>
                 </span>
                 @include('layouts.navigation')
             </aside>
+            
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 @yield('content')

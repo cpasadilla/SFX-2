@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function(){
     // CUSTOMER BL;S
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
-
+    Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'found'])->name('c.found');
+    
     //BL UPDATE
     Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'audit'])->name('c.audit');
     Route::get('/customer/BL/{key}/search', [\App\Http\Controllers\CustomerController::class, 'find'])->name('c.find');
