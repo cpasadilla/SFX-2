@@ -115,7 +115,7 @@ class CustomerController extends Controller {
     //ORDER CREATION
     protected function order($key){
         $users = CustomerID::where('cID', $key)->get();
-        $products = priceList::paginate(12);
+        $products = priceList::paginate(15);
         $cats = category::all();
         $ship = ship::all();
         return view('customers.create', compact('users','products','cats','ship'));
@@ -134,7 +134,7 @@ class CustomerController extends Controller {
             $cats = category::where('name', 'like', "%$search%")
                 ->get();
             if($cats->isEmpty()){
-                $items = priceList::paginate(12);
+                $items = priceList::paginate(15);
             } else{
                 $key = $cats;
                 foreach($key as $keys){
@@ -371,7 +371,7 @@ protected function submit(Request $request, $key)
             ));
         }
         $data = json_encode($array);
-        $products = priceList::paginate(12);
+        $products = priceList::paginate(15);
         $cats = category::all();
         return view('customers.update', compact('users','orders','products','cats','data'));
     }
