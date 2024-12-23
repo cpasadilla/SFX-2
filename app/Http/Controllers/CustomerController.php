@@ -28,7 +28,7 @@ class CustomerController extends Controller {
         return Validator::make($data, [
             'fName' => ['required', 'string', 'max:255'],
             'lName' => ['required', 'string', 'max:255'],
-            'phoneNum' => ['required', 'numeric', 'digits:11', 'unique:customer_i_d_s'],
+            'phoneNum' => ['nullable', 'numeric', 'digits:11', 'unique:customer_i_d_s'],
         ]);
     }
 
@@ -167,7 +167,7 @@ protected function submit(Request $request, $key)
         'origin' => ['required', 'string', 'max:255', Rule::notIn(['Choose Origin'])],
         'destination' => ['required', 'string', 'max:255'],
         'recs' => ['required', 'string', 'max:255'],
-        'cont' => ['required', 'numeric', 'digits:11'],
+        'cont' => ['nullable', 'numeric', 'digits:11'],
         'containerNum' => ['nullable', 'string', 'max:255'],
         'orderItems' => ['required', 'json'],
         'value' => ['nullable', 'string', 'max:255'],
@@ -385,7 +385,7 @@ protected function submit(Request $request, $key)
             'ship' => ['required', 'string', 'max:255'],
             'origin' => ['required', 'string', 'max:255'],
             'recs' => ['required', 'string', 'max:255'],
-            'cont' => ['required', 'numeric', 'digits:11'],
+            'cont' => ['nullable', 'numeric', 'digits:11'],
             'voyage' => ['required', 'string', 'max:255'],
             'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON

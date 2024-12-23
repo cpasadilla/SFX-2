@@ -22,7 +22,7 @@ class staffControl extends Controller {
         return Validator::make($data, [
             'fName' => ['required', 'string', 'max:255'],
             'lName' => ['required', 'string', 'max:255'],
-            'phoneNum' => ['required', 'numeric', 'digits:11', 'unique:users'],
+            'phoneNum' => ['nullable', 'numeric', 'digits:11', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'location' => ['required', 'string', 'max:255',Rule::notIn(['Choose Location'])],
             'position' => ['required', 'string', 'max:255',Rule::notIn(['Choose Position'])],

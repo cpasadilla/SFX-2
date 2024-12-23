@@ -102,8 +102,8 @@
                                             @enderror
                                         </div>
                                         <div class="input-group mb-1"><!--CONSIGNEE CONTACT NUMBER FIELD-->
-                                            <input type="text" name="cont" class="form-control @error('cont') is-invalid @enderror"
-                                            placeholder="{{ __('CONTACT NUMBER') }}" required autocomplete="cont" autofocus>
+                                            <input type="text" name="cont" class="form-control"
+                                            placeholder="{{ __('CONTACT NUMBER') }}" autocomplete="cont" autofocus>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fa-solid fa-hashtag"></i>

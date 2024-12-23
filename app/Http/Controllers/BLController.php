@@ -26,7 +26,7 @@ class BLController extends Controller {
             'fName' => ['required', 'string', 'max:255'],
             'lName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phoneNum' => ['required', 'numeric', 'digits:11', 'unique:users'],
+            'phoneNum' => ['nullable', 'numeric', 'digits:11', 'unique:users'],
         ]);
     }
 
@@ -105,7 +105,7 @@ class BLController extends Controller {
             'ship' => ['required', 'string', 'max:255'],
             'origin' => ['required', 'string', 'max:255'],
             'recs' => ['required', 'string', 'max:255'],
-            'cont' => ['required', 'numeric', 'digits:11'],
+            'cont' => ['nullable', 'numeric', 'digits:11'],
             'voyage' => ['required', 'string', 'max:255'],
             'containerNum' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'orderItems' => ['required', 'json'], // Ensure order items are passed as JSON

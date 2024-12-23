@@ -226,7 +226,8 @@
                         </div>
                         <!--PHONE NUMBER FIELD-->
                         <div class="input-group mb-3">
-                            <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus>
+                            <input type="text" name="phoneNum" class="form-control" 
+                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-phone"></span>
@@ -238,6 +239,7 @@
                                 </span>
                             @enderror
                         </div>
+
                         <!--SUBMIT BUTTON-->
                         <div class="row">
                             <div class="col-12">

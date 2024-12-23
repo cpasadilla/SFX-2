@@ -173,7 +173,7 @@
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
                         @endforeach
                     </div>
                 </div>

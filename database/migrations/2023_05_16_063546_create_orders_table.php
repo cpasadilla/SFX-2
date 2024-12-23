@@ -19,7 +19,7 @@ return new class extends Migration {
                 $table->string('cID');
                 $table->string('shipNum');
                 $table->string('consigneeName');
-                $table->string('consigneeNum');
+                $table->string('consigneeNum')->nullable();
                 //$table->string('origin');
                 //$table->string('destination');
                 $table->string('origin')->default('CHOOSE ORIGIN'); // Optional default
