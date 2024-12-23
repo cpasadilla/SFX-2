@@ -15,6 +15,14 @@
             height: 100%; /* Full height */
             overflow: hidden;
         }
+        footer {
+                position: fixed;
+                bottom: 0;
+                width: 80%;
+                font-size: 12px;
+                background: #fff;
+                padding-bottom: 20px;
+        }
         .card {
             display: block;
             width: 8.5in; /* Exactly the paper width */
@@ -224,6 +232,7 @@
                     </table>
                 </div>
                 <p style="font-size: 5px;"></p>
+                <footer>
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>
@@ -303,7 +312,8 @@
                         </strong>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div><br><br>
+                </div>
+                </footer><br><br>
             </div>
         </div>
     </div>

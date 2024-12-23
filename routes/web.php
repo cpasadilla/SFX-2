@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('c.order');
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
-    Route::get('/customer/{key}/search/', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
+    Route::get('/customer/{key}/-search/', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
     // CUSTOMER BL;S
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');

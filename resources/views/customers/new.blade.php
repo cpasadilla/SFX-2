@@ -1,4 +1,4 @@
-<!--View BL with Price-->
+<!--View BL with no Price-->
 @extends('layouts.app')
 @section('content')
 
@@ -14,6 +14,14 @@
             width: 100%; /* Full width */
             height: 100%; /* Full height */
             overflow: hidden;
+        }
+        footer {
+                position: fixed;
+                bottom: 0;
+                width: 80%;
+                font-size: 12px;
+                background: #fff;
+                padding-bottom: 20px;
         }
         .card {
             display: block;
@@ -183,9 +191,9 @@
                 </div>
                 <p style="font-size: 5px;"></p>
                 <div class="row pl-3 pr-3" style="width: 100%; font-size: 13.5px; margin: 0;">
-                    <table class="table table-condensed" style="margin: 0; border-collapse: collapse; border: none;">
-                        <thead style="background-color: #78BF65; color: white; border: none;">
-                            <tr style="border: none;">
+                    <table class="table table-condensed" style="margin: 0;">
+                        <thead style="background-color: #78BF65; color: white;">
+                            <tr>
                                 <th>QTY</th>
                                 <th>UNIT</th>
                                 <th>DESCRIPTION</th>
@@ -196,10 +204,10 @@
                                 <th>FREIGHT</th>
                             </tr>
                         </thead>
-                        <tbody style="border: none;">
+                        <tbody>
                             <!-- Table rows with data -->
                             @foreach ($parcel as $parcel)
-                                <tr style="border: none;">
+                                <tr>
                                     <td style="font-size:14px; text-align: center;">{{ $parcel->quantity }}</td>
                                     <td>{{ $parcel->unit }}</td>
                                     <td>{{ $parcel->itemName }}</td>
@@ -210,20 +218,21 @@
                                     <td><!--{{ number_format($parcel->total, 2) }}--></td>
                                 </tr>
                             @endforeach
-                            <tr style="border: none;">
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td><strong style="color: black;">{{ number_format($order->value, 2) }}</strong></td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td><!--<strong>{{ number_format($order->totalAmount, 2) }}</strong>--></td>
                             </tr>
                         </tbody>
                     </table>
-                </div>                
+                </div>
                 <p style="font-size: 5px;"></p>
+                <footer>
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>
@@ -303,7 +312,8 @@
                         </strong>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div><br><br>
+                </div>
+                </footer><br><br>
             </div>
         </div>
     </div>

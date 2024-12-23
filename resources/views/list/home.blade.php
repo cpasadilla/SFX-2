@@ -191,29 +191,106 @@ $(document).ready(function() {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="{{ route('p.cat') }}" enctype="multipart/form-data">
+                                            <form method="POST" action="{{ route('p.add') }}" enctype="multipart/form-data" id="create">
                                             @csrf
-                                            <div class="form-group row">
-                                                <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
-                                                <div class="col-md-6">
-                                                    <input id="category" type="text" class="form-control @error('category') is-invalid @enderror"
-                                                    name="category" value="{{ old('category') }}" required autocomplete="category" autofocus>
-                                                    @error('category')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
+                                            <!-- Input for Add/Edit -->
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+
+                                                    <label for="categoryName">Category Name</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <a data-toggle="modal" data-target="#editModal">
+                                                            <i class="fa-solid fa-pen-to-square fa-xl pl-3"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <a data-toggle="modal" data-target="#deleteModal">
+                                                            <i class="fa-solid fa-trash fa-xl pl-3"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
+                                                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name">
+
                                             </div>
-                                            <div class="modal-footer">
-                                                <a class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                <button type="submit" class="btn btn-primary">Add</button>
-                                            </div>
-                                        </form>
+
+                                            <!-- Buttons -->
+                                            <button type="submit" class="btn btn-primary" id="addCategory">Add</button>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                         <!-- EDIT Modal -->
+                         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">Edit / Delete Category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                            <form method="POST" action="{{ route('p.upd') }}" enctype="multipart/form-data" id="update">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="category">Select Category</label>
+                                                <div class="form-group d-flex align-items-center" >
+                                                    <select class="form-control me-5" id="categorySelect" name="categorySelect" style="max-width:90%;">
+                                                        <option value="">-- Select Category --</option>
+                                                        @foreach($cats as $cat)
+                                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                                        @endforeach
+
+                                                    </select>
+
+                                                </div>
+                                                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name">
+
+                                            </div>
+                                            <button type="submit" class="btn btn-warning" id="editCategory">Edit</button>
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DELETE Modal -->
+                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Edit / Delete Category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                            <form method="POST" action="{{ route('p.del') }}" enctype="multipart/form-data" id="update">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="category">Select Category</label>
+                                                <div class="form-group d-flex align-items-center" >
+                                                    <select class="form-control me-5" id="categorySelect" name="categorySelect" style="max-width:90%;">
+                                                        <option value="">-- Select Category --</option>
+                                                        @foreach($cats as $cat)
+                                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <button type="submit" class="btn btn-danger" id="editCategory">Delete</button>
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- CREATE -->
                         <form method="POST" action="{{ route('p.create') }}" enctype="multipart/form-data" id="create">

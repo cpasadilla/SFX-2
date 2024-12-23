@@ -15,6 +15,14 @@
             height: 100%; /* Full height */
             overflow: hidden;
         }
+        footer {
+                position: fixed;
+                bottom: 0;
+                width: 80%;
+                font-size: 12px;
+                background: #fff;
+                padding-bottom: 20px;
+        }
         .card {
             display: block;
             width: 8.5in; /* Exactly the paper width */
@@ -223,8 +231,8 @@
                         </tbody>
                     </table>
                 </div>
-                
                 <p style="font-size: 5px;"></p>
+                <footer>
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>
@@ -245,12 +253,11 @@
                         <p style="margin: 0;">3. Unclaimed cargoes shall be considered forfeited after 30 (thirty) days upon unloading.</p>
                     </div>
                 </div>
-                <p style="font-size: 5px;"></p>
                 <div class="row pl-3">
                     <div class="col-md-7"id="cd-7"></div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Freight :</span>
-                        <span style="text-align: center; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black;">{{ number_format($order->totalAmount, 2) }}</span>
+                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black;">{{ number_format($order->totalAmount, 2) }}</span>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                 </div>
@@ -258,7 +265,7 @@
                     <div class="col-md-7" style="padding-left:60px; font-size: 15px;"id="cd-7">Received on board vessel in apparent good condition.</div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Valuation :</span>
-                        <span style="text-align: center; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black; ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
+                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black; ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                 </div>
@@ -272,7 +279,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-align: font-size: 15px;center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
+                        <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;"></span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>
@@ -300,12 +307,13 @@
                     <div class="col-md-7"id="cd-7"></div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <strong style="text-align: right; font-size: 15px;">TOTAL :</strong>
-                        <strong style="text-align: center; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
+                        <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
                             {{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}
                         </strong>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div><br><br>
+                </div>
+                </footer><br><br>
             </div>
         </div>
     </div>
