@@ -70,8 +70,14 @@
                                         <td class="position">{{ $user->position }}</td>
                                         <td class="location">{{ $user->location }}</td>
                                         <td class="align-middle">
-                                            <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->id }}" style="color:grey"></i>
+                                            <span 
+                                                data-toggle="modal" 
+                                                data-target="#editCustomerModal{{ $user->id }}" 
+                                                style="color: rgb(44, 155, 199); cursor: pointer; text-decoration: none;" >
+                                                Edit
+                                            </span>
                                         </td>
+                                        
                                     </tr>
                                     <!--EDIT CUSTOMER MODAL-->
                                     <div class="modal fade" id="editCustomerModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel{{ $user->id }}" aria-hidden="true">
@@ -130,7 +136,9 @@
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
+                                                            <input type="text" name="phoneNum" class="form-control" 
+                                                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" 
+                                                            autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-phone"></span>
@@ -298,7 +306,6 @@
                                 </span>
                             @enderror
                         </div>
-
                         <!--PHONE NUMBER FIELD-->
                         <div class="input-group mb-3">
                             <input type="text" name="phoneNum" class="form-control" 

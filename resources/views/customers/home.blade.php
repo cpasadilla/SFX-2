@@ -65,15 +65,26 @@
                                         <td class="fName">{{ $user->fName }}</td>
                                         <td class="lName">{{ $user->lName }}</td>
                                         <td class="phoneNum">{{ $user->phoneNum }}</td>
-                                        <td class="align-middle">
-                                            <i class="fas fa-user-edit" data-toggle="modal" data-target="#editCustomerModal{{ $user->cID }}" style="color:grey"></i>
+                                        <td class="align-left">
+                                            <span 
+                                                data-toggle="modal" 
+                                                data-target="#editCustomerModal{{ $user->cID }}" 
+                                                style="color: rgb(14, 143, 195); cursor: pointer;">
+                                                EDIT INFO
+                                            </span>
+                                        </td>
+                                        
+                                        <td class="align-middle" style="text-align: center;">
+                                            <a href="{{ route('c.parcels', ['key' => $user->cID]) }}"style="color: rgb(14, 143, 195); text-decoration: none; cursor: pointer;">
+                                                VIEW AL BL
+                                            </a>
                                         </td>
                                         <td class="align-middle" style="text-align: center;">
-                                            <a href={{ route('c.parcels', ['key' => $user->cID]) }}><i class='fas fa-folder' style="color:grey"></i></a>
+                                            <a href="{{ route('c.order', ['key' => $user->cID]) }}" style="color: rgb(14, 143, 195); text-decoration: none; cursor: pointer;">
+                                                CREATE BL
+                                            </a>
                                         </td>
-                                        <td class="align-middle" style="text-align: center;">
-                                            <a href={{ route('c.order', ['key' => $user->cID]) }}><i class='fas fa-cart-plus' style="color:grey"></i></a>
-                                        </td>
+                                        
                                     </tr>
                                     <!--EDIT CUSTOMER MODAL-->
                                     <div class="modal fade" id="editCustomerModal{{ $user->cID }}" tabindex="-1" role="dialog" aria-labelledby="editCustomerModal{{ $user->cID }}" aria-hidden="true">
@@ -118,7 +129,8 @@
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="text" name="phoneNum" class="form-control @error('phoneNum') is-invalid @enderror" placeholder="{{ __('Phone Number') }}" required autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
+                                                            <input type="text" name="phoneNum" class="form-control" 
+                                                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-phone"></span>
@@ -145,34 +157,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- DELETE MODAL -->
-                                    <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Customer?') }}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>{{ __('This action cannot be undone.') }}</p>
-                                                    <form action="{{ route('c.error') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $user->id }}">
-                                                        <div class="text-right">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                                {{ __('Cancel') }}
-                                                            </button>
-                                                            <button type="submit" class="btn btn-danger">
-                                                                {{ __('Delete Account') }}
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                    @if(auth()->user()->isAdmin)
+                                        <!-- DELETE MODAL -->
+                                        <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Customer?') }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{ __('This action cannot be undone.') }}</p>
+                                                        <form action="{{ route('c.error') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $user->id }}">
+                                                            <div class="text-right">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                    {{ __('Cancel') }}
+                                                                </button>
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    {{ __('Delete Account') }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

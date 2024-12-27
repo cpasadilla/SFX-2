@@ -104,8 +104,8 @@
                                             @enderror
                                         </div>
                                         <div class="input-group mb-1">
-                                            <input type="text" name="cont" class="form-control @error('cont') is-invalid @enderror"
-                                            placeholder="{{ __('CONTACT NUMBER') }}" required autocomplete="cont" autofocus
+                                            <input type="text" name="cont" class="form-control"
+                                            placeholder="{{ __('CONTACT NUMBER') }}" autocomplete="cont" autofocus
                                             value = "{{$order->consigneeNum}}">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
@@ -226,8 +226,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="input-group mb-1">
-                                                        <input  type="text" name="remark" class="form-control @error('remark') is-invalid @enderror"
-                                                                placeholder="{{ __('REMARK') }}" required autocomplete="remark" autofocus
+                                                        <input  type="text" name="remark" class="form-control"
+                                                                placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus
                                                                 value = "{{$order->mark}}">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">

@@ -173,7 +173,7 @@
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
                         @endforeach
                     </div>
                 </div>
@@ -222,7 +222,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><strong style="color: black;">{{ number_format($order->value, 2) }}</strong></td>
+                                <td><strong style="color: black;">VALUE: {{ number_format($order->value, 2) }}</strong></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -265,7 +265,9 @@
                     <div class="col-md-7" style="padding-left:60px; font-size: 15px;"id="cd-7">Received on board vessel in apparent good condition.</div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Valuation :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black; ">{{ number_format(($order->value) * 0.0075, 2) }}</span>
+                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.
+                            <!--{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075, 2) }}-->
+                        </span>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                 </div>
@@ -279,7 +281,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;"></span>
+                        <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black; color: white;"><!--{{ (($order->check)) }}-->.</span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>

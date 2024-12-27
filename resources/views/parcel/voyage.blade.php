@@ -88,8 +88,14 @@
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
                                     <td style="text-align: center;">
-                                        <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
+                                        <span 
+                                            data-toggle="modal" 
+                                            data-target="#deleteUserModal{{ $order->orderId }}" 
+                                            style="color: rgb(14, 143, 195); cursor: pointer;">
+                                            ADD
+                                        </span>
                                     </td>
+                                    
                                 </tr>
 
 
