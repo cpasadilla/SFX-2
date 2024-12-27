@@ -191,7 +191,7 @@ $(document).ready(function() {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                            <form method="POST" action="{{ route('p.add') }}" enctype="multipart/form-data" id="create">
+                                            <form method="POST" action="{{ route('p.add') }}" enctype="multipart/form-data" id="create1">
                                             @csrf
                                             <!-- Input for Add/Edit -->
                                             <div class="form-group">
@@ -228,7 +228,7 @@ $(document).ready(function() {
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Edit / Delete Category</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -263,7 +263,7 @@ $(document).ready(function() {
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel">Edit / Delete Category</h5>
+                                        <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>

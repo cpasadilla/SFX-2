@@ -134,18 +134,18 @@ class CustomerController extends Controller {
             $cats = category::where('name', 'like', "%$search%")
                 ->get();
             if($cats->isEmpty()){
-                $items = priceList::paginate(15);
+                $items = priceList::orderBy('category', 'asc')->paginate(15)->appends(['search' => $search]);
             } else{
-                $key = $cats;
-                foreach($key as $keys){
+                $keys = $cats;
+                foreach($keys as $keys){
                     $id = $keys->id;
                 }
                 $items = priceList::where('category', 'like', "%$id%");
-                $items = $items->paginate();
+                $items = $items->paginate(15)->appends(['search' => $id]);
             }
         } else{
             $items = priceList::where('itemName', 'like', "%$search%");
-            $items = $items->paginate();
+            $items = $items->paginate(15)->appends(['search' => $search]);
         }
         $products = $items;
         $cats = category::paginate();
@@ -371,7 +371,7 @@ protected function submit(Request $request, $key)
             ));
         }
         $data = json_encode($array);
-        $products = priceList::paginate(15);
+        $products = priceList::orderBy('category', 'asc')->paginate(15);
         $cats = category::all();
         return view('customers.update', compact('users','orders','products','cats','data'));
     }
@@ -455,27 +455,30 @@ protected function submit(Request $request, $key)
     //SEARCH UPDATE BL
     public function find(Request $request, $key) {
         $search = $request->input('search');
+
         // Perform the search query and retrieve the filtered results
         $items = priceList::where('itemName', 'like', "%$search%")
             ->get();
-        $cats = category::paginate();
-
         if($items->isEmpty()){
             $cats = category::where('name', 'like', "%$search%")
                 ->get();
             if($cats->isEmpty()){
-
+                $products = priceList::orderBy('category', 'asc')->paginate(15)->appends(['search' => $search]);
             }
-            $key = $cats;
-            foreach($key as $keys){
+            else{
+            $keys = $cats;
+            foreach($keys as $keys){
                 $id = $keys->id;
             }
-            $items = priceList::where('category', 'like', "%$id%");
-        } else{
-            $items = priceList::where('itemName', 'like', "%$search%");
+
+            $products = priceList::where('category', 'like', "%$id%")->paginate(15)->appends(['search' => $id]);
         }
-        $products = $items->paginate();
+        } else{
+
+            $products =  priceList::where('itemName', 'like', "%$search%")->paginate(15)->appends(['search' => $search]);
+        }
         $cats = category::paginate();
+
         $orders = Order::where('orderID', $key)->get();
         foreach($orders as $order){
             $id = $order->cID;
