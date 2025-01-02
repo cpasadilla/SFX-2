@@ -173,17 +173,15 @@
                                                                 @if ($user->position == "Admin")
                                                                     <option selected value="Admin">Admin</option>
                                                                     <option value="Staff">Staff</option>
-                                                                    <option value="Checker">Checker</option>
                                                                 @elseif ($user->position == "Staff")
                                                                     <option value="Admin">Admin</option>
                                                                     <option selected value="Staff">Staff</option>
-                                                                    <option value="Checker">Checker</option>
                                                                 @else
                                                                     <option value="Admin">Admin</option>
                                                                     <option value="Staff">Staff</option>
-                                                                    <option selected value="Checker">Checker</option>
                                                                 @endif
                                                             </select>
+                                                            
                                                             @error('position')
                                                             <span class="error invalid-feedback">
                                                                 {{ $message }}
@@ -340,7 +338,7 @@
                                 <option selected>Choose Position</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Staff">Staff</option>
-                                <option value="Checker">Checker</option>
+                                <!--option value="Checker">Checker</option-->
                             </select>
                             @error('position')
                                 <span class="error invalid-feedback">
