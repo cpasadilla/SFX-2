@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'audit'])->name('c.audit');
     Route::get('/customer/BL/{key}/search', [\App\Http\Controllers\CustomerController::class, 'find'])->name('c.find');
     Route::post('/BL/update/{key}', [\App\Http\Controllers\CustomerController::class, 'update'])->name('c.update');
+    Route::put('/customer/update-status/{orderId}', [\App\Http\Controllers\CustomerController::class, 'updateStatus'])->name('c.updateStatus');
 
     //List
     Route::get('/priceList', [\App\Http\Controllers\listController::class,'index'])->name('price');

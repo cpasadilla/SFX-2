@@ -120,7 +120,18 @@ class CustomerController extends Controller {
         $ship = ship::all();
         return view('customers.create', compact('users','products','cats','ship'));
     }
-
+    public function updateStatus(Request $request, $orderId)
+    {
+        $order = Order::find($orderId);
+        
+        if ($order) {
+            $order->status = $request->status;
+            $order->save();
+        }
+        
+        return redirect()->back(); // Redirect back to the same page after update
+    }
+    
     //search order page
     public function scout(Request $request, $key){
         $search = $request->input('search');

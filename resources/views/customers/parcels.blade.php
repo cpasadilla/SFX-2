@@ -47,6 +47,7 @@
                                     <th style="text-align: center" scope="col" onclick="sortTable(5)">Origin</th>
                                     <th style="text-align: center" scope="col" onclick="sortTable(6)">Destination</th>
                                     <th style="text-align: center" scope="col" onclick="sortTable(7)">Total Amount</th>
+                                    <th style="text-align: center;">STATUS</th>
                                     <th style="text-align: center" scope="col" >OR#</th>
                                     <th style="text-align: center" scope="col" >AR#</th>
                                     <th style="text-align: center" scope="col" >Update</th>
@@ -68,6 +69,23 @@
                                         <td style="text-align: center">{{ $order->origin }}</td>
                                         <td style="text-align: center">{{ $order->destination }}</td>
                                         <td style="text-align: center">{{ $order->totalAmount }}</td>
+                                        <td style="text-align: center;">
+                                            <form action="{{ route('c.updateStatus', ['orderId' => $order->orderId]) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <select name="status" class="form-control" onchange="this.form.submit()">
+                                                    <option value="inProgress" {{ $order->status == 'inProgress' ? 'selected' : '' }}>IN PROGRESS</option>
+                                                    <option value="TRANSFER" {{ $order->status == 'TRANSFER' ? 'selected' : '' }}>TRANSFER</option>
+                                                    <option value="CHARTERED" {{ $order->status == 'CHARTERED' ? 'selected' : '' }}>CHARTERED</option>
+                                                    <option value="CANCELLED" {{ $order->status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>
+                                                    <option value="OFFLOAD" {{ $order->status == 'OFFLOAD' ? 'selected' : '' }}>OFFLOAD</option>
+                                                    <option value="TOPLOAD" {{ $order->status == 'TOPLOAD' ? 'selected' : '' }}>TOPLOAD</option>
+                                                    <option value="SHIP" {{ $order->status == 'SHIP' ? 'selected' : '' }}>SHIP</option>
+                                                    <option value="COMPLETE" {{ $order->status == 'COMPLETE' ? 'selected' : '' }}>COMPLETE</option>
+                                                </select>
+                                            </form>
+                                        </td>
+
                                         <td style="text-align: center">{{ $order->OR }}</td>
                                         <td style="text-align: center">{{ $order->AR}}</td>
 
