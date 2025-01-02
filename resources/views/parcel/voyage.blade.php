@@ -30,7 +30,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>VOYAGE {{ $voyageNum }}</h5>
+                        <h5>MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
                     </div>
                     <div class="card-body">
                         <table id="myTable2" class="table">
@@ -39,6 +39,7 @@
                                     <th style="text-align: center;" onclick="sortTable(0)">ORDER ID</th>
                                     <th style="text-align: center;" onclick="sortTable(1)">CUSTOMER ID</th>
                                     <th style="text-align: center;" onclick="sortTable(2)">VOYAGE NUMBER</th>
+                                    <th style="text-align: center;">CONTAINER NUMBER</th>
                                     <th style="text-align: center;" onclick="sortTable(3)">CUSTOMER NAME</th>
                                     <th style="text-align: center;" onclick="sortTable(4)">CONSIGNEE NAME</th>
                                     <th style="text-align: center;" onclick="sortTable(5)">CHECKER NAME</th>
@@ -48,7 +49,7 @@
                                     <th style="text-align: center;" onclick="sortTable(9)">TOTAL AMOUNT</th>
                                     <th style="text-align: center;">STATUS</th>
                                     <th style="text-align: center;">VIEW BL</th>
-                                    <th style="text-align: center;">ADD OR/AR</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,6 +58,7 @@
                                     <td style="text-align: center;">{{ $order->orderId }}</td>
                                     <td style="text-align: center;">{{ $order->cID }}</td>
                                     <td style="text-align: center;">{{ $order->voyageNum }}</td>
+                                    <td style="text-align: center;">{{ $order->containerNum }}</td>
                                     <td style="text-align: center;">
                                         {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
@@ -71,14 +73,14 @@
                                     <td style="text-align: center;">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <!--td style="text-align: center;">
                                         <span 
                                             data-toggle="modal" 
                                             data-target="#deleteUserModal{{ $order->orderId }}" 
                                             style="color: rgb(14, 143, 195); cursor: pointer;">
                                             ADD
                                         </span>
-                                    </td>
+                                    </td-->
                                     
                                 </tr>
 
