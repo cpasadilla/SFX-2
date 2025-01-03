@@ -16,19 +16,18 @@
     </div>
     <div class="row mb-2" style="padding-left:8px;">
         @foreach ($users as $user)
-        <div class="col-md-6">
-            <form action="{{ route('c.scout', ['key' => $user->cID]) }}" method="GET">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-success">Search</button>
+            <div class="col-md-6">
+                <form action="{{ route('c.scout', ['key' => $user->cID]) }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
         @endforeach
-    </div>
-    <br>
+    </div><br>
     <div class="content" style="padding-left:8px; padding-right:8px;">
         <div class="row">
             <div class="col-lg-7">
@@ -88,6 +87,7 @@
                                 <div class="card-body">
                                     <p> Name: {{$user->fName}} {{$user->lName}}</p>
                                     <p> CUSTOMER ID: {{$user->cID}}</p>
+                                    
                                     <p> PHONE NUMBER: {{$user->phoneNum}}
                                         <div class="input-group mb-1"><!--CONSIGNEE NAME FIELD-->
                                             <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
@@ -259,20 +259,19 @@
     // Call the function on page load to initialize the destination options based on the default origin
     window.onload = updateDestinationOptions;
 </script>
-
 <script>
     let orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
     let orderTotal = 0;
 
     function addToOrder(productId, productName, productUnit, productPrice) {
-    const quantityInput = document.getElementById(`quantity-${productId}`);
-    const quantity = parseInt(quantityInput.value) || 1;
+        const quantityInput = document.getElementById(`quantity-${productId}`);
+        const quantity = parseInt(quantityInput?.value) || 1;
 
         let orderItem = orderItems.find(item => item.id === productId);
         if (orderItem) {
             orderItem.quantity += quantity;
             orderItem.total = orderItem.quantity * productPrice;
-        } else { // If not, add it to the order
+        } else {
             orderItem = {
                 id: productId,
                 name: productName,
@@ -282,64 +281,11 @@
                 total: quantity * productPrice
             };
             orderItems.push(orderItem);
-
-            quantityInput.value = 1;
         }
 
-        updateOrderItems(); // Update the UI
-        localStorage.setItem('orderItems', JSON.stringify(orderItems));// Save the updated order items to localStorage
-        //event.preventDefault();// Prevent form submission
-    }
-
-    function updateOrderItems() {
-        let orderItemsHtml = '';
-        orderTotal = 0;
-        orderItems.forEach(item => {
-            orderItemsHtml += `
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.unit}</td>
-                <td></td>
-                <td>${item.quantity}</td>
-                <td></td>
-                <td><button type="button" class="btn btn-primary" onclick="removeFromOrder(${item.id})">Remove</button></td>
-            </tr>`;
-            orderTotal += item.total;
-        });
-
-        $('#orderItems').html(orderItemsHtml);//$('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        if (orderItems.length > 0) {
-            $('#submitOrderBtn').prop('disabled', false);
-        } else {
-            $('#submitOrderBtn').prop('disabled', true);
-        }
-        $('#orderItemsInput').val(JSON.stringify(orderItems));
-    }
-
-    function updateItemQuantity(productId, quantity) {
-        let orderItem = orderItems.find(item => item.id === productId);
-
-        if (orderItem) {
-            orderItem.quantity = parseInt(quantity, 10); // Ensure valid number
-            orderItem.total = orderItem.quantity * orderItem.price;
-            updateOrderItems();
-            localStorage.setItem('orderItems', JSON.stringify(orderItems));
-        }
-    }
-
-    function removeFromOrder(productId) {
-        const index = orderItems.findIndex(item => item.id === productId);
-        if (index !== -1) {
-            orderItems.splice(index, 1); // Remove item from the array
-            updateOrderItems();
-            localStorage.setItem('orderItems', JSON.stringify(orderItems));
-        }
-    }
-
-    function clearOrderSummary() {
-        orderItems = []; // Clear the order items array
-        localStorage.removeItem('orderItems'); // Remove items from localStorage
-        updateOrderItems(); // Update UI
+        quantityInput.value = 1; // Reset input to default
+        updateOrderItems();
+        localStorage.setItem('orderItems', JSON.stringify(orderItems));
     }
 
     function updateOrderItems() {
@@ -365,53 +311,55 @@
 
         document.getElementById('orderItems').innerHTML = orderItemsHtml;
         document.getElementById('orderItemsInput').value = JSON.stringify(orderItems);
-
-        // Enable or disable the submit button based on orderItems length
         document.getElementById('submitOrderBtn').disabled = orderItems.length === 0;
     }
 
+    function updateItemQuantity(productId, quantity) {
+        const orderItem = orderItems.find(item => item.id === productId);
+        if (orderItem) {
+            orderItem.quantity = Math.max(parseInt(quantity, 10), 1);
+            orderItem.total = orderItem.quantity * orderItem.price;
+            updateOrderItems();
+            localStorage.setItem('orderItems', JSON.stringify(orderItems));
+        }
+    }
+
+    function removeFromOrder(productId) {
+        orderItems = orderItems.filter(item => item.id !== productId);
+        updateOrderItems();
+        localStorage.setItem('orderItems', JSON.stringify(orderItems));
+    }
+
+    function clearOrderSummary() {
+        orderItems = [];
+        localStorage.removeItem('orderItems');
+        updateOrderItems();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-    updateOrderItems(); // Load and update items on page load
-});
-
-$(document).ready(function() { // Load all data from the JSON file upon page load
-    $.getJSON('/path/to/json/file.json', function(data) { // Process the data and add it to the product catalog
-        let productsHtml = '';
-        data.forEach(product => {
-            productsHtml += `
-                <tr>
-                    <td>${product.itemName}</td>
-                    <td>${product.unit}</td>
-                    <td>${product.price}</td>
-                    <td><button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button></td>
-                </tr>
-            `;
-        });
-        $('#productCatalog').html(productsHtml);
+        updateOrderItems();
     });
-    updateOrderItems();
-});
+
+    $(document).ready(function () {
+        $.getJSON('/path/to/json/file.json', function (data) {
+            let productsHtml = '';
+            data.forEach(product => {
+                productsHtml += `
+                    <tr>
+                        <td>${product.itemName}</td>
+                        <td>${product.unit}</td>
+                        <td>${product.price.toFixed(2)}</td>
+                        <td>
+                            <input type="number" id="quantity-${product.id}" value="1" min="1" style="width: 60px; text-align: center;">
+                            <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button>
+                        </td>
+                    </tr>`;
+            });
+            $('#productCatalog').html(productsHtml);
+        });
+    });
 </script>
 
-<script>
-    function updatePrice() { // Get values from input fields
-        const length = parseFloat(document.getElementById('length').value) || 0;
-        const width = parseFloat(document.getElementById('width').value) || 0;
-        const height = parseFloat(document.getElementById('height').value) || 0;
-        const multiplier = parseFloat(document.getElementById('multiplier').value) || 0;
-
-        const calculatedPrice = length * width * height * multiplier; // Calculate the price (length * width * height * multiplier)
-
-        document.getElementById('price').value = calculatedPrice.toFixed(2); // Display the result with 2 decimal places
-    }
-
-    function clearOrderSummary() { // Clear the orderItems array
-    orderItems = []; // Remove all items from localStorage
-    localStorage.removeItem('orderItems'); // Update the UI to reflect the cleared order
-
-    updateOrderItems();
-    }
-</script>
 
 <style>
     .btn-primary {

@@ -47,7 +47,8 @@
                                     <th style="text-align: center" scope="col" onclick="sortTable(5)">Origin</th>
                                     <th style="text-align: center" scope="col" onclick="sortTable(6)">Destination</th>
                                     <th style="text-align: center" scope="col" onclick="sortTable(7)">Total Amount</th>
-                                    <th style="text-align: center;">STATUS</th>
+                                    <th style="text-align: center;">CARGO STATUS</th>
+                                    <th style="text-align: center;">BL STATUS</th>
                                     <th style="text-align: center" scope="col" >OR#</th>
                                     <th style="text-align: center" scope="col" >AR#</th>
                                     <th style="text-align: center" scope="col" >Update</th>
@@ -68,7 +69,7 @@
                                         <td style="text-align: center">{{ $order->voyageNum }}</td>
                                         <td style="text-align: center">{{ $order->origin }}</td>
                                         <td style="text-align: center">{{ $order->destination }}</td>
-                                        <td style="text-align: center">{{ $order->totalAmount }}</td>
+                                        <td style="text-align: center">{{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}</td>                                        
                                         <td style="text-align: center;">
                                             <form action="{{ route('c.updateStatus', ['orderId' => $order->orderId]) }}" method="POST">
                                                 @csrf
@@ -82,10 +83,11 @@
                                                     <option value="TOPLOAD" {{ $order->status == 'TOPLOAD' ? 'selected' : '' }}>TOPLOAD</option>
                                                     <option value="SHIP" {{ $order->status == 'SHIP' ? 'selected' : '' }}>SHIP</option>
                                                     <option value="COMPLETE" {{ $order->status == 'COMPLETE' ? 'selected' : '' }}>COMPLETE</option>
+                                                    <option value="PAID" {{ $order->status == 'PAID' ? 'selected' : '' }}>PAID</option>
+                                                    <option value="UNPAID" {{ $order->status == 'UNPAID' ? 'selected' : '' }}>UNPAID</option>
                                                 </select>
                                             </form>
                                         </td>
-
                                         <td style="text-align: center">{{ $order->OR }}</td>
                                         <td style="text-align: center">{{ $order->AR}}</td>
 
@@ -102,84 +104,75 @@
                                             <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
                                         </td>
                                     </tr>
+                                    <!-- ADD OR/AR -->
+                                    <div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteUserModalLabel{{ $order->orderId }}">{{ __('ADD OR/AR') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <form action="{{ route('c.or', ['key' => $order->cID, 'orderId' => $order->orderId]) }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $order->orderId }}">
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">
+                                                                        <span class="fas fa-hashtag"></span>
+                                                                    </div>
+                                                                </div>
+                                                                @error('OR')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <button type="submit" class="btn btn-success">
+                                                                    {{ __('Submit OR') }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
 
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <form action="{{ route('c.ar', ['key' => $order->cID,'orderId' => $order->orderId]) }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $order->orderId }}">
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">
+                                                                        <span class="fas fa-hashtag"></span>
+                                                                    </div>
+                                                                </div>
+                                                                @error('AR')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <button type="submit" class="btn btn-success">
+                                                                    {{ __('Submit AR') }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
 
+                                                    </div>
+                                                </div>
 
-
-
-
-
-
-
-<!-- ADD OR/AR -->
-<div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->orderId }}">{{ __('ADD OR/AR') }}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <br>
-            <div class="row">
-                <div class="col-md-6">
-                    <form action="{{ route('c.or', ['key' => $order->cID, 'orderId' => $order->orderId]) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ $order->orderId }}">
-                        <div class="input-group mb-3">
-                            <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-hashtag"></span>
-                                </div>
-                            </div>
-                            @error('OR')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-success">
-                                {{ __('Submit OR') }}
-                            </button>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="col-md-6">
-                    <form action="{{ route('c.ar', ['key' => $order->cID,'orderId' => $order->orderId]) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ $order->orderId }}">
-                        <div class="input-group mb-3">
-                            <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-hashtag"></span>
-                                </div>
-                            </div>
-                            @error('AR')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-success">
-                                {{ __('Submit AR') }}
-                            </button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-    </div>
-    </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        </div>
                                 @endforeach
                             </tbody>
                         </table>

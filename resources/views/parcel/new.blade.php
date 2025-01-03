@@ -234,6 +234,19 @@
                 <p style="font-size: 5px;"></p>
                 <footer>
                 <div class="row pl-3">
+                    <div class="col-md-6" id="cd-6-left"></div>
+                    <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
+                        <span style="text-align: right; font-size: 15px;"></span>
+                        @if($order->status == 'PAID' || $order->status == 'UNPAID')
+                            <span style="text-align: center; display: inline-block; width: 200px; border: 1px solid black; color: rgb(128, 0, 0); font-size: 15px; font-weight: bold;">
+                                {{ $order->status == 'PAID' ? 'PAID' : 'UNPAID' }} IN SFXSSLI MANILA <br>
+                                OR#: {{ $order->OR }} <br>
+                                AR#: {{ $order->AR }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>
                     </div>
