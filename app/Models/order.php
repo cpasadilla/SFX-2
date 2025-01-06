@@ -38,6 +38,7 @@ class order extends Model
         'status',
         'OR',
         'AR',
+        'bl_status',
 
     ];
 

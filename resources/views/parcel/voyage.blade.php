@@ -40,15 +40,18 @@
                                     <th style="text-align: center;" onclick="sortTable(1)">CUSTOMER ID</th>
                                     <th style="text-align: center;" onclick="sortTable(2)">VOYAGE NUMBER</th>
                                     <th style="text-align: center;">CONTAINER NUMBER</th>
-                                    <th style="text-align: center;" onclick="sortTable(3)">CUSTOMER NAME</th>
+                                    <th style="text-align: center;" onclick="sortTable(3)">SHIPPER NAME</th>
                                     <th style="text-align: center;" onclick="sortTable(4)">CONSIGNEE NAME</th>
                                     <th style="text-align: center;" onclick="sortTable(5)">CHECKER NAME</th>
                                     <th style="text-align: center;" onclick="sortTable(6)">DATE CREATED</th>
                                     <th style="text-align: center;" onclick="sortTable(7)">OR#</th>
                                     <th style="text-align: center;" onclick="sortTable(8)">AR#</th>
                                     <th style="text-align: center;" onclick="sortTable(9)">TOTAL AMOUNT</th>
-                                    <th style="text-align: center;">STATUS</th>
+                                    <th style="text-align: center;">CARGO STATUS</th>
+                                    <th style="text-align: center;">BL STATUS</th>
+                                    <th style="text-align: center;">REMARK</th>
                                     <th style="text-align: center;">VIEW BL</th>
+                                    
                                     
                                 </tr>
                             </thead>
@@ -67,12 +70,14 @@
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ $order->OR }}</td>
                                     <td style="text-align: center;">{{ $order->AR }}</td>
-                                    <td style="text-align: center;">{{ $order->totalAmount }}</td>
+                                    <td style="text-align: center;">{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>
                                     <td style="text-align: center;">{{ $order->status }}</td>
-
+                                    <td style="text-align: center;">{{ $order->bl_status }}</td>
+                                    <td style="text-align: center">{{ $order->mark}}</td>
                                     <td style="text-align: center;">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
+                                    
                                     <!--td style="text-align: center;">
                                         <span 
                                             data-toggle="modal" 

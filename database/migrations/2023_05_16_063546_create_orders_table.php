@@ -30,14 +30,16 @@ return new class extends Migration {
                 $table->string('containerNum')->nullable();
                 //$table->string('value')->nullable();
                 $table->string('check')->nullable();
-                $table->string('status')->default('inProgress'); // Add status column once
+                $table->string('status')->nullable();
 
                 $table->string('orderCreated');
+                
                 $table->string('value')->nullable();
                 $table->string('mark')->nullable();
 
                 $table->string('OR')->nullable();
                 $table->string('AR')->nullable();
+                $table->string('bl_status')->nullable();
 
                 $table->timestamps();
                 $table->index('cargoNum');
@@ -46,7 +48,7 @@ return new class extends Migration {
             Schema::table('orders', function (Blueprint $table) {
                 // Add new columns if they do not already exist
                 if (!Schema::hasColumn('orders', 'status')) {
-                    $table->string('status')->default('inProgress');
+                    $table->string('status')->default('CHARTERED');
                 }
             });
         }
@@ -65,7 +67,8 @@ return new class extends Migration {
                 }
 
                 // Re-add the individual status columns if rolling back
-                $columns = ['inProgress','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE', 'PAID', 'UNPAID'];
+                $columns = ['CHARTERED','LOOSE CARGO', 'STUFFING'];
+                //$columns = ['inProgress','TRANSFER', 'CHARTERED', 'CANCEL', 'OFFLOAD', 'TOPLOAD', 'SHIP', 'COMPLETE', 'PAID', 'UNPAID'];
                 foreach ($columns as $column) {
                     if (!Schema::hasColumn('orders', $column)) {
                         $table->string($column)->default('0');

@@ -91,7 +91,7 @@
                                     <p> PHONE NUMBER: {{$user->phoneNum}}
                                         <div class="input-group mb-1"><!--CONSIGNEE NAME FIELD-->
                                             <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
-                                            placeholder="{{ __('CONSIGNEE NAME') }}" required autocomplete="recs" autofocus>
+                                            placeholder="{{ __('SHIPPER NAME') }}" required autocomplete="recs" autofocus>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fa-solid fa-signature"></i>

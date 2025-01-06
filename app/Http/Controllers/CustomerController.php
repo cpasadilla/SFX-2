@@ -122,14 +122,49 @@ class CustomerController extends Controller {
     }
     public function updateStatus(Request $request, $orderId)
     {
+        // Find the order by its ID
         $order = Order::find($orderId);
-        
+    
         if ($order) {
-            $order->status = $request->status;
+            // If the status is not blank, update it; otherwise, reset the status to null
+            if ($request->status !== null) {
+                $order->status = $request->status;
+            } else {
+                $order->status = null; // Or leave it empty, depending on your requirement
+            }
+    
+            // Save the changes to the database
             $order->save();
         }
-        
-        return redirect()->back(); // Redirect back to the same page after update
+    
+        // Redirect back to the same page after the update
+        return redirect()->back();
+    }
+    
+    public function updateBLStatus(Request $request, $orderId)
+    {
+        // Retrieve the order by its ID
+        $order = Order::where('orderId', $orderId)->firstOrFail();
+    
+        // Validate the incoming request
+        $request->validate([
+            'bl_status' => 'nullable|in:PAID,UNPAID', // Accepts null as a valid value
+        ]);
+    
+        // If 'bl_status' is null, make sure we don't update it
+        if ($request->input('bl_status') !== null) {
+            // Update the BL Status only if it's not null
+            $order->bl_status = $request->input('bl_status');
+        } else {
+            // If 'bl_status' is null, you may want to reset it or leave it as is
+            $order->bl_status = null; // Optional, depending on your use case
+        }
+    
+        // Save the changes
+        $order->save();
+    
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'BL Status updated successfully.');
     }
     
     //search order page

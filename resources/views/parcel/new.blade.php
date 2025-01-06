@@ -5,6 +5,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/vfs_fonts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
 
 <style>
     @media print {
@@ -119,14 +122,23 @@
                         Email Address: fxavier_2015@yahoo.com.ph
                     </p>
                 </div>
-                <div class="row" style="padding: 0; margin: 0; display: flex; justify-content: center; align-items: center;">
-                    <div style="font-size: 20px;">
-                        <p style="margin: 0; text-align: center;">
-                            <span style="font-family: Arial; font-weight: bold; font-size: 20px;">BILL OF LADING</span>
-                        </p>
+                <div class="row" style="padding: 0; margin: 0; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="flex: 1; display: flex; justify-content: center;">
+                        <span style="font-family: Arial; font-weight: bold; font-size: 20px; padding-left:50px;">BILL OF LADING</span>
                     </div>
                 </div>
-                <p style="font-size: 5px;"></p>
+                @if(is_null($order->status) || $order->status == '')
+    <!-- Display the empty <p> tag when status is null or blank -->
+    <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
+        <span style="color: white;">.</span>
+    </div>
+@else
+    <!-- Display the status in a flex container when status has a value -->
+    <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
+        <span>{{ $order->status }}</span>
+    </div>
+@endif
+
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-3"id="cd-3">
                         <strong>M/V EVERWIN STAR</strong> <span style="text-align: center;display: inline-block; width: 30%; border-bottom: 1px solid black;">{{ $order->shipNum }}</span><br>
@@ -156,24 +168,24 @@
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
+                            <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;">{{ $order->consigneeName }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:30px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONSIGNEE:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeName }}</span><br>
+                            <strong>CONSIGNEE:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
                         @endforeach
                     </div>
                 </div>
                 <div class="row" style="padding-left:30px; font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->phoneNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->consigneeNum }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->phoneNum }}</span><br>
                         @endforeach
                     </div>
                 </div>
@@ -237,15 +249,24 @@
                     <div class="col-md-6" id="cd-6-left"></div>
                     <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
                         <span style="text-align: right; font-size: 15px;"></span>
-                        @if($order->status == 'PAID' || $order->status == 'UNPAID')
-                            <span style="text-align: center; display: inline-block; width: 200px; border: 1px solid black; color: rgb(128, 0, 0); font-size: 15px; font-weight: bold;">
-                                {{ $order->status == 'PAID' ? 'PAID' : 'UNPAID' }} IN SFXSSLI MANILA <br>
-                                OR#: {{ $order->OR }} <br>
-                                AR#: {{ $order->AR }}
+                        @if($order->bl_status == 'PAID' || $order->bl_status == 'UNPAID')
+                        <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
+                                @if($order->bl_status == 'PAID')
+                                    PAID IN SFXSSLI MANILA <br>
+                                    @if(!empty($order->OR))
+                                        OR#: {{ $order->OR }}<br>
+                                    @endif
+                                    @if(!empty($order->AR))
+                                        AR#: {{ $order->AR }}<br>
+                                    @endif
+                                @elseif($order->bl_status == 'UNPAID')
+                                    UNPAID IN SFXSSLI MANILA 
+                                @endif
                             </span>
                         @endif
                     </div>
                 </div>
+
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>
@@ -270,7 +291,7 @@
                     <div class="col-md-7"id="cd-7"></div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Freight :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black;">{{ number_format($order->totalAmount, 2) }}</span>
+                        <span style="text-align: center; display: inline-block; font-size: 15px; width: 50%; border-bottom: 1px solid black; color:black;">{{ number_format($order->totalAmount, 2) }}</span>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                 </div>
@@ -278,7 +299,7 @@
                     <div class="col-md-7" style="padding-left:60px; font-size: 15px;"id="cd-7">Received on board vessel in apparent good condition.</div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Valuation :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:black;">
+                        <span style="text-align: center; display: inline-block; font-size: 15px; width: 50%; border-bottom: 1px solid black; color:black;">
                             {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075, 2) }}
                         </span>
                     </div>
@@ -294,7 +315,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
+                        <span style="text-align: center; display: inline-block; font-size: 15px; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>
@@ -322,8 +343,8 @@
                     <div class="col-md-7"id="cd-7"></div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <strong style="text-align: right; font-size: 15px;">TOTAL : </strong>
-                        <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
-                            {{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}
+                        <strong style="text-align: center; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
+                            {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}
                         </strong>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>

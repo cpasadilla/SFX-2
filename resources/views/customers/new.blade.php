@@ -156,24 +156,24 @@
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
+                            <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $order->consigneeName }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:30px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONSIGNEE:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;">{{ $order->consigneeName }}</span><br>
+                            <strong>CONSIGNEE:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
                         @endforeach
                     </div>
                 </div>
                 <div class="row" style="padding-left:30px; font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;">{{ $user->phoneNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;">{{ $user->consigneeNum }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->phoneNum }}</span><br>
                         @endforeach
                     </div>
                 </div>
@@ -310,7 +310,7 @@
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <strong style="text-align: right; font-size: 15px;">TOTAL :</strong>
                         <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.
-                            <!--{{ number_format($order->value * 0.0075 + $order->totalAmount, 2) }}-->
+                            <!--{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}-->
                         </strong>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>

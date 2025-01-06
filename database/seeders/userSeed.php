@@ -2949,7 +2949,7 @@ class userSeed extends Seeder
             'shipNum'=> '1',
             'origin' => 'Manila',
             'destination' => 'Batanes',
-            'totalAmount' => '381.63',
+            'totalAmount' => '69264.82',
             'cID' => '0001',
             'orderId' => $orderId,
             'orderCreated' => $date,
