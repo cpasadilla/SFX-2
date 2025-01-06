@@ -47,7 +47,7 @@
                                     <th style="text-align: center" scope="col" onclick="sortTable(5)">Origin</th>
                                     <th style="text-align: center" scope="col" onclick="sortTable(6)">Destination</th>
                                     <th style="text-align: center" scope="col" onclick="sortTable(7)">Total Amount</th>
-                                    <th style="text-align: center;">CARGO STATUS</th>
+                                    <!--th style="text-align: center;">CARGO STATUS</th-->
                                     <th style="text-align: center;">BL STATUS</th>
                                     <th style="text-align: center" scope="col" >OR#</th>
                                     <th style="text-align: center" scope="col" >AR#</th>
