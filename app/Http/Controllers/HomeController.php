@@ -28,8 +28,8 @@ class HomeController extends Controller {
         $id = User::paginate();
         $id = count($id);
         $staff = count(CustomerID::paginate());
-        $prog = count(order::where('status','inProgress')->get());
-        $comp = count(order::where('status','CHARTERED')->get());
+        $prog = count(order::where('bl_status','PAID')->get());
+        $comp = count(order::where('bl_status','UNPAID')->get());
         return view('home', compact('id','prog','staff','comp'));
     }
 }

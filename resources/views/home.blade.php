@@ -31,7 +31,7 @@ window.location = "{{route('p.view')}}";
                   <div class="inner">
                     <h3>{{$prog}}</h3>
 
-                    <p>IN PROGRESS ORDERS</p>
+                    <p>PAID BL</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -46,7 +46,7 @@ window.location = "{{route('p.view')}}";
                   <div class="inner">
                     <h3>{{$comp}}</h3>
 
-                    <p>CHARTERED ORDERS</p>
+                    <p>UNPAID BL</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-stats-bars"></i>

@@ -128,16 +128,16 @@
                     </div>
                 </div>
                 @if(is_null($order->status) || $order->status == '')
-    <!-- Display the empty <p> tag when status is null or blank -->
-    <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-        <span style="color: white;">.</span>
-    </div>
-@else
-    <!-- Display the status in a flex container when status has a value -->
-    <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-        <span>{{ $order->status }}</span>
-    </div>
-@endif
+                    <!-- Display the empty <p> tag when status is null or blank -->
+                    <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
+                        <span style="color: white;">.</span>
+                    </div>
+                @else
+                    <!-- Display the status in a flex container when status has a value -->
+                    <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
+                        <span>{{ $order->status }}</span>
+                    </div>
+                @endif
 
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-3"id="cd-3">
@@ -180,12 +180,12 @@
                 <div class="row" style="padding-left:30px; font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->consigneeNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->phoneNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->phoneNum }}</span><br>
                         @endforeach
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-align: center; display: inline-block; font-size: 15px; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
+                        <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>
