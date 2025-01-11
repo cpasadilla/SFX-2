@@ -116,8 +116,8 @@
                 <p>Note: <br>
                     - When the status is ON PORT, you can create a BL. <br>
                     - When the status is ON SEA, you cannot create a BL for the ship number. <br>
-                    - ARRIVED means a new voyage number will be generated, but you need to revert it to ON PORT and click ARRIVED again to generate a new Voyage No. <br>
-                    - DRYDOCKED means no BL creation. Changing it back to ON PORT creates a new Dock No. and Voyage No. 1 as empty.
+                    - ARRIVED means a new voyage number will be generated. When status is ON SEA click ARRIVED to generate a new Voyage No. <br>
+                    - DRYDOCKED means no BL creation. Changing it back to READY creates a new Dock No. and Voyage No. 1 as empty.
                 </p>
             </div>
         </div>

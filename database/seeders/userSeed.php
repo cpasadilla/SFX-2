@@ -87,12 +87,6 @@ class userSeed extends Seeder
             'phoneNum' => '09748591632'
         ]);
 
-        CustomerID::create([
-            'cID' => '0002',
-            'fName' => 'SAMPLE',
-            'lName' => 'TRY'
-        ]);
-
         category::create([
             'name' => 'FIXED PRICE',
         ]);

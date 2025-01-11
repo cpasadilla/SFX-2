@@ -135,7 +135,7 @@
                                             value = "{{$order->voyageNum}}" readonly>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <i class="fas fa-ship"></i>
+                                                    <i class="fas fa-hashtag"></i>
                                                 </div>
                                             </div>
                                             @error('voyage')
@@ -152,6 +152,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-6 ml-1"> ORIGIN </div>
+                                                <div class="col-md-5"> DESTINATION</div>
+                                            </div>
                                         <div class="input-group mb-1"><!--ORIGIN FIELD-->
                                             @if ($order->containerNum == "Manila")
                                             <select id="origin" name="origin" class="form-control" onchange="updateDestinationOptions()">
@@ -183,7 +187,7 @@
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <br>
+                                        
                                         <form method="POST" action="{{ route('order.submit') }}">
                                             @csrf
                                                 <table class="table" id="orderSummary">
@@ -212,7 +216,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="input-group mb-1">
-                                                        <input type="text" name="checker" class="form-control @error('checker') is-invalid @enderror"
+                                                        <input type="text" name="checker" class="form-control"
                                                         placeholder="{{ __('CHECKER') }}" autocomplete="checker" autofocus
                                                         value = "{{$order->check}}">
                                                         <div class="input-group-append">
@@ -231,11 +235,24 @@
                                                                 value = "{{$order->mark}}">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-user"></i>
+                                                                <i class="fa-solid fa-signature"></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                         @error('remark')
+                                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <input  type="text" name="cargostatus" class="form-control"
+                                                                placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus
+                                                                value = "{{$order->cargostatus}}">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa-solid fa-ship"></i>
+                                                            </div>
+                                                        </div>
+                                                        @error('cargostatus')
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>

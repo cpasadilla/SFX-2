@@ -94,7 +94,7 @@
                                             placeholder="{{ __('SHIPPER NAME') }}" required autocomplete="recs" autofocus>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <i class="fa-solid fa-signature"></i>
+                                                    <i class="fa-solid fa-user"></i>
                                                 </div>
                                             </div>
                                             @error('recs')
@@ -106,7 +106,7 @@
                                             placeholder="{{ __('CONTACT NUMBER') }}" autocomplete="cont" autofocus>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <i class="fa-solid fa-hashtag"></i>
+                                                    <i class="fa-solid fa-phone"></i>
                                                 </div>
                                             </div>
                                             @error('cont')
@@ -191,31 +191,44 @@
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-
+                                                    <div class="input-group mb-1">
+                                                        <input type="text" name="checker" class="form-control @error('checker') is-invalid @enderror"
+                                                        placeholder="{{ __('CHECKER') }}" autocomplete="checker" autofocus>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        @error('checker')
+                                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
                                                     <div class="input-group mb-1">
                                                         <input type="text" name="remark" class="form-control"
                                                         placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus>
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-hashtag"></i>
+                                                                <i class="fa-solid fa-signature"></i>
                                                             </div>
                                                         </div>
                                                         @error('remark')
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-                                                    <!--div class="input-group mb-1"><CHECKER NAME FIELD>
-                                                        <input type="text" name="checker" class="form-control"
-                                                        placeholder="{{ __('CHECKER NAME') }}" autocomplete="checker" autofocus>
+                                                    <div class="input-group mb-1">
+                                                        <input type="text" name="cargostatus" class="form-control"
+                                                        placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus>
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-hashtag"></i>
+                                                                <i class="fa-solid fa-signature"></i>
                                                             </div>
                                                         </div>
-                                                        @error('checker')
+                                                        @error('cargostatus')
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
-                                                    </div--><br>
+                                                    </div>
+                                                    <br>
                                                     <tbody id="orderItems"></tbody>
                                                 </table><br>
                                                 <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">

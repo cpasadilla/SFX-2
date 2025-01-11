@@ -168,6 +168,8 @@ class BLController extends Controller {
             //'containerNum' => $request->input('container'),  // Save container number
             'containerNum' => $request->input('container'), // Get container number if provided
             'value' => $request->input('valuation'),
+            'bl_status' => $request->input('blstatus'),
+            'cargo_status' => $request->input('cargostatus'),
         ]);
         $order->save();
 

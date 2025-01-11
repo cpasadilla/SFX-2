@@ -40,7 +40,7 @@ return new class extends Migration {
                 $table->string('OR')->nullable();
                 $table->string('AR')->nullable();
                 $table->string('bl_status')->nullable();
-
+                $table->string('cargo_status')->nullable();
                 $table->timestamps();
                 $table->index('cargoNum');
             });

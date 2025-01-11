@@ -124,7 +124,7 @@
                         <span style="font-family: Arial; font-weight: bold; font-size: 20px; padding-left:50px;">BILL OF LADING</span>
                     </div>
                 </div>
-                @if(is_null($order->status) || $order->status == '')
+                @if(is_null($order->cargo_status) || $order->cargo_status == '')
                     <!-- Display the empty <p> tag when status is null or blank -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
                         <span style="color: white;">.</span>
@@ -132,7 +132,7 @@
                 @else
                     <!-- Display the status in a flex container when status has a value -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-                        <span>{{ $order->status }}</span>
+                        <span>{{ $order->cargo_status }}</span>
                     </div>
                 @endif
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">

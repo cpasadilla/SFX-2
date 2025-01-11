@@ -219,6 +219,8 @@ protected function submit(Request $request, $key)
         'value' => ['nullable', 'string', 'max:255'],
         'mark' => ['nullable', 'string', 'max:255'],
         'check' => ['nullable', 'string', 'max:255'],
+        'bl_status' => ['nullable', 'string', 'max:255'],
+        'cargo_status' => ['nullable', 'string', 'max:255'],
     ], $message);
 
     if ($validator->fails()) {
@@ -354,7 +356,9 @@ protected function submit(Request $request, $key)
         'containerNum' => $request->input('containerNum'),
         'value' => $request->input('valuation'),
         'mark' => $request->input('remark'),
-        'check' => $request->input('check'),
+        'check' => $request->input('checker'),
+        'bl_status' => $request->input('blstatus'),
+        'cargo_status' => $request->input('cargostatus'),
     ]);
     $order->save();
 
@@ -438,6 +442,8 @@ protected function submit(Request $request, $key)
             'value' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'mark' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
+            'bl_status' => ['nullable', 'string', 'max:255'],
+            'cargo_status' => ['nullable', 'string', 'max:255'],
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -492,6 +498,8 @@ protected function submit(Request $request, $key)
             'value' => $request->input('valuation'),
             'mark' => $request->input('remark'),
             'check' => $request->input('checker'),
+            'bl_status' => $request->input('blstatus'),
+            'cargo_status' => $request->input('cargostatus'),
         ]);
         $order->save();
         // Redirect to the order confirmation page

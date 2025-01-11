@@ -17,6 +17,7 @@
             width: 100%; /* Full width */
             height: 100%; /* Full height */
             overflow: hidden;
+            font-family: Arial;
         }
         footer {
                 position: fixed;
@@ -25,6 +26,7 @@
                 font-size: 12px;
                 background: #fff;
                 padding-bottom: 20px;
+                font-family: Arial;
         }
         .card {
             display: block;
@@ -33,6 +35,7 @@
             margin: 0 !important; /* Remove margins */
             padding: 0 !important; /* Remove padding */
             box-sizing: border-box;
+            font-family: Arial;
         }
         #printContainer {
             width: 8.5in;
@@ -42,6 +45,7 @@
             box-sizing: border-box;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+            font-family: Arial;
         }
         .table {
             width: 100%; /* Ensure table spans full width */
@@ -127,7 +131,7 @@
                         <span style="font-family: Arial; font-weight: bold; font-size: 20px; padding-left:50px;">BILL OF LADING</span>
                     </div>
                 </div>
-                @if(is_null($order->status) || $order->status == '')
+                @if(is_null($order->cargo_status) || $order->cargo_status == '')
                     <!-- Display the empty <p> tag when status is null or blank -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
                         <span style="color: white;">.</span>
@@ -135,7 +139,7 @@
                 @else
                     <!-- Display the status in a flex container when status has a value -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-                        <span>{{ $order->status }}</span>
+                        <span>{{ $order->cargo_status }}</span>
                     </div>
                 @endif
 
