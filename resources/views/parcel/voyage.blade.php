@@ -70,7 +70,7 @@
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ $order->OR }}</td>
                                     <td style="text-align: center;">{{ $order->AR }}</td>
-                                    <td style="text-align: center;">{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format((($order->value)) * 0.0075 + ($order->totalAmount), 2) }}</td>
                                     <td style="text-align: center;">{{ $order->cargo_status }}</td>
                                     <td style="text-align: center;">{{ $order->bl_status }}</td>
                                     <td style="text-align: center">{{ $order->mark}}</td>
