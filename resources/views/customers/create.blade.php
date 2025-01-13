@@ -87,7 +87,7 @@
                                 <div class="card-body">
                                     <p> Name: {{$user->fName}} {{$user->lName}}</p>
                                     <p> CUSTOMER ID: {{$user->cID}}</p>
-                                    
+
                                     <p> PHONE NUMBER: {{$user->phoneNum}}
                                         <div class="input-group mb-1"><!--CONSIGNEE NAME FIELD-->
                                             <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
@@ -139,7 +139,7 @@
                                             placeholder="{{ __('CONTAINER NUMBER') }}" autocomplete="container" autofocus>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <i class="fas fa-ship"></i>
+                                                    <i class="fas fa-box"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,7 +209,7 @@
                                                         placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus>
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-signature"></i>
+                                                                <i class="fa-solid fa-bars"></i>
                                                             </div>
                                                         </div>
                                                         @error('remark')
@@ -221,7 +221,7 @@
                                                         placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus>
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-signature"></i>
+                                                                <i class="fa-solid fa-dolly"></i>
                                                             </div>
                                                         </div>
                                                         @error('cargostatus')

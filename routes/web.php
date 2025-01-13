@@ -43,13 +43,13 @@ Route::middleware('auth')->group(function(){
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
     Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'found'])->name('c.found');
-    
+
     //BL UPDATE
     Route::get('/customer/BL/{key}', [\App\Http\Controllers\CustomerController::class, 'audit'])->name('c.audit');
     Route::get('/customer/BL/{key}/search', [\App\Http\Controllers\CustomerController::class, 'find'])->name('c.find');
     Route::post('/BL/update/{key}', [\App\Http\Controllers\CustomerController::class, 'update'])->name('c.update');
     Route::put('/customer/update-status/{orderId}', [\App\Http\Controllers\CustomerController::class, 'updateStatus'])->name('c.updateStatus');
-    Route::put('/customers/orders/{orderId}/bl-status', [\App\Http\Controllers\CustomerController::class, 'updateBLStatus'])->name('c.updateBLStatus');
+    Route::put('/customers/order-{orderId}/bl-status', [\App\Http\Controllers\CustomerController::class, 'updateBLStatus'])->name('c.updateBLStatus');
 
 
     //List

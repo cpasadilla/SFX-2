@@ -39,7 +39,7 @@ class order extends Model
         'AR',
         'bl_status',
         'cargo_status',
-    
+        'createdBy',
 
     ];
 

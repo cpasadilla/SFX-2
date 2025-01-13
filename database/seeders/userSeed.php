@@ -2952,7 +2952,8 @@ class userSeed extends Seeder
             'voyageNum' => '1-OUT',
             'containerNum' => '2',
             'cargoNum' => '2',
-            'value' => '123'
+            'value' => '123',
+            'createdBy' => 'admin admin'
 
         ]);
 

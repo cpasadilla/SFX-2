@@ -5,11 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    
+
     /**
      * Run the migrations.
      */
-    
+
     public function up(): void {
         // Check if the table already exists
         if (!Schema::hasTable('orders')) {
@@ -33,7 +33,7 @@ return new class extends Migration {
                 $table->string('status')->nullable();
 
                 $table->string('orderCreated');
-                
+
                 $table->string('value')->nullable();
                 $table->string('mark')->nullable();
 
@@ -41,6 +41,7 @@ return new class extends Migration {
                 $table->string('AR')->nullable();
                 $table->string('bl_status')->nullable();
                 $table->string('cargo_status')->nullable();
+                $table->string('createdBy');
                 $table->timestamps();
                 $table->index('cargoNum');
             });

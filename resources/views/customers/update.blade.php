@@ -85,11 +85,31 @@
                         <form action={{route('c.update',['key'=>$order->orderId])}} method="post" enctype="multipart/form-data">
                             @csrf
                                 <div class="card-body">
-                                    <p> Name: {{$user->fName}} {{$user->lName}}</p>
-                                    <p> Customer ID: {{$user->cID}}</p>
-                                    <input name="id" value="{{ $user->cID }}" hidden>
-                                    <p> Phone Number: {{$user->phoneNum}}</p>
-                                    <p> BL: {{$order->orderId}}</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p> Name: {{$user->fName}} {{$user->lName}}</p>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p> Customer ID: {{$user->cID}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input name="id" value="{{ $user->cID }}" hidden>
+                                            <p> Phone Number: {{$user->phoneNum}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p> BL: {{$order->orderId}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Invoice Handler: {{$order->createdBy}}</p>
+                                            <input name="creator" value="{{$order->createdBy}}" hidden>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                    </div>
                                         <div class="input-group mb-1">
                                             <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
                                             placeholder="{{ __('CONSIGNEE FULL NAME') }}" required autocomplete="recs" autofocus
@@ -148,7 +168,7 @@
                                             value = "{{$order->containerNum}}">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <i class="fas fa-ship"></i>
+                                                    <i class="fas fa-box"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -187,7 +207,7 @@
                                                 <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        
+
                                         <form method="POST" action="{{ route('order.submit') }}">
                                             @csrf
                                                 <table class="table" id="orderSummary">
@@ -235,7 +255,7 @@
                                                                 value = "{{$order->mark}}">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-signature"></i>
+                                                                <i class="fa-solid fa-bars"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -249,7 +269,7 @@
                                                                 value = "{{$order->cargostatus}}">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
-                                                                <i class="fa-solid fa-ship"></i>
+                                                                <i class="fa-solid fa-dolly"></i>
                                                             </div>
                                                         </div>
                                                         @error('cargostatus')
