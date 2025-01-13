@@ -24,7 +24,10 @@ class User extends Authenticatable {
         'email',
         'password',
         'position',
-        'location'
+        'location',
+        'login',
+        'logout',
+        'lastActive',
     ];
 
     /**
@@ -42,9 +45,11 @@ class User extends Authenticatable {
      *
      * @var array<string, string>
      */
-    
+
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'lastActive' => 'datetime',
+
     ];
 
     public function customerID() {

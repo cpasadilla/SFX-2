@@ -57,6 +57,9 @@
                                     <th scope="col" onclick="sortTable(3)">PHONE NUMBER</th>
                                     <th scope="col" onclick="sortTable(4)">POSITION</th>
                                     <th scope="col" onclick="sortTable(5)">LOCATION</th>
+                                    <th scope="col" onclick="sortTable(5)">LAST LOGIN</th>
+                                    <th scope="col" onclick="sortTable(5)">LAST LOGOUT</th>
+                                    <th scope="col" onclick="sortTable(5)">LAST ACTIVE</th>
                                     <th scope="col">EDIT</th>
                                 </tr>
                             </thead>
@@ -69,15 +72,18 @@
                                         <td class="phoneNum">{{ $user->phoneNum }}</td>
                                         <td class="position">{{ $user->position }}</td>
                                         <td class="location">{{ $user->location }}</td>
+                                        <td class="location">{{ $user->login }}</td>
+                                        <td class="location">{{ $user->logout}}</td>
+                                        <td class="location">{{ $user->lastActive }}</td>
                                         <td class="align-middle">
-                                            <span 
-                                                data-toggle="modal" 
-                                                data-target="#editCustomerModal{{ $user->id }}" 
+                                            <span
+                                                data-toggle="modal"
+                                                data-target="#editCustomerModal{{ $user->id }}"
                                                 style="color: rgb(44, 155, 199); cursor: pointer; text-decoration: none;" >
                                                 Edit
                                             </span>
                                         </td>
-                                        
+
                                     </tr>
                                     <!--EDIT CUSTOMER MODAL-->
                                     <div class="modal fade" id="editCustomerModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel{{ $user->id }}" aria-hidden="true">
@@ -136,8 +142,8 @@
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="text" name="phoneNum" class="form-control" 
-                                                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" 
+                                                            <input type="text" name="phoneNum" class="form-control"
+                                                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum"
                                                             autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
@@ -181,7 +187,7 @@
                                                                     <option value="Staff">Staff</option>
                                                                 @endif
                                                             </select>
-                                                            
+
                                                             @error('position')
                                                             <span class="error invalid-feedback">
                                                                 {{ $message }}
@@ -306,7 +312,7 @@
                         </div>
                         <!--PHONE NUMBER FIELD-->
                         <div class="input-group mb-3">
-                            <input type="text" name="phoneNum" class="form-control" 
+                            <input type="text" name="phoneNum" class="form-control"
                             placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -434,7 +440,7 @@
                     return ascending ? cellA - cellB : cellB - cellA;
                 } else {
                     // Compare as strings otherwise
-                    return ascending 
+                    return ascending
                         ? cellA.localeCompare(cellB)
                         : cellB.localeCompare(cellA);
                 }
