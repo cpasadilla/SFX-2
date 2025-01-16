@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
     <div class="content-header">
-        <h1>ORDER UPDATE</h1>
+        <h1>UPDATE ORDER</h1>
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6"></div>
@@ -266,7 +266,7 @@
                                                     <div class="input-group mb-1">
                                                         <input  type="text" name="cargostatus" class="form-control"
                                                                 placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus
-                                                                value = "{{$order->cargostatus}}">
+                                                                value = "{{$order->cargo_status}}">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-dolly"></i>

@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
     <div class="content-header">
-        <h1>ORDERS CREATED</h1>
+        <h1>CREATE ORDER</h1>
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6"></div>

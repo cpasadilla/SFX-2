@@ -27,6 +27,7 @@ class userSeed extends Seeder
         User::create([
             'fName' => 'ANTONIO',
             'lName' => 'CASTRO',
+            'phoneNum' => '09123414588',
             'email' => 'admin@sfx.com',
             'password' => Hash::make('admin1234'),
             'position' => 'Admin',
@@ -35,6 +36,7 @@ class userSeed extends Seeder
         User::create([
             'fName' => 'JENNALYN',
             'lName' => 'OLI',
+            'phoneNum' => '09453128689',
             'email' => 'oli@sfx.com',
             'password' => Hash::make('admin1234'),
             'position' => 'Admin',
@@ -44,6 +46,7 @@ class userSeed extends Seeder
         User::create([
             'fName' => 'JOLINA',
             'lName' => 'FLORES',
+            'phoneNum' => '09753124869',
             'email' => 'flores@sfx.com',
             'password' => Hash::make('admin1234'),
             'position' => 'Staff',

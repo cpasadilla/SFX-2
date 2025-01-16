@@ -143,7 +143,7 @@
                         <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
-                        <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;"><!--{{ $order->containerNum }}--></span><br>
+                        <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
                         <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>

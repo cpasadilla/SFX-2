@@ -4,7 +4,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
-    <h1 style="padding-left: 10px;">MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h1>
+    <h1 style="padding-left: 10px;">MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h1>
     <br>
     <div class="container-fluid">
         <div class="row mb-2">
@@ -30,7 +30,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>MASTERLIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
+                        <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
                     </div>
                     <div class="card-body">
                         <table id="myTable2" class="table">
@@ -70,7 +70,7 @@
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ $order->OR }}</td>
                                     <td style="text-align: center;">{{ $order->AR }}</td>
-                                    <td style="text-align: center;">{{ number_format((($order->value)) * 0.0075 + ($order->totalAmount), 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>
                                     <td style="text-align: center;">{{ $order->cargo_status }}</td>
                                     <td style="text-align: center;">{{ $order->bl_status }}</td>
                                     <td style="text-align: center">{{ $order->mark}}</td>

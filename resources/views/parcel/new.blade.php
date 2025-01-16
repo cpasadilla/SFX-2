@@ -304,7 +304,7 @@
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Valuation :</span>
                         <span style="text-align: center; display: inline-block; font-size: 15px; width: 50%; border-bottom: 1px solid black; color:black;">
-                            {{ number_format((($order->value) ) * 0.0075, 2) }}
+                            {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075, 2) }}
                         </span>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
@@ -348,7 +348,7 @@
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <strong style="text-align: right; font-size: 15px;">TOTAL : </strong>
                         <strong style="text-align: center; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
-                            {{ number_format((($order->value)) * 0.0075 + ($order->totalAmount), 2) }}
+                            {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}
                         </strong>
                     </div>
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>

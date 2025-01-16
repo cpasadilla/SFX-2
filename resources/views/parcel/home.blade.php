@@ -5,7 +5,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <div class="content-header">
-    <h1 style="padding-left:10px;">MASTERLIST</h1>
+    <h1 style="padding-left:10px;">MASTER LIST</h1>
 </div>
 
 <div class="container-fluid">
