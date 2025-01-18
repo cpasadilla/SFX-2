@@ -211,7 +211,7 @@ $(document).ready(function() {
                                                         </a>
                                                     </div>
                                                 </div>
-                                                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name">
+                                                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name" style="text-transform: uppercase;">
 
                                             </div>
 
@@ -331,7 +331,7 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="itemName" class="col-md-4 col-form-label text-md-right">{{ __('Item Name') }}</label>
                                 <div class="col-md-6">
-                                    <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus>
+                                    <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus style="text-transform: uppercase;">
 
                                     @error('itemName')
                                     <span class="invalid-feedback" role="alert">
@@ -343,7 +343,7 @@ $(document).ready(function() {
                             <div class="form-group row">
                                 <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
                                 <div class="col-md-6">
-                                    <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" autocomplete="unit" autofocus>
+                                    <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" autocomplete="unit" autofocus style="text-transform: uppercase;">
 
                                     @error('unit')
                                     <span class="invalid-feedback" role="alert">
@@ -351,7 +351,8 @@ $(document).ready(function() {
                                     </span>
                                     @enderror
                                 </div>
-                            </div><div class="form-group row">
+                            </div>
+                            <div class="form-group row">
                                 <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
                                 <div class="col-md-6">
                                     <input id="price" type="number" step="any" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" autocomplete="price" autofocus step='0.1'>

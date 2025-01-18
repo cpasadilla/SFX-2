@@ -113,7 +113,7 @@
                                         <div class="input-group mb-1">
                                             <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
                                             placeholder="{{ __('CONSIGNEE FULL NAME') }}" required autocomplete="recs" autofocus
-                                            value = "{{$order->consigneeName}}">
+                                            value = "{{$order->consigneeName}}" style="text-transform: uppercase;">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fa-solid fa-signature"></i>
@@ -165,7 +165,7 @@
                                         <div class="input-group mb-1">
                                             <input type="text" name="container" class="form-control"
                                             placeholder="{{ __('Container Number') }}" autocomplete="container" autofocus
-                                            value = "{{$order->containerNum}}">
+                                            value = "{{$order->containerNum}}" style="text-transform: uppercase;">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fas fa-box"></i>
@@ -238,7 +238,7 @@
                                                     <div class="input-group mb-1">
                                                         <input type="text" name="checker" class="form-control"
                                                         placeholder="{{ __('CHECKER') }}" autocomplete="checker" autofocus
-                                                        value = "{{$order->check}}">
+                                                        value = "{{$order->check}}" style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-user"></i>
@@ -252,7 +252,7 @@
                                                     <div class="input-group mb-1">
                                                         <input  type="text" name="remark" class="form-control"
                                                                 placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus
-                                                                value = "{{$order->mark}}">
+                                                                value = "{{$order->mark}}" style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-bars"></i>
@@ -266,7 +266,7 @@
                                                     <div class="input-group mb-1">
                                                         <input  type="text" name="cargostatus" class="form-control"
                                                                 placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus
-                                                                value = "{{$order->cargo_status}}">
+                                                                value = "{{$order->cargo_status}}" style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-dolly"></i>

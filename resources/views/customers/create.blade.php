@@ -91,7 +91,7 @@
                                     <p> PHONE NUMBER: {{$user->phoneNum}}
                                         <div class="input-group mb-1"><!--CONSIGNEE NAME FIELD-->
                                             <input type="text" name="recs" class="form-control @error('recs') is-invalid @enderror"
-                                            placeholder="{{ __('SHIPPER NAME') }}" required autocomplete="recs" autofocus>
+                                            placeholder="{{ __('SHIPPER NAME') }}" required autocomplete="recs" autofocus style="text-transform: uppercase;">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fa-solid fa-user"></i>
@@ -136,7 +136,7 @@
                                         </div>
                                         <div class="input-group mb-1"><!--CONTAINER NUMBER FIELD-->
                                             <input type="text" name="container" class="form-control"
-                                            placeholder="{{ __('CONTAINER NUMBER') }}" autocomplete="container" autofocus>
+                                            placeholder="{{ __('CONTAINER NUMBER') }}" autocomplete="container" autofocus style="text-transform: uppercase;">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fas fa-box"></i>
@@ -193,7 +193,7 @@
                                                     </div>
                                                     <div class="input-group mb-1">
                                                         <input type="text" name="checker" class="form-control @error('checker') is-invalid @enderror"
-                                                        placeholder="{{ __('CHECKER') }}" autocomplete="checker" autofocus>
+                                                        placeholder="{{ __('CHECKER') }}" autocomplete="checker" autofocus style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-user"></i>
@@ -206,7 +206,7 @@
                                                     </div>
                                                     <div class="input-group mb-1">
                                                         <input type="text" name="remark" class="form-control"
-                                                        placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus>
+                                                        placeholder="{{ __('REMARK') }}" autocomplete="remark" autofocus style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-bars"></i>
@@ -218,7 +218,7 @@
                                                     </div>
                                                     <div class="input-group mb-1">
                                                         <input type="text" name="cargostatus" class="form-control"
-                                                        placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus>
+                                                        placeholder="{{ __('CARGO STATUS') }}" autocomplete="cargostatus" autofocus style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-dolly"></i>
