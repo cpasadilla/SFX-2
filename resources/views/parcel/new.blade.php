@@ -17,7 +17,6 @@
             width: 100%; /* Full width */
             height: 100%; /* Full height */
             overflow: hidden;
-            font-family: Arial;
         }
         footer {
                 position: fixed;
@@ -26,7 +25,6 @@
                 font-size: 12px;
                 background: #fff;
                 padding-bottom: 20px;
-                font-family: Arial;
         }
         .card {
             display: block;
@@ -35,7 +33,6 @@
             margin: 0 !important; /* Remove margins */
             padding: 0 !important; /* Remove padding */
             box-sizing: border-box;
-            font-family: Arial;
         }
         #printContainer {
             width: 8.5in;
@@ -45,7 +42,6 @@
             box-sizing: border-box;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
-            font-family: Arial;
         }
         .table {
             width: 100%; /* Ensure table spans full width */

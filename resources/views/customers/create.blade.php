@@ -42,7 +42,7 @@
                                 <tr>
                                     <th>NAME</th>
                                     <th>UNIT</th>
-                                    <th><!--PRICE--></th>
+                                    <th>PRICE</th>
                                     <th style="text-align: center;">CATEGORY</th>
                                     <th style="text-align: center;">QUANTITY ACTION</th>
                                 </tr>
@@ -52,7 +52,7 @@
                                     <tr>
                                         <td>{{ $product->itemName }}</td>
                                         <td>{{ $product->unit }}</td>
-                                        <td><!--{{ number_format($product->price, 2) }}--></td>
+                                        <td>{{ number_format($product->price, 2) }}</td>
                                         @foreach ($cats as $cat)
                                             @if ($cat->id == $product->category)
                                                 <td style="text-align: center;">{{ $cat->name }}</td>
@@ -173,9 +173,9 @@
                                                         <tr>
                                                             <th>NAME</th>
                                                             <th>UNIT</th>
-                                                            <th><!--PRICE--></th>
+                                                            <th>PRICE</th>
                                                             <th>QUANTITY</th>
-                                                            <th><!--TOTAL--></th>
+                                                            <th>TOTAL</th>
                                                             <th>ACTION</th>
                                                         </tr>
                                                     </thead>
@@ -230,6 +230,13 @@
                                                     </div>
                                                     <br>
                                                     <tbody id="orderItems"></tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="4"><strong>Total:</strong></td>
+                                                            <td id="orderTotal">0.00</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table><br>
                                                 <input type="hidden" name="orderItems" id="orderItemsInput" value="{{ old('orderItems') }}">
                                                 <div class="d-flex justify-content-between mt-3">
@@ -290,50 +297,57 @@
                 name: productName,
                 unit: productUnit,
                 price: productPrice,
-                quantity: quantity,
-                total: quantity * productPrice
+                quantity: 1,
+                total: productPrice
+
             };
             orderItems.push(orderItem);
         }
 
-        quantityInput.value = 1; // Reset input to default
+
+        orderTotal = orderItems.reduce((total, item) => total + item.total, 0);
         updateOrderItems();
         localStorage.setItem('orderItems', JSON.stringify(orderItems));
+        localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
+        event.preventDefault();
     }
 
     function updateOrderItems() {
         let orderItemsHtml = '';
         orderTotal = 0;
-
         orderItems.forEach(item => {
             orderItemsHtml += `
                 <tr>
                     <td>${item.name}</td>
                     <td>${item.unit}</td>
-                    <td><!--${item.price.toFixed(2)}--></td>
+                    <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>
-                        <input type="number" value="${item.quantity}" min="1" onchange="updateItemQuantity(${item.id}, this.value)" style="width: 60px; text-align: center;">
-                        <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                        <button class="btn btn-light" onclick="updateItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                        <input type="number" min="1" value="${item.quantity}" class="form-control" onchange="updateQuantity(${item.id}, this.value)" />
                     </td>
-                    <td><!--${item.total.toFixed(2)}--></td>
-                    <td><button class="btn btn-danger btn-sm" onclick="removeFromOrder(${item.id})">Remove</button></td>
-                </tr>`;
-            orderTotal += item.total;
+                    <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeFromOrder(${item.id})">Remove</button>
+                    </td>
+                </tr>
+            `;
+            orderTotal += Number(item.total);
         });
-
-        document.getElementById('orderItems').innerHTML = orderItemsHtml;
-        document.getElementById('orderItemsInput').value = JSON.stringify(orderItems);
-        document.getElementById('submitOrderBtn').disabled = orderItems.length === 0;
+        $('#orderItems').html(orderItemsHtml);
+        $('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        $('#submitOrderBtn').prop('disabled', orderItems.length === 0);
+        $('#orderItemsInput').val(JSON.stringify(orderItems));
     }
 
-    function updateItemQuantity(productId, quantity) {
-        const orderItem = orderItems.find(item => item.id === productId);
+    function updateQuantity(productId, quantity) {
+        console.log("Updating productId:", productId, "to quantity:", quantity);
+        let orderItem = orderItems.find(item => item.id === productId);
+        console.log("Found orderItem:", orderItem);
         if (orderItem) {
-            orderItem.quantity = Math.max(parseInt(quantity, 10), 1);
+            orderItem.quantity = parseInt(quantity, 10); // Ensure integer conversion
             orderItem.total = orderItem.quantity * orderItem.price;
             updateOrderItems();
             localStorage.setItem('orderItems', JSON.stringify(orderItems));
+            localStorage.setItem('orderTotal', JSON.stringify(orderTotal));
         }
     }
 
