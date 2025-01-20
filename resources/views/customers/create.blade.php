@@ -102,7 +102,7 @@
                                             @enderror
                                         </div>
                                         <div class="input-group mb-1"><!--CONSIGNEE CONTACT NUMBER FIELD-->
-                                            <input type="text" name="cont" class="form-control"
+                                            <input type="number" name="cont" class="form-control"
                                             placeholder="{{ __('CONTACT NUMBER') }}" autocomplete="cont" autofocus>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">

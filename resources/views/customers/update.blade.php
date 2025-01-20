@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <p>Invoice Handler: {{$order->createdBy}}</p>
+                                            <p>Invoice Handler: <span style="text-transform: uppercase;">{{$order->createdBy}}</span></p>
                                             <input name="creator" value="{{$order->createdBy}}" hidden>
                                         </div>
                                         <div class="col-md-6"></div>

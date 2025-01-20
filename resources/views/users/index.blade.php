@@ -142,9 +142,7 @@
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="text" name="phoneNum" class="form-control"
-                                                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum"
-                                                            autofocus value="{{ $user->phoneNum}}">
+                                                            <input type="number" name="phoneNum" class="form-control" placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
                                                                     <span class="fas fa-phone"></span>
@@ -214,36 +212,34 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-<!-- DELETE MODAL -->
-<div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Staff?') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>{{ __('This action cannot be undone.') }}</p>
-                <form action="{{ route('c.error') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $user->id }}">
-                    <div class="text-right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            {{ __('Cancel') }}
-                        </button>
-                        <button type="submit" class="btn btn-danger">
-                            {{ __('Delete Account') }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                                    <!-- DELETE MODAL -->
+                                    <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteUserModalLabel{{ $user->id }}">{{ __('Delete Staff?') }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>{{ __('This action cannot be undone.') }}</p>
+                                                    <form action="{{ route('c.error') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $user->id }}">
+                                                        <div class="text-right">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                {{ __('Cancel') }}
+                                                            </button>
+                                                            <button type="submit" class="btn btn-danger">
+                                                                {{ __('Delete Account') }}
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
@@ -254,7 +250,6 @@
         </div>
     </div>
 </div>
-
 <!--CREATE USER MODAL-->
 <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -298,7 +293,7 @@
                         </div>
                         <!--EMAIL FIELD-->
                         <div class="input-group mb-3">
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autocomplete="email" style="text-transform: lowercase;">
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('EMAIL') }}" required autocomplete="email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -312,8 +307,7 @@
                         </div>
                         <!--PHONE NUMBER FIELD-->
                         <div class="input-group mb-3">
-                            <input type="text" name="phoneNum" class="form-control"
-                            placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus>
+                            <input type="number" name="phoneNum" class="form-control" placeholder="{{ __('PHONE NUMBER') }}" autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>
@@ -328,7 +322,7 @@
                         <!--LOCATION FIELD-->
                         <div class="input-group mb-3">
                             <select id="location" name="location" class="form-control @error('location') is-invalid @enderror" placeholder="{{ __('Location') }}" required autocomplete="location" autofocus>
-                                <option selected>Choose Location</option>
+                                <option selected>CHOOSE LOCATION</option>
                                 <option value="Batanes">Batanes</option>
                                 <option value="Manila">Manila</option>
                             </select>
@@ -341,7 +335,7 @@
                         <!--POSITION FIELD-->
                         <div class="input-group mb-3">
                             <select id="position" name="position" class="form-control @error('position') is-invalid @enderror" placeholder="{{ __('Position') }}" required autocomplete="position" autofocus>
-                                <option selected>Choose Position</option>
+                                <option selected>CHOOSE POSITION</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Staff">Staff</option>
                                 <!--option value="Checker">Checker</option-->
@@ -353,29 +347,28 @@
                             @enderror
                         </div>
                         <!--PASSWORD FIELD-->
-<div class="input-group mb-3">
-    <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" required autocomplete="new-password">
-    <div class="input-group-append">
-        <div class="input-group-text">
-            <span class="fas fa-lock" id="togglePassword"></span>
-        </div>
-    </div>
-    @error('password')
-        <span class="error invalid-feedback">
-            {{ $message }}
-        </span>
-    @enderror
-</div>
-
-<!--CONFIRM PASSWORD FIELD-->
-<div class="input-group mb-3">
-    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="{{ __('Confirm Password') }}" required autocomplete="new-password">
-    <div class="input-group-append">
-        <div class="input-group-text">
-            <span class="fas fa-lock" id="toggleConfirmPassword"></span>
-        </div>
-    </div>
-</div>
+                        <div class="input-group mb-3">
+                            <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('PASSWORD') }}" required autocomplete="new-password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock" id="togglePassword"></span>
+                                </div>
+                            </div>
+                            @error('password')
+                                <span class="error invalid-feedback">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                        <!--CONFIRM PASSWORD FIELD-->
+                        <div class="input-group mb-3">
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="{{ __('CONFIRM PASSWORD') }}" required autocomplete="new-password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock" id="toggleConfirmPassword"></span>
+                                </div>
+                            </div>
+                        </div>
                         <!--SUBMIT BUTTON-->
                         <div class="row">
                             <div class="col-12">

@@ -51,6 +51,7 @@
                                     <th style="text-align: center;">BL STATUS</th>
                                     <th style="text-align: center;">REMARK</th>
                                     <th style="text-align: center;">VIEW BL</th>
+                                    <th style="text-align: center;">CREATED BY</th>
                                     
                                     
                                 </tr>
@@ -61,22 +62,23 @@
                                     <td style="text-align: center;">{{ $order->orderId }}</td>
                                     <td style="text-align: center;">{{ $order->cID }}</td>
                                     <td style="text-align: center;">{{ $order->voyageNum }}</td>
-                                    <td style="text-align: center;">{{ $order->containerNum }}</td>
-                                    <td style="text-align: center;">
+                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
+                                    <td style="text-transform: uppercase; text-align: center;">
                                         {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
-                                    <td style="text-align: center;">{{ $order->consigneeName }}</td>
-                                    <td style="text-align: center;">{{ $order->check }}</td>
+                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
+                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ $order->OR }}</td>
                                     <td style="text-align: center;">{{ $order->AR }}</td>
                                     <td style="text-align: center;">{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>
-                                    <td style="text-align: center;">{{ $order->cargo_status }}</td>
+                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->cargo_status }}</td>
                                     <td style="text-align: center;">{{ $order->bl_status }}</td>
-                                    <td style="text-align: center">{{ $order->mark}}</td>
+                                    <td style="text-transform: uppercase; text-align: center">{{ $order->mark}}</td>
                                     <td style="text-align: center;">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
+                                    <td style="text-transform: uppercase; text-align: center">{{ $order->createdBy}}</td>
                                     
                                     <!--td style="text-align: center;">
                                         <span 

@@ -67,10 +67,10 @@
                                         <td style="text-align: center">{{ $order->created_at }}</td>
                                         <td style="text-align: center">{{ $order->shipNum }}</td>
                                         <td style="text-align: center">{{ $order->voyageNum }}</td>
-                                        <td style="text-align: center">{{ $order->origin }}</td>
-                                        <td style="text-align: center">{{ $order->destination }}</td>
+                                        <td style="text-transform: uppercase; text-align: center">{{ $order->origin }}</td>
+                                        <td style="text-transform: uppercase; text-align: center">{{ $order->destination }}</td>
                                         <td style="text-align: center">{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>                                        
-                                        <td style="text-align: center">{{ $order->cargo_status }}</td>
+                                        <td style="text-transform: uppercase; text-align: center">{{ $order->cargo_status }}</td>
                                         <td style="text-align: center;">
                                             <form action="{{ route('c.updateBLStatus', ['orderId' => $order->orderId]) }}" method="POST">
                                                 @csrf

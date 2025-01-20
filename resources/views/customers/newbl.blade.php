@@ -127,12 +127,12 @@
                 @if(is_null($order->cargo_status) || $order->cargo_status == '')
                     <!-- Display the empty <p> tag when status is null or blank -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-                        <span style="color: white;">.</span>
+                        <span style="text-transform: uppercase; color: white;">.</span>
                     </div>
                 @else
                     <!-- Display the status in a flex container when status has a value -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-                        <span>{{ $order->cargo_status }}</span>
+                        <span style="text-transform: uppercase;">{{ $order->cargo_status }}</span>
                     </div>
                 @endif
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
@@ -143,7 +143,7 @@
                         <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
-                        <strong>CONTAINER NO.</strong><span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
+                        <strong>CONTAINER NO.</strong><span style="text-transform: uppercase; text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
                         <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
@@ -151,25 +151,25 @@
                 </div>
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-4"id="cd-4">
-                        <strong>ORIGIN:</strong> <span style="text-align: center;display: inline-block; width: 70%; border-bottom: 1px solid black;"> {{ $order->origin }}</span><br>
+                        <strong>ORIGIN:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 70%; border-bottom: 1px solid black;"> {{ $order->origin }}</span><br>
                     </div>
                     <div class="col-md-4"id="cd-4">
-                        <strong>DESTINATION:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->destination }}</span><br>
+                        <strong>DESTINATION:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->destination }}</span><br>
                     </div>
                     <div class="col-md-4"id="cd-4">
-                        <strong>DATE:</strong> <span style="text-align: center;display: inline-block; width: 75%; border-bottom: 1px solid black;"> {{ $order->created_at->format('F j, Y') }}</span><br>
+                        <strong>DATE:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 75%; border-bottom: 1px solid black;"> {{ $order->created_at->format('F j, Y') }}</span><br>
                     </div>
                 </div>
                 <p style="font-size: 5px;"></p>
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>SHIPPER:</strong> <span style="text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $order->consigneeName }}</span><br>
+                            <strong>SHIPPER:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $order->consigneeName }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:30px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONSIGNEE:</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
+                            <strong>CONSIGNEE:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
                         @endforeach
                     </div>
                 </div>
@@ -190,9 +190,9 @@
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
                             <strong>REMARK: </strong> 
-                            <span style="text-align: center; display: inline-block; width: 60%; border-bottom: 1px solid black;">
-                                <span style="color: white;">.</span>
-                                <span style="color: black;">{{ $order->mark }}</span>
+                            <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 60%; border-bottom: 1px solid black;">
+                                <span style="text-transform: uppercase; color: white;">.</span>
+                                <span style="text-transform: uppercase; color: black;">{{ $order->mark }}</span>
                             </span>
                         @endforeach
                     </div>
@@ -289,7 +289,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
+                        <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>

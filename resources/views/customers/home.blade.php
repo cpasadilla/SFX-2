@@ -129,7 +129,7 @@
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="text" name="phoneNum" class="form-control" 
+                                                            <input type="number" name="phoneNum" class="form-control" 
                                                             placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
@@ -240,7 +240,7 @@
                         </div>
                         <!--PHONE NUMBER FIELD-->
                         <div class="input-group mb-3">
-                            <input type="text" name="phoneNum" class="form-control" 
+                            <input type="number" name="phoneNum" class="form-control" 
                             placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
