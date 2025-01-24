@@ -62,8 +62,8 @@
                                 @foreach($users as $user)
                                     <tr class="table-row">
                                         <td>{{ $user->cID }}</td>
-                                        <td class="fName">{{ $user->fName }}</td>
-                                        <td class="lName">{{ $user->lName }}</td>
+                                        <td style="text-transform: uppercase;" class="fName">{{ $user->fName }}</td>
+                                        <td style="text-transform: uppercase;" class="lName">{{ $user->lName }}</td>
                                         <td class="phoneNum">{{ $user->phoneNum }}</td>
                                         <td class="align-left">
                                             <span 

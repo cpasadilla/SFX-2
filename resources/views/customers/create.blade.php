@@ -50,8 +50,8 @@
                             <tbody>
                                 @foreach($products as $product)
                                     <tr>
-                                        <td>{{ $product->itemName }}</td>
-                                        <td>{{ $product->unit }}</td>
+                                        <td style="text-transform: uppercase;" >{{ $product->itemName }}</td>
+                                        <td style="text-transform: uppercase;" >{{ $product->unit }}</td>
                                         <td>{{ number_format($product->price, 2) }}</td>
                                         @foreach ($cats as $cat)
                                             @if ($cat->id == $product->category)
@@ -85,7 +85,7 @@
                         <form action={{route('c.submit',['key'=>$user->cID])}} method="post" enctype="multipart/form-data">
                             @csrf
                                 <div class="card-body">
-                                    <p> Name: {{$user->fName}} {{$user->lName}}</p>
+                                    <p style="text-transform: uppercase;"> Name: {{$user->fName}} {{$user->lName}}</p>
                                     <p> CUSTOMER ID: {{$user->cID}}</p>
 
                                     <p> PHONE NUMBER: {{$user->phoneNum}}
@@ -318,8 +318,8 @@
         orderItems.forEach(item => {
             orderItemsHtml += `
                 <tr>
-                    <td>${item.name}</td>
-                    <td>${item.unit}</td>
+                    <td style="text-transform: uppercase;" >${item.name}</td>
+                    <td style="text-transform: uppercase;" >${item.unit}</td>
                     <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>
                         <input type="number" min="1" value="${item.quantity}" class="form-control" onchange="updateQuantity(${item.id}, this.value)" />

@@ -29,14 +29,14 @@
         .card {
             display: block;
             width: 8.5in; /* Exactly the paper width */
-            height: 14.3in; /* Exactly the paper height */
+            height: 13.1in; /* Exactly the paper height */
             margin: 0 !important; /* Remove margins */
             padding: 0 !important; /* Remove padding */
             box-sizing: border-box;
         }
         #printContainer {
             width: 8.5in;
-            height: 14.3in;
+            height: 14.0in;
             margin: 0 !important;
             padding: 0 !important;
             box-sizing: border-box;
@@ -109,18 +109,20 @@
         <div class="card">
             <div class="card-body" id="printContainer" style="width: 800px; padding:0;">
                 <div class="row" id="top" style="background-color: #ffffff; color: black; margin: 0; padding: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                    <div style="display: flex; justify-content: center; align-items: center; padding-left: 100px;">
-                        <img style="width: 600px; height: 100px;" src="{{ asset('images/logo-sfx.png') }}" alt="Logo">
+                    <div style="display: flex; justify-content: center; align-items: center; padding-left: 5px;">
+                        <img style="width: 700px; height: 100px;" src="{{ asset('images/logo-sfx.png') }}" alt="Logo">
                     </div>
-                    <p style="font-family: Arial; font-size: 14px; margin: 0;">
-                        National Road Brgy. Kaychanarianan Basco Batanes
-                    </p>
-                    <p style="font-family: Arial; font-size: 14px; margin: 0;">
-                        Cellphone Nos.: 0908-815-9300 / 0999-889-5848 / 0999-889-5849
-                    </p>
-                    <p style="font-family: Arial; font-size: 14px; margin: 0;">
-                        Email Address: fxavier_2015@yahoo.com.ph
-                    </p>
+                    <div style="align-items: center;">
+                        <p style="font-family: Arial; font-size: 14px; margin: 0;">
+                            National Road Brgy. Kaychanarianan Basco Batanes
+                        </p>
+                        <p style="font-family: Arial; font-size: 14px; margin: 0;">
+                            Cellphone Nos.: 0908-815-9300 / 0999-889-5848 / 0999-889-5849
+                        </p>
+                        <p style="font-family: Arial; font-size: 14px; margin: 0;">
+                            Email Address: fxavier_2015@yahoo.com.ph
+                        </p>
+                    </div>
                 </div>
                 <div class="row" style="padding: 0; margin: 0; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex: 1; display: flex; justify-content: center;">
@@ -147,7 +149,7 @@
                         <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
-                        <strong>CONTAINER NO.</strong><span style="text-transform: uppercase; text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
+                        <strong>CONTAINER NO.</strong> <span style="text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
                         <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
@@ -221,8 +223,8 @@
                             @foreach ($parcel as $parcel)
                                 <tr style="border: none;">
                                     <td style="font-size:14px; text-align: center;">{{ $parcel->quantity }}</td>
-                                    <td>{{ $parcel->unit }}</td>
-                                    <td>{{ $parcel->itemName }}</td>
+                                    <td style="text-transform: uppercase;" >{{ $parcel->unit }}</td>
+                                    <td style="text-transform: uppercase;" >{{ $parcel->itemName }}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

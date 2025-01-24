@@ -146,8 +146,8 @@ $(document).ready(function() {
                                 <tr class="table-row">
                                     <td class="id" ; style="display:none">{{ $item->id }} </td>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td class="name">{{ $item->itemName }}</td>
-                                    <td class="unit">{{ $item->unit }}</td>
+                                    <td style="text-transform: uppercase;" class="name">{{ $item->itemName }}</td>
+                                    <td style="text-transform: uppercase;" class="unit">{{ $item->unit }}</td>
 
                                     @foreach ($cats as $cat)
                                     @if ($item->category == $cat->id)
