@@ -18,7 +18,7 @@
         footer {
                 position: fixed;
                 bottom: 0;
-                width: 80%;
+                width: 95%;
                 font-size: 12px;
                 background: #fff;
                 padding-bottom: 20px;
@@ -101,10 +101,10 @@
 </div><br>
 @foreach ($key as $order)
 <!--PRINT BLOCK -->
-<div class="d-print-block">
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="card">
-            <div class="card-body" id="printContainer" style="width: 800px; padding:0;">
+<div class="d-print-block" >
+    <div class="container d-flex justify-content-center align-items-center" >
+        <div class="card" style="width: 885px;">
+            <div class="card-body" id="printContainer" style="width: 875px; padding:0;">
                 <div class="row" id="top" style="background-color: #ffffff; color: black; margin: 0; padding: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
                     <div style="display: flex; justify-content: center; align-items: center; padding-left: 5px;">
                         <img style="width: 700px; height: 100px;" src="{{ asset('images/logo-sfx.png') }}" alt="Logo">
@@ -200,7 +200,7 @@
                     </div>
                 </div>
                 <p style="font-size: 5px;"></p>
-                <div class="row pl-3 pr-3" style="width: 100%; font-size: 13.5px; margin: 0;">
+                <div class="row" style="width: 100%; font-size: 13.5px; margin-right: 10px; margin-left: 5px;">
                     <table class="table table-condensed" style="margin: 0;">
                         <thead style="background-color: #78BF65; color: white;">
                             <tr>
@@ -291,7 +291,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black;">{{ (($order->check)) }}</span>
+                        <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black; font-size: 15px;"><strong>{{ (($order->check)) }}</strong></span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>
