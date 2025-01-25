@@ -224,7 +224,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>{{ __('This action cannot be undone.') }}</p>
-                                                    <form action="{{ route('c.error') }}" method="POST">
+                                                    <form action="{{ route('u.delete') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $user->id }}">
                                                         <div class="text-right">
