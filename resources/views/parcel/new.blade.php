@@ -228,7 +228,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $parcel->price }}</td>
+                                    <td>{{ number_format( $parcel->price, 2) }}</td>
                                     <td>{{ number_format($parcel->total, 2) }}</td>
                                 </tr>
                             @endforeach
@@ -247,7 +247,7 @@
                 </div>
                 <p style="font-size: 5px;"></p>
                 <footer>
-                <div class="row pl-3">
+                <div class="row pl-3" style="padding-right:20px;">
                     <div class="col-md-6" id="cd-6-left"></div>
                     <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
                         <span style="text-align: right; font-size: 15px;"></span>
@@ -268,7 +268,6 @@
                         @endif
                     </div>
                 </div>
-
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>

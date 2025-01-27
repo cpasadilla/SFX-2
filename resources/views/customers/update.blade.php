@@ -407,30 +407,39 @@
     }
 
     function updateOrderItems() {
-        let orderItemsHtml = '';
-        orderTotal = 0;
-        orderItems.forEach(item => {
-            orderItemsHtml += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.unit}</td>
-                    <td>${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>
-                        <input type="number" min="1" value="${item.quantity}" class="form-control" onchange="updateQuantity(${item.id}, this.value)" />
-                    </td>
-                    <td>${item.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>
-                        <button type="button" class="btn btn-danger" onclick="removeFromOrder(${item.id})">Remove</button>
-                    </td>
-                </tr>
-            `;
-            orderTotal += Number(item.total);
-        });
-        $('#orderItems').html(orderItemsHtml);
-        $('#orderTotal').html(orderTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        $('#submitOrderBtn').prop('disabled', orderItems.length === 0);
-        $('#orderItemsInput').val(JSON.stringify(orderItems));
-    }
+    let orderItemsHtml = '';
+    orderTotal = 0;
+    orderItems.forEach(item => {
+        const priceFormatted = Number(item.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const totalFormatted = Number(item.total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+        orderItemsHtml += `
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.unit}</td>
+                <td>${priceFormatted}</td>
+                <td>
+                    <input type="number" min="1" value="${item.quantity}" class="form-control" onchange="updateQuantity(${item.id}, this.value)" />
+                </td>
+                <td>${totalFormatted}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="removeFromOrder(${item.id})">Remove</button>
+                </td>
+            </tr>
+        `;
+        orderTotal += Number(item.total);
+    });
+    $('#orderItems').html(orderItemsHtml);
+    
+    // Format the total order amount similarly
+    const orderTotalFormatted = Number(orderTotal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    $('#orderTotal').html(orderTotalFormatted);
+
+    // Disable submit if no items
+    $('#submitOrderBtn').prop('disabled', orderItems.length === 0);
+    $('#orderItemsInput').val(JSON.stringify(orderItems));
+}
+
 
     function updateQuantity(productId, quantity) {
         console.log("Updating productId:", productId, "to quantity:", quantity);

@@ -54,7 +54,7 @@
                                     <th scope="col" onclick="sortTable(0)">FIRST NAME</th>
                                     <th scope="col" onclick="sortTable(1)">LAST NAME</th>
                                     <th scope="col" onclick="sortTable(2)">EMAIL</th>
-                                    <th scope="col" onclick="sortTable(3)">PHONE NUMBER</th>
+                                    <!--th scope="col" onclick="sortTable(3)">PHONE NUMBER</th-->
                                     <th scope="col" onclick="sortTable(4)">POSITION</th>
                                     <th scope="col" onclick="sortTable(5)">LOCATION</th>
                                     <th scope="col" onclick="sortTable(5)">LAST LOGIN</th>
@@ -69,7 +69,7 @@
                                         <td style="text-transform: uppercase;" class="fName">{{ $user->fName }}</td>
                                         <td style="text-transform: uppercase;" class="lName">{{ $user->lName }}</td>
                                         <td class="email">{{ $user->email }}</td>
-                                        <td class="phoneNum">{{ $user->phoneNum }}</td>
+                                        <!--td class="phoneNum">{{ $user->phoneNum }}</td-->
                                         <td class="position">{{ $user->position }}</td>
                                         <td class="location">{{ $user->location }}</td>
                                         <td class="location">{{ $user->login }}</td>
@@ -141,7 +141,7 @@
                                                             @enderror
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
-                                                        <div class="input-group mb-3">
+                                                        <!--div class="input-group mb-3">
                                                             <input type="number" name="phoneNum" class="form-control" placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
@@ -153,7 +153,7 @@
                                                                 {{ $message }}
                                                             </span>
                                                             @enderror
-                                                        </div>
+                                                        </div-->
                                                         <!--LOCATION FIELD-->
                                                         <div class="input-group mb-3">
                                                             <select class="form-control" id="location" name="location">
@@ -306,7 +306,7 @@
                             @enderror
                         </div>
                         <!--PHONE NUMBER FIELD-->
-                        <div class="input-group mb-3">
+                        <!--div class="input-group mb-3">
                             <input type="number" name="phoneNum" class="form-control" placeholder="{{ __('PHONE NUMBER') }}" autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -318,7 +318,7 @@
                                     {{ $message }}
                                 </span>
                             @enderror
-                        </div>
+                        </div-->
                         <!--LOCATION FIELD-->
                         <div class="input-group mb-3">
                             <select id="location" name="location" class="form-control @error('location') is-invalid @enderror" placeholder="{{ __('Location') }}" required autocomplete="location" autofocus>

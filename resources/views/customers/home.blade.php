@@ -20,7 +20,7 @@
                     <!--SEARCH FORM-->
                     <form action="{{ route('c.search') }}" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search by Customer ID, First Name, Last Name" name="search">
+                            <input type="text" class="form-control" placeholder="Search by Customer ID, First Name, Last Name" name="search" style="text-transform: uppercase;">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-success"><!--i class="fa fa-search"></i-->SEARCH</button>
                             </div>

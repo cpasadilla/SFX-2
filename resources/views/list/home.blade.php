@@ -113,7 +113,7 @@ $(document).ready(function() {
             <div class="col-md-6">
                 <form action="{{ route('l.search') }}" method="GET">
                     <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category">
+                        <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Category" style="text-transform: uppercase;">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-success">Search</button>
                         </div>
