@@ -240,37 +240,37 @@
                                 <td> </td>
                                 <td> </td>
                                 <td><strong style="color: black">₱</strong></td>
-                                <td><strong>{{ number_format($order->totalAmount, 2) }}</strong></td>
+                                <td><strong style="color: black">{{ number_format($order->totalAmount, 2) }}</strong></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p style="font-size: 5px;"></p>
+               
                 <footer>
                 <div class="row pl-3" style="padding-right:20px;">
                     <div class="col-md-6" id="cd-6-left"></div>
                     <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
-                        <span style="text-align: right; font-size: 15px;"></span>
+                        <span style="text-align: right; font-size: 5px;"></span>
                         @if($order->bl_status == 'PAID' || $order->bl_status == 'UNPAID')
-                        <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
-                                @if($order->bl_status == 'PAID')
-                                    PAID IN SFXSSLI MANILA <br>
-                                    @if(!empty($order->OR))
-                                        OR#: {{ $order->OR }}<br>
+                            <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
+                                    @if($order->bl_status == 'PAID')
+                                        PAID IN SFXSSLI MANILA <br>
+                                        @if(!empty($order->OR))
+                                            OR#: {{ $order->OR }}<br>
+                                        @endif
+                                        @if(!empty($order->AR))
+                                            AR#: {{ $order->AR }}<br>
+                                        @endif
+                                    @elseif($order->bl_status == 'UNPAID')
+                                        UNPAID IN SFXSSLI MANILA 
                                     @endif
-                                    @if(!empty($order->AR))
-                                        AR#: {{ $order->AR }}<br>
-                                    @endif
-                                @elseif($order->bl_status == 'UNPAID')
-                                    UNPAID IN SFXSSLI MANILA 
-                                @endif
                             </span>
                         @endif
                     </div>
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
-                        <p style="margin: 0;"><strong>Terms and Conditions:</strong></p>
+                        <p style="margin: 0;"><strong style="color: black;">Terms and Conditions:</strong></p>
                     </div>
                 </div>
                 <div class="row pl-3" style="margin: 0; padding: 0;">
@@ -316,7 +316,7 @@
                 </div>
                 <div class="row pl-3">
                     <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black; font-size: 15px;"><strong>{{ (($order->check)) }}</strong></span>
+                        <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black; font-size: 15px;"><strong style="color: black;">{{ (($order->check)) }}</strong></span>
                     </div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">VAT :</span>
@@ -325,7 +325,7 @@
                     <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                 </div>
                 <div class="row pl-3">
-                    <div class="col-md-7" style="padding-left:85px; font-size: 15px;"id="cd-7">Vessel's Checker or Authorized Representative</div>
+                    <div class="col-md-7" style="padding-left:130px; font-size: 15px;"id="cd-7">Vessel's Checker or Authorized Representative</div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                         <span style="text-align: right; font-size: 15px;">Other Charges :</span>
                         <span style="text-align: left; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
@@ -343,7 +343,7 @@
                 <div class="row pl-3">
                     <div class="col-md-7"id="cd-7"></div>
                     <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <strong style="text-align: right; font-size: 15px;">TOTAL : </strong>
+                        <strong style="text-align: right; font-size: 15px; color: black;">TOTAL : </strong>
                         <strong style="text-align: center; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color: black;">
                             {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}
                         </strong>
