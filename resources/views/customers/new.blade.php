@@ -167,24 +167,24 @@
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>SHIPPER:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 78%; border-bottom: 1px solid black;"> {{ $order->consigneeName }}</span><br>
+                            <strong>SHIPPER:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 83%; border-bottom: 1px solid black;"> {{ $order->consigneeName }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:30px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONSIGNEE:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
+                            <strong>CONSIGNEE:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"> {{ $user->fName }} {{ $user->lName }}</span><br>
                         @endforeach
                     </div>
                 </div>
                 <div class="row" style="padding-left:30px; font-size:14px">
                     <div class="col-md-5"id="cd-5">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 75%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->consigneeNum }}</span><br>
                         @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->phoneNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->phoneNum }}</span><br>
                         @endforeach
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
                             <strong>REMARK: </strong> 
-                            <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 60%; border-bottom: 1px solid black;">
+                            <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 69%; border-bottom: 1px solid black;">
                                 <span style="text-transform: uppercase; color: white;">.</span>
                                 <span style="text-transform: uppercase; color: black;">{{ $order->mark }}</span>
                             </span>

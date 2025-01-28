@@ -42,36 +42,42 @@ class CustomerController extends Controller {
 
     //CUSTOMER VIEW
     protected function index() {
-        $users = CustomerID::paginate();
+        $perPage = 1000;  // or dynamically set this value based on user settings or a config file
+        $users = CustomerID::paginate($perPage);
         return view('customers.home', compact('users'));
     }
+    
 
-    //customer creation
-    protected function create(Request $request) {
-        $this->validator($request->all())->validate();
+//customer creation
+protected function create(Request $request) {
+    $this->validator($request->all())->validate();
 
-        $user = CustomerID::paginate();
-        $count = count($user);
-        $count += 1;
-        if($count >= 1 && $count<=9){
-            $index = '000'. $count;
-        } elseif($count >= 10 && $count<=99){
-            $index = '00'. $count;
-        } elseif($count >= 100 && $count<=999){
-            $index = '0'. $count;
-        } else{
-            $index = strval($count);
-        }
+    // Get all users to count them
+    $users = CustomerID::all();
+    $count = count($users);  // Now counting all users, not just those on the current page
+    $count += 1;
 
-        CustomerID::create([
-            'cID' => $index,
-            'fName' => ucfirst(strtolower($request -> fName)),
-            'lName' => ucfirst(strtolower($request -> lName)),
-            'phoneNum' => $request -> phoneNum,
-        ]);
-
-        return redirect() -> route('customer') ;
+    if($count >= 1 && $count<=9){
+        $index = '000'. $count;
+    } elseif($count >= 10 && $count<=99){
+        $index = '00'. $count;
+    } elseif($count >= 100 && $count<=999){
+        $index = '0'. $count;
+    } else{
+        $index = strval($count);
     }
+
+    // Create new customer with the generated customer ID
+    CustomerID::create([
+        'cID' => $index,
+        'fName' => ucfirst(strtolower($request->fName)),
+        'lName' => ucfirst(strtolower($request->lName)),
+        'phoneNum' => $request->phoneNum,
+    ]);
+
+    return redirect()->route('customer');
+}
+
 
     //customer search
     public function search(Request $request) {
@@ -244,27 +250,32 @@ protected function submit(Request $request, $key)
     $ship = intval($request->input('ship'));
     $bl = "BL" . $ship;
 
-    // Generate an incrementing orderId
-    $first = Order::where('orderId', 'like', "%$bl%")
-        ->latest()
-        ->first();
+    // Generate the orderId (This is where your current logic starts)
+$first = Order::where('orderId', 'like', "$bl%")
+->latest()
+->first();
 
-    if ($first === null) {
-        $orderId = $bl . "-01";
-    } else {
-        $last = $first->orderId;
+if ($first === null) {
+$orderId = $bl . "-01"; // Start at 01 if no orders exist with this ship number
+} else {
+$last = $first->orderId;
+preg_match('/-(\d+)$/', $last, $matches); // Capture the numeric part at the end
+$int = isset($matches[1]) ? intval($matches[1]) : 0;
+$int++;
+$orderId = $bl . "-" . str_pad($int, 2, '0', STR_PAD_LEFT); // Ensure 2 digits
+}
 
-        // Adjust regex to match only the numerical portion
-        if (preg_match('/(\d+)$/', $last, $matches)) {
-            $int = intval($matches[1]);
-        } else {
-            $int = 0; // Default to 0 if no match is found
-        }
+// Check if the generated orderId already exists
+if (Order::where('orderId', $orderId)->exists()) {
+// If the orderId exists, increment it until a unique one is found
+do {
+    $int++;
+    $orderId = $bl . "-" . str_pad($int, 2, '0', STR_PAD_LEFT);
+} while (Order::where('orderId', $orderId)->exists()); // Continue until unique
+}
 
-        $int += 1;
-        $str = $int <= 9 ? "0$int" : "$int";
-        $orderId = $bl . "-" . $str;
-    }
+// Now you can safely use $orderId to create your order
+
 
     $origin = $request->input('origin');
     $destination = $request->input('destination');
