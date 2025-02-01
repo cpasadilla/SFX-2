@@ -87,6 +87,7 @@ class ParcelController extends Controller
     $search = $request->query('search');
     $orders = Order::where('orderId', 'like', '%' . $search . '%')
                    ->orWhere('cID', 'like', '%' . $search . '%')
+                   ->orWhere('cargo_status', 'like', '%' . $search . '%')
                    ->get();
         if($orders->isEmpty()){
 

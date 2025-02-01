@@ -40,6 +40,7 @@
                         <table class="table" style="background-color: #fcfcfc; border: 1px solid rgb(255, 255, 255);">
                             <thead class="thead-light">
                                 <tr>
+                                <th scope="col">#</th>
                                     <th>NAME</th>
                                     <th>UNIT</th>
                                     <th>PRICE</th>
@@ -50,6 +51,8 @@
                             <tbody>
                                 @foreach($products as $product)
                                     <tr>
+                                        <td class="id" ; style="display:none">{{ $product->id }} </td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td style="text-transform: uppercase;" >{{ $product->itemName }}</td>
                                         <td style="text-transform: uppercase;" >{{ $product->unit }}</td>
                                         <td>{{ number_format($product->price, 2) }}</td>
@@ -181,7 +184,7 @@
                                                     </thead>
                                                     <div class="input-group mb-1">
                                                         <input type="text" name="valuation" class="form-control"
-                                                        placeholder="{{ __('VALUATION') }}" autocomplete="valuation" autofocus>
+                                                        placeholder="{{ __('VALUE') }}" autocomplete="valuation" autofocus>
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-hashtag"></i>

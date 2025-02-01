@@ -69,6 +69,7 @@ class listController extends Controller {
     }
 
     protected function update(Request $request) {
+        // Update logic
         $cat = $request-> cats2;
         $itemName = $request->itemName;
         $unit = $request->unit;
@@ -78,19 +79,33 @@ class listController extends Controller {
         $height = $request->height;
         $multiplier = $request->multiplier;
         $id = $request->id;
-
+    
         $cats = category::where('name',$cat)->get();
-
+    
         foreach($cats as $key) {
             $category = $key->id;
         }
-
+    
         DB::table('price_lists')
             ->where('id',$id)
-            ->update(['itemName'=>$itemName,'unit'=>$unit,'price'=>$price,'category'=>$category,'length'=>$length,'width'=>$width,'height'=>$height,'multiplier'=>$multiplier]);
-
-        return redirect() -> route('price');
+            ->update([
+                'itemName'=>$itemName,
+                'unit'=>$unit,
+                'price'=>$price,
+                'category'=>$category,
+                'length'=>$length,
+                'width'=>$width,
+                'height'=>$height,
+                'multiplier'=>$multiplier
+            ]);
+    
+        // Fetch updated items to reflect changes on the page
+        $items = priceList::paginate();
+        $cats = category::all();
+    
+        return view('list.home', compact('items', 'cats'));  // Return updated data
     }
+    
 
     protected function delete(Request $request) {
         $id = $request-> id;
@@ -112,7 +127,7 @@ class listController extends Controller {
             $cats = category::where('name', 'like', "%$search%")
                 ->get();
             if($cats->isEmpty()){
-                $items = priceList::paginate(12);
+                $items = priceList::paginate(20);
             } else {
                 $key = $cats;
 

@@ -40,6 +40,7 @@
                         <table class="table" style="background-color: #fcfcfc; border: 1px solid rgb(255, 255, 255);">
                             <thead class="thead-light">
                                 <tr>
+                                    <th>#</th>
                                     <th>NAME</th>
                                     <th>UNIT</th>
                                     <th>PRICE</th>
@@ -50,8 +51,10 @@
                             <tbody>
                                 @foreach($products as $product)
                                     <tr>
-                                        <td>{{ $product->itemName }}</td>
-                                        <td>{{ $product->unit }}</td>
+                                        <td class="id" ; style="display:none">{{ $product->id }} </td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td style="text-transform: uppercase;">{{ $product->itemName }}</td>
+                                        <td style="text-transform: uppercase;">{{ $product->unit }}</td>
                                         <td>{{ number_format($product->price, 2) }}</td>
                                         @foreach ($cats as $cat)
                                             @if ($cat->id == $product->category)
@@ -87,7 +90,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <p> Name: {{$user->fName}} {{$user->lName}}</p>
+                                            <p style="text-transform: uppercase;"> Name: {{$user->fName}} {{$user->lName}}</p>
 
                                         </div>
                                         <div class="col-md-6">
@@ -415,8 +418,8 @@
         
         orderItemsHtml += `
             <tr>
-                <td>${item.name}</td>
-                <td>${item.unit}</td>
+                <td style="text-transform: uppercase;">${item.name}</td>
+                <td style="text-transform: uppercase;">${item.unit}</td>
                 <td>${priceFormatted}</td>
                 <td>
                     <input type="number" min="1" value="${item.quantity}" class="form-control" onchange="updateQuantity(${item.id}, this.value)" />
@@ -470,8 +473,8 @@
             data.forEach(product => {
                 productsHtml += `
                     <tr>
-                        <td>${product.itemName}</td>
-                        <td>${product.unit}</td>
+                        <td style="text-transform: uppercase;">${product.itemName}</td>
+                        <td style="text-transform: uppercase;">${product.unit}</td>
                         <td>${product.price}</td>
                         <td>
                             <button type="button" class="btn btn-primary" onclick="addToOrder(${product.id}, '${product.itemName}', '${product.unit}', ${product.price})">Add to Order</button>
@@ -484,6 +487,23 @@
 
         updateOrderItems();
     });
+    $.ajax({
+    url: '/update-price', // Your update endpoint
+    type: 'POST',
+    data: {
+        id: itemId,
+        price: updatedPrice,
+        _token: '{{ csrf_token() }}'
+    },
+    success: function(response) {
+        // Update the price on the page without reloading
+        $('#price-' + itemId).text(response.newPrice);
+    },
+    error: function(error) {
+        console.log(error);
+    }
+});
+
 </script>
 <style>
     .btn-primary {

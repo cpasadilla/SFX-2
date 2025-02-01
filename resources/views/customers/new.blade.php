@@ -201,7 +201,7 @@
                     </div>
                 </div>
                 <p style="font-size: 5px;"></p>
-                <div class="row" style="width: 100%; font-size: 13.5px; margin-right: 10px; margin-left: 5px;">
+                <div class="row" style="width: 100%; font-size:15px; margin-right: 10px; margin-left: 5px;">
                     <table class="table table-condensed" style="margin: 0;">
                         <thead style="background-color: #78BF65; color: white;">
                             <tr>
@@ -219,9 +219,9 @@
                             <!-- Table rows with data -->
                             @foreach ($parcel as $parcel)
                                 <tr>
-                                    <td style="font-size:14px; text-align: center;">{{ $parcel->quantity }}</td>
-                                    <td style="text-transform: uppercase;" >{{ $parcel->unit }}</td>
-                                    <td style="text-transform: uppercase;" >{{ $parcel->itemName }}</td>
+                                    <td style="font-size:15px; text-align: center;">{{ $parcel->quantity }}</td>
+                                    <td style="font-size:15px; text-transform: uppercase;" >{{ $parcel->unit }}</td>
+                                    <td style="font-size:15px; text-transform: uppercase;" >{{ $parcel->itemName }}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -233,7 +233,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><strong style="color: black;">VALUE: {{ number_format($order->value, 2) }}</strong></td>
+                                <td><strong style="font-size:15px; color: black;">VALUE: {{ number_format($order->value, 2) }}</strong></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

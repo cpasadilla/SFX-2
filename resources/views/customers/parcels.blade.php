@@ -33,7 +33,7 @@
             <div class="col-md-12"><!--<div class="col-lg-12">-->
                 <div class="card">
                     <div class="card-header">
-                        <h5>CUSTOMER NAME: {{ $name }}</h5>
+                        <h5 style="text-transform: uppercase;">CUSTOMER NAME: {{ $name }}</h5>
                     </div>
                     <div class="card-body">
                         <table class="table" id="myTable2">

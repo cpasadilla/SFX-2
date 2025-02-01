@@ -614,7 +614,9 @@ do {
         $search = $request->input('search');
 
         $users = CustomerID::where('cID', $key)->get();
-        $orders = Order::where('orderId', 'like', "%$search%")->where('cID',$key)->get();
+        $orders = Order::where('orderId', 'like', "%$search%")
+                        ->where('cID',$key)
+                        ->get();
         return view('customers.parcels', compact('users','orders'));
     }
 

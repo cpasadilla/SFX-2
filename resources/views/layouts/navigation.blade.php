@@ -30,14 +30,13 @@
                         <p>{{ __('PRICE LIST') }}</p>
                     </a>
                 </li>
-                @if (Auth::user()->position == 'Admin')
-                    <li class="nav-item">
-                        <a href="{{ route('p.view') }}" class="nav-link" style="color:white">
-                            <i class="nav-icon fa-solid fa-clipboard-list"></i>
-                            <p>{{ __('MASTER LIST') }}</p>
-                        </a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a href="{{ route('p.view') }}" class="nav-link" style="color:white">
+                        <i class="nav-icon fa-solid fa-clipboard-list"></i>
+                        <p>{{ __('MASTER LIST') }}</p>
+                    </a>
+                </li>
+                
             @endif
         </ul>
     </nav>

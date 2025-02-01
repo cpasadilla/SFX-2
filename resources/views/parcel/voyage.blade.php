@@ -12,7 +12,7 @@
                 <!--Search Form-->
                 <form action="{{ route('p.search') }}" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search by Order ID or Customer ID"" name="search">
+                        <input type="text" class="form-control" placeholder="Search by Order ID or Customer ID or Cargo Status" name="search">
                         <div class="input-group-append">
                             <button class="btn btn-success" type="submit">SEARCH</button>
                         </div>
@@ -63,10 +63,10 @@
                                     <td style="text-align: center;">{{ $order->cID }}</td>
                                     <td style="text-align: center;">{{ $order->voyageNum }}</td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
+                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
                                     <td style="text-transform: uppercase; text-align: center;">
                                         {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
-                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ $order->OR }}</td>
