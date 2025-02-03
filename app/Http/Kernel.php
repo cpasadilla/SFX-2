@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UpdateLastActive::class,
 
+
         ],
 
         'api' => [
@@ -67,4 +68,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isStaff' => \App\Http\Middleware\StaffMiddleWare::class,
     ];
+
+    protected $routeMiddleware = [
+        // Other middleware
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+    ];
+
 }
