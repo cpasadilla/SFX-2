@@ -11,6 +11,7 @@ use App\Models\order;
 use App\Models\parcel;
 use App\Models\ship;
 use App\Models\voyage;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ParcelController extends Controller
 {
@@ -71,13 +72,26 @@ class ParcelController extends Controller
 
         $voyage = voyage::where('dock',$docks)->where('ship',$shipNum)
         ->where('trip_num',$voyageNum)->get();
-        $orders = collect();
+        $order = collect();
         foreach($voyage as $data){
             $search = $data->orderId;
             $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
-            $orders = $orders->merge($find);
+            $order = $order->merge($find);
 
         }
+
+            // Paginate the collection manually
+        $perPage = 10; // Number of items per page
+        $currentPage = request()->input('page', 1); // Get current page from request
+        $currentItems = $order->slice(($currentPage - 1) * $perPage, $perPage)->values(); // Get only the items for the current page
+
+        $orders = new LengthAwarePaginator(
+            $currentItems,
+            $order->count(),
+            $perPage,
+            $currentPage,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
         return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
     }
 
@@ -88,7 +102,7 @@ class ParcelController extends Controller
     $orders = Order::where('orderId', 'like', '%' . $search . '%')
                    ->orWhere('cID', 'like', '%' . $search . '%')
                    ->orWhere('cargo_status', 'like', '%' . $search . '%')
-                   ->get();
+                   ->paginate(10);
         if($orders->isEmpty()){
 
             $ships = ship::paginate();

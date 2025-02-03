@@ -1,6 +1,42 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    .register-button {
+        position: fixed;
+        left: 50%;
+    }
 
+    th {
+        cursor: pointer;
+    }
+
+    th.ascending::after {
+        content: ' \25B2'; /* Up arrow */
+    }
+
+    th.descending::after {
+        content: ' \25BC'; /* Down arrow */
+    }
+
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #78BF65;
+        border-color: #78BF65;
+    }
+
+    .page-link {
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #000000;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+
+</style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
@@ -33,6 +69,7 @@
                         <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
                     </div>
                     <div class="card-body">
+                        {{ $orders->links() }}
                         <table id="myTable2" class="table">
                             <thead class="thead-light">
                                 <tr>
@@ -52,8 +89,8 @@
                                     <th style="text-align: center;">REMARK</th>
                                     <th style="text-align: center;">VIEW BL</th>
                                     <th style="text-align: center;">CREATED BY</th>
-                                    
-                                    
+
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,16 +116,16 @@
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
                                     <td style="text-transform: uppercase; text-align: center">{{ $order->createdBy}}</td>
-                                    
+
                                     <!--td style="text-align: center;">
-                                        <span 
-                                            data-toggle="modal" 
-                                            data-target="#deleteUserModal{{ $order->orderId }}" 
+                                        <span
+                                            data-toggle="modal"
+                                            data-target="#deleteUserModal{{ $order->orderId }}"
                                             style="color: rgb(14, 143, 195); cursor: pointer;">
                                             ADD
                                         </span>
                                     </td-->
-                                    
+
                                 </tr>
 
 
@@ -164,6 +201,8 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <p>Page: {{ $orders->currentPage() }}</p>
+
                         <hr style="border: none; border-top: 1px solid #D2D5DD; margin: 10px 0;">
                     </div>
                 </div>

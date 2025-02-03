@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
     public function index() {
-        $users = User::paginate();
+        $users = User::paginate(10);
 
         return view('users.index', compact('users'));
     }
@@ -47,15 +47,15 @@ class UserController extends Controller {
 
     public function search(Request $request) {
         $search = $request->input('search');
-        
+
         // Perform the search query and retrieve the filtered results
         $users = User::where('fName', 'like', "%$search%")
             ->orWhere('lName', 'like', "%$search%")
             ->orWhere('email','like',"%$search%")
-            ->get();
+            ->paginate(10);
 
         if($users->isEmpty()) {
-            $users = User::paginate();
+            $users = User::paginate(10);
         }
 
         return view('users.index', compact('users'));

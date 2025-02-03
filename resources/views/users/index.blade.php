@@ -9,7 +9,39 @@
         position: fixed;
         left: 50%;
     }
+
+    th {
+        cursor: pointer;
+    }
+
+    th.ascending::after {
+        content: ' \25B2'; /* Up arrow */
+    }
+
+    th.descending::after {
+        content: ' \25BC'; /* Down arrow */
+    }
+
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #78BF65;
+        border-color: #78BF65;
+    }
+
+    .page-link {
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: #000000;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+    }
+
 </style>
+
 
 <!--CONTENT HEADER (PAGE HEADER)-->
 <div class="content-header">
@@ -48,6 +80,8 @@
                         <h5>STAFF</h5>
                     </div>
                     <div class="card-body">
+                        {{ $users->links() }}
+
                         <table class="table" id="myTable2">
                             <thead class="thead-light">
                                 <tr>
@@ -243,6 +277,8 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <p>Page: {{ $users->currentPage() }}</p>
+
                     </div>
                     <div class="card-footer clearfix"></div>
                 </div>
@@ -460,16 +496,3 @@
     });
 </script>
 
-<style>
-    th {
-        cursor: pointer;
-    }
-
-    th.ascending::after {
-        content: ' \25B2'; /* Up arrow */
-    }
-
-    th.descending::after {
-        content: ' \25BC'; /* Down arrow */
-    }
-</style>

@@ -42,11 +42,11 @@ class CustomerController extends Controller {
 
     //CUSTOMER VIEW
     protected function index() {
-        $perPage = 1000;  // or dynamically set this value based on user settings or a config file
+        $perPage = 10;  // or dynamically set this value based on user settings or a config file
         $users = CustomerID::paginate($perPage);
         return view('customers.home', compact('users'));
     }
-    
+
 
 //customer creation
 protected function create(Request $request) {
@@ -85,13 +85,13 @@ protected function create(Request $request) {
 
         // Perform the search query and retrieve the filtered results
         $users = CustomerID::where('cID', 'like', "%$search%")
-            ->get();
+            ->paginate(10);
         if($users->isEmpty()) {
             $users = CustomerID::where('fName', 'like', "%$search%")
                 ->orWhere('lName', 'like', "%$search%")
-                ->get();
+                ->paginate(10);
             if($users->isEmpty()){
-                $users = CustomerID::paginate();
+                $users = CustomerID::paginate(10);
             }
         }
         return view('customers.home', compact('users'));
@@ -410,7 +410,7 @@ do {
     //SHOW CUSTOMER BL
     public function showBL(Request $request, $key){
         $users = CustomerID::where('cID', $key)->get();
-        $orders = Order::where('cID', $key)->get();
+        $orders = Order::where('cID', $key)->paginate(10);
         return view('customers.parcels', compact('users','orders'));
     }
 
@@ -616,7 +616,7 @@ do {
         $users = CustomerID::where('cID', $key)->get();
         $orders = Order::where('orderId', 'like', "%$search%")
                         ->where('cID',$key)
-                        ->get();
+                        ->paginate(10);
         return view('customers.parcels', compact('users','orders'));
     }
 
