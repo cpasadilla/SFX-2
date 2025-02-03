@@ -21,11 +21,6 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 Route::middleware('auth')->group(function(){
-    //Dashboard
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-    //BL
-    Route::get('/bl', [\App\Http\Controllers\BLControllers::class,'index'])->name('bl');
 
     //Customer Details
     Route::get('/customer', [\App\Http\Controllers\CustomerController::class,'index'])->name('customer');
@@ -66,30 +61,16 @@ Route::middleware('auth')->group(function(){
     Route::post('/priceList/updateCategory', [\App\Http\Controllers\listController::class, 'updateCategory'])->name('p.upd');
     Route::post('/priceList/deleteCategory', [\App\Http\Controllers\listController::class, 'deleteCategory'])->name('p.del');
 
-
-    //Staffs
-    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::post('users/create', [\App\Http\Controllers\staffControl::class, 'create'])->name('u.create');
-    Route::post('users/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('u.edit');
-    Route::post('users/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('u.delete');
-    Route::get('/users/search',  [\App\Http\Controllers\UserController::class, 'search'])->name('u.search');
-    Route::post('users/reset', [\App\Http\Controllers\UserController::class, 'reset'])->name('u.reset');
-
     //Parcel View
     Route::get('/parcel/search', [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
     Route::get('/parcel/qr/{key}', [\App\Http\Controllers\ParcelController::class, 'qr'])->name('p.qr');
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
 
-
-
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/ship_{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
     Route::get('/orders/ship_{shipNum}/voyage_{voyageNum}/dock_{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
-
     Route::put('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/update-status/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
-
-
 
 
     //Profile Update
@@ -109,6 +90,21 @@ Route::middleware('auth')->group(function(){
 
 
 });
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    //Dashboard
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    //Staffs
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::post('users/create', [\App\Http\Controllers\staffControl::class, 'create'])->name('u.create');
+    Route::post('users/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('u.edit');
+    Route::post('users/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('u.delete');
+    Route::get('/users/search',  [\App\Http\Controllers\UserController::class, 'search'])->name('u.search');
+    Route::post('users/reset', [\App\Http\Controllers\UserController::class, 'reset'])->name('u.reset');
+});
+
+
 
 Auth::routes();
 //Route::get('/test', [\App\Http\Controllers\ProfileController::class, 'test'])->name('test.show'); bl testing

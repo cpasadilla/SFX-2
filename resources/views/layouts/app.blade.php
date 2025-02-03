@@ -1,10 +1,16 @@
 <!DOCTYPE html>
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app_name', 'SFX SHIPPING LINES INC.') }}</title>
-        
+
         <!-- icon -->
         <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/icon type">
         <!-- Google Font: Source Sans Pro -->
@@ -69,7 +75,7 @@
                     </li>
                 </ul>
             </nav>
-            
+
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544">
                 <!-- Brand Logo -->
@@ -81,7 +87,7 @@
                 </span>
                 @include('layouts.navigation')
             </aside>
-            
+
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 @yield('content')
@@ -95,10 +101,10 @@
                 </div>
             </aside> <!-- /.control-sidebar -->
         </div> <!-- ./wrapper -->
-        
+
         <!-- REQUIRED SCRIPTS -->
         @vite('resources/js/app.js')
-        
+
         <!-- AdminLTE App -->
         <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
         @yield('scripts')
