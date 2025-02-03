@@ -27,7 +27,7 @@ class HomeController extends Controller {
     public function index() {
         $id = User::paginate();
         $id = count($id);
-        $staff = count(CustomerID::paginate());
+        $staff = count(CustomerID::paginate(1000));
         $prog = count(order::where('bl_status','PAID')->get());
         $comp = count(order::where('bl_status','UNPAID')->get());
         return view('home', compact('id','prog','staff','comp'));
