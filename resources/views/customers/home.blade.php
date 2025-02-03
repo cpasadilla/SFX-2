@@ -66,14 +66,14 @@
                                         <td style="text-transform: uppercase;" class="lName">{{ $user->lName }}</td>
                                         <td class="phoneNum">{{ $user->phoneNum }}</td>
                                         <td class="align-left">
-                                            <span 
-                                                data-toggle="modal" 
-                                                data-target="#editCustomerModal{{ $user->cID }}" 
+                                            <span
+                                                data-toggle="modal"
+                                                data-target="#editCustomerModal{{ $user->cID }}"
                                                 style="color: rgb(14, 143, 195); cursor: pointer;">
                                                 EDIT INFO
                                             </span>
                                         </td>
-                                        
+
                                         <td class="align-middle" style="text-align: center;">
                                             <a href="{{ route('c.parcels', ['key' => $user->cID]) }}"style="color: rgb(14, 143, 195); text-decoration: none; cursor: pointer;">
                                                 VIEW AL BL
@@ -84,7 +84,7 @@
                                                 CREATE BL
                                             </a>
                                         </td>
-                                        
+
                                     </tr>
                                     <!--EDIT CUSTOMER MODAL-->
                                     <div class="modal fade" id="editCustomerModal{{ $user->cID }}" tabindex="-1" role="dialog" aria-labelledby="editCustomerModal{{ $user->cID }}" aria-hidden="true">
@@ -129,7 +129,7 @@
                                                         </div>
                                                         <!--PHONE NUMBER FIELD-->
                                                         <div class="input-group mb-3">
-                                                            <input type="number" name="phoneNum" class="form-control" 
+                                                            <input type="number" name="phoneNum" class="form-control"
                                                             placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus value="{{ $user->phoneNum}}">
                                                             <div class="input-group-append">
                                                                 <div class="input-group-text">
@@ -149,15 +149,16 @@
                                                         </button>
                                                     </form>
                                                     <br><br>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
-                                                        {{ __('DELETE') }}
-                                                    </button>
+                                                    @if(auth()->user()->position == "Admin")
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                                            {{ __('DELETE') }}
+                                                        </button>
+                                                    @endif
                                                     <br><br>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    @if(auth()->user()->isAdmin)
                                         <!-- DELETE MODAL -->
                                         <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $user->id }}" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -186,7 +187,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -240,7 +240,7 @@
                         </div>
                         <!--PHONE NUMBER FIELD-->
                         <div class="input-group mb-3">
-                            <input type="number" name="phoneNum" class="form-control" 
+                            <input type="number" name="phoneNum" class="form-control"
                             placeholder="{{ __('Phone Number') }}" autocomplete="phoneNum" autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -285,7 +285,7 @@
                     return ascending ? cellA - cellB : cellB - cellA;
                 } else {
                     // Compare as strings otherwise
-                    return ascending 
+                    return ascending
                         ? cellA.localeCompare(cellB)
                         : cellB.localeCompare(cellA);
                 }
