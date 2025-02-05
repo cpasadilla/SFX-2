@@ -92,6 +92,7 @@ class ParcelController extends Controller
             $currentPage,
             ['path' => request()->url(), 'query' => request()->query()]
         );
+        $order = Order::paginate(10);
         return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
     }
 
