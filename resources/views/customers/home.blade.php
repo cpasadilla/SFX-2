@@ -224,8 +224,16 @@
                                 @endforeach
                             </tbody>
                         </table>
+<<<<<<< Updated upstream
                          <!-- Display current page number -->
                          <p>Page: {{ $users->currentPage() }}</p>
+=======
+                        <!-- Display current page number -->
+                        <p>Page: {{ $users->currentPage() }}</p>
+                        <!-- Display pagination links -->
+                        {{ $users->appends(request()->query())->links() }}
+
+>>>>>>> Stashed changes
                     </div>
                     <div class="card-footer clearfix"></div>
                 </div>
