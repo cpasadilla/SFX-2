@@ -224,10 +224,11 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- Display current page number -->
-                        <p>Page: {{ $users->currentPage() }}</p>
                         <!-- Display pagination links -->
                         {{ $users->appends(request()->query())->links() }}
+                        <!-- Display current page number -->
+                        <p>Page: {{ $users->currentPage() }}</p>
+                        
 
                     </div>
                     <div class="card-footer clearfix"></div>
