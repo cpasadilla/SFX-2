@@ -68,6 +68,13 @@
                     <div class="card-header">
                         <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
                     </div>
+                    <!-- Filter buttons (Add this section above or below your order list/table) -->
+                    <div class="btn-group" role="group" aria-label="Order Filter">
+                        <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'all']) }}" class="btn btn-info">All Orders</a>
+                        <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'PAID']) }}" class="btn btn-success">Paid Orders</a>
+                        <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'UNPAID']) }}" class="btn btn-danger">Unpaid Orders</a>
+                    </div>
+
                     <div class="card-body">
                         {{ $orders->links() }}
                         <table id="myTable2" class="table">
@@ -201,6 +208,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $orders->links() }}
                         <p>Page: {{ $orders->currentPage() }}</p>
 
                         <hr style="border: none; border-top: 1px solid #D2D5DD; margin: 10px 0;">

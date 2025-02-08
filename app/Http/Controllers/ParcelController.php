@@ -63,38 +63,50 @@ class ParcelController extends Controller
 
     // Display orders for a specific ship number and voyage number
     public function showVoyage($shipNum, $voyageNum, $dock, $orig)
-    {
-        //dd($dock,$orig);
-        $docks = $dock;
-        if($dock == 0){
-            $docks = NULL;
-        }
-
-        $voyage = voyage::where('dock',$docks)->where('ship',$shipNum)
-        ->where('trip_num',$voyageNum)->get();
-        $order = collect();
-        foreach($voyage as $data){
-            $search = $data->orderId;
-            $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
-            $order = $order->merge($find);
-
-        }
-
-            // Paginate the collection manually
-        $perPage = 10; // Number of items per page
-        $currentPage = request()->input('page', 1); // Get current page from request
-        $currentItems = $order->slice(($currentPage - 1) * $perPage, $perPage)->values(); // Get only the items for the current page
-
-        $orders = new LengthAwarePaginator(
-            $currentItems,
-            $order->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
-        $order = Order::paginate(10);
-        return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
+{
+    $docks = $dock;
+    if($dock == 0){
+        $docks = NULL;
     }
+
+    $voyage = voyage::where('dock', $docks)->where('ship', $shipNum)
+        ->where('trip_num', $voyageNum)->get();
+    
+    $order = collect();
+    foreach ($voyage as $data) {
+        $search = $data->orderId;
+        $find = Order::where('orderId', $search)->where('voyageNum', $orig)->get();
+        $order = $order->merge($find);
+    }
+
+    // Handle the filtering logic based on query parameter 'status'
+    $statusFilter = request()->query('status'); // Get the status filter
+    if ($statusFilter) {
+        if ($statusFilter == 'PAID') {
+            $order = $order->where('bl_status', 'PAID');
+        } elseif ($statusFilter == 'UNPAID') {
+            $order = $order->where('bl_status', 'UNPAID');
+        } elseif ($statusFilter == 'NO_STATUS') {
+            $order = $order->whereNull('bl_status');
+        }
+    }
+
+    // Paginate the collection manually
+    $perPage = 10; // Number of items per page
+    $currentPage = request()->input('page', 1); // Get current page from request
+    $currentItems = $order->slice(($currentPage - 1) * $perPage, $perPage)->values(); // Get only the items for the current page
+
+    $orders = new LengthAwarePaginator(
+        $currentItems,
+        $order->count(),
+        $perPage,
+        $currentPage,
+        ['path' => request()->url(), 'query' => request()->query()]
+    );
+
+    return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders', 'dock', 'orig'));
+}
+
 
     //search
     public function search(Request $request)

@@ -66,6 +66,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/parcel/qr/{key}', [\App\Http\Controllers\ParcelController::class, 'qr'])->name('p.qr');
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
+    Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
+
 
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/ship_{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
