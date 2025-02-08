@@ -263,6 +263,142 @@
             </div>
         </div>
     </div> <!--/div></div-->
+    <div class="card">
+        <div class="card-header">
+            <h5>CREATE LISTING</h5>
+            <p> NOTE:</p>
+        </div>
+        <br>
+        <!-- CREATE -->
+        <form method="POST" action="{{ route('p.create') }}" enctype="multipart/form-data" id="create">
+                            @csrf
+                            <input style="display:none" id="id" type="text" name="id" value="{{ old('itemName') }}" autocomplete="id">
+                            <div class="form-group row" style="padding-left: 215px" id="cat1">
+                                <select class="form-control" id="cats" name="cats" style="max-width:85%;">
+                                    <option selected value="0">Choose Category</option>
+                                    @foreach ($cats as $value)
+                                    <option value={{ $value->id }}>{{ $value->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                @error('cats')
+                                <span class="error invalid-feedback">
+                                    {{ $message }}
+                                </span>
+                                @enderror
+
+                                <div style="padding-top:5px; padding-left:10px">
+                                    <a data-toggle="modal" data-target="#exampleModal"><i
+                                        class="fa-solid fa-plus fa-xl"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group row " style="display: none;" id="cat2">
+                                <label for="cats" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+                                <div class="col-md-6">
+                                    <input id="cats2" type="text" class="form-control @error('cats2') is-invalid @enderror" name="cats2" value="{{ old('cats2') }}" autocomplete="cats2" autofocus>
+
+                                    @error('cats2')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="itemName" class="col-md-4 col-form-label text-md-right">{{ __('Item Name') }}</label>
+                                <div class="col-md-6">
+                                    <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}" required autocomplete="itemName" autofocus style="text-transform: uppercase;">
+
+                                    @error('itemName')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
+                                <div class="col-md-6">
+                                    <input id="unit" type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit') }}" autocomplete="unit" autofocus style="text-transform: uppercase;">
+
+                                    @error('unit')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
+                                <div class="col-md-6">
+                                    <input id="price" type="number" step="any" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" autocomplete="price" autofocus step='0.1'>
+                                    @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="length" class="col-md-4 col-form-label text-md-right">{{ __('Length') }}</label>
+                                <div class="col-md-6">
+                                   <input id="length" type="number" step="any" class="form-control" name="length" value="{{ old('length') }}" autocomplete="length" oninput="updatePrice()">
+                                    @error('length')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="width" class="col-md-4 col-form-label text-md-right">{{ __('Width') }}</label>
+                                <div class="col-md-6">
+                                    <input id="width" type="number" step="any" class="form-control" name="width" value="{{ old('width') }}" autocomplete="width" oninput="updatePrice()">
+                                    @error('width')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height') }}</label>
+                                <div class="col-md-6">
+                                    <input id="height" type="number" step="any" class="form-control" name="height" value="{{ old('height') }}" autocomplete="height" oninput="updatePrice()">
+                                    @error('height')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="multiplier" class="col-md-4 col-form-label text-md-right">{{ __('Multiplier') }}</label>
+                                <div class="col-md-6">
+                                    <input id="multiplier" type="number" class="form-control" name="multiplier" value="{{ old('multiplier') }}" autocomplete="multiplier" oninput="updatePrice()">
+                                    @error('multiplier')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-success" id="submitButton">
+                                        {{ __('CREATE') }}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" style="display: none;" class="btn btn-danger" id="deleteButton">
+                                        {{ __('DELETE') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+    </div>
 </div>
 
 <script>
