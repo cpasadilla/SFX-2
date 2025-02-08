@@ -30,7 +30,15 @@ class HomeController extends Controller {
         $staff = count(CustomerID::paginate(1000));
         $prog = count(order::where('bl_status','PAID')->get());
         $comp = count(order::where('bl_status','UNPAID')->get());
-        return view('home', compact('id','prog','staff','comp'));
+
+
+       // Count orders with orderId starting with 'BL1-' and 'BL2-' 
+        $progt = Order::where('orderId', 'like', 'BL1-%')->count();
+        $compt = Order::where('orderId', 'like', 'BL2-%')->count();
+        $idt = Order::where('orderId', 'like', 'BL3-%')->count();
+        $stafft = Order::where('orderId', 'like', 'BL4-%')->count();
+
+        return view('home', compact('id','prog','staff','progt','comp','compt','stafft','idt'));
     }
 }
 //<!-- CONTROLLER FOR DASHBOARD-->
