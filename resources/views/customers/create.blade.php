@@ -231,6 +231,15 @@
                                                             <span class="error invalid-feedback">{{ $message }}</span>
                                                         @enderror
                                                     </div>
+                                                    <div class="input-group mb-1">
+                                                        <input type="text" name="gate" class="form-control @error('gate') is-invalid @enderror"
+                                                        placeholder="{{ __('GATE PASS NUMBER') }}" autocomplete="gate" autofocus style="text-transform: uppercase;">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <br>
                                                     <tbody id="orderItems"></tbody>
                                                     <tfoot>

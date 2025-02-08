@@ -228,6 +228,7 @@ protected function submit(Request $request, $key)
         'check' => ['nullable', 'string', 'max:255'],
         'bl_status' => ['nullable', 'string', 'max:255'],
         'cargo_status' => ['nullable', 'string', 'max:255'],
+        'gates' => ['nullable', 'string', 'max:255'],
     ], $message);
 
     if ($validator->fails()) {
@@ -373,6 +374,7 @@ do {
         'check' => $request->input('checker'),
         'bl_status' => $request->input('blstatus'),
         'cargo_status' => $request->input('cargostatus'),
+        'gates' => $request->input('gate'),
         'createdBy' => $creator
     ]);
     $order->save();
@@ -459,6 +461,7 @@ do {
             'check' => ['nullable', 'string', 'max:255'], // Allow container to be empty
             'bl_status' => ['nullable', 'string', 'max:255'],
             'cargo_status' => ['nullable', 'string', 'max:255'],
+            'gates' => ['nullable', 'string', 'max:255'],
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -515,6 +518,7 @@ do {
             'check' => $request->input('checker'),
             'bl_status' => $request->input('blstatus'),
             'cargo_status' => $request->input('cargostatus'),
+            'gates' => $request->input('gate'),
             'createdBy' => $request->input('creator')
         ]);
         $order->save();

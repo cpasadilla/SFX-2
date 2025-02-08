@@ -149,7 +149,7 @@
                         <strong>VOYAGE NO.</strong> <span style="text-align: center;display: inline-block; width: 50%; border-bottom: 1px solid black;">{{ $order->voyageNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
-                        <strong>CONTAINER NO.</strong><span style="text-transform: uppercase; text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
+                        <strong>CONTAINER NO.</strong><span style="text-transform: uppercase; font-size:12px text-align: center;display: inline-block; width: 40%; border-bottom: 1px solid black;">{{ $order->containerNum }}</span><br>
                     </div>
                     <div class="col-md-3"id="cd-3">
                         <strong>BL NO.</strong> <span style="text-align: center;display: inline-block; width: 60%; border-bottom: 1px solid black;"> {{ $order->orderId }}</span><br>
@@ -187,12 +187,14 @@
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $user->phoneNum }}</span><br>
+                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->gates }}</span><br>
                         @endforeach
                     </div>
                 </div>
                 <div class="row" style="padding-left:30px; font-size:14px">
-                    <div class="col-md-5"id="cd-5"></div>
+                    <div class="col-md-5"id="cd-5">
+                    <strong>GATE PASS NO:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 72%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->gates }}</span><br>
+                    </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)
                             <strong>REMARK: </strong> 
@@ -248,26 +250,41 @@
                
                 <footer>
                 <div class="row pl-3" style="padding-right:20px;">
-                    <div class="col-md-6" id="cd-6-left"></div>
-                    <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
-                        <span style="text-align: right; font-size: 5px;"></span>
-                        @if($order->bl_status == 'PAID' || $order->bl_status == 'UNPAID')
-                            <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
-                                    @if($order->bl_status == 'PAID')
-                                        PAID IN SFXSSLI MANILA <br>
-                                        @if(!empty($order->OR))
-                                            OR#: {{ $order->OR }}<br>
-                                        @endif
-                                        @if(!empty($order->AR))
-                                            AR#: {{ $order->AR }}<br>
-                                        @endif
-                                    @elseif($order->bl_status == 'UNPAID')
-                                        UNPAID IN SFXSSLI MANILA 
-                                    @endif
-                            </span>
+    <div class="col-md-6" id="cd-6-left"></div>
+    <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
+        <span style="text-align: right; font-size: 5px;"></span>
+        @if($order->bl_status == 'PAID' || $order->bl_status == 'UNPAID')
+            <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
+                @if($order->origin == 'Manila')
+                    @if($order->bl_status == 'PAID')
+                        PAID IN SFXSSLI MANILA <br>
+                        @if(!empty($order->OR))
+                            OR#: {{ $order->OR }}<br>
                         @endif
-                    </div>
-                </div>
+                        @if(!empty($order->AR))
+                            AR#: {{ $order->AR }}<br>
+                        @endif
+                    @elseif($order->bl_status == 'UNPAID')
+                        UNPAID IN SFXSSLI MANILA
+                    @endif
+                @elseif($order->origin == 'Batanes')
+                    @if($order->bl_status == 'PAID')
+                        PAID IN SFXSSLI BATANES <br>
+                        @if(!empty($order->OR))
+                            OR#: {{ $order->OR }}<br>
+                        @endif
+                        @if(!empty($order->AR))
+                            AR#: {{ $order->AR }}<br>
+                        @endif
+                    @elseif($order->bl_status == 'UNPAID')
+                        UNPAID IN SFXSSLI BATANES
+                    @endif
+                @endif
+            </span>
+        @endif
+    </div>
+</div>
+
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
                         <p style="margin: 0;"><strong style="color: black;">Terms and Conditions:</strong></p>
