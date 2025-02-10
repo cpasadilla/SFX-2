@@ -12,8 +12,8 @@ class listController extends Controller {
     protected function index() {
         $items = priceList::paginate();
         $cats = category::all();
-
-        return view('list.home',compact('items','cats'));
+        $page = 1;
+        return view('list.home',compact('items','cats','page'));
     }
 
     protected function validator(array $data) {
@@ -69,7 +69,7 @@ class listController extends Controller {
     }
 
     protected function update(Request $request) {
-        // Update logic
+        // Update listing
         $cat = $request-> cats2;
         $itemName = $request->itemName;
         $unit = $request->unit;
@@ -79,13 +79,14 @@ class listController extends Controller {
         $height = $request->height;
         $multiplier = $request->multiplier;
         $id = $request->id;
-    
+
         $cats = category::where('name',$cat)->get();
-    
+        $page = $request->pages;
+
         foreach($cats as $key) {
             $category = $key->id;
         }
-    
+
         DB::table('price_lists')
             ->where('id',$id)
             ->update([
@@ -98,14 +99,14 @@ class listController extends Controller {
                 'height'=>$height,
                 'multiplier'=>$multiplier
             ]);
-    
+
         // Fetch updated items to reflect changes on the page
         $items = priceList::paginate();
         $cats = category::all();
-    
-        return view('list.home', compact('items', 'cats'));  // Return updated data
+
+        return redirect()->route('price', compact('items', 'cats', 'page'));
     }
-    
+
 
     protected function delete(Request $request) {
         $id = $request-> id;
