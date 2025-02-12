@@ -407,7 +407,8 @@ $(document).ready(function() {
                                     @enderror
                                 </div>
                             </div>
-                            <input type="text" id="pages" name = "pages" hidden value="{{ $items->currentPage()}}">
+                            <input type="text" id="pages" name="pages" hidden value="{{ isset($items) ? $items->currentPage() : 1 }}">
+
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-4"></div>

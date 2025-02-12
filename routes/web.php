@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('c.order');
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
+    Route::get('/customer/{key}/updated', [\App\Http\Controllers\CustomerController::class,'cconfirm'])->name('c.cconfirm');
     Route::get('/customer/{key}/-search/', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
     // CUSTOMER BL;S

@@ -137,11 +137,11 @@ class listController extends Controller {
                 }
 
                 $items = priceList::where('category', 'like', "%$id%");
-                $items = $items->paginate();
+                $items = $items->paginate(10);
             }
         } else {
             $items = priceList::where('itemName', 'like', "%$search%");
-            $items = $items->paginate();
+            $items = $items->paginate(10);
         }
 
         $products = $items;

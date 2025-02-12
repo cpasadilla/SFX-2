@@ -247,7 +247,7 @@ class CustomerController extends Controller {
         $date = date("F d 20y - g:i:s a");
 
         $ship = intval($request->input('ship'));
-        $bl = "BL" . $ship;
+        $bl = $ship;
 
         // Generate the orderId (This is where your current logic starts)
         $first = Order::where('orderId', 'like', "$bl%")
@@ -255,13 +255,13 @@ class CustomerController extends Controller {
             ->first();
 
         if ($first === null) {
-            $orderId = $bl . "-01"; // Start at 01 if no orders exist with this ship number
+            $orderId = $bl . "-001"; // Start at 01 if no orders exist with this ship number
         } else {
             $last = $first->orderId;
             preg_match('/-(\d+)$/', $last, $matches); // Capture the numeric part at the end
             $int = isset($matches[1]) ? intval($matches[1]) : 0;
             $int++;
-            $orderId = $bl . "-" . str_pad($int, 2, '0', STR_PAD_LEFT); // Ensure 2 digits
+            $orderId = $bl . "-" . str_pad($int, 3, '0', STR_PAD_LEFT); // Ensure 2 digits
         }
 
         // Check if the generated orderId already exists
@@ -390,6 +390,18 @@ class CustomerController extends Controller {
         return view('customers.newbl', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
     }
 
+        //SHOW CONFIRMED ORDER
+        protected function cconfirm($key){
+            $key = order::where('orderId', $key)->get();
+            foreach($key as $kiss){
+                $customer = $kiss->cID;
+                $oId = $kiss->orderId;
+            }
+            $data = CustomerID::where('cID',$customer)->get();
+            $parcel = parcel::where('orderId',$oId)->get();
+            return view('parcel.new', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
+        }
+
     //show BL
     protected function bl($key){
         $key = order::where('orderId', $key)->get();
@@ -514,7 +526,7 @@ class CustomerController extends Controller {
         ]);
         $order->save();
         // Redirect to the order confirmation page
-        return redirect()->route('c.confirm', ['key' => $orderId]);
+        return redirect()->route('c.cconfirm', ['key' => $orderId]);
     }
 
     //SEARCH UPDATE BL

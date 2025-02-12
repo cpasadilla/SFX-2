@@ -33,10 +33,10 @@ class HomeController extends Controller {
 
 
        // Count orders with orderId starting with 'BL1-' and 'BL2-' 
-        $progt = Order::where('orderId', 'like', 'BL1-%')->count();
-        $compt = Order::where('orderId', 'like', 'BL2-%')->count();
-        $idt = Order::where('orderId', 'like', 'BL3-%')->count();
-        $stafft = Order::where('orderId', 'like', 'BL4-%')->count();
+        $progt = Order::where('orderId', 'like', '1-%')->count();
+        $compt = Order::where('orderId', 'like', '2-%')->count();
+        $idt = Order::where('orderId', 'like', '3-%')->count();
+        $stafft = Order::where('orderId', 'like', '4-%')->count();
 
         return view('home', compact('id','prog','staff','progt','comp','compt','stafft','idt'));
     }
