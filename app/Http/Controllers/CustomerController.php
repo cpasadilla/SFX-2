@@ -250,28 +250,33 @@ class CustomerController extends Controller {
         $bl = $ship;
 
         // Generate the orderId (This is where your current logic starts)
-        $first = Order::where('orderId', 'like', "$bl%")
-            ->latest()
-            ->first();
+$first = Order::where('orderId', 'like', "$bl%")
+    ->orderByRaw("CAST(SUBSTRING_INDEX(orderId, '_', -1) AS UNSIGNED) DESC")
+    ->first();
 
-        if ($first === null) {
-            $orderId = $bl . "-001"; // Start at 01 if no orders exist with this ship number
-        } else {
-            $last = $first->orderId;
-            preg_match('/-(\d+)$/', $last, $matches); // Capture the numeric part at the end
-            $int = isset($matches[1]) ? intval($matches[1]) : 0;
-            $int++;
-            $orderId = $bl . "-" . str_pad($int, 3, '0', STR_PAD_LEFT); // Ensure 2 digits
-        }
+        
+if ($first === null) {
+    $orderId = $bl . "_001"; // Start with _001
+} else {
+    $last = $first->orderId;
+    preg_match('/_(\d+)$/', $last, $matches);
+    $int = isset($matches[1]) ? intval($matches[1]) : 0;
+    $int++;
 
+    // Generate new order ID with three-digit formatting
+    $orderId = $bl . "_" . str_pad($int, 3, '0', STR_PAD_LEFT);
+}
+
+        
         // Check if the generated orderId already exists
         if (Order::where('orderId', $orderId)->exists()) {
-        // If the orderId exists, increment it until a unique one is found
+            // If the orderId exists, increment it until a unique one is found
             do {
                 $int++;
-                $orderId = $bl . "-" . str_pad($int, 2, '0', STR_PAD_LEFT);
+                $orderId = $bl . "-" . str_pad($int, 3, '0', STR_PAD_LEFT); // Always pad to 3 digits
             } while (Order::where('orderId', $orderId)->exists()); // Continue until unique
         }
+
         // Now you can safely use $orderId to create your order
         $origin = $request->input('origin');
         $destination = $request->input('destination');
@@ -289,7 +294,9 @@ class CustomerController extends Controller {
             $status = $check->status;
         }
 
-        $trip = Voyage::where('ship', $ship)->orderBy('date', 'desc')->first();
+$trip = Voyage::where('ship', $ship)->latest('id')->first();
+$dock = $trip?->dock ?? null; // Ensure $dock is always defined
+
         if ($status === 'READY') {
             $dock = intval($trip->dock) + 1;
 
@@ -325,7 +332,7 @@ class CustomerController extends Controller {
             ]);
         } else {
             $voyage = $trip ? intval($trip->trip_num) : 1;
-            $dock = $trip?->dock ? intval($trip->dock) : null;
+            $voyage = ($trip) ? intval($trip->trip_num) : 1;
 
             Voyage::create([
                 'ship' => $ship,
