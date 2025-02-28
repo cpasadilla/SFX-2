@@ -149,33 +149,36 @@ class ParcelController extends Controller
 }
 
     //update staus
-    public function updateStatus(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
-    {
-        // Validate the incoming request
-        $request->validate([
-            'status' => 'required|string'
-        ]);
-        // Find the order by orderId
-        $order = Order::find($orderId);
-        if ($order) {
-            // Update the status
-            $order->status = $request->input('status');
-            $order->save(); // Save the updated order
+public function updateStatus(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
+{
+    $request->validate(['status' => 'required|string']);
 
-            $voyage = voyage::where('dock',$dock)->where('ship',$shipNum)
-            ->where('trip_num',$voyageNum)->get();
-            $orders = collect();
-            foreach($voyage as $data){
-            $search = $data->orderId;
-            $find = Order::where('orderId',$search)->where('voyageNum',$orig)->get();
-            $orders = $orders->merge($find);
+    $order = Order::find($orderId);
+    if ($order) {
+        $order->status = $request->input('status');
+        $order->save();
 
-            }
-            return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'orders','dock','orig'));
+        // If ship status changes to ARRIVED, increment the voyage number
+        if ($order->status === 'ARRIVED') {
+            $latestVoyage = Voyage::where('ship', $shipNum)->latest('id')->first();
+            $newVoyageNum = ($latestVoyage) ? $latestVoyage->trip_num + 1 : 1;
+
+            Voyage::create([
+                'ship' => $shipNum,
+                'trip_num' => $newVoyageNum,
+                'date' => now(),
+                'dock' => $dock,
+                'orderId' => $orderId,
+                'voyage_number' => $newVoyageNum . '-' . $orig, // Ensure unique voyage number
+            ]);
         }
 
-        return redirect()->route('p.view')->with('error', 'Order not found!');
+        return redirect()->route('parcels.showVoyage', compact('shipNum', 'voyageNum', 'dock', 'orig'));
     }
+
+    return redirect()->route('p.view')->with('error', 'Order not found!');
+}
+
 
 //cancel out
 public function bl($key)
