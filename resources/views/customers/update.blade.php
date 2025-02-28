@@ -282,7 +282,7 @@
                                                     <div class="input-group mb-1">
                                                         <input  type="text" name="gate" class="form-control"
                                                                 placeholder="{{ __('GATE PASS NUMBER') }}" autocomplete="gate" autofocus
-                                                                value = "{{$order->gates}}" style="text-transform: uppercase;">
+                                                                value = "{{$order->gate}}" style="text-transform: uppercase;">
                                                         <div class="input-group-append">
                                                             <div class="input-group-text">
                                                                 <i class="fa-solid fa-dolly"></i>

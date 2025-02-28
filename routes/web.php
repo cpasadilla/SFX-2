@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
     Route::get('/customer/{key}/updated', [\App\Http\Controllers\CustomerController::class,'cconfirm'])->name('c.cconfirm');
+    
     Route::get('/customer/{key}/-search/', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
     // CUSTOMER BL;S
@@ -91,7 +92,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/order/{key}/{orderId}/update/AR', [\App\Http\Controllers\CustomerController::class, 'AR'])->name('c.ar');
     Route::post('/order/{key}/{orderId}/update/OR', [\App\Http\Controllers\CustomerController::class, 'OR'])->name('c.or');
 
-
+Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

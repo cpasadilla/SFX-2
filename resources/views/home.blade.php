@@ -103,9 +103,12 @@
 <div class="content">
     <div class="container-fluid">
         <div class="box">
-            <img src="{{ asset('images/stfrancislogo.png') }}" id="stfrancislogo">
-            <span class="home-link">ST. FRANCIS XAVIER STAR SHIPPING LINES INC.</span>
+            <div class="col-sm-12 text-center logo-heading-container">
+                <img src="{{ asset('images/stfrancislogo.png') }}" id="stfrancislogo">
+                <h1 class="m-0 small-heading">{{ __('ST. FRANCIS XAVIER STAR SHIPPING LINES INC.') }}</h1>
+            </div>
             <img src="{{ asset('images/line_5.png') }}" id="line_5">
+ 
 
             <div class="row">
                 <div class="col-md-6">
@@ -218,6 +221,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+    .small-heading {
+        font-size: 25px; /* Adjust this value as necessary */
+    }
+    .logo-heading-container {
+        display: flex;
+        align-items: center; /* Vertically centers the items */
+        justify-content: center; /* Horizontally centers the items */
+    }
+    
+    #stfrancislogo {
+        margin-right: 10px; /* Adds space between the logo and the heading */
+    }
+    
     .box {
         width: 96.5%;
         height: 600px;
@@ -451,7 +467,7 @@
 
     #mvEverwinStarPieChart {
         max-width: 500px;
-        max-height: 510px;
+        max-height: 505px;
         margin: 0 auto;
     }
 </style>

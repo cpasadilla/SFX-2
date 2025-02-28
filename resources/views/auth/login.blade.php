@@ -24,7 +24,7 @@
         }
     
         .background-image {
-            background-image: url("{{ asset('images/ship.png') }}");
+            background-image: url("{{ asset('images/ship.PNG') }}");
             background-size: cover;
             background-position: center;
             width: 100vw;

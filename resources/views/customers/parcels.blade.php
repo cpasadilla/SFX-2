@@ -3,43 +3,7 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<style>
-    .register-button {
-        position: fixed;
-        left: 50%;
-    }
 
-    th {
-        cursor: pointer;
-    }
-
-    th.ascending::after {
-        content: ' \25B2'; /* Up arrow */
-    }
-
-    th.descending::after {
-        content: ' \25BC'; /* Down arrow */
-    }
-
-    .page-item.active .page-link {
-        z-index: 3;
-        color: #fff;
-        background-color: #78BF65;
-        border-color: #78BF65;
-    }
-
-    .page-link {
-        position: relative;
-        display: block;
-        padding: 0.5rem 0.75rem;
-        margin-left: -1px;
-        line-height: 1.25;
-        color: #000000;
-        background-color: #fff;
-        border: 1px solid #dee2e6;
-    }
-
-</style>
 <!--CONTENT HEADER (PAGE HEADER)-->
 <div class="content-header">
     @foreach ($users as $user)
@@ -73,7 +37,6 @@
                     </div>
                     <div class="card-body">
                         {{ $orders->links() }}
-
                         <table class="table" id="myTable2">
                             <thead class="thead-light">
                                 <tr>
@@ -107,7 +70,7 @@
                                         <td style="text-align: center">{{ $order->voyageNum }}</td>
                                         <td style="text-transform: uppercase; text-align: center">{{ $order->origin }}</td>
                                         <td style="text-transform: uppercase; text-align: center">{{ $order->destination }}</td>
-                                        <td style="text-align: center"> {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>
+                                        <td style="text-align: center"> {{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>                                        
                                         <td style="text-transform: uppercase; text-align: center">{{ $order->cargo_status }}</td>
                                         <td style="text-align: center;">
                                             <form action="{{ route('c.updateBLStatus', ['orderId' => $order->orderId]) }}" method="POST">
@@ -210,7 +173,6 @@
                             </tbody>
                         </table>
                         <p>Page: {{ $orders->currentPage() }}</p>
-
                         <hr style="border: none; border-top: 1px solid #d2d5dd; margin: 10px 0;">
                     </div>
                     <div class="card-footer clearfix"></div>

@@ -29,6 +29,7 @@
                     <a href="{{ route('parcels.showVoyage', [$shipNum, $value, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
                         <strong>VOYAGE NO. {{ $voyage }}</strong>
                     </a>
+                    <br>
                     @endforeach
                     @endforeach
                 </div>
@@ -40,6 +41,7 @@
                             <a href="{{ route('parcels.showVoyage', [$shipNum, $value, $dock, $voyage]) }}" class="list-group-item list-group-item-action">
                                 <strong>VOYAGE NO. {{ $voyage }}</strong>
                             </a>
+                            <br>
                         @endforeach
                     </div>
                 @endforeach

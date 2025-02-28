@@ -190,7 +190,9 @@
                 </div>
                 <div class="row" style="padding-left:30px; font-size:14px">
                     <div class="col-md-5"id="cd-5">
-                    <strong>GATE PASS NO:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 72%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->gates }}</span><br>
+                        @foreach ($data as $user)
+                            <strong>GATE PASS NO.</strong> <span style="text-align: center;display: inline-block; width: 73%; border-bottom: 1px solid black;"><span style="color: white;">.</span>{{ $order->gates }}</span><br>
+                        @endforeach
                     </div>
                     <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
                         @foreach ($data as $user)

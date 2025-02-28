@@ -10,7 +10,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app_name', 'SFX SHIPPING LINES INC.') }}</title>
-
+        
         <!-- icon -->
         <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/icon type">
         <!-- Google Font: Source Sans Pro -->
@@ -55,7 +55,7 @@
                             <span style="color: white; margin-right: 10px;">
                                 {{ Auth::user()->fName }} {{ Auth::user()->lName }} - {{ Auth::user()->position }}
                             </span>
-                            <img src="{{ asset('images/icon.png') }}" style="height: 30px;">
+                            <img src="{{ asset('images/icon.PNG') }}" style="height: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
                             <a href="{{ route('profile.show') }}" class="dropdown-item">
@@ -75,7 +75,7 @@
                     </li>
                 </ul>
             </nav>
-
+            
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-light-green elevation-4" style="background:#28A544">
                 <!-- Brand Logo -->
@@ -87,7 +87,7 @@
                 </span>
                 @include('layouts.navigation')
             </aside>
-
+            
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 @yield('content')
@@ -101,10 +101,10 @@
                 </div>
             </aside> <!-- /.control-sidebar -->
         </div> <!-- ./wrapper -->
-
+        
         <!-- REQUIRED SCRIPTS -->
         @vite('resources/js/app.js')
-
+        
         <!-- AdminLTE App -->
         <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
         @yield('scripts')

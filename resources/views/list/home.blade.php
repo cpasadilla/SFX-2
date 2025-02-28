@@ -128,7 +128,7 @@ $(document).ready(function() {
                         <h5>PRICE LIST</h5>
                     </div>
                     <div class="card-body">
-                        {{ $items->appends(['cats' => $cats,'page' => $page])->links() }}
+                        {{ $items->appends(['cats' => $cats])->links() }}
                         <table class="table" id="myTable2">
                             <thead class="thead-light">
                                 <tr>
@@ -407,9 +407,6 @@ $(document).ready(function() {
                                     @enderror
                                 </div>
                             </div>
-                            <input type="text" id="pages" name="pages" hidden value="{{ isset($items) ? $items->currentPage() : 1 }}">
-
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
@@ -422,7 +419,6 @@ $(document).ready(function() {
                                         {{ __('DELETE') }}
                                     </button>
                                 </div>
-
                             </div>
                         </form>
                     </div>

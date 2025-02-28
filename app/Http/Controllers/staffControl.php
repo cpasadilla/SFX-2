@@ -12,8 +12,6 @@ use Illuminate\Validation\Rule;
 
 class staffControl extends Controller {
     public function index() {
-        $perPage = 10;  // or dynamically set this value based on user settings or a config file
-        $users = CustomerID::paginate($perPage);
         return view('users.create');
     }
 
