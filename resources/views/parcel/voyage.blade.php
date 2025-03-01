@@ -78,27 +78,89 @@
                         {{ $orders->links() }}
                         <table id="myTable2" class="table">
                             <thead class="thead-light">
-                                <tr>
-                                    <th style="text-align: center;" onclick="sortTable(0)">BL#</th>
-                                    <th style="text-align: center;">CONTAINER#</th>
-                                    <th style="text-align: center;" onclick="sortTable(3)">SHIPPER</th>
-                                    <th style="text-align: center;" onclick="sortTable(4)">CONSIGNEE</th>
-                                    <th style="text-align: center;" onclick="sortTable(5)">CHECKER</th>
-                                    <th style="text-align: center;" onclick="sortTable(6)">DATE CREATED</th>
-                                    <th style="text-align: center;" onclick="sortTable(9)">TOTAL FREIGHT</th>
-                                    <th style="text-align: center;" onclick="sortTable(9)">VALUATION</th>
-                                    <th style="text-align: center;" onclick="sortTable(9)">TOTAL AMOUNT</th>
-                                    <th style="text-align: center;" onclick="sortTable(7)">OR#</th>
-                                    <th style="text-align: center;" onclick="sortTable(8)">AR#</th>
-                                    
-                                    <th style="text-align: center;">CARGO STATUS</th>
-                                    <th style="text-align: center;">BL STATUS</th>
-                                    <th style="text-align: center;">BL REMARK</th>
-                                    <th style="text-align: center;">VIEW BL</th>
-                                    <th style="text-align: center;">CREATED BY</th>
-                                    <th style="text-align: center" scope="col" >Add OR/AR</th>
+                        <tr>
+                            <th style="text-align: center;" onclick="sortTable(0)">BL#</th>
+                            <th>CONTAINER# 
+    <select class="filter" name="containerNum">
+        <option value="">All</option>
+        @foreach($filterOrders->pluck('containerNum')->unique() as $value)
+            <option value="{{ $value }}" {{ request()->query('containerNum') == $value ? 'selected' : '' }}>
+                {{ $value }}
+            </option>
+        @endforeach
+    </select>
+</th>
 
-                                </tr>
+<th>SHIPPER
+    <select class="filter" name="consigneeName">
+        <option value="">All</option>
+        @foreach($filterOrders->pluck('consigneeName')->unique() as $value)
+            <option value="{{ $value }}" {{ request()->query('consigneeName') == $value ? 'selected' : '' }}>
+                {{ $value }}
+            </option>
+        @endforeach
+    </select>
+</th>
+                            <th>CONSIGNEE 
+                                <select class="filter" name="shipper">
+                                    <option value="">All</option>
+                                    @foreach($filterOrders->pluck('shipper')->unique() as $value)
+                                        <option value="{{ $value }}" {{ request()->query('shipper') == $value ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th>CHECKER 
+                                <select class="filter" name="check">
+                                    <option value="">All</option>
+                                    @foreach($filterOrders->pluck('check')->unique() as $value)
+                                        <option value="{{ $value }}" {{ request()->query('check') == $value ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th style="text-align: center;" onclick="sortTable(1)">DATE CREATED</th>
+                            <th style="text-align: center;">TOTAL FREIGHT</th>
+                            <th style="text-align: center;">VALUATION</th>
+                            <th style="text-align: center;">TOTAL AMOUNT</th>
+                            <th style="text-align: center;" onclick="sortTable(2)">OR#</th>
+                            <th style="text-align: center;" onclick="sortTable(3)">AR#</th>
+                            <th>CARGO STATUS 
+                                <select class="filter" name="cargo_status">
+                                    <option value="">All</option>
+                                    @foreach($filterOrders->pluck('cargo_status')->unique() as $value)
+                                        <option value="{{ $value }}" {{ request()->query('cargo_status') == $value ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                   @endforeach
+                                </select>
+                            </th>
+                            <th>BL STATUS 
+                                <select class="filter" name="bl_status">
+                                    <option value="">All</option>
+                                    @foreach($filterOrders->pluck('bl_status')->unique() as $value)
+                                        <option value="{{ $value }}" {{ request()->query('bl_status') == $value ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th style="text-align: center;">BL REMARK</th>
+                            <th style="text-align: center;">VIEW BL</th>
+                            <th>CREATED BY 
+                                <select class="filter" name="createdBy">
+                                    <option value="">All</option>
+                                    @foreach($filterOrders->pluck('createdBy')->unique() as $value)
+                                        <option value="{{ $value }}" {{ request()->query('createdBy') == $value ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th style="text-align: center" scope="col" >Add OR/AR</th>
+                        </tr>
                             </thead>
                             <tbody>
                                 @php
@@ -221,9 +283,10 @@
                                 <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
                                 <tr style="font-weight: bold; background-color: #d1ecf1;">
                                     <td colspan="6" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
-                                    <td style="text-align: center;">{{ number_format($totalFreightOverall, 2) }}</td>
-                                    <td style="text-align: center;">{{ number_format($totalValuationOverall, 2) }}</td>
-                                    <td style="text-align: center;">{{ number_format($totalAmountOverall, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format($totalFreightOverall ?? 0, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format($totalValuationOverall ?? 0, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format($totalAmountOverall ?? 0, 2) }}</td>
+
                                 </tr>
                             </tbody>
                         </table>
@@ -237,7 +300,35 @@
             </div>
         </div>
     </div>
-</div>
+</div><script>
+    $(document).ready(function () {
+        $(".filter").on("change", function () {
+            var columnName = $(this).attr("name");  // Get the filter name (e.g., "cargo_status")
+            var selectedValue = $(this).val();
+            var currentUrl = new URL(window.location.href);
+
+            if (selectedValue !== "") {
+                currentUrl.searchParams.set(columnName, selectedValue);
+            } else {
+                currentUrl.searchParams.delete(columnName);
+            }
+
+            window.location.href = currentUrl.toString();
+        });
+
+        // Preserve filter selections on page reload
+        $(".filter").each(function () {
+            var columnName = $(this).attr("name");
+            var currentUrl = new URL(window.location.href);
+            var filterValue = currentUrl.searchParams.get(columnName);
+
+            if (filterValue) {
+                $(this).val(filterValue);
+            }
+        });
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const table = document.getElementById('myTable2');
@@ -296,6 +387,44 @@
         content: ' \25BC'; /* Down arrow */
     }
 </style>
+<style>
+    .register-button {
+        position: fixed;
+        left: 50%;
+    }
 
+    th {
+        cursor: pointer;
+        position: relative;
+    }
+
+    th.ascending::after {
+        content: ' \25B2'; /* Up arrow */
+    }
+
+    th.descending::after {
+        content: ' \25BC'; /* Down arrow */
+    }
+
+    /* Filter dropdown */
+    .filter-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #ddd;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none;
+        z-index: 10;
+        width: 100%;
+    }
+
+    .filter-dropdown select {
+        width: 100%;
+        padding: 5px;
+        border: none;
+    }
+</style>
 
 @endsection

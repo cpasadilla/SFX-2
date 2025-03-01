@@ -62,53 +62,55 @@ class ParcelController extends Controller
 }
 
     // Display orders for a specific ship number and voyage number
-    // Display orders for a specific ship number and voyage number
     public function showVoyage($shipNum, $voyageNum, $dock, $orig)
 {
     $docks = ($dock == 0) ? NULL : $dock;
 
-    // Fetch all orders for the specified ship and voyage
+    // Fetch all orders related to this ship and voyage
     $voyage = voyage::where('dock', $docks)
                     ->where('ship', $shipNum)
                     ->where('trip_num', $voyageNum)
                     ->get();
 
-    $orders = collect();
+    $allOrders = collect(); // Store all orders for filters and pagination
     foreach ($voyage as $data) {
         $search = $data->orderId;
         $find = Order::where('orderId', $search)
                      ->where('voyageNum', $orig);
 
-        // Apply filters only for specified columns
-        $filters = [
-            'containerNum', 'consigneeName', 'check', 
-            'cargo_status', 'bl_status', 'createdBy'
-        ];
-        foreach ($filters as $filter) {
-            if (request()->has($filter)) {
-                $filterValue = request()->query($filter);
-                if (!empty($filterValue)) {
-                    $find = $find->where($filter, $filterValue);
-                }
-            }
-        }
-
-        $orders = $orders->merge($find->get());
+        $allOrders = $allOrders->merge($find->get());
     }
 
-    // ✅ Compute overall totals for filtered orders BEFORE pagination
-    $totalFreightOverall = $orders->sum('totalAmount');
-    $totalValuationOverall = $orders->sum(fn($o) => ($o->value + $o->totalAmount) * 0.0075);
+    // ✅ Store all orders before filtering and pagination for dropdown filters
+    $filterOrders = $allOrders->unique('orderId'); // Ensures all unique orders are included
+
+    // Apply filters (before pagination)
+    $filters = [
+        'containerNum', 'consigneeName', 'check', 
+        'cargo_status', 'bl_status', 'createdBy'
+    ];
+    foreach ($filters as $filter) {
+        if (request()->has($filter)) {
+            $filterValue = request()->query($filter);
+            if (!empty($filterValue)) {
+                $allOrders = $allOrders->where($filter, $filterValue);
+            }
+        }
+    }
+
+    // ✅ Compute overall totals before pagination
+    $totalFreightOverall = $allOrders->sum('totalAmount');
+    $totalValuationOverall = $allOrders->sum(fn($o) => ($o->value + $o->totalAmount) * 0.0075);
     $totalAmountOverall = $totalFreightOverall + $totalValuationOverall;
 
-    // ✅ Paginate the filtered collection
+    // ✅ Paginate filtered results
     $perPage = 10;
     $currentPage = request()->input('page', 1);
-    $currentItems = $orders->slice(($currentPage - 1) * $perPage, $perPage)->values();
+    $currentItems = $allOrders->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
     $orders = new LengthAwarePaginator(
         $currentItems,
-        $orders->count(),
+        $allOrders->count(),
         $perPage,
         $currentPage,
         ['path' => request()->url(), 'query' => request()->query()]
@@ -116,9 +118,11 @@ class ParcelController extends Controller
 
     return view('parcel.voyage', compact(
         'shipNum', 'voyageNum', 'orders', 'dock', 'orig',
-        'totalFreightOverall', 'totalValuationOverall', 'totalAmountOverall'
+        'totalFreightOverall', 'totalValuationOverall', 'totalAmountOverall',
+        'filterOrders' // ✅ Pass all orders (before pagination) for filtering
     ));
 }
+
     //search
     public function search(Request $request)
 {
