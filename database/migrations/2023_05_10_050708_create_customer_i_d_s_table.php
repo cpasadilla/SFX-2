@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('cID');
             $table->string('fName');
             $table->string('lName');
-            $table->string('phoneNum')->nullable()->unique();
+            $table->string('phoneNum')->nullable();
             $table->timestamps();
         });
     }

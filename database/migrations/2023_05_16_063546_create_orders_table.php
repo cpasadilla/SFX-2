@@ -31,6 +31,7 @@ return new class extends Migration {
                 //$table->string('value')->nullable();
                 $table->string('check')->nullable();
                 $table->string('status')->nullable();
+                $table->string('gates')->nullable();
 
                 $table->string('orderCreated');
 
@@ -41,7 +42,6 @@ return new class extends Migration {
                 $table->string('AR')->nullable();
                 $table->string('bl_status')->nullable();
                 $table->string('cargo_status')->nullable();
-                $table->string('gates')->nullable();
                 $table->string('createdBy');
                 $table->timestamps();
                 $table->index('cargoNum');

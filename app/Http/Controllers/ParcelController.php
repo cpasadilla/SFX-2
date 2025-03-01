@@ -64,37 +64,42 @@ class ParcelController extends Controller
     // Display orders for a specific ship number and voyage number
     public function showVoyage($shipNum, $voyageNum, $dock, $orig)
 {
-    $docks = $dock;
-    if($dock == 0){
-        $docks = NULL;
-    }
+    $docks = ($dock == 0) ? NULL : $dock;
 
-    $voyage = voyage::where('dock', $docks)->where('ship', $shipNum)
-        ->where('trip_num', $voyageNum)->get();
-    
+    // Fetch all orders for the specified ship and voyage
+    $voyage = voyage::where('dock', $docks)
+                    ->where('ship', $shipNum)
+                    ->where('trip_num', $voyageNum)
+                    ->get();
+
     $order = collect();
     foreach ($voyage as $data) {
         $search = $data->orderId;
-        $find = Order::where('orderId', $search)->where('voyageNum', $orig)->get();
+        $find = Order::where('orderId', $search)
+                     ->where('voyageNum', $orig)
+                     ->get();
         $order = $order->merge($find);
     }
 
     // Handle the filtering logic based on query parameter 'status'
-    $statusFilter = request()->query('status'); // Get the status filter
+    $statusFilter = request()->query('status'); // Get the status filter from URL
     if ($statusFilter) {
         if ($statusFilter == 'PAID') {
             $order = $order->where('bl_status', 'PAID');
         } elseif ($statusFilter == 'UNPAID') {
             $order = $order->where('bl_status', 'UNPAID');
-        } elseif ($statusFilter == 'NO_STATUS') {
-            $order = $order->whereNull('bl_status');
         }
     }
 
-    // Paginate the collection manually
+    // Compute overall totals for the filtered orders (before pagination)
+    $totalFreightOverall = $order->sum('totalAmount');
+    $totalValuationOverall = $order->sum(fn($o) => ($o->value + $o->totalAmount) * 0.0075);
+    $totalAmountOverall = $totalFreightOverall + $totalValuationOverall;
+
+    // Paginate the filtered collection
     $perPage = 10; // Number of items per page
-    $currentPage = request()->input('page', 1); // Get current page from request
-    $currentItems = $order->slice(($currentPage - 1) * $perPage, $perPage)->values(); // Get only the items for the current page
+    $currentPage = request()->input('page', 1);
+    $currentItems = $order->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
     $orders = new LengthAwarePaginator(
         $currentItems,
@@ -104,8 +109,12 @@ class ParcelController extends Controller
         ['path' => request()->url(), 'query' => request()->query()]
     );
 
-    return view('parcel.voyage', compact('shipNum', 'voyageNum', 'orders', 'dock', 'orig'));
+    return view('parcel.voyage', compact(
+        'shipNum', 'voyageNum', 'orders', 'dock', 'orig',
+        'totalFreightOverall', 'totalValuationOverall', 'totalAmountOverall'
+    ));
 }
+
 
 
     //search

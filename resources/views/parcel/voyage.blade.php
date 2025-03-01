@@ -79,46 +79,62 @@
                         <table id="myTable2" class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="text-align: center;" onclick="sortTable(0)">ORDER ID</th>
-                                    <th style="text-align: center;" onclick="sortTable(3)">SHIPPER NAME</th>
-                                    <th style="text-align: center;" onclick="sortTable(4)">CONSIGNEE NAME</th>
-                                    <th style="text-align: center;" onclick="sortTable(5)">CHECKER NAME</th>
+                                    <th style="text-align: center;" onclick="sortTable(0)">BL#</th>
+                                    <th style="text-align: center;">CONTAINER#</th>
+                                    <th style="text-align: center;" onclick="sortTable(3)">SHIPPER</th>
+                                    <th style="text-align: center;" onclick="sortTable(4)">CONSIGNEE</th>
+                                    <th style="text-align: center;" onclick="sortTable(5)">CHECKER</th>
                                     <th style="text-align: center;" onclick="sortTable(6)">DATE CREATED</th>
-                                    <th style="text-align: center;">CONTAINER NUMBER</th>
+                                    <th style="text-align: center;" onclick="sortTable(9)">TOTAL FREIGHT</th>
+                                    <th style="text-align: center;" onclick="sortTable(9)">VALUATION</th>
+                                    <th style="text-align: center;" onclick="sortTable(9)">TOTAL AMOUNT</th>
                                     <th style="text-align: center;" onclick="sortTable(7)">OR#</th>
                                     <th style="text-align: center;" onclick="sortTable(8)">AR#</th>
-                                    <th style="text-align: center;" onclick="sortTable(9)">TOTAL AMOUNT</th>
+                                    
                                     <th style="text-align: center;">CARGO STATUS</th>
                                     <th style="text-align: center;">BL STATUS</th>
                                     <th style="text-align: center;">BL REMARK</th>
                                     <th style="text-align: center;">VIEW BL</th>
-                                    <th style="text-align: center;">REMARK</th>
                                     <th style="text-align: center;">CREATED BY</th>
                                     <th style="text-align: center" scope="col" >Add OR/AR</th>
 
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $totalFreight = 0;
+                                    $totalValuation = 0;
+                                    $totalAmount = 0;
+                                @endphp
                                 @foreach($orders as $order)
+                                @php
+                                    $freight = $order->totalAmount;
+                                    $valuation = (($order->value) + ($order->totalAmount)) * 0.0075;
+                                    $amount = $valuation + $freight;
+                                    $totalFreight += $freight;
+                                    $totalValuation += $valuation;
+                                    $totalAmount += $amount;
+                                @endphp
                                 <tr>
                                     <td style="text-align: center;">{{ $order->orderId }}</td>
+                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
                                     <td style="text-transform: uppercase; text-align: center;">
-                                        {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
+                                        {{ $order->cID }} - {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
-                                    <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
+                                    <td style="text-align: center;">{{ number_format($order->totalAmount, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format(($order->value + $order->totalAmount) * 0.0075, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format(($order->value + $order->totalAmount) * 0.0075 + $order->totalAmount, 2) }}</td>
                                     <td style="text-align: center;">{{ $order->OR }}</td>
                                     <td style="text-align: center;">{{ $order->AR }}</td>
-                                    <td style="text-align: center;">{{ number_format((($order->value) + ($order->totalAmount)) * 0.0075 + ($order->totalAmount), 2) }}</td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->cargo_status }}</td>
                                     <td style="text-align: center;">{{ $order->bl_status }}</td>
                                     <td style="text-transform: uppercase; text-align: center">{{ $order->mark}}</td>
                                     <td style="text-align: center;">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
-                                    <td style="text-transform: uppercase; text-align: center">{{ $order->mark}}</td>
                                     <td style="text-transform: uppercase; text-align: center">{{ $order->createdBy}}</td>
                                     <td style="text-align: center;">
                                             <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
@@ -131,7 +147,6 @@
                                             ADD
                                         </span>
                                     </td-->
-
                                 </tr>
                                 <!-- ADD OR/AR -->
                                 <div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
@@ -169,7 +184,7 @@
                                                                 </button>
                                                             </div>
                                                         </form>
-
+                                    
                                                     </div>
                                                     <div class="col-md-6">
                                                         <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
@@ -194,35 +209,22 @@
                                                                 </button>
                                                             </div>
                                                         </form>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <form action="{{ route('s.remark', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="remark_orderId" value="{{ $order->orderId }}">
-                                                            <div class="input-group mb-3">
-                                                                <input type="text" name="remark" class="form-control @error('remark') is-invalid @enderror" placeholder="Remark" autocomplete="remark" value="{{ $order->mark }}">
-                                                                <div class="input-group-append">
-                                                                    <div class="input-group-text">
-                                                                        <span class="fas fa-comment"></span>
-                                                                    </div>
-                                                                </div>
-                                                                @error('remark')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                                @enderror
-                                                            </div>
-                                                            <button type="submit" class="btn btn-success w-100">
-                                                                {{ __('Submit Remark') }}
-                                                            </button>
-                                                        </form>
+                                    
                                                     </div>
                                                 </div>
+                                    
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
+                                <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
+                                <tr style="font-weight: bold; background-color: #d1ecf1;">
+                                    <td colspan="6" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
+                                    <td style="text-align: center;">{{ number_format($totalFreightOverall, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format($totalValuationOverall, 2) }}</td>
+                                    <td style="text-align: center;">{{ number_format($totalAmountOverall, 2) }}</td>
+                                </tr>
                             </tbody>
                         </table>
                         {{ $orders->links() }}
@@ -230,6 +232,7 @@
 
                         <hr style="border: none; border-top: 1px solid #D2D5DD; margin: 10px 0;">
                     </div>
+                    
                 </div>
             </div>
         </div>
