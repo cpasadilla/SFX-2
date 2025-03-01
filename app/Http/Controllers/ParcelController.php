@@ -62,6 +62,7 @@ class ParcelController extends Controller
 }
 
     // Display orders for a specific ship number and voyage number
+    // Display orders for a specific ship number and voyage number
     public function showVoyage($shipNum, $voyageNum, $dock, $orig)
 {
     $docks = ($dock == 0) ? NULL : $dock;
@@ -72,38 +73,42 @@ class ParcelController extends Controller
                     ->where('trip_num', $voyageNum)
                     ->get();
 
-    $order = collect();
+    $orders = collect();
     foreach ($voyage as $data) {
         $search = $data->orderId;
         $find = Order::where('orderId', $search)
-                     ->where('voyageNum', $orig)
-                     ->get();
-        $order = $order->merge($find);
-    }
+                     ->where('voyageNum', $orig);
 
-    // Handle the filtering logic based on query parameter 'status'
-    $statusFilter = request()->query('status'); // Get the status filter from URL
-    if ($statusFilter) {
-        if ($statusFilter == 'PAID') {
-            $order = $order->where('bl_status', 'PAID');
-        } elseif ($statusFilter == 'UNPAID') {
-            $order = $order->where('bl_status', 'UNPAID');
+        // Apply filters only for specified columns
+        $filters = [
+            'containerNum', 'consigneeName', 'check', 
+            'cargo_status', 'bl_status', 'createdBy'
+        ];
+        foreach ($filters as $filter) {
+            if (request()->has($filter)) {
+                $filterValue = request()->query($filter);
+                if (!empty($filterValue)) {
+                    $find = $find->where($filter, $filterValue);
+                }
+            }
         }
+
+        $orders = $orders->merge($find->get());
     }
 
-    // Compute overall totals for the filtered orders (before pagination)
-    $totalFreightOverall = $order->sum('totalAmount');
-    $totalValuationOverall = $order->sum(fn($o) => ($o->value + $o->totalAmount) * 0.0075);
+    // ✅ Compute overall totals for filtered orders BEFORE pagination
+    $totalFreightOverall = $orders->sum('totalAmount');
+    $totalValuationOverall = $orders->sum(fn($o) => ($o->value + $o->totalAmount) * 0.0075);
     $totalAmountOverall = $totalFreightOverall + $totalValuationOverall;
 
-    // Paginate the filtered collection
-    $perPage = 10; // Number of items per page
+    // ✅ Paginate the filtered collection
+    $perPage = 10;
     $currentPage = request()->input('page', 1);
-    $currentItems = $order->slice(($currentPage - 1) * $perPage, $perPage)->values();
+    $currentItems = $orders->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
     $orders = new LengthAwarePaginator(
         $currentItems,
-        $order->count(),
+        $orders->count(),
         $perPage,
         $currentPage,
         ['path' => request()->url(), 'query' => request()->query()]
@@ -114,9 +119,6 @@ class ParcelController extends Controller
         'totalFreightOverall', 'totalValuationOverall', 'totalAmountOverall'
     ));
 }
-
-
-
     //search
     public function search(Request $request)
 {
