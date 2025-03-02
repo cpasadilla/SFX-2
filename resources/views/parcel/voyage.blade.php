@@ -35,6 +35,15 @@
         background-color: #fff;
         border: 1px solid #dee2e6;
     }
+    .card {
+    min-height: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.card-body {
+    overflow-x: auto;
+    white-space: nowrap;
+}
 
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -78,89 +87,95 @@
                         {{ $orders->links() }}
                         <table id="myTable2" class="table">
                             <thead class="thead-light">
-                        <tr>
-                            <th style="text-align: center;" onclick="sortTable(0)">BL#</th>
-                            <th>CONTAINER# 
-    <select class="filter" name="containerNum">
-        <option value="">All</option>
-        @foreach($filterOrders->pluck('containerNum')->unique() as $value)
-            <option value="{{ $value }}" {{ request()->query('containerNum') == $value ? 'selected' : '' }}>
-                {{ $value }}
-            </option>
-        @endforeach
-    </select>
-</th>
+                                <tr>
+                                    <th style="text-align: center;">BL#</th>
+                                    <th>CONTAINER# 
+                                        <select class="filter searchable-dropdown" name="containerNum">
+                                            <option value="">All</option>
+                                            <option disabled>Search...</option> <!-- Search box placeholder -->
+                                            @foreach($filterOrders->pluck('containerNum')->filter()->unique()->sort() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('containerNum') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
 
-<th>SHIPPER
-    <select class="filter" name="consigneeName">
-        <option value="">All</option>
-        @foreach($filterOrders->pluck('consigneeName')->unique() as $value)
-            <option value="{{ $value }}" {{ request()->query('consigneeName') == $value ? 'selected' : '' }}>
-                {{ $value }}
-            </option>
-        @endforeach
-    </select>
-</th>
-                            <th>CONSIGNEE 
-                                <select class="filter" name="shipper">
-                                    <option value="">All</option>
-                                    @foreach($filterOrders->pluck('shipper')->unique() as $value)
-                                        <option value="{{ $value }}" {{ request()->query('shipper') == $value ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </th>
-                            <th>CHECKER 
-                                <select class="filter" name="check">
-                                    <option value="">All</option>
-                                    @foreach($filterOrders->pluck('check')->unique() as $value)
-                                        <option value="{{ $value }}" {{ request()->query('check') == $value ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </th>
-                            <th style="text-align: center;" onclick="sortTable(1)">DATE CREATED</th>
-                            <th style="text-align: center;">TOTAL FREIGHT</th>
-                            <th style="text-align: center;">VALUATION</th>
-                            <th style="text-align: center;">TOTAL AMOUNT</th>
-                            <th style="text-align: center;" onclick="sortTable(2)">OR#</th>
-                            <th style="text-align: center;" onclick="sortTable(3)">AR#</th>
-                            <th>CARGO STATUS 
-                                <select class="filter" name="cargo_status">
-                                    <option value="">All</option>
-                                    @foreach($filterOrders->pluck('cargo_status')->unique() as $value)
-                                        <option value="{{ $value }}" {{ request()->query('cargo_status') == $value ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                   @endforeach
-                                </select>
-                            </th>
-                            <th>BL STATUS 
-                                <select class="filter" name="bl_status">
-                                    <option value="">All</option>
-                                    @foreach($filterOrders->pluck('bl_status')->unique() as $value)
-                                        <option value="{{ $value }}" {{ request()->query('bl_status') == $value ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </th>
-                            <th style="text-align: center;">BL REMARK</th>
-                            <th style="text-align: center;">VIEW BL</th>
-                            <th>CREATED BY 
-                                <select class="filter" name="createdBy">
-                                    <option value="">All</option>
-                                    @foreach($filterOrders->pluck('createdBy')->unique() as $value)
-                                        <option value="{{ $value }}" {{ request()->query('createdBy') == $value ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </th>
-                            <th style="text-align: center" scope="col" >Add OR/AR</th>
-                        </tr>
+                                    <th>SHIPPER 
+                                        <select class="filter searchable-dropdown" name="consigneeName">
+                                            <option value="">All</option>
+                                            <option disabled>Search...</option>
+                                            @foreach($filterOrders->pluck('consigneeName')->filter()->unique()->sort() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('consigneeName') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+
+                                    <th>CONSIGNEE 
+                                        <select class="filter searchable-dropdown" name="shipper">
+                                            <option value="">All</option>
+                                            <option disabled>Search...</option>
+                                            @foreach($filterOrders->pluck('customer')->filter()->unique()->sortBy(fn($c) => $c->fName . ' ' . $c->lName) as $customer)
+                                                <option value="{{ $customer->fName }} {{ $customer->lName }}" 
+                                                    {{ request()->query('shipper') == ($customer->fName . ' ' . $customer->lName) ? 'selected' : '' }}>
+                                                    {{ $customer->fName }} {{ $customer->lName }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+
+                                    <th>CHECKER 
+                                        <select class="filter" name="check">
+                                            <option value="">All</option>
+                                            @foreach($filterOrders->pluck('check')->unique() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('check') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th style="text-align: center;">DATE CREATED</th>
+                                    <th style="text-align: center;">TOTAL FREIGHT</th>
+                                    <th style="text-align: center;">VALUATION</th>
+                                    <th style="text-align: center;">TOTAL AMOUNT</th>
+                                    <th style="text-align: center;">OR#</th>
+                                    <th style="text-align: center;">AR#</th>
+                                    <th>CARGO STATUS 
+                                        <select class="filter" name="cargo_status">
+                                            <option value="">All</option>
+                                            @foreach($filterOrders->pluck('cargo_status')->unique() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('cargo_status') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                        @endforeach
+                                        </select>
+                                    </th>
+                                    <th>BL STATUS 
+                                        <select class="filter" name="bl_status">
+                                            <option value="">All</option>
+                                            @foreach($filterOrders->pluck('bl_status')->unique() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('bl_status') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th style="text-align: center;">BL REMARK</th>
+                                    <th style="text-align: center;">VIEW BL</th>
+                                    <th>CREATED BY 
+                                        <select class="filter" name="createdBy">
+                                            <option value="">All</option>
+                                            @foreach($filterOrders->pluck('createdBy')->unique() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('createdBy') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th style="text-align: center" scope="col" >Add OR/AR</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @php
@@ -280,15 +295,14 @@
                                     </div>
                                 </div>
                                 @endforeach
-                                <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
-                                <tr style="font-weight: bold; background-color: #d1ecf1;">
-                                    <td colspan="6" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
-                                    <td style="text-align: center;">{{ number_format($totalFreightOverall ?? 0, 2) }}</td>
-                                    <td style="text-align: center;">{{ number_format($totalValuationOverall ?? 0, 2) }}</td>
-                                    <td style="text-align: center;">{{ number_format($totalAmountOverall ?? 0, 2) }}</td>
-
-                                </tr>
                             </tbody>
+                            <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
+                            <tr style="font-weight: bold; background-color: #d1ecf1;">
+                                <td colspan="6" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
+                                <td style="text-align: center;">{{ number_format($totalFreightOverall ?? 0, 2) }}</td>
+                                <td style="text-align: center;">{{ number_format($totalValuationOverall ?? 0, 2) }}</td>
+                                <td style="text-align: center;">{{ number_format($totalAmountOverall ?? 0, 2) }}</td>
+                            </tr>
                         </table>
                         {{ $orders->links() }}
                         <p>Page: {{ $orders->currentPage() }}</p>
@@ -328,47 +342,31 @@
         });
     });
 </script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const table = document.getElementById('myTable2');
-        const headers = table.querySelectorAll('th');
-        const tableBody = table.querySelector('tbody');
-        const rows = Array.from(tableBody.querySelectorAll('tr'));
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".searchable-dropdown").forEach(select => {
+            // Wrap select inside a div and add an input field
+            let wrapper = document.createElement("div");
+            wrapper.style.position = "relative";
+            let searchBox = document.createElement("input");
+            searchBox.type = "text";
+            searchBox.placeholder = "Search...";
+            searchBox.style.width = "100%";
+            searchBox.style.marginBottom = "5px";
+            searchBox.style.padding = "5px";
+            searchBox.style.border = "1px solid #ddd";
 
-        // Function to sort rows based on the column index
-        const sortTable = (index, ascending) => {
-            rows.sort((rowA, rowB) => {
-                const cellA = rowA.children[index].textContent.trim();
-                const cellB = rowB.children[index].textContent.trim();
+            let parent = select.parentNode;
+            parent.replaceChild(wrapper, select);
+            wrapper.appendChild(searchBox);
+            wrapper.appendChild(select);
 
-                if (!isNaN(cellA) && !isNaN(cellB)) {
-                    // Compare as numbers if both values are numeric
-                    return ascending ? cellA - cellB : cellB - cellA;
-                } else {
-                    // Compare as strings otherwise
-                    return ascending
-                        ? cellA.localeCompare(cellB)
-                        : cellB.localeCompare(cellA);
+            searchBox.addEventListener("keyup", function () {
+                let filter = searchBox.value.toLowerCase();
+                for (let option of select.options) {
+                    let text = option.text.toLowerCase();
+                    option.style.display = text.includes(filter) ? "" : "none";
                 }
-            });
-
-            // Append the sorted rows back to the table
-            rows.forEach(row => tableBody.appendChild(row));
-        };
-
-        // Attach click events to headers for sorting
-        headers.forEach((header, index) => {
-            let ascending = true; // Initial sort order
-
-            header.addEventListener('click', () => {
-                // Toggle sort order on subsequent clicks
-                ascending = !ascending;
-                sortTable(index, ascending);
-
-                // Optionally, update header styles to indicate sort order
-                headers.forEach(h => h.classList.remove('ascending', 'descending'));
-                header.classList.add(ascending ? 'ascending' : 'descending');
             });
         });
     });

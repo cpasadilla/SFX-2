@@ -86,17 +86,25 @@ class ParcelController extends Controller
 
     // Apply filters (before pagination)
     $filters = [
-        'containerNum', 'consigneeName', 'check', 
+        'containerNum', 'consigneeName', 'check', 'customer', 'shipper',
         'cargo_status', 'bl_status', 'createdBy'
     ];
+    
     foreach ($filters as $filter) {
         if (request()->has($filter)) {
             $filterValue = request()->query($filter);
             if (!empty($filterValue)) {
-                $allOrders = $allOrders->where($filter, $filterValue);
+                if ($filter === 'shipper') { // Filtering by consignee name
+                    $allOrders = $allOrders->filter(function ($order) use ($filterValue) {
+                        return ($order->customer->fName . ' ' . $order->customer->lName) === $filterValue;
+                    });
+                } else {
+                    $allOrders = $allOrders->where($filter, $filterValue);
+                }
             }
         }
     }
+    
 
     // ✅ Compute overall totals before pagination
     $totalFreightOverall = $allOrders->sum('totalAmount');
@@ -127,40 +135,56 @@ class ParcelController extends Controller
     public function search(Request $request)
 {
     $search = $request->query('search');
+
+    // Retrieve matching orders
     $orders = Order::where('orderId', 'like', '%' . $search . '%')
                    ->orWhere('cID', 'like', '%' . $search . '%')
                    ->orWhere('cargo_status', 'like', '%' . $search . '%')
-                   ->paginate(10);
-        if($orders->isEmpty()){
+                   ->get(); // Remove pagination temporarily to filter first
 
-            $ships = ship::paginate();
+    if ($orders->isEmpty()) {
+        // If no results, return home page with an empty orders list
+        $ships = Ship::paginate();
+        return view('parcel.home', compact('ships'))->with('error', 'No orders found.');
+    }
 
-            return view('parcel.home', compact('ships'));
-        }
+    // Fetch voyage details based on the first found order
+    $order = $orders->first();
+    $shipNum = $order->shipNum;
+    $voyageNum = $order->voyageNum;
 
-        foreach ($orders as $order){
-            $shipNum = $order->shipNum;
-            $voyageNum = $order->voyageNum;
+    // Extract `$orig` safely
+    preg_match('/\d+/', $voyageNum, $matches);
+    $orig = $matches[0] ?? $voyageNum; // Ensure $orig is always set
 
-            $voyage = $order->orderId;
-        }
-        $voyage = voyage::where('orderId',$voyage)->get();
-        $check = $voyageNum;
-        preg_match('/\d+/', $check, $matches);
-        foreach($voyage as $voy){
-            $dock = $voy->dock;
-            if($dock === NULL){
-                $dock = 0;
-            }
-        }
-        // Assuming $shipNum and $voyageNum are part of the data passed to the view
-        return view('parcel.voyage', [
-            'orders' => $orders,
-            'shipNum' => $shipNum, // Ensure shipNum is passed
-            'voyageNum' => $matches[0],
-            'dock'=>$dock,
-            'orig'=>$voyageNum // Ensure voyageNum is passed
-        ]);
+    // Get voyage details
+    $voyage = Voyage::where('orderId', $order->orderId)->first();
+    if (!$voyage) {
+        return back()->with('error', 'Voyage details not found.');
+    }
+
+    // Ensure `dock` is properly set
+    $dock = $voyage->dock ?? 0;
+
+    // ✅ Fix: Ensure `$filterOrders` is included
+    $filterOrders = $orders->unique('orderId'); 
+
+    // ✅ Paginate results after filtering
+    $perPage = 10;
+    $currentPage = request()->input('page', 1);
+    $currentItems = $orders->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+    $orders = new LengthAwarePaginator(
+        $currentItems,
+        $orders->count(),
+        $perPage,
+        $currentPage,
+        ['path' => request()->url(), 'query' => request()->query()]
+    );
+
+    return view('parcel.voyage', compact(
+        'orders', 'shipNum', 'voyageNum', 'dock', 'orig', 'filterOrders' // ✅ Include this
+    ));
 }
 
     //update staus
