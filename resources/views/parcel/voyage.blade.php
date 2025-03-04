@@ -163,7 +163,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
     <h1 style="padding-left: 10px; display: flex; align-items: center; gap: 8px;">
-        <span onclick="window.history.back();" style="cursor: pointer; font-size: 24px; color: #1d4ed8;">
+        <span onclick="goBackToVoyage()" style="cursor: pointer; font-size: 24px; color: #1d4ed8;">
             ←
         </span>
         MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}
@@ -196,11 +196,11 @@
                         <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
                     </div>
                     <!-- Filter buttons -->
-                    <div class="btn-group" role="group" aria-label="Order Filter">
+                    <!-- div class="btn-group" role="group" aria-label="Order Filter">
                         <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'all']) }}" class="btn btn-info">All Orders</a>
                         <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'PAID']) }}" class="btn btn-success">Paid Orders</a>
                         <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'UNPAID']) }}" class="btn btn-danger">Unpaid Orders</a>
-                    </div>
+                    </div-->
                     <div class="card-body">
                         {{ $orders->links() }}
                         <table id="myTable2" class="table">
@@ -485,5 +485,16 @@
             });
         });
     });
+</script>
+<script>
+    function goBackToVoyage() {
+        let shipNum = @json($shipNum);
+        let voyageNum = @json($voyageNum);
+        let dock = @json($dock);
+        let orig = @json($orig);
+
+        let url = `/parcels/${shipNum}/${voyageNum}/${dock}/${orig}`;
+        window.location.href = url;
+    }
 </script>
 @endsection
