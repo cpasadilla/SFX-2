@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <style>
+    /* Improved CSS for better layout and design */
     .register-button {
         position: fixed;
         left: 50%;
@@ -8,6 +9,9 @@
 
     th {
         cursor: pointer;
+        position: relative;
+        padding: 8px !important; /* Reduced padding */
+        font-size: 14px; /* Smaller font size */
     }
 
     th.ascending::after {
@@ -16,6 +20,29 @@
 
     th.descending::after {
         content: ' \25BC'; /* Down arrow */
+    }
+
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .filter-container select,
+    .filter-container input {
+        width: auto;
+        min-width: 120px; /* Reduced min-width */
+        padding: 4px; /* Reduced padding */
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 12px; /* Smaller font size */
+    }
+
+    .search-box {
+        flex: 1;
+        max-width: 200px; /* Reduced max-width */
     }
 
     .page-item.active .page-link {
@@ -28,23 +55,109 @@
     .page-link {
         position: relative;
         display: block;
-        padding: 0.5rem 0.75rem;
+        padding: 0.3rem 0.5rem; /* Reduced padding */
         margin-left: -1px;
         line-height: 1.25;
         color: #000000;
         background-color: #fff;
         border: 1px solid #dee2e6;
+        font-size: 12px; /* Smaller font size */
     }
-    .card {
-    min-height: 100%;
-    height: auto;
-    overflow: hidden;
-}
-.card-body {
-    overflow-x: auto;
-    white-space: nowrap;
-}
 
+    .card {
+        min-height: 100%;
+        height: auto;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 10px; /* Reduced padding */
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px; /* Smaller font size */
+    }
+
+    .table th,
+    .table td {
+        padding: 8px; /* Reduced padding */
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn-group {
+        margin-bottom: 10px;
+    }
+
+    .btn-group .btn {
+        margin-right: 5px;
+        padding: 5px 10px; /* Reduced padding */
+        font-size: 12px; /* Smaller font size */
+    }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        background-color: #78BF65;
+        color: #fff;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .modal-title {
+        font-weight: bold;
+    }
+
+    .modal-body {
+        padding: 15px; /* Reduced padding */
+    }
+
+    .input-group {
+        margin-bottom: 10px;
+    }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        padding: 4px; /* Reduced padding */
+    }
+
+    .fas.fa-pencil {
+        cursor: pointer;
+    }
+
+    .fas.fa-pencil:hover {
+        color: #78BF65;
+    }
+
+    /* Compact dropdowns */
+    .searchable-dropdown {
+        width: 120px; /* Reduced width */
+        padding: 4px; /* Reduced padding */
+        font-size: 12px; /* Smaller font size */
+    }
+
+    /* Ensure dropdowns don't overflow */
+    .table th {
+        overflow: hidden;
+        white-space: nowrap;
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -73,7 +186,6 @@
     </div><!-- /.container-fluid -->
 </div><!-- /.content-header -->
 
-
 <!--Main Content-->
 <div class="content">
     <div class="container-fluid">
@@ -83,7 +195,7 @@
                     <div class="card-header">
                         <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
                     </div>
-                    <!-- Filter buttons (Add this section above or below your order list/table) -->
+                    <!-- Filter buttons -->
                     <div class="btn-group" role="group" aria-label="Order Filter">
                         <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'all']) }}" class="btn btn-info">All Orders</a>
                         <a href="{{ route('p.showVoyage', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig, 'status' => 'PAID']) }}" class="btn btn-success">Paid Orders</a>
@@ -98,7 +210,7 @@
                                     <th>CONTAINER# 
                                         <select class="filter searchable-dropdown" name="containerNum">
                                             <option value="">All</option>
-                                            <option disabled>Search...</option> <!-- Search box placeholder -->
+                                            <option disabled>Search...</option>
                                             @foreach($filterOrders->pluck('containerNum')->filter()->unique()->sort() as $value)
                                                 <option value="{{ $value }}" {{ request()->query('containerNum') == $value ? 'selected' : '' }}>
                                                     {{ $value }}
@@ -106,7 +218,6 @@
                                             @endforeach
                                         </select>
                                     </th>
-
                                     <th>SHIPPER 
                                         <select class="filter searchable-dropdown" name="consigneeName">
                                             <option value="">All</option>
@@ -118,7 +229,6 @@
                                             @endforeach
                                         </select>
                                     </th>
-
                                     <th>CONSIGNEE 
                                         <select class="filter searchable-dropdown" name="shipper">
                                             <option value="">All</option>
@@ -131,7 +241,6 @@
                                             @endforeach
                                         </select>
                                     </th>
-
                                     <th>CHECKER 
                                         <select class="filter" name="check">
                                             <option value="">All</option>
@@ -155,7 +264,7 @@
                                                 <option value="{{ $value }}" {{ request()->query('cargo_status') == $value ? 'selected' : '' }}>
                                                     {{ $value }}
                                                 </option>
-                                        @endforeach
+                                            @endforeach
                                         </select>
                                     </th>
                                     <th>BL STATUS 
@@ -222,14 +331,6 @@
                                     <td style="text-align: center;">
                                             <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
                                         </td>
-                                    <!--td style="text-align: center;">
-                                        <span
-                                            data-toggle="modal"
-                                            data-target="#deleteUserModal{{ $order->orderId }}"
-                                            style="color: rgb(14, 143, 195); cursor: pointer;">
-                                            ADD
-                                        </span>
-                                    </td-->
                                 </tr>
                                 <!-- ADD OR/AR -->
                                 <div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
@@ -351,16 +452,12 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".searchable-dropdown").forEach(select => {
-            // Wrap select inside a div and add an input field
             let wrapper = document.createElement("div");
             wrapper.style.position = "relative";
             let searchBox = document.createElement("input");
             searchBox.type = "text";
             searchBox.placeholder = "Search...";
-            searchBox.style.width = "100%";
-            searchBox.style.marginBottom = "5px";
-            searchBox.style.padding = "5px";
-            searchBox.style.border = "1px solid #ddd";
+            searchBox.classList.add("searchable-dropdown");
 
             let parent = select.parentNode;
             parent.replaceChild(wrapper, select);
@@ -377,58 +474,16 @@
         });
     });
 </script>
-
-<style>
-    th {
-        cursor: pointer;
-    }
-
-    th.ascending::after {
-        content: ' \25B2'; /* Up arrow */
-    }
-
-    th.descending::after {
-        content: ' \25BC'; /* Down arrow */
-    }
-</style>
-<style>
-    .register-button {
-        position: fixed;
-        left: 50%;
-    }
-
-    th {
-        cursor: pointer;
-        position: relative;
-    }
-
-    th.ascending::after {
-        content: ' \25B2'; /* Up arrow */
-    }
-
-    th.descending::after {
-        content: ' \25BC'; /* Down arrow */
-    }
-
-    /* Filter dropdown */
-    .filter-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background: white;
-        border: 1px solid #ddd;
-        max-height: 200px;
-        overflow-y: auto;
-        display: none;
-        z-index: 10;
-        width: 100%;
-    }
-
-    .filter-dropdown select {
-        width: 100%;
-        padding: 5px;
-        border: none;
-    }
-</style>
-
+<script>
+    $(document).ready(function () {
+        $('.filter').on('keyup', function () {
+            var columnName = $(this).attr('name');
+            var filterValue = $(this).val().toLowerCase();
+            $('tbody tr').each(function () {
+                var cellText = $(this).find('td[data-column="' + columnName + '"]').text().toLowerCase();
+                $(this).toggle(cellText.includes(filterValue));
+            });
+        });
+    });
+</script>
 @endsection
