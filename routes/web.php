@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
     Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
+    Route::get('/parcel/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoy'])->name('p.showVoy');
     Route::post('/parcels/submit-remark', [\App\Http\Controllers\ParcelController::class, 'submitRemark'])->name('s.remark');
 
 

@@ -49,7 +49,12 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
-    <h1 style="padding-left: 10px;">MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h1>
+    <h1 style="padding-left: 10px; display: flex; align-items: center; gap: 8px;">
+        <span onclick="window.history.back();" style="cursor: pointer; font-size: 24px; color: #1d4ed8;">
+            ←
+        </span>
+        MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}
+    </h1>
     <br>
     <div class="container-fluid">
         <div class="row mb-2">
@@ -67,6 +72,7 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div><!-- /.content-header -->
+
 
 <!--Main Content-->
 <div class="content">

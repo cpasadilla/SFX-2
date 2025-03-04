@@ -78,6 +78,8 @@ class ParcelController extends Controller
         $find = Order::where('orderId', $search)
                      ->where('voyageNum', $orig);
 
+
+
         $allOrders = $allOrders->merge($find->get());
     }
 
@@ -130,6 +132,54 @@ class ParcelController extends Controller
         'filterOrders' // ✅ Pass all orders (before pagination) for filtering
     ));
 }
+
+
+public function showVoy($shipNum, $voyageNum, $dock, $orig)
+{
+    $docks = ($dock == 0) ? NULL : $dock;
+
+    // Fetch all orders related to this ship and voyage
+    $voyage = voyage::where('dock', $docks)
+                    ->where('ship', $shipNum)
+                    ->where('trip_num', $voyageNum)
+                    ->get();
+
+    $allOrders = collect();
+    foreach ($voyage as $data) {
+        $search = $data->orderId;
+        $find = Order::where('orderId', $search)
+                     ->where('voyageNum', $orig);
+
+        $allOrders = $allOrders->merge($find->get());
+    }
+
+    // Fetch parcels related to the retrieved orders
+    $parcel = Parcel::whereIn('orderId', $allOrders->pluck('orderId'))->get();
+
+    // Sort orders alphabetically by consignee name
+$sortedOrders = $allOrders->sortBy(fn($order) => strtoupper(optional($order->customer)->fName . ' ' . optional($order->customer)->lName));
+
+
+    // Paginate the sorted results
+    $perPage = 500;
+    $currentPage = request()->input('page', 1);
+    $currentItems = $sortedOrders->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+    $orders = new LengthAwarePaginator(
+        $currentItems,
+        $sortedOrders->count(),
+        $perPage,
+        $currentPage,
+        ['path' => request()->url(), 'query' => request()->query()]
+    );
+
+    return view('parcel.voy', compact(
+        'shipNum', 'voyageNum', 'orders', 'dock', 'orig', 'parcel'
+    ));
+}
+
+
+///////
 
     //search
     public function search(Request $request)
