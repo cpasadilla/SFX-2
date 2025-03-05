@@ -348,6 +348,7 @@
                                                     <div class="col-md-6">
                                                         <form action="{{ route('s.or', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
                                                             @csrf
+                                                            <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
                                                             <input type="hidden" name="or" value="{{ $order->orderId }}">
                                                             <div class="input-group mb-3">
                                                                 <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
@@ -373,6 +374,7 @@
                                                     <div class="col-md-6">
                                                         <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
                                                             @csrf
+                                                            <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
                                                             <input type="hidden" name="ar" value="{{ $order->orderId }}">
                                                             <div class="input-group mb-3">
                                                                 <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>

@@ -93,8 +93,10 @@ Route::middleware('auth')->group(function(){
     Route::post('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/{dock}/{orig}/update/AR', [\App\Http\Controllers\shipController::class, 'AR'])->name('s.ar');
     Route::post('/order/{key}/{orderId}/update/AR', [\App\Http\Controllers\CustomerController::class, 'AR'])->name('c.ar');
     Route::post('/order/{key}/{orderId}/update/OR', [\App\Http\Controllers\CustomerController::class, 'OR'])->name('c.or');
+    Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
+    Route::post('/parcels/{shipNum}/{voyageNum}/{orderId}/{dock}/{orig}/store-or', [\App\Http\Controllers\ParcelController::class, 'storeOR'])->name('s.or');
+    Route::post('/parcels/{shipNum}/{voyageNum}/{orderId}/{dock}/{orig}/store-ar', [\App\Http\Controllers\ParcelController::class, 'storeAR'])->name('s.ar');
 
-Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

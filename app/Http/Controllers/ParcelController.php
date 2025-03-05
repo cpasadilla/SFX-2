@@ -295,5 +295,66 @@ public function blnew($key)
         $parcel = parcel::where('orderId',$oId)->get();
         return view('customers.new', compact('key','data','parcel'));
 }
+public function storeOR(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
+{
+    $request->validate([
+        'OR' => 'nullable|string|max:255' // Allow OR to be empty (nullable)
+    ]);
+
+    $order = Order::find($orderId);
+    if ($order) {
+        $order->OR = $request->input('OR') ?: null; // Set to NULL if empty
+
+        // If both OR and AR are empty, reset bl_status
+        if (empty($order->OR) && empty($order->AR)) {
+            $order->bl_status = null; // Reset bl_status
+        } else {
+            $order->bl_status = 'PAID'; // Set to PAID if any value exists
+        }
+
+        $order->save();
+    }
+
+    // ✅ Preserve the page number when redirecting
+    $currentPage = $request->input('page', 1);
+    return redirect()->route('parcels.showVoyage', [
+        'shipNum' => $shipNum,
+        'voyageNum' => $voyageNum,
+        'dock' => $dock,
+        'orig' => $orig,
+        'page' => $currentPage // ✅ Append the current page number
+    ])->with('success', 'OR updated successfully.');
+}
+
+public function storeAR(Request $request, $shipNum, $voyageNum, $orderId, $dock, $orig)
+{
+    $request->validate([
+        'AR' => 'nullable|string|max:255' // Allow AR to be empty (nullable)
+    ]);
+
+    $order = Order::find($orderId);
+    if ($order) {
+        $order->AR = $request->input('AR') ?: null; // Set to NULL if empty
+
+        // If both OR and AR are empty, reset bl_status
+        if (empty($order->OR) && empty($order->AR)) {
+            $order->bl_status = null; // Reset bl_status
+        } else {
+            $order->bl_status = 'PAID'; // Set to PAID if any value exists
+        }
+
+        $order->save();
+    }
+
+    // ✅ Preserve the page number when redirecting
+    $currentPage = $request->input('page', 1);
+    return redirect()->route('parcels.showVoyage', [
+        'shipNum' => $shipNum,
+        'voyageNum' => $voyageNum,
+        'dock' => $dock,
+        'orig' => $orig,
+        'page' => $currentPage // ✅ Append the current page number
+    ])->with('success', 'AR updated successfully.');
+}
 
 }

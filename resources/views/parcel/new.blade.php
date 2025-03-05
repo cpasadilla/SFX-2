@@ -255,32 +255,18 @@
                     <div class="col-md-6" id="cd-6-left"></div>
                     <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
                         <span style="text-align: right; font-size: 5px;"></span>
-                        @if($order->bl_status == 'PAID' || $order->bl_status == 'UNPAID')
+                        @if($order->bl_status == 'PAID')
                             <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
                                 @if($order->origin == 'Manila')
-                                    @if($order->bl_status == 'PAID')
-                                        PAID IN SFXSSLI MANILA <br>
-                                        @if(!empty($order->OR))
-                                            OR#: {{ $order->OR }}<br>
-                                        @endif
-                                        @if(!empty($order->AR))
-                                            AR#: {{ $order->AR }}<br>
-                                        @endif
-                                    @elseif($order->bl_status == 'UNPAID')
-                                        UNPAID IN SFXSSLI MANILA
-                                    @endif
+                                    PAID IN SFXSSLI MANILA <br>
                                 @elseif($order->origin == 'Batanes')
-                                    @if($order->bl_status == 'PAID')
-                                        PAID IN SFXSSLI BATANES <br>
-                                        @if(!empty($order->OR))
-                                            OR#: {{ $order->OR }}<br>
-                                        @endif
-                                        @if(!empty($order->AR))
-                                            AR#: {{ $order->AR }}<br>
-                                        @endif
-                                    @elseif($order->bl_status == 'UNPAID')
-                                        UNPAID IN SFXSSLI BATANES
-                                    @endif
+                                    PAID IN SFXSSLI BATANES <br>
+                                @endif
+                                @if(!empty($order->OR))
+                                    OR#: {{ $order->OR }}<br>
+                                @endif
+                                @if(!empty($order->AR))
+                                    AR#: {{ $order->AR }}<br>
                                 @endif
                             </span>
                         @endif
