@@ -89,7 +89,7 @@ class ParcelController extends Controller
     // Apply filters (before pagination)
     $filters = [
         'containerNum', 'consigneeName', 'check', 'customer', 'shipper',
-        'cargo_status', 'bl_status', 'createdBy'
+        'cargo_status', 'bl_status', 'createdBy', 'description' // ✅ Make sure description is here
     ];
     
     foreach ($filters as $filter) {
@@ -101,12 +101,11 @@ class ParcelController extends Controller
                         return ($order->customer->fName . ' ' . $order->customer->lName) === $filterValue;
                     });
                 } else {
-                    $allOrders = $allOrders->where($filter, $filterValue);
+                    $allOrders = $allOrders->where($filter, $filterValue); // ✅ Check if 'description' exists in orders
                 }
             }
         }
     }
-    
 
     // ✅ Compute overall totals before pagination
     $totalFreightOverall = $allOrders->sum('totalAmount');
@@ -114,7 +113,7 @@ class ParcelController extends Controller
     $totalAmountOverall = $totalFreightOverall + $totalValuationOverall;
 
     // ✅ Paginate filtered results
-    $perPage = 10;
+    $perPage = 500;
     $currentPage = request()->input('page', 1);
     $currentItems = $allOrders->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
@@ -139,15 +138,17 @@ public function showVoy($shipNum, $voyageNum, $dock, $orig)
     $docks = ($dock == 0) ? NULL : $dock;
 
     // Fetch all orders related to this ship and voyage
-    $voyage = voyage::where('dock', $docks)
+    $voyage = Voyage::where('dock', $docks)
                     ->where('ship', $shipNum)
                     ->where('trip_num', $voyageNum)
                     ->get();
 
     $allOrders = collect();
+
     foreach ($voyage as $data) {
         $search = $data->orderId;
-        $find = Order::where('orderId', $search)
+        $find = Order::with('parcels') // ✅ Eager-load parcels to avoid extra queries
+                     ->where('orderId', $search)
                      ->where('voyageNum', $orig);
 
         $allOrders = $allOrders->merge($find->get());
@@ -157,8 +158,7 @@ public function showVoy($shipNum, $voyageNum, $dock, $orig)
     $parcel = Parcel::whereIn('orderId', $allOrders->pluck('orderId'))->get();
 
     // Sort orders alphabetically by consignee name
-$sortedOrders = $allOrders->sortBy(fn($order) => strtoupper(optional($order->customer)->fName . ' ' . optional($order->customer)->lName));
-
+    $sortedOrders = $allOrders->sortBy(fn($order) => strtoupper(optional($order->customer)->fName . ' ' . optional($order->customer)->lName));
 
     // Paginate the sorted results
     $perPage = 500;
@@ -177,6 +177,7 @@ $sortedOrders = $allOrders->sortBy(fn($order) => strtoupper(optional($order->cus
         'shipNum', 'voyageNum', 'orders', 'dock', 'orig', 'parcel'
     ));
 }
+
 
 
 ///////
@@ -220,7 +221,7 @@ $sortedOrders = $allOrders->sortBy(fn($order) => strtoupper(optional($order->cus
     $filterOrders = $orders->unique('orderId'); 
 
     // ✅ Paginate results after filtering
-    $perPage = 10;
+    $perPage = 500;
     $currentPage = request()->input('page', 1);
     $currentItems = $orders->slice(($currentPage - 1) * $perPage, $perPage)->values();
 

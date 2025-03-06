@@ -41,12 +41,15 @@ class order extends Model
         'cargo_status',
         'createdBy',
         'gates',
+        'description',
 
     ];
 
-    public function parcel(){
-        return $this->hasMany(parcel::class);
+    public function parcels()
+    {
+        return $this->hasMany(Parcel::class, 'orderId', 'orderId'); // Ensure correct foreign key
     }
+    
     public function customer(){
         return $this->belongsTo(CustomerID::class, 'cID', 'cID'); // Adjust foreign and local keys as per your database
     }

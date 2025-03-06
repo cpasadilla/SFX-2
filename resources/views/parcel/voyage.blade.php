@@ -159,6 +159,8 @@
         white-space: nowrap;
     }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="content-header">
@@ -171,6 +173,7 @@
     <br>
     <div class="container-fluid">
         <div class="row mb-2">
+            <!-- Search Form Column -->
             <div class="col-md-6">
                 <!--Search Form-->
                 <form action="{{ route('p.search') }}" method="GET">
@@ -181,6 +184,13 @@
                         </div>
                     </div>
                 </form>
+            </div><!-- /.col -->
+
+            <!-- Button Column -->
+            <div class="col-md-6 text-right">
+                <a href="{{ route('p.showVoy', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'dock' => $dock, 'orig' => $orig]) }}" class="btn btn-primary">
+                    Go to Voyage Details
+                </a>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -251,6 +261,17 @@
                                             @endforeach
                                         </select>
                                     </th>
+                                    <th>DESCRIPTION 
+                                        <select class="filter searchable-dropdown" name="description">
+                                            <option value="">All</option>
+                                            <option disabled>Search...</option>
+                                            @foreach($filterOrders->pluck('description')->filter()->unique()->sort() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('description') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
                                     <th style="text-align: center;">DATE CREATED</th>
                                     <th style="text-align: center;">TOTAL FREIGHT</th>
                                     <th style="text-align: center;">VALUATION</th>
@@ -315,6 +336,28 @@
                                         {{ $order->cID }} - {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
+                                    <td style="font-size:15px; text-align: center;">
+                                        @if(isset($order->parcels) && count($order->parcels) > 0)
+                                            @php
+                                                $allowedWords = ['LPG', 'RICE', 'CEMENT', 'FUEL', 'AVGAS', 'BALIKBAYAN', 'VARIOUS', 'UK', 'DRUMS', 'DIESEL', 'UNLEADED', 'PREMIUM', 'MOTOR', 'FEED'];
+                                                $filteredParcels = $order->parcels->filter(function ($parcel) use ($allowedWords) {
+                                                    return collect($allowedWords)->contains(function ($word) use ($parcel) {
+                                                        return stripos($parcel->itemName, $word) !== false;
+                                                    });
+                                                });
+                                            @endphp
+
+                                            @if($filteredParcels->isNotEmpty())
+                                                @foreach ($filteredParcels as $parcel)
+                                                    {{ $parcel->quantity }} {{ $parcel->unit }} {{ $parcel->itemName }}<br>
+                                                @endforeach
+                                            @else
+                                                
+                                            @endif
+                                        @else
+                                            No parcels available
+                                        @endif
+                                    </td>
                                     <td style="text-align: center;">{{ $order->created_at }}</td>
                                     <td style="text-align: center;">{{ number_format($order->totalAmount, 2) }}</td>
                                     <td style="text-align: center;">{{ number_format(($order->value + $order->totalAmount) * 0.0075, 2) }}</td>
@@ -423,33 +466,35 @@
             </div>
         </div>
     </div>
-</div><script>
+</div>
+<script>
     $(document).ready(function () {
-        $(".filter").on("change", function () {
-            var columnName = $(this).attr("name");  // Get the filter name (e.g., "cargo_status")
-            var selectedValue = $(this).val();
-            var currentUrl = new URL(window.location.href);
+    $(".filter").on("change", function () {
+        var columnName = $(this).attr("name");
+        var selectedValue = $(this).val();
+        var currentUrl = new URL(window.location.href);
 
-            if (selectedValue !== "") {
-                currentUrl.searchParams.set(columnName, selectedValue);
-            } else {
-                currentUrl.searchParams.delete(columnName);
-            }
+        if (selectedValue !== "") {
+            currentUrl.searchParams.set(columnName, selectedValue);
+        } else {
+            currentUrl.searchParams.delete(columnName);
+        }
 
-            window.location.href = currentUrl.toString();
-        });
-
-        // Preserve filter selections on page reload
-        $(".filter").each(function () {
-            var columnName = $(this).attr("name");
-            var currentUrl = new URL(window.location.href);
-            var filterValue = currentUrl.searchParams.get(columnName);
-
-            if (filterValue) {
-                $(this).val(filterValue);
-            }
-        });
+        window.location.href = currentUrl.toString();
     });
+
+    // Preserve filter selections on page reload
+    $(".filter").each(function () {
+        var columnName = $(this).attr("name");
+        var currentUrl = new URL(window.location.href);
+        var filterValue = currentUrl.searchParams.get(columnName);
+
+        if (filterValue) {
+            $(this).val(filterValue);
+        }
+    });
+});
+
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
