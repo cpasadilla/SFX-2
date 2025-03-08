@@ -147,7 +147,15 @@
                                     <th class="shipper-col">SHIPPER</th>
                                     <th class="consignee-col">CONSIGNEE</th>
                                     <th class="check-col">CHECKER</th>
-                                    <th>DESCRIPTION</th>
+                                    <th>
+                                        DESCRIPTION
+                                        <select id="descriptionFilter" class="form-control form-control-sm" style="width: 120px; display: inline-block;">
+                                            <option value="">All</option>
+                                            @foreach($orders->pluck('parcels')->flatten()->pluck('itemName')->unique()->sort() as $desc)
+                                                <option value="{{ $desc }}">{{ $desc }}</option>
+                                            @endforeach
+                                        </select>
+                                    </th>
                                     <th style="text-align: center;">TOTAL FREIGHT</th>
                                     <th style="text-align: center;">VALUATION</th>
                                     <th style="text-align: center;">TOTAL AMOUNT</th>
@@ -278,8 +286,12 @@
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('l', 'mm', 'a4'); // Landscape, millimeters, A4
 
+        // Get Blade variables as JavaScript variables
+        let shipNum = @json($shipNum);
+        let orig = @json($orig);
+
         doc.setFontSize(12);
-        doc.text("Master List - M/V EVERWIN STAR Voyage", 10, 10);
+        doc.text(`MASTER LIST FOR M/V EVERWIN STAR ${shipNum} VOYAGE ${orig}`, 10, 10);
 
         const headers = [["BL#", "CONTAINER#", "SHIPPER", "CONSIGNEE", "CHECKER", "DESCRIPTION", "CARGO STATUS", "REMARK"]];
         let data = [];
@@ -334,7 +346,7 @@
                 1: { cellWidth: 30 },  // CONTAINER#
                 2: { cellWidth: 40 },  // SHIPPER
                 3: { cellWidth: 40 },  // CONSIGNEE
-                4: { cellWidth: 25 },  // CHECKER
+                4: { cellWidth: 30 },  // CHECKER
                 5: { cellWidth: 55 },  // DESCRIPTION (Formatted with line breaks)
                 6: { cellWidth: 30 },  // CARGO STATUS
                 7: { cellWidth: 30 }   // REMARK
@@ -342,8 +354,54 @@
             margin: { top: 10, left: 5, right: 5, bottom: 5 } // Remove margins
         });
 
-        doc.save("MasterList.pdf");
+        doc.save(`MasterList_Ship${shipNum}_Voyage${orig}.pdf`);
     });
+</script>
+
+<script>
+    function goBackToVoyage() {
+        let shipNum = @json($shipNum);
+        let voyageNum = @json($voyageNum);
+        let dock = @json($dock);
+        let orig = @json($orig);
+
+        let url = `/orders/ship_${shipNum}/voyage_${voyageNum}/dock_${dock}/${orig}`;
+        window.location.href = url;
+    }
+</script>
+<script>
+$(document).ready(function () {
+    $("#descriptionFilter").on("change", function () {
+        var selectedDescription = $(this).val().toLowerCase();
+
+        $("#myTable2 tbody tr").each(function () {
+            var descriptionCell = $(this).find("td:nth-child(7)"); // Target DESCRIPTION column
+            var fullDescriptionText = descriptionCell.html(); // Get full content including <br> tags
+            
+            if (selectedDescription === "") {
+                descriptionCell.html(fullDescriptionText); // Restore original content
+                $(this).show();
+            } else {
+                let filteredContent = "";
+                let lines = fullDescriptionText.split("<br>");
+
+                // Filter out only the matching item descriptions
+                lines.forEach(line => {
+                    if (line.toLowerCase().includes(selectedDescription)) {
+                        filteredContent += line + "<br>";
+                    }
+                });
+
+                if (filteredContent !== "") {
+                    descriptionCell.html(filteredContent); // Show only matching items
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            }
+        });
+    });
+});
 </script>
 
 @endsection

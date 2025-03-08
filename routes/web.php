@@ -78,8 +78,6 @@ Route::middleware('auth')->group(function(){
     ->name('parcels.updateFreightValuation');
     Route::post('/parcels/update-order-field', [\App\Http\Controllers\ParcelController::class, 'updateOrderField'])
     ->name('parcels.updateOrderField');
-    Route::post('/parcels/update-paid-location', [\App\Http\Controllers\ParcelController::class, 'updatePaidLocation'])
-    ->name('parcels.updatePaidLocation');
 
 
     //PROFILE UPDATE

@@ -77,9 +77,29 @@
         white-space: nowrap;
         padding: 10px; /* Reduced padding */
     }
-
+    
+    /* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+    .card-body::-webkit-scrollbar {
+        height: 8px; /* Height of the horizontal scrollbar */
+    }
+    
+    .card-body::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Track color */
+        border-radius: 4px;
+    }
+    
+    .card-body::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+        border-radius: 4px;
+    }
+    
+    .card-body::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Thumb color on hover */
+    }
+    
     .table {
         width: 100%;
+        min-width: 1200px; /* Set a minimum width to ensure horizontal scrolling */
         border-collapse: collapse;
         font-size: 12px; /* Smaller font size */
     }
@@ -98,6 +118,14 @@
 
     .table tr:hover {
         background-color: #f1f1f1;
+    }
+    
+    /* Optional: Add a fixed header for better usability */
+    .table thead {
+        position: sticky;
+        top: 0;
+        background-color: #f8f9fa; /* Match the header background */
+        z-index: 1; /* Ensure the header stays above the table rows */
     }
 
     .btn-group {
@@ -158,6 +186,15 @@
         overflow: hidden;
         white-space: nowrap;
     }
+
+    /* Column visibility toggle */
+    .column-toggle {
+        margin-bottom: 10px;
+    }
+
+    .column-toggle label {
+        margin-right: 10px;
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -202,6 +239,27 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
+                        <!-- Column Visibility Toggle -->
+                        <div class="column-toggle">
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="0" checked> BL#</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="1" checked> DATE CREATED</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="2" checked> CONTAINER#</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="3" checked> SHIPPER</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="4" checked> CONSIGNEE</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="5" checked> CHECKER</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="6" checked> DESCRIPTION</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="7" checked> TOTAL FREIGHT</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="8" checked> VALUATION</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="9" checked> TOTAL AMOUNT</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="10" checked> OR#</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="11" checked> AR#</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="12" checked> CARGO STATUS</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="13" checked> BL STATUS</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="14" checked> BL REMARK</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="15" checked> VIEW BL</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="16" checked> CREATED BY</label>
+                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="17" checked> Add OR/AR</label>
+                        </div>
                     </div>
                     <div class="card-body">
                         {{ $orders->links() }}
@@ -261,6 +319,15 @@
                                                 <option value="{{ $value }}" {{ request()->query('check') == $value ? 'selected' : '' }}>
                                                     {{ $value }}
                                                 </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th>
+                                        DESCRIPTION
+                                        <select id="descriptionFilter" class="form-control form-control-sm" style="width: 120px; display: inline-block;">
+                                            <option value="">All</option>
+                                            @foreach($orders->pluck('parcels')->flatten()->pluck('itemName')->unique()->sort() as $desc)
+                                                <option value="{{ $desc }}">{{ $desc }}</option>
                                             @endforeach
                                         </select>
                                     </th>
@@ -328,6 +395,15 @@
                                         {{ $order->cID }} - {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                     </td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
+                                    <td style="text-align: center;">
+                                                @if(isset($order->parcels))
+                                                    @foreach ($order->parcels as $parcel)
+                                                        {{ $parcel->quantity }} {{ $parcel->unit }} - {{ $parcel->itemName }}<br>
+                                                    @endforeach
+                                                @else
+                                                    No parcels available
+                                                @endif
+                                            </td>
                                     <td contenteditable="true" class="editable" data-field="totalAmount" data-id="{{ $order->orderId }}">
                                         {{ number_format($order->totalAmount, 2) }}
                                     </td>
@@ -429,7 +505,7 @@
                             </tbody>
                             <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
                             <tr style="font-weight: bold; background-color: #d1ecf1;">
-                                <td colspan="6" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
+                                <td colspan="7" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
                                 <td style="text-align: center;">{{ number_format($totalFreightOverall ?? 0, 2) }}</td>
                                 <td style="text-align: center;">{{ number_format($totalValuationOverall ?? 0, 2) }}</td>
                                 <td style="text-align: center;">{{ number_format($totalAmountOverall ?? 0, 2) }}</td>
@@ -437,10 +513,8 @@
                         </table>
                         {{ $orders->links() }}
                         <p>Page: {{ $orders->currentPage() }}</p>
-
                         <hr style="border: none; border-top: 1px solid #D2D5DD; margin: 10px 0;">
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -565,4 +639,51 @@ $(document).ready(function () {
     });
 });
 </script>
+<script>
+$(document).ready(function () {
+    $("#descriptionFilter").on("change", function () {
+        var selectedDescription = $(this).val().toLowerCase();
+
+        $("#myTable2 tbody tr").each(function () {
+            var descriptionCell = $(this).find("td:nth-child(7)"); // Target DESCRIPTION column
+            var fullDescriptionText = descriptionCell.html(); // Get full content including <br> tags
+            
+            if (selectedDescription === "") {
+                descriptionCell.html(fullDescriptionText); // Restore original content
+                $(this).show();
+            } else {
+                let filteredContent = "";
+                let lines = fullDescriptionText.split("<br>");
+
+                // Filter out only the matching item descriptions
+                lines.forEach(line => {
+                    if (line.toLowerCase().includes(selectedDescription)) {
+                        filteredContent += line + "<br>";
+                    }
+                });
+
+                if (filteredContent !== "") {
+                    descriptionCell.html(filteredContent); // Show only matching items
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            }
+        });
+    });
+});
+</script>
+<!-- Column Visibility Toggle Script -->
+<script>
+$(document).ready(function () {
+    $(".column-toggle-checkbox").on("change", function () {
+        var columnIndex = $(this).data("column");
+        var isChecked = $(this).is(":checked");
+
+        // Toggle visibility of the column
+        $("#myTable2 th:nth-child(" + (columnIndex + 1) + "), #myTable2 td:nth-child(" + (columnIndex + 1) + ")").toggle(isChecked);
+    });
+});
+</script>
+
 @endsection
