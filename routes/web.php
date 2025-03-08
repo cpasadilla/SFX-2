@@ -5,7 +5,6 @@ use App\Http\Middleware\PreventRegisterAccess;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,21 +21,21 @@ Route::get('/', function () {
 });
 Route::middleware('auth')->group(function(){
 
-    //Customer Details
+    //CUSTOMER DETAILS
     Route::get('/customer', [\App\Http\Controllers\CustomerController::class,'index'])->name('customer');
     Route::post('/customer/create', [\App\Http\Controllers\CustomerController::class,'create'])->name('c.create');
     Route::post('/customer/edit', [\App\Http\Controllers\CustomerController::class,'edit'])->name('c.edit');
     Route::post('/customer/delete', [\App\Http\Controllers\CustomerController::class,'delete'])->name('c.error');
     Route::get('/customer/search',  [\App\Http\Controllers\CustomerController::class, 'search'])->name('c.search');
+    
     //ORDER CREATIONS
     Route::get('/customer/{key}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('c.order');
     Route::post('/customer/{key}', [\App\Http\Controllers\CustomerController::class,'submit'])->name('c.submit');
     Route::get('/customer/{key}/created', [\App\Http\Controllers\CustomerController::class,'confirm'])->name('c.confirm');
     Route::get('/customer/{key}/updated', [\App\Http\Controllers\CustomerController::class,'cconfirm'])->name('c.cconfirm');
-    
     Route::get('/customer/{key}/-search/', [\App\Http\Controllers\CustomerController::class,'scout'])->name('c.scout');
 
-    // CUSTOMER BL;S
+    //CUSTOMER BL
     Route::get('/customer/{key}/bill_of_lading', [\App\Http\Controllers\CustomerController::class,'bl'])->name('c.bl');
     Route::get('/customer/{key}/BL', [\App\Http\Controllers\CustomerController::class, 'showBL'])->name('c.parcels');
     Route::get('/customer/{key}/search', [\App\Http\Controllers\CustomerController::class,'found'])->name('c.found');
@@ -49,7 +48,7 @@ Route::middleware('auth')->group(function(){
     Route::put('/customers/order-{orderId}/bl-status', [\App\Http\Controllers\CustomerController::class, 'updateBLStatus'])->name('c.updateBLStatus');
 
 
-    //List
+    //PRICE LIST
     Route::get('/priceList', [\App\Http\Controllers\listController::class,'index'])->name('price');
     Route::post('/priceList/create', [\App\Http\Controllers\listController::class,'create'])->name('p.create');
     Route::get('/priceList/create', [\App\Http\Controllers\listController::class,'edit'])->name('p.edit');
@@ -63,27 +62,31 @@ Route::middleware('auth')->group(function(){
     Route::post('/priceList/updateCategory', [\App\Http\Controllers\listController::class, 'updateCategory'])->name('p.upd');
     Route::post('/priceList/deleteCategory', [\App\Http\Controllers\listController::class, 'deleteCategory'])->name('p.del');
 
-    //Parcel View
+    //MASTER LIST
     Route::get('/parcel/search', [\App\Http\Controllers\ParcelController::class, 'search'])->name('p.search');
     Route::get('/parcel/qr/{key}', [\App\Http\Controllers\ParcelController::class, 'qr'])->name('p.qr');
     Route::get('/parcel/bl/{key}', [\App\Http\Controllers\ParcelController::class, 'bl'])->name('p.bl');
     Route::get('/parcel/blnew/{key}', [\App\Http\Controllers\ParcelController::class, 'blnew'])->name('p.blnew');
-    Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
-    Route::get('/parcel/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoy'])->name('p.showVoy');
     Route::post('/parcels/submit-remark', [\App\Http\Controllers\ParcelController::class, 'submitRemark'])->name('s.remark');
-
 
     Route::get('/orders', [\App\Http\Controllers\ParcelController::class, 'index'])->name('p.view');
     Route::get('/orders/ship_{shipNum}', [\App\Http\Controllers\ParcelController::class, 'showShip'])->name('parcels.showShip');
     Route::get('/orders/ship_{shipNum}/voyage_{voyageNum}/dock_{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('parcels.showVoyage');
+    Route::get('/order/ship_{shipNum}/voyage_{voyageNum}/dock_{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoy'])->name('parcels.showVoy');
     Route::put('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/update-status/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'updateStatus'])->name('parcels.updateStatus');
+    Route::post('/parcels/update-freight-valuation', [\App\Http\Controllers\ParcelController::class, 'updateFreightValuation'])
+    ->name('parcels.updateFreightValuation');
+    Route::post('/parcels/update-order-field', [\App\Http\Controllers\ParcelController::class, 'updateOrderField'])
+    ->name('parcels.updateOrderField');
+    Route::post('/parcels/update-paid-location', [\App\Http\Controllers\ParcelController::class, 'updatePaidLocation'])
+    ->name('parcels.updatePaidLocation');
 
 
-    //Profile Update
+    //PROFILE UPDATE
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
-    //SHIP AND VOYAge
+    //SHIP AND VOYAGE
     Route::post('ship/create', [\App\Http\Controllers\shipController::class, 'create'])->name('s.create');
     Route::post('ship/delete', [\App\Http\Controllers\shipController::class, 'delete'])->name('s.error');
     Route::post('ship/update/{shipId}', [\App\Http\Controllers\shipController::class, 'update'])->name('s.update');
@@ -93,7 +96,6 @@ Route::middleware('auth')->group(function(){
     Route::post('/order/ship_{shipNum}/voyage_{voyageNum}/{orderId}/{dock}/{orig}/update/AR', [\App\Http\Controllers\shipController::class, 'AR'])->name('s.ar');
     Route::post('/order/{key}/{orderId}/update/AR', [\App\Http\Controllers\CustomerController::class, 'AR'])->name('c.ar');
     Route::post('/order/{key}/{orderId}/update/OR', [\App\Http\Controllers\CustomerController::class, 'OR'])->name('c.or');
-    Route::get('/parcels/{shipNum}/{voyageNum}/{dock}/{orig}', [\App\Http\Controllers\ParcelController::class, 'showVoyage'])->name('p.showVoyage');
     Route::post('/parcels/{shipNum}/{voyageNum}/{orderId}/{dock}/{orig}/store-or', [\App\Http\Controllers\ParcelController::class, 'storeOR'])->name('s.or');
     Route::post('/parcels/{shipNum}/{voyageNum}/{orderId}/{dock}/{orig}/store-ar', [\App\Http\Controllers\ParcelController::class, 'storeAR'])->name('s.ar');
 
@@ -112,8 +114,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('users/reset', [\App\Http\Controllers\UserController::class, 'reset'])->name('u.reset');
 });
 
-
-
 Auth::routes();
 //Route::get('/test', [\App\Http\Controllers\ProfileController::class, 'test'])->name('test.show'); bl testing
 Route::middleware([PreventRegisterAccess::class])->group(function () {
@@ -124,5 +124,3 @@ Route::middleware('auth')->group(function () {
 Route::post('/data', 'DataController@store')->name('data.store');
 
 });
-
-

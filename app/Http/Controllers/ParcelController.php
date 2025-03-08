@@ -88,7 +88,7 @@ class ParcelController extends Controller
 
     // Apply filters (before pagination)
     $filters = [
-        'containerNum', 'consigneeName', 'check', 'customer', 'shipper',
+        'containerNum', 'consigneeName', 'check', 'customer', 'shipper', 'orderId',
         'cargo_status', 'bl_status', 'createdBy', 'description' // ✅ Make sure description is here
     ];
     
@@ -178,7 +178,19 @@ public function showVoy($shipNum, $voyageNum, $dock, $orig)
     ));
 }
 
+public function updatePaidLocation(Request $request)
+{
+    $request->validate([
+        'orderId' => 'required|string|exists:orders,orderId',
+        'paid_location' => 'required|string|in:Manila,Batanes'
+    ]);
 
+    $order = Order::where('orderId', $request->orderId)->first();
+    $order->paid_location = $request->paid_location; // Save selected location
+    $order->save();
+
+    return response()->json(['success' => true, 'message' => 'Payment location updated.']);
+}
 
 ///////
 
@@ -356,6 +368,54 @@ public function storeAR(Request $request, $shipNum, $voyageNum, $orderId, $dock,
         'orig' => $orig,
         'page' => $currentPage // ✅ Append the current page number
     ])->with('success', 'AR updated successfully.');
+}
+
+public function updateFreightValuation(Request $request)
+{
+    $request->validate([
+        'orderId' => 'required|string|exists:orders,orderId',
+        'field' => 'required|string|in:totalAmount,valuation',
+        'value' => 'required|numeric|min:0'
+    ]);
+
+    $order = Order::where('orderId', $request->orderId)->first();
+
+    if ($request->field === 'totalAmount') {
+        $order->totalAmount = $request->value;
+    } elseif ($request->field === 'valuation') {
+        $order->value = ($request->value / 0.0075) - $order->totalAmount; // Reverse calculation
+    }
+
+    $order->save();
+
+    return response()->json(['success' => true, 'message' => 'Updated successfully.']);
+}
+public function updateOrderField(Request $request)
+{
+    $request->validate([
+        'orderId' => 'required|string|exists:orders,orderId',
+        'field' => 'required|string|in:totalAmount,valuation,OR,AR',
+        'value' => 'nullable|string|max:255'
+    ]);
+
+    $order = Order::where('orderId', $request->orderId)->first();
+
+    if ($order) {
+        $order->{$request->field} = ($request->field === 'totalAmount' || $request->field === 'valuation') 
+            ? (float) $request->value 
+            : $request->value;
+
+        // Automatically update BL status based on OR and AR
+        if (empty($order->OR) && empty($order->AR)) {
+            $order->bl_status = 'UNPAID';
+        } else {
+            $order->bl_status = 'PAID';
+        }
+
+        $order->save();
+    }
+
+    return response()->json(['success' => true, 'message' => 'Updated successfully.']);
 }
 
 }

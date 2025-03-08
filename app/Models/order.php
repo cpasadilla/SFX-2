@@ -42,7 +42,7 @@ class order extends Model
         'createdBy',
         'gates',
         'description',
-
+        'paid_location',
     ];
 
     public function parcels()

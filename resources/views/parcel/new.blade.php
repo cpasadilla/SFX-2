@@ -93,6 +93,10 @@
             flex: 0 0 58.33%;
             max-width: 58.33%;
         }
+        #cd-6-right {
+            color: rgb(128, 0, 0) !important;
+        }
+
     }
 </style>
 <div class="container" id="element1">
@@ -251,27 +255,27 @@
                 </div>
                
                 <footer>
-                <div class="row pl-3" style="padding-right:20px;">
-                    <div class="col-md-6" id="cd-6-left"></div>
-                    <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
-                        <span style="text-align: right; font-size: 5px;"></span>
-                        @if($order->bl_status == 'PAID')
-                            <span style="text-align: center; display: inline-block; width: 200px; border: 3px solid rgb(128, 0, 0); color: rgb(128, 0, 0); font-size: 25px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
-                                @if($order->origin == 'Manila')
-                                    PAID IN SFXSSLI MANILA <br>
-                                @elseif($order->origin == 'Batanes')
-                                    PAID IN SFXSSLI BATANES <br>
-                                @endif
-                                @if(!empty($order->OR))
-                                    OR#: {{ $order->OR }}<br>
-                                @endif
-                                @if(!empty($order->AR))
-                                    AR#: {{ $order->AR }}<br>
-                                @endif
-                            </span>
-                        @endif
-                    </div>
+                <div class="row pl-3" style="padding-right:20px; color: rgb(128, 0, 0);">
+                <div class="col-md-6" id="cd-6-left"></div>
+                <div class="col-md-6" style="display: flex; justify-content: flex-end; align-items: center;" id="cd-6-right">
+                    <span style="text-align: right; font-size: 5px;"></span>
+                    @if($order->bl_status == 'PAID')
+                        <div style="text-align: center; display: inline-block; width: 250px; border: 3px solid rgb(128, 0, 0); font-size: 20px; font-weight: bold; font-family: 'Bebas Neue', sans-serif;">
+                            <select class="payment-location" data-id="{{ $order->orderId }}" style="border: none; background: transparent; font-size: 20px; font-weight: bold; text-align: center;">
+                                <option value="Manila" {{ $order->paid_location == 'Manila' ? 'selected' : '' }}>PAID IN SFXSSLI MANILA</option>
+                                <option value="Batanes" {{ $order->paid_location == 'Batanes' ? 'selected' : '' }}>PAID IN SFXSSLI BATANES</option>
+                            </select>
+                            <br>
+                            @if(!empty($order->OR))
+                                OR#: {{ $order->OR }}<br>
+                            @endif
+                            @if(!empty($order->AR))
+                                AR#: {{ $order->AR }}<br>
+                            @endif
+                        </div>
+                    @endif
                 </div>
+            </div>
 
                 <div class="row pl-3">
                     <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
@@ -382,4 +386,29 @@
         console.log('orderItems have been cleared from localStorage.');
     });
 </script>
+<script>
+$(document).ready(function () {
+    $(".payment-location").on("change", function () {
+        let orderId = $(this).data("id");
+        let newLocation = $(this).val();
+
+        $.ajax({
+            url: "{{ route('parcels.updatePaidLocation') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                orderId: orderId,
+                paid_location: newLocation
+            },
+            success: function (response) {
+                alert("Payment location updated successfully.");
+            },
+            error: function () {
+                alert("Error updating payment location.");
+            }
+        });
+    });
+});
+</script>
+
 @endsection
