@@ -18,6 +18,6 @@ class parcel extends Model {
     ];
 
     public function order() {
-        return $this->belongsTo(order::class);
+        return $this->belongsTo(Order::class, 'orderId', 'orderId');
     }
 }

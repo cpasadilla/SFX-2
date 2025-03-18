@@ -218,57 +218,104 @@
 </div>
 
 <script>
-    document.getElementById("exportBtn").addEventListener("click", function () {
-        const table = document.getElementById("myTable2");
-        const headers = ["BL#", "DATE CREATED", "CONTAINER#", "SHIPPER", "CONSIGNEE", "CHECKER", "DESCRIPTION", "TOTAL FREIGHT", "VALUATION", "TOTAL AMOUNT", "OR#", "AR#", "CARGO STATUS", "BL STATUS", "REMARK", "CREATED BY"];
-        let data = [];
+document.getElementById("exportPdfBtn").addEventListener("click", function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'mm', 'letter'); // Landscape, millimeters, Letter size
 
-        // Extract table rows
-        let rows = table.querySelectorAll("tbody tr");
-        rows.forEach(row => {
-            let rowData = [];
-            let cells = row.querySelectorAll("td");
-            cells.forEach(cell => rowData.push(cell.innerText.trim()));
-            data.push(rowData);
-        });
+    // Get Blade variables as JavaScript variables
+    let shipNum = @json($shipNum);
+    let orig = @json($orig);
 
-        // Create a new worksheet
-        let ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    doc.setFontSize(12);
+    doc.text(`MASTER LIST FOR M/V EVERWIN STAR ${shipNum} VOYAGE ${orig}`, 10, 10);
 
-        // Create a workbook and export
-        let wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "MasterList");
-        XLSX.writeFile(wb, "MasterList.xlsx");
-    });
+    const headers = [["BL#", "CONTAINER#", "SHIPPER", "CONSIGNEE", "CHECKER", "DESCRIPTION", "CARGO STATUS", "REMARK"]];
+    let data = [];
 
-    // Sorting functionality
-    document.querySelectorAll("th").forEach(th => {
-        th.addEventListener("click", () => {
-            const table = th.closest("table");
-            const tbody = table.querySelector("tbody");
-            const rows = Array.from(tbody.querySelectorAll("tr"));
-            const index = Array.from(th.parentNode.children).indexOf(th);
-            const isAscending = th.classList.contains("ascending");
+    // Allowed words for description filtering
+    const allowedWords = ["LPG", "RICE 25KG", "RICE 50KG", "CEMENT", "FUEL", "AVGAS", "BALIKBAYAN", "VARIOUS", "UK", "DRUMS", "DIESEL", "UNLEADED", "PREMIUM", "MOTOR", "FEED", "MODEL"];
 
-            rows.sort((a, b) => {
-                const aValue = a.children[index].textContent.trim();
-                const bValue = b.children[index].textContent.trim();
-                return aValue.localeCompare(bValue, undefined, { numeric: true });
-            });
+    // Extract table data
+    document.querySelectorAll("#myTable2 tbody tr").forEach(row => {
+        let rowData = [];
+        let cells = row.querySelectorAll("td");
 
-            if (!isAscending) {
-                rows.reverse();
-                th.classList.add("ascending");
-                th.classList.remove("descending");
-            } else {
-                th.classList.add("descending");
-                th.classList.remove("ascending");
+        let descriptionText = cells[6].innerHTML.trim(); // Get raw HTML content for line breaks
+        let filteredDescription = "";
+
+        // Split by <br> tags to get each line separately
+        let descriptionParts = descriptionText.split("<br>");
+        descriptionParts.forEach(part => {
+            let words = part.trim().split(" ");
+            let quantity = words[0] || ""; // First word is quantity
+            let unit = words[1] || "";     // Second word is unit
+            let itemName = words.slice(2).join(" "); // Remaining words form item name
+
+            // Check if itemName matches any allowed words
+            let matchingWord = allowedWords.find(word => itemName.toUpperCase().includes(word));
+
+            if (matchingWord) {
+                filteredDescription += `${quantity} ${unit} ${matchingWord}\n`; // Append item in multiple lines
             }
-
-            tbody.innerHTML = "";
-            rows.forEach(row => tbody.appendChild(row));
         });
+
+        rowData.push(cells[0].innerText.trim());  // BL#
+        rowData.push(cells[2].innerText.trim());  // CONTAINER#
+        rowData.push(cells[3].innerText.trim());  // SHIPPER
+        rowData.push(cells[4].innerText.trim());  // CONSIGNEE
+        rowData.push(cells[5].innerText.trim());  // CHECKER
+        rowData.push(filteredDescription.trim()); // DESCRIPTION (Mirrors table format)
+        rowData.push(cells[12].innerText.trim()); // CARGO STATUS
+        rowData.push(cells[14].innerText.trim()); // REMARK
+
+        data.push(rowData);
     });
+
+    doc.autoTable({
+        head: headers,
+        body: data,
+        startY: 15, // Reduce top margin
+        theme: 'grid', // Use grid theme to ensure all borders are drawn
+        styles: { 
+            fontSize: 10, 
+            cellPadding: 1, 
+            lineHeight: 1, 
+            fontColor: [0, 0, 0], // Black font color for all cells
+            fillColor: false, // No background color
+            textColor: [0, 0, 0], // Black text color
+            lineColor: [0, 0, 0], // Black border color
+            lineWidth: 0.1 // Border width
+        },
+        headStyles: {
+            fillColor: [255, 255, 255], // White background for header
+            textColor: [0, 0, 0], // Black text color for header
+            fontStyle: 'bold', // Bold header text
+            lineColor: [0, 0, 0], // Black border color for header
+            lineWidth: 0.1 // Border width for header
+        },
+        columnStyles: {
+            0: { cellWidth: 12 },  // BL# (minimized width)
+            1: { cellWidth: 30 },  // CONTAINER#
+            2: { cellWidth: 40 },  // SHIPPER
+            3: { cellWidth: 40 },  // CONSIGNEE
+            4: { cellWidth: 25 },  // CHECKER (minimized width)
+            5: { cellWidth: 50 },  // DESCRIPTION (Formatted with line breaks)
+            6: { cellWidth: 30 },  // CARGO STATUS
+            7: { 
+                cellWidth: 42,   // REMARK (minimized width)
+                // Remove lineWidth: 0 to ensure borders are drawn
+            }
+        },
+        margin: { top: 5, left: 5, right: 5, bottom: 5 }, // Remove margins
+        tableLineColor: [0, 0, 0], // Black border outside
+        tableLineWidth: 0.1, // Border width
+        drawCell: function (cell, data) {
+            cell.styles.lineWidth = 0.1; // Ensure all borders are drawn
+        }
+    });
+
+    doc.save(`MasterList_Ship${shipNum}_Voyage${orig}.pdf`);
+});
 </script>
 <script>
     function goBackToVoyage() {
@@ -280,87 +327,6 @@
         let url = `/parcels/${shipNum}/${voyageNum}/${dock}/${orig}`;
         window.location.href = url;
     }
-</script>
-<script>
-    document.getElementById("exportPdfBtn").addEventListener("click", function () {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('l', 'mm', 'letter'); // Landscape, millimeters, Letter size
-
-        // Get Blade variables as JavaScript variables
-        let shipNum = @json($shipNum);
-        let orig = @json($orig);
-
-        doc.setFontSize(12);
-        doc.text(`MASTER LIST FOR M/V EVERWIN STAR ${shipNum} VOYAGE ${orig}`, 10, 10);
-
-        const headers = [["BL#", "CONTAINER#", "SHIPPER", "CONSIGNEE", "CHECKER", "DESCRIPTION", "CARGO STATUS", "REMARK"]];
-        let data = [];
-
-        // Allowed words for description filtering
-        const allowedWords = ["LPG", "RICE 25KG", "RICE 50KG", "CEMENT", "FUEL", "AVGAS", "BALIKBAYAN", "VARIOUS", "UK", "DRUMS", "DIESEL", "UNLEADED", "PREMIUM", "MOTOR", "FEED", "MODEL"];
-
-        // Extract table data
-        document.querySelectorAll("#myTable2 tbody tr").forEach(row => {
-            let rowData = [];
-            let cells = row.querySelectorAll("td");
-
-            let descriptionText = cells[6].innerHTML.trim(); // Get raw HTML content for line breaks
-            let filteredDescription = "";
-
-            // Split by <br> tags to get each line separately
-            let descriptionParts = descriptionText.split("<br>");
-            descriptionParts.forEach(part => {
-                let words = part.trim().split(" ");
-                let quantity = words[0] || ""; // First word is quantity
-                let unit = words[1] || "";     // Second word is unit
-                let itemName = words.slice(2).join(" "); // Remaining words form item name
-
-                // Check if itemName matches any allowed words
-                let matchingWord = allowedWords.find(word => itemName.toUpperCase().includes(word));
-
-                if (matchingWord) {
-                    filteredDescription += `${quantity} ${unit} ${matchingWord}\n`; // Append item in multiple lines
-                }
-            });
-
-            rowData.push(cells[0].innerText.trim());  // BL#
-            rowData.push(cells[2].innerText.trim());  // CONTAINER#
-            rowData.push(cells[3].innerText.trim());  // SHIPPER
-            rowData.push(cells[4].innerText.trim());  // CONSIGNEE
-            rowData.push(cells[5].innerText.trim());  // CHECKER
-            rowData.push(filteredDescription.trim()); // DESCRIPTION (Mirrors table format)
-            rowData.push(cells[12].innerText.trim()); // CARGO STATUS
-            rowData.push(cells[14].innerText.trim()); // REMARK
-
-            data.push(rowData);
-        });
-
-        doc.autoTable({
-            head: headers,
-            body: data,
-            startY: 15, // Reduce top margin
-            theme: 'grid', // Use grid theme to ensure all borders are drawn
-            styles: { fontSize: 10, cellPadding: 1, lineHeight: 1 }, // Reduce line height and cell padding
-            columnStyles: {
-                0: { cellWidth: 18 },  // BL#
-                1: { cellWidth: 30 },  // CONTAINER#
-                2: { cellWidth: 40 },  // SHIPPER
-                3: { cellWidth: 40 },  // CONSIGNEE
-                4: { cellWidth: 30 },  // CHECKER
-                5: { cellWidth: 55 },  // DESCRIPTION (Formatted with line breaks)
-                6: { cellWidth: 30 },  // CARGO STATUS
-                7: { cellWidth: 30 }   // REMARK
-            },
-            margin: { top: 10, left: 5, right: 5, bottom: 5 }, // Remove margins
-            tableLineColor: null, // Remove black border outside
-            tableLineWidth: 0.1, // Border width
-            drawCell: function (cell, data) {
-                cell.styles.lineWidth = 0.1; // Ensure all borders are drawn
-            }
-        });
-
-        doc.save(`MasterList_Ship${shipNum}_Voyage${orig}.pdf`);
-    });
 </script>
 
 <script>
@@ -407,6 +373,42 @@ $(document).ready(function () {
         });
     });
 });
+document.getElementById("exportBtn").addEventListener("click", function () {
+    let table = document.getElementById("myTable2"); 
+    let ws = XLSX.utils.aoa_to_sheet([]);
+
+    // Extract table headers, excluding the last column ("CREATED BY")
+    let headers = [];
+    table.querySelectorAll("thead th").forEach((th, index) => {
+        if (index !== table.rows[0].cells.length - 1) { // Exclude last column
+            headers.push(th.innerText.trim());
+        }
+    });
+    XLSX.utils.sheet_add_aoa(ws, [headers], { origin: "A1" });
+
+    // Extract table rows, excluding the last column
+    let data = [];
+    table.querySelectorAll("tbody tr").forEach(row => {
+        let rowData = [];
+        row.querySelectorAll("td").forEach((td, index) => {
+            if (index !== row.cells.length - 1) { // Exclude last column
+                rowData.push(td.innerText.trim());
+            }
+        });
+        data.push(rowData);
+    });
+
+    // Add data to worksheet
+    XLSX.utils.sheet_add_aoa(ws, data, { origin: "A2" });
+
+    // Create a new workbook and append the sheet
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Master List");
+
+    // Save the file
+    XLSX.writeFile(wb, `MasterList_Ship${@json($shipNum)}_Voyage${@json($orig)}.xlsx`);
+});
+
 </script>
 
 @endsection

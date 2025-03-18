@@ -239,27 +239,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>MASTER LIST FOR M/V EVERWIN STAR {{ $shipNum }} VOYAGE {{ $orig }}</h5>
-                        <!-- Column Visibility Toggle -->
-                        <div class="column-toggle">
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="0" checked> BL#</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="1" checked> DATE CREATED</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="2" checked> CONTAINER#</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="3" checked> SHIPPER</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="4" checked> CONSIGNEE</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="5" checked> CHECKER</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="6" checked> DESCRIPTION</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="7" checked> TOTAL FREIGHT</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="8" checked> VALUATION</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="9" checked> TOTAL AMOUNT</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="10" checked> OR#</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="11" checked> AR#</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="12" checked> CARGO STATUS</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="13" checked> BL STATUS</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="14" checked> BL REMARK</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="15" checked> VIEW BL</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="16" checked> CREATED BY</label>
-                            <label><input type="checkbox" class="column-toggle-checkbox" data-column="17" checked> Add OR/AR</label>
-                        </div>
+
                     </div>
                     <div class="card-body">
                         {{ $orders->links() }}
@@ -334,8 +314,29 @@
                                     <th style="text-align: center;">TOTAL FREIGHT</th>
                                     <th style="text-align: center;">VALUATION</th>
                                     <th style="text-align: center;">TOTAL AMOUNT</th>
-                                    <th style="text-align: center;">OR#</th>
-                                    <th style="text-align: center;">AR#</th>
+                                    <th>OR# 
+                                        <select class="filter searchable-dropdown" name="OR">
+                                            <option value="">All</option>
+                                            <option disabled>Search...</option>
+                                            @foreach($filterOrders->pluck('OR')->filter()->unique()->sort() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('OR') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th>AR# 
+                                        <select class="filter searchable-dropdown" name="AR">
+                                            <option value="">All</option>
+                                            <option disabled>Search...</option>
+                                            @foreach($filterOrders->pluck('AR')->filter()->unique()->sort() as $value)
+                                                <option value="{{ $value }}" {{ request()->query('AR') == $value ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+
                                     <th>CARGO STATUS 
                                         <select class="filter" name="cargo_status">
                                             <option value="">All</option>
@@ -377,11 +378,14 @@
                                     $totalValuation = 0;
                                     $totalAmount = 0;
                                 @endphp
+                                
                                 @foreach($orders as $order)
+                                
                                 @php
-                                    $freight = $order->totalAmount;
-                                    $valuation = (($order->value) + ($order->totalAmount)) * 0.0075;
+                                    $freight = floatval($order->totalAmount);
+                                    $valuation = (floatval($order->value) + $freight) * 0.0075;
                                     $amount = $valuation + $freight;
+                            
                                     $totalFreight += $freight;
                                     $totalValuation += $valuation;
                                     $totalAmount += $amount;
@@ -396,22 +400,24 @@
                                     </td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
                                     <td style="text-align: center;">
-                                                @if(isset($order->parcels))
-                                                    @foreach ($order->parcels as $parcel)
-                                                        {{ $parcel->quantity }} {{ $parcel->unit }} - {{ $parcel->itemName }}<br>
-                                                    @endforeach
-                                                @else
-                                                    No parcels available
-                                                @endif
-                                            </td>
+                                        @if(isset($order->parcels))
+                                            @foreach ($order->parcels as $parcel)
+                                                {{ $parcel->quantity }} {{ $parcel->unit }} - {{ $parcel->itemName }}<br>
+                                            @endforeach
+                                        @else
+                                            No parcels available
+                                        @endif
+                                    </td>
                                     <td contenteditable="true" class="editable" data-field="totalAmount" data-id="{{ $order->orderId }}">
-                                        {{ number_format($order->totalAmount, 2) }}
+                                        {{ number_format(floatval($order->totalAmount), 2) }}
                                     </td>
+                                    
                                     <td contenteditable="true" class="editable" data-field="valuation" data-id="{{ $order->orderId }}">
-                                        {{ number_format(($order->value + $order->totalAmount) * 0.0075, 2) }}
+                                        {{ number_format((floatval($order->value) + floatval($order->totalAmount)) * 0.0075, 2) }}
                                     </td>
+                                    
                                     <td class="total-amount" data-id="{{ $order->orderId }}">
-                                        {{ number_format(($order->value + $order->totalAmount) * 0.0075 + $order->totalAmount, 2) }}
+                                        {{ number_format((floatval($order->value) + floatval($order->totalAmount)) * 0.0075 + floatval($order->totalAmount), 2) }}
                                     </td>
                                     <td contenteditable="true" class="editable" data-field="OR" data-id="{{ $order->orderId }}">
                                         {{ $order->OR }}
@@ -421,7 +427,9 @@
                                     </td>
                                     <td style="text-transform: uppercase; text-align: center;">{{ $order->cargo_status }}</td>
                                     <td style="text-align: center;">{{ $order->bl_status }}</td>
-                                    <td style="text-transform: uppercase; text-align: center">{{ $order->mark}}</td>
+                                    <td contenteditable="true" class="editable" data-field="mark" data-id="{{ $order->orderId }}">
+                                        {{ $order->mark ?? '' }}
+                                    </td>
                                     <td style="text-align: center;">
                                         <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
                                     </td>
@@ -519,7 +527,32 @@
             </div>
         </div>
     </div>
-</div><script>
+</div>
+<script>
+    $(document).ready(function () {
+        function applyFilter(columnName) {
+            var filterValue = $(`.filter[name='${columnName}']`).val().toLowerCase();
+
+            $("tbody tr").each(function () {
+                var cellText = $(this).find(`td[data-field='${columnName}']`).text().toLowerCase();
+                $(this).toggle(cellText.includes(filterValue));
+            });
+        }
+
+        // Apply filters on keyup for both OR and AR columns
+        $(".filter[name='OR'], .filter[name='AR']").on("keyup", function () {
+            var columnName = $(this).attr("name");
+            applyFilter(columnName);
+        });
+
+        // Apply filters on page load
+        $(".filter[name='OR'], .filter[name='AR']").each(function () {
+            var columnName = $(this).attr("name");
+            applyFilter(columnName);
+        });
+    });
+</script>
+<script>
     $(document).ready(function () {
         $(".filter").on("change", function () {
             var columnName = $(this).attr("name");  // Get the filter name (e.g., "cargo_status")
@@ -583,6 +616,23 @@
             });
         });
     });
+    
+    $(document).ready(function () {
+        $(".filter[name='OR'], .filter[name='AR']").on("keyup", function () {
+            var columnName = $(this).attr('name'); // 'OR' or 'AR'
+            var filterValue = $(this).val().toLowerCase();
+
+            $("tbody tr").each(function () {
+                var cellText = $(this).find(`td[data-field='${columnName}']`).text().toLowerCase();
+                $(this).toggle(cellText.includes(filterValue));
+            });
+        });
+
+        // Apply filters on page load
+        $(".filter[name='OR'], .filter[name='AR']").each(function () {
+            $(this).trigger("keyup");
+        });
+    });
 </script>
 <script>
     function goBackToVoyage() {
@@ -598,21 +648,11 @@
 <script>
 $(document).ready(function () {
     $(".editable").on("blur", function () {
-        let orderId = $(this).data("id");   // Get Order ID
-        let field = $(this).data("field");  // Get the field name
-        let newValue = $(this).text().trim().replace(/,/g, ''); // Remove commas and trim spaces
+        let orderId = $(this).data("id");  // Get order ID
+        let field = $(this).data("field"); // Get field name (OR, AR, mark, totalAmount, valuation)
+        let newValue = $(this).text().trim().replace(/,/g, ''); // Remove commas
 
-        // Convert to float if it's a numeric field
-        if (["totalAmount", "valuation"].includes(field)) {
-            newValue = parseFloat(newValue);
-            if (isNaN(newValue)) {
-                alert("Invalid input. Please enter a valid number.");
-                $(this).text(""); // Reset input if invalid
-                return;
-            }
-        }
-
-        // Send AJAX request to update database
+        // Send AJAX request to update the field
         $.ajax({
             url: "{{ route('parcels.updateOrderField') }}",
             type: "POST",
@@ -623,13 +663,20 @@ $(document).ready(function () {
                 value: newValue
             },
             success: function (response) {
-                // If TOTAL FREIGHT or VALUATION is updated, recalculate TOTAL AMOUNT
-                if (["totalAmount", "valuation"].includes(field)) {
-                    let newTotalFreight = parseFloat($(`td[data-field='totalAmount'][data-id='${orderId}']`).text().replace(/,/g, '')) || 0;
-                    let newValuation = parseFloat($(`td[data-field='valuation'][data-id='${orderId}']`).text().replace(/,/g, '')) || 0;
-                    let newTotalAmount = (newTotalFreight + newValuation).toFixed(2);
+                if (response.success) {
+                    // Update OR and AR values dynamically
+                    if (field === 'OR' || field === 'AR' || field === 'mark') {
+                        $(`td[data-field='${field}'][data-id='${orderId}']`).text(newValue);
+                    }
 
-                    $(`td.total-amount[data-id='${orderId}']`).text(newTotalAmount);
+                    // Update total amount and valuation fields
+                    if (field === 'totalAmount' || field === 'valuation') {
+                        $(`td[data-field='totalAmount'][data-id='${orderId}']`).text(response.totalAmount);
+                        $(`td[data-field='valuation'][data-id='${orderId}']`).text(response.valuation);
+                        $(`td.total-amount[data-id='${orderId}']`).text(response.totalAmountOverall);
+                    }
+                } else {
+                    alert(response.message);
                 }
             },
             error: function () {
@@ -638,6 +685,8 @@ $(document).ready(function () {
         });
     });
 });
+
+
 </script>
 <script>
 $(document).ready(function () {

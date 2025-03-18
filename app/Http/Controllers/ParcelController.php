@@ -78,11 +78,12 @@ class ParcelController extends Controller
         $find = Order::where('orderId', $search)
                      ->where('voyageNum', $orig);
 
-
-
         $allOrders = $allOrders->merge($find->get());
     }
 
+    // ✅ Sort orders by orderId in ascending order
+    $allOrders = $allOrders->sortBy('orderId');
+    
     // ✅ Store all orders before filtering and pagination for dropdown filters
     $filterOrders = $allOrders->unique('orderId'); // Ensures all unique orders are included
 
@@ -370,52 +371,71 @@ public function storeAR(Request $request, $shipNum, $voyageNum, $orderId, $dock,
     ])->with('success', 'AR updated successfully.');
 }
 
-public function updateFreightValuation(Request $request)
-{
-    $request->validate([
-        'orderId' => 'required|string|exists:orders,orderId',
-        'field' => 'required|string|in:totalAmount,valuation',
-        'value' => 'required|numeric|min:0'
-    ]);
-
-    $order = Order::where('orderId', $request->orderId)->first();
-
-    if ($request->field === 'totalAmount') {
-        $order->totalAmount = $request->value;
-    } elseif ($request->field === 'valuation') {
-        $order->value = ($request->value / 0.0075) - $order->totalAmount; // Reverse calculation
-    }
-
-    $order->save();
-
-    return response()->json(['success' => true, 'message' => 'Updated successfully.']);
-}
 public function updateOrderField(Request $request)
 {
     $request->validate([
         'orderId' => 'required|string|exists:orders,orderId',
-        'field' => 'required|string|in:totalAmount,valuation,OR,AR',
-        'value' => 'nullable|string|max:255'
+        'field' => 'required|string|in:totalAmount,valuation,OR,AR,mark',
+        'value' => 'nullable|string|max:255',
     ]);
 
     $order = Order::where('orderId', $request->orderId)->first();
 
     if ($order) {
-        $order->{$request->field} = ($request->field === 'totalAmount' || $request->field === 'valuation') 
-            ? (float) $request->value 
-            : $request->value;
+        $field = $request->field;
+        $value = $request->value;
 
-        // Automatically update BL status based on OR and AR
-        if (empty($order->OR) && empty($order->AR)) {
-            $order->bl_status = 'UNPAID';
+        if ($field === 'totalAmount' || $field === 'valuation') {
+            // Convert value to a float
+            $value = (float) str_replace(',', '', $value);
+
+            if ($field === 'totalAmount') {
+                $order->totalAmount = $value;
+            } elseif ($field === 'valuation') {
+                $order->value = ($value / 0.0075) - $order->totalAmount;
+            }
+
+            $order->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Updated successfully.',
+                'totalAmount' => number_format($order->totalAmount, 2),
+                'valuation' => number_format($order->value, 2),
+                'totalAmountOverall' => number_format($order->totalAmount + $order->value, 2),
+            ]);
+        } elseif ($field === 'mark') { // ✅ Handle BL REMARK updates
+            $order->mark = $value;
+            $order->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'BL Remark updated successfully.',
+                'mark' => $order->mark,
+            ]);
         } else {
-            $order->bl_status = 'PAID';
-        }
+            // Handle updates to OR and AR fields
+            $order->{$field} = $value;
 
-        $order->save();
+            // Update BL status based on OR and AR
+            if (empty($order->OR) && empty($order->AR)) {
+                $order->bl_status = 'UNPAID';
+            } else {
+                $order->bl_status = 'PAID';
+            }
+
+            $order->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Updated successfully.',
+            ]);
+        }
     }
 
-    return response()->json(['success' => true, 'message' => 'Updated successfully.']);
+    return response()->json([
+        'success' => false,
+        'message' => 'Order not found.',
+    ], 404);
 }
-
 }

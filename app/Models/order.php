@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class order extends Model
+class Order extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
-
-    // Define the primary key if it's not `id`
     protected $primaryKey = 'orderId';
-
-    // If the primary key is not an incrementing integer, set this to false
     public $incrementing = false;
-
-    // Specify the primary key type (if it's not an integer)
     protected $keyType = 'string';
+
     protected $fillable = [
         'shipNum',
         'cID',
@@ -28,11 +25,11 @@ class order extends Model
         'orderCreated',
         'consigneeName',
         'consigneeNum',
-        'voyageNum', // Add voyageNum
-        'containerNum', // Add containerNum
-        'value', // Add containerNum
-        'mark', // Add containerNum
-        'check', // Add containerNum
+        'voyageNum',
+        'containerNum',
+        'value',
+        'mark',
+        'check',
         'cargoID',
         'status',
         'OR',
@@ -42,15 +39,30 @@ class order extends Model
         'createdBy',
         'gates',
         'description',
-        'paid_location',
+    ];
+
+    protected $casts = [
+        'totalAmount' => 'float',
+        'value' => 'float',
     ];
 
     public function parcels()
     {
-        return $this->hasMany(Parcel::class, 'orderId', 'orderId'); // Ensure correct foreign key
+        return $this->hasMany(parcel::class, 'orderId', 'orderId');
     }
-    
-    public function customer(){
-        return $this->belongsTo(CustomerID::class, 'cID', 'cID'); // Adjust foreign and local keys as per your database
+
+    public function customer()
+    {
+        return $this->belongsTo(CustomerID::class, 'cID', 'cID');
+    }
+
+    /**
+     * Calculate the valuation based on totalAmount and value.
+     *
+     * @return float
+     */
+    public function getValuationAttribute()
+    {
+        return ($this->value + $this->totalAmount) * 0.0075;
     }
 }
