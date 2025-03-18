@@ -284,7 +284,7 @@
 <script>
     document.getElementById("exportPdfBtn").addEventListener("click", function () {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('l', 'mm', 'a4'); // Landscape, millimeters, A4
+        const doc = new jsPDF('l', 'mm', 'letter'); // Landscape, millimeters, Letter size
 
         // Get Blade variables as JavaScript variables
         let shipNum = @json($shipNum);
@@ -339,8 +339,8 @@
             head: headers,
             body: data,
             startY: 15, // Reduce top margin
-            theme: 'striped',
-            styles: { fontSize: 10, cellPadding: 2 },
+            theme: 'grid', // Use grid theme to ensure all borders are drawn
+            styles: { fontSize: 10, cellPadding: 1, lineHeight: 1 }, // Reduce line height and cell padding
             columnStyles: {
                 0: { cellWidth: 18 },  // BL#
                 1: { cellWidth: 30 },  // CONTAINER#
@@ -351,7 +351,12 @@
                 6: { cellWidth: 30 },  // CARGO STATUS
                 7: { cellWidth: 30 }   // REMARK
             },
-            margin: { top: 10, left: 5, right: 5, bottom: 5 } // Remove margins
+            margin: { top: 10, left: 5, right: 5, bottom: 5 }, // Remove margins
+            tableLineColor: null, // Remove black border outside
+            tableLineWidth: 0.1, // Border width
+            drawCell: function (cell, data) {
+                cell.styles.lineWidth = 0.1; // Ensure all borders are drawn
+            }
         });
 
         doc.save(`MasterList_Ship${shipNum}_Voyage${orig}.pdf`);
