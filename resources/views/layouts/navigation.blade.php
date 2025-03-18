@@ -36,6 +36,12 @@
                         <p>{{ __('MASTER LIST') }}</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('bl.view') }}" class="nav-link" style="color:white">
+                        <i class="nav-icon fa-solid fa-clipboard-list"></i>
+                        <p>{{ __('CREATE TEMPORARY BL') }}</p>
+                    </a>
+                </li>
                 
             @endif
         </ul>

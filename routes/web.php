@@ -97,6 +97,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/parcels/{shipNum}/{voyageNum}/{orderId}/{dock}/{orig}/store-or', [\App\Http\Controllers\ParcelController::class, 'storeOR'])->name('s.or');
     Route::post('/parcels/{shipNum}/{voyageNum}/{orderId}/{dock}/{orig}/store-ar', [\App\Http\Controllers\ParcelController::class, 'storeAR'])->name('s.ar');
 
+    Route::get('/bl-temp', [\App\Http\Controllers\CBLController::class, 'index'])->name('bl.view');
+
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
