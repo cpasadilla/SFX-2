@@ -44,6 +44,9 @@
         .btn {
             display: none !important;
         }
+        .delete-row {
+            display: none !important; /* Hide delete buttons during print */
+        }
         .table {
             width: 100%; /* Ensure table spans full width */
             max-height: calc(100% - 200px); /* Prevent table from overflowing */
@@ -68,7 +71,6 @@
             font-size: 12px; /* Adjust font size if necessary */
             line-height: 1; /* Remove extra line height */
         }
-        <style>
         .table td {
             text-align: center; /* Center-align all table cells */
         }
@@ -76,6 +78,13 @@
         .table-responsive, #top {
             overflow: hidden !important; /* Prevent overflow */
         }
+        #everwinStarInput {
+            display: none; /* Hide the dropdown during print */
+        }
+        #everwinStarText {
+            display: inline-block; /* Show the text span during print */
+        }
+
         @page {
             margin: 0; /* Ensures no margin at the page level */
             size: letter; /* Ensures the content fits the page */
@@ -147,6 +156,13 @@
     .table td {
         text-align: center; /* Center-align all table cells */
     }
+    .table-container {
+        overflow-y: auto;
+        margin-bottom: 10px;
+        background-color: #f9f9f9; /* Optional: Add a background color */
+        /* Remove or increase max-height */
+        max-height: none; /* Allow unlimited rows */
+    }
 </style>
 
 <div class="container" id="element1">
@@ -187,8 +203,16 @@
                     </div>
 
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
-                    <div class="col-md-3"id="cd-3">
-                        <strong>M/V EVERWIN STAR</strong> <input type="text" id="everwinStarInput" style="text-align: center;display: inline-block; width: 30%; border: none; border-bottom: 1px solid black;" /><br>
+                    <div class="col-md-3" id="cd-3">
+                        <strong>M/V EVERWIN STAR</strong>
+                        <select id="everwinStarInput" style="text-align: center; display: inline-block; width: 30%; border: none; border-bottom: 1px solid black; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: transparent;">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <br>
                     </div>
                     <div class="col-md-3"id="cd-3">
                         <strong>VOYAGE NO.</strong> <input type="text" style="text-align: center;display: inline-block; width: 50%; border: none; border-bottom: 1px solid black;" /><br>
@@ -201,14 +225,25 @@
                     </div>
                 </div>
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
-                    <div class="col-md-4"id="cd-4">
-                        <strong>ORIGIN:</strong> <input type="text" style="text-transform: uppercase; text-align: center;display: inline-block; width: 70%; border: none; border-bottom: 1px solid black;" /><br>
+                    <div class="col-md-4" id="cd-4">
+                        <strong>ORIGIN:</strong>
+                        <select id="originInput" style="text-transform: uppercase; text-align: center; display: inline-block; width: 70%; border: none; border-bottom: 1px solid black; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: transparent;">
+                            <option value="MANILA">MANILA</option>
+                            <option value="BATANES">BATANES</option>
+                        </select>
+                        <br>
                     </div>
-                    <div class="col-md-4"id="cd-4">
-                        <strong>DESTINATION:</strong> <input type="text" style="text-transform: uppercase; text-align: center;display: inline-block; width: 60%; border: none; border-bottom: 1px solid black;" /><br>
+                    <div class="col-md-4" id="cd-4">
+                        <strong>DESTINATION:</strong>
+                        <select id="destinationInput" style="text-transform: uppercase; text-align: center; display: inline-block; width: 60%; border: none; border-bottom: 1px solid black; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: transparent;">
+                            <option value="BATANES">BATANES</option>
+                            <option value="MANILA">MANILA</option>
+                        </select>
+                        <br>
                     </div>
-                    <div class="col-md-4"id="cd-4">
-                        <strong>DATE:</strong> <input type="text" style="text-transform: uppercase; text-align: center;display: inline-block; width: 75%; border: none; border-bottom: 1px solid black;" /><br>
+                    <div class="col-md-4" id="cd-4">
+                        <strong>DATE:</strong> 
+                        <input type="text" id="currentDate" style="text-transform: uppercase; text-align: center; display: inline-block; width: 75%; border: none; border-bottom: 1px solid black;" readonly /><br>
                     </div>
                 </div>
                 <p style="font-size: 5px;"></p>
@@ -243,7 +278,8 @@
                     </div>
                 </div>
                 <p style="font-size: 5px;"></p>
-                <div class="row" style="width: 100%; font-size:15px; margin-right: 10px; margin-left: 5px;">
+                <!-- Wrap the table and button in a container -->
+                <div class="table-container" style="max-height: 500px; overflow-y: auto; margin-bottom: 10px;">
                     <table class="table table-condensed" id="mainTable" style="margin: 0;">
                         <thead style="background-color: #78BF65; color: white;">
                             <tr>
@@ -255,6 +291,7 @@
                                 <th>MEASUREMENT</th>
                                 <th>RATE</th>
                                 <th>FREIGHT</th>
+                                <th style="text-align: center;">ACTION</th> <!-- New column for delete button -->
                             </tr>
                         </thead>
                         <tbody>
@@ -263,11 +300,14 @@
                                 <td style="text-align: center;"><input type="number" style="font-size:15px; text-align: center; width: 100%; border: none;" oninput="calculateFreight()" /></td>
                                 <td style="text-align: center;"><input type="text" style="font-size:15px; text-align: center; text-transform: uppercase; width: 100%; border: none;" /></td>
                                 <td><input type="text" style="font-size:15px; text-transform: uppercase; width: 100%; border: none; white-space: normal;" /></td>
-                                <td><input type="text" style="width: 100%; border: none;" /></td>
-                                <td><input type="text" style="width: 100%; border: none;" /></td>
+                                <td style="text-align: center;"><input type="text" style="width: 100%; text-align: center; border: none;" /></td>
+                                <td style="text-align: center;"><input type="text" style="width: 100%; text-align: center; border: none;" /></td>
                                 <td style="text-align: center;"><input type="text" style="width: 100%; text-align: center; border: none;" /></td>
                                 <td style="text-align: right;"><input type="number" style="width: 100%; border: none; text-align: right;" oninput="calculateFreight()" /></td>
                                 <td style="text-align: center;"><input type="text" style="width: 100%; border: none; background-color: #f9f9f9; text-align: center;" readonly /></td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-danger btn-sm delete-row" onclick="deleteRow(this)">Delete</button>
+                                </td>
                             </tr>
                             <!-- VALUE row -->
                             <tr>
@@ -279,12 +319,18 @@
                                 </td>
                                 <td></td>
                                 <td></td>
-                                <td style="font-weight: bold;"><input type="text" value="₱" style="font-size:15px; color: black; font-weight: bold; width: 100%; border: none; text-align: left;" /></td>
-                                <td style="font-weight: bold;"><input type="text" style="font-size:15px; color: black; font-weight: bold; width: 100%; text-align: right; border: none;" /></td>
+                                <td style="font-weight: bold; text-align: center;">
+                                    <input type="text" value="₱" style="font-size:15px; color: black; font-weight: bold; width: 100%; text-align: center; border: none;" />
+                                </td>
+                                <td style="font-weight: bold; text-align: center;">
+                                    <input type="text" style="font-size:15px; color: black; font-weight: bold; width: 100%; text-align: center; border: none;" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- Add Row Button -->
+                </div>
+                <!-- Keep the button outside the scrollable container -->
+                <div class="text-center">
                     <button class="btn btn-primary mt-2" onclick="addRow()">Add Row</button>
                 </div>
                 <p style="font-size: 5px;"></p>
@@ -334,8 +380,25 @@
                         <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
                     <div class="row pl-3">
-                        <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                            <input type="text" style="width: 90%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;" id="cd-7">
+                            <select id="nameDropdown" style="width: 90%; border: none; border-bottom: 1px solid black; text-align: center; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: transparent;">
+                                <option value=" "> </option>
+                                <option value="ALDAY">ALDAY</option>
+                                <option value="ANCHETA">ANCHETA</option>
+                                <option value="BERNADOS">BERNADOS</option>
+                                <option value="CACHO">CACHO</option>
+                                <option value="ESGUERRA">ESGUERRA</option>
+                                <option value="MORENO">MORENO</option>
+                                <option value="VICTORIANO">VICTORIANO</option>
+                                <option value="YUMUL">YUMUL</option>
+                                <option value="ZERRUDO">ZERRUDO</option>
+                                <option value="SOL">SOL</option>
+                                <option value="TIRSO">TIRSO</option>
+                                <option value="VARGAS">VARGAS</option>
+                                <option value="NICK">NICK</option>
+                                <option value="JOSIE">JOSIE</option>
+                                <option value="JEN">JEN</option>
+                            </select>
                         </div>
                         <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
                             <span style="text-align: right; font-size: 15px;">VAT :</span>
@@ -429,72 +492,18 @@
     }
 </script>
 <script>
-    // Function to add a new row above the "VALUE:" row
-    function addRow() {
-        const table = document.getElementById('mainTable').getElementsByTagName('tbody')[0];
-        const valueRow = table.querySelector('tr:last-child'); // Target the "VALUE:" row (last row in this case)
-        const newRow = table.insertRow(valueRow.rowIndex - 1); // Insert the new row above the "VALUE:" row
-
-        // Add cells with input elements
-        for (let i = 0; i < 8; i++) {
-            const newCell = newRow.insertCell(i);
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.style = 'width: 100%; border: none;'; // Default styles
-
-            // Apply specific alignment for "DESCRIPTION" and "RATE" columns
-            if (i === 2) { // DESCRIPTION column
-                newCell.style.textAlign = 'left';
-                input.style.textAlign = 'left';
-                input.style.textTransform = 'uppercase'; // Apply uppercase for description
-                input.style.whiteSpace = 'normal'; // Allow text wrapping
-            } else if (i === 6) { // RATE column
-                newCell.style.textAlign = 'right';
-                input.style.textAlign = 'right';
-                input.type = 'number'; // Ensure RATE is numeric
-                input.step = '0.01'; // Allow decimal values
-            } else {
-                newCell.style.textAlign = 'center'; // Default alignment for other columns
-                input.style.textAlign = 'center';
-            }
-
-            if (i === 0 || i === 6) {
-                input.type = 'number'; // Ensure QTY and RATE are numeric inputs
-                input.step = '0.01'; // Allow decimal values
-            }
-            if (i === 7) {
-                input.type = 'text'; // FREIGHT is computed and not editable
-                input.readOnly = true;
-                input.style.backgroundColor = '#f9f9f9'; // Make it visually distinct
-            }
-            input.addEventListener('input', calculateFreight); // Attach event listener for calculation
-            newCell.appendChild(input);
-        }
-    }
-
-    // Function to calculate FREIGHT for each row
-    function calculateFreight() {
-        const table = document.getElementById('mainTable').getElementsByTagName('tbody')[0];
-        const rows = table.querySelectorAll('tr');
-
-        rows.forEach(row => {
-            const qtyInput = row.cells[0]?.querySelector('input'); // QTY column
-            const rateInput = row.cells[6]?.querySelector('input'); // RATE column
-            const freightInput = row.cells[7]?.querySelector('input'); // FREIGHT column
-
-            if (qtyInput && rateInput && freightInput) {
-                const qty = parseFloat(qtyInput.value) || 0; // Default to 0 if empty
-                const rate = parseFloat(rateInput.value.replace(/,/g, '')) || 0; // Remove commas before parsing
-                const freight = qty * rate;
-
-                // Format FREIGHT with two decimal points and commas
-                freightInput.value = freight > 0 ? formatNumber(freight) : '';
-            }
-        });
-    }
-
     function printContent(containerId) {
         const container = document.getElementById(containerId);
+
+        // Hide the "ACTION" column and "Delete" buttons
+        const actionColumnIndex = 8; // Index of the "ACTION" column
+        const rows = container.querySelectorAll('tr');
+        rows.forEach(row => {
+            const cells = row.cells;
+            if (cells[actionColumnIndex]) {
+                cells[actionColumnIndex].style.display = 'none'; // Hide the "ACTION" column
+            }
+        });
 
         // Replace input elements with spans for printing
         const inputs = container.querySelectorAll('input');
@@ -518,31 +527,104 @@
         // Print the content
         window.print();
 
-        // Restore input elements after printing, except for specified spans
+        // Restore input elements and "ACTION" column after printing
         const spans = container.querySelectorAll('span');
         spans.forEach(span => {
-            // Check if the span matches the specified non-editable elements
-            const nonEditableTexts = [
-                "BILL OF LADING",
-                "Freight :",
-                "Valuation :",
-                "Wharfage :",
-                "VAT :",
-                "Other Charges :",
-                "Stuffing/Stippings :",
-                "TOTAL :"
-            ];
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.style.textAlign = span.style.textAlign;
+            input.style.display = span.style.display;
+            input.style.width = span.style.width;
+            input.style.border = 'none'; // Remove borders
+            input.style.borderBottom = span.style.borderBottom;
+            input.value = span.textContent.replace(/,/g, ''); // Remove commas for restoration
+            span.parentNode.replaceChild(input, span);
+        });
 
-            if (!nonEditableTexts.includes(span.textContent.trim())) {
+        rows.forEach(row => {
+            const cells = row.cells;
+            if (cells[actionColumnIndex]) {
+                cells[actionColumnIndex].style.display = ''; // Restore the "ACTION" column
+            }
+        });
+    }
+</script>
+<script>
+    // Function to add a new row above the "VALUE:" row
+    function addRow() {
+        const table = document.getElementById('mainTable').getElementsByTagName('tbody')[0];
+        const valueRow = table.querySelector('tr:last-child'); // Target the "VALUE:" row (last row in this case)
+        const newRow = table.insertRow(valueRow.rowIndex - 1); // Insert the new row above the "VALUE:" row
+
+        // Add cells with input elements
+        for (let i = 0; i < 9; i++) { // Add an extra column for the delete button
+            const newCell = newRow.insertCell(i);
+
+            if (i === 8) { // Add the delete button in the last column
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'btn btn-danger btn-sm delete-row'; // Add a class for styling
+                deleteButton.onclick = () => newRow.remove(); // Attach the delete function
+                newCell.appendChild(deleteButton);
+                newCell.style.textAlign = 'center'; // Center-align the button
+            } else {
                 const input = document.createElement('input');
                 input.type = 'text';
-                input.style.textAlign = span.style.textAlign;
-                input.style.display = span.style.display;
-                input.style.width = span.style.width;
-                input.style.border = 'none'; // Remove borders
-                input.style.borderBottom = span.style.borderBottom;
-                input.value = span.textContent.replace(/,/g, ''); // Remove commas for restoration
-                span.parentNode.replaceChild(input, span);
+                input.style = 'width: 100%; border: none;'; // Default styles
+
+                // Apply specific alignment for "DESCRIPTION" and "RATE" columns
+                if (i === 2) { // DESCRIPTION column
+                    newCell.style.textAlign = 'left';
+                    input.style.textAlign = 'left';
+                    input.style.textTransform = 'uppercase'; // Apply uppercase for description
+                    input.style.whiteSpace = 'normal'; // Allow text wrapping
+                } else if (i === 6) { // RATE column
+                    newCell.style.textAlign = 'right';
+                    input.style.textAlign = 'right';
+                    input.type = 'number'; // Ensure RATE is numeric
+                    input.step = '0.01'; // Allow decimal values
+                } else {
+                    newCell.style.textAlign = 'center'; // Default alignment for other columns
+                    input.style.textAlign = 'center';
+                }
+
+                if (i === 0 || i === 6) {
+                    input.type = 'number'; // Ensure QTY and RATE are numeric inputs
+                    input.step = '0.01'; // Allow decimal values
+                }
+                if (i === 7) {
+                    input.type = 'text'; // FREIGHT is computed and not editable
+                    input.readOnly = true;
+                    input.style.backgroundColor = '#f9f9f9'; // Make it visually distinct
+                }
+                input.addEventListener('input', calculateFreight); // Attach event listener for calculation
+                newCell.appendChild(input);
+            }
+        }
+    }
+
+    function deleteRow(button) {
+        const row = button.closest('tr'); // Find the closest row to the button
+        row.remove(); // Remove the row
+    }
+
+    // Function to calculate FREIGHT for each row
+    function calculateFreight() {
+        const table = document.getElementById('mainTable').getElementsByTagName('tbody')[0];
+        const rows = table.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const qtyInput = row.cells[0]?.querySelector('input'); // QTY column
+            const rateInput = row.cells[6]?.querySelector('input'); // RATE column
+            const freightInput = row.cells[7]?.querySelector('input'); // FREIGHT column
+
+            if (qtyInput && rateInput && freightInput) {
+                const qty = parseFloat(qtyInput.value) || 0; // Default to 0 if empty
+                const rate = parseFloat(rateInput.value.replace(/,/g, '')) || 0; // Remove commas before parsing
+                const freight = qty * rate;
+
+                // Format FREIGHT with two decimal points and commas
+                freightInput.value = freight > 0 ? formatNumber(freight) : '';
             }
         });
     }
@@ -552,4 +634,27 @@
         return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 </script>
+<script>
+    // Function to format the current date
+    function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options).toUpperCase();
+    }
+
+    // Set the current date in the input field
+    document.getElementById('currentDate').value = formatDate(new Date());
+</script>
+<script>
+    // Sync the selected value of the dropdown to the span
+    const dropdown = document.getElementById('everwinStarInput');
+    const textSpan = document.getElementById('everwinStarText');
+
+    dropdown.addEventListener('change', () => {
+        textSpan.textContent = dropdown.options[dropdown.selectedIndex].text;
+    });
+
+    // Set the initial value of the span
+    textSpan.textContent = dropdown.options[dropdown.selectedIndex].text;
+</script>
+
 @endsection
