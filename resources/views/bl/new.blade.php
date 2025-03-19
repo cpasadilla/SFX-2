@@ -11,55 +11,74 @@
         html, body {
             margin: 0;
             padding: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
+            width: 8.5in; /* Letter width */
+            height: 11in; /* Letter height */
             overflow: hidden;
         }
         footer {
-                position: fixed;
-                bottom: 0;
-                width: 95%;
-                font-size: 12px;
-                background: #fff;
-                padding-bottom: 20px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 12px;
+            background: #fff;
+            padding-bottom: 10px;
         }
         .card {
             display: block;
             width: 8.5in; /* Exactly the paper width */
-            height: 13.0in; /* Exactly the paper height */
+            height: 12.5in; /* Exactly the paper height */
             margin: 0 !important; /* Remove margins */
             padding: 0 !important; /* Remove padding */
             box-sizing: border-box;
+            position: relative; /* Ensure relative positioning for content */
         }
         #printContainer {
             width: 8.5in;
-            height: 14.3in;
+            height: 12.5in;
             margin: 0 !important;
             padding: 0 !important;
             box-sizing: border-box;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
+            position: relative; /* Ensure relative positioning for footer */
+        }
+        .btn {
+            display: none !important;
         }
         .table {
             width: 100%; /* Ensure table spans full width */
+            max-height: calc(100% - 200px); /* Prevent table from overflowing */
+            overflow: hidden;
         }
         /* Ensure the table header uses exact colors */
         .table th {
-            background-color: #78BF65 !important;
-            color: #fff !important;
+            background-color: #78BF65 !important; /* Ensure the header background color */
+            color: #fff !important; /* Ensure the header text color */
+            -webkit-print-color-adjust: exact; /* For WebKit browsers (e.g., Chrome, Edge) */
+            print-color-adjust: exact; /* For other browsers */
+        }
+        .table td:nth-child(3) { /* Target the "DESCRIPTION" column */
+            text-align: left !important; /* Align text to the left */
+        }
+        .table td:nth-child(7) { /* Target the "RATE" column */
+            text-align: right !important; /* Align text to the right */
         }
         /* Adjust table rows for consistent spacing */
         .table td, .table th {
             padding: 5px; /* Adjust padding for better fit */
             font-size: 12px; /* Adjust font size if necessary */
+            line-height: 1; /* Remove extra line height */
+        }
+        <style>
+        .table td {
+            text-align: center; /* Center-align all table cells */
         }
         /* Ensure no overflow for responsive elements */
         .table-responsive, #top {
-            overflow: visible !important;
+            overflow: hidden !important; /* Prevent overflow */
         }
         @page {
             margin: 0; /* Ensures no margin at the page level */
-            size: auto; /* Ensures the content fits the page */
+            size: letter; /* Ensures the content fits the page */
         }
         .content-container {
             width: 100%; /* Expands the content to fill the width */
@@ -91,16 +110,54 @@
             max-width: 58.33%;
         }
     }
+    /* On-screen layout adjustments */
+    .table td, .table th {
+        line-height: 1; /* Remove extra line height on screen */
+    }
+    .table td:nth-child(3) { /* Target the "DESCRIPTION" column */
+        text-align: left; /* Align text to the left */
+    }
+    .table td:nth-child(7) { /* Target the "RATE" column */
+        text-align: right; /* Align text to the right */
+    }
+    .card {
+        width: 8.5in;
+        height: 12.5in; /* Exactly the paper height */
+        margin: auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #printContainer {
+        width: 8.5in;
+        height: 12.5in;
+        margin: auto;
+        padding: 0;
+        box-sizing: border-box;
+        position: relative;
+    }
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 12px;
+        background: #fff;
+        padding-bottom: 10px;
+    }
+    <style>
+    .table td {
+        text-align: center; /* Center-align all table cells */
+    }
 </style>
+
 <div class="container" id="element1">
     <br>
     <div class="col text-right">
         <button class="btn btn-success" onclick="printContent('printContainer')">PRINT</button>
     </div>
 </div><br>
-<!--PRINT BLOCK -->
-<div class="d-print-block" >
-    <div class="container d-flex justify-content-center align-items-center" >
+<!-- PRINT BLOCK -->
+<div class="d-print-block">
+    <div class="container d-flex justify-content-center align-items-center">
         <div class="card" style="width: 885px;">
             <div class="card-body" id="printContainer" style="width: 875px; padding:0;">
                 <div class="row" id="top" style="background-color: #ffffff; color: black; margin: 0; padding: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
@@ -126,7 +183,7 @@
                 </div>
                 <!-- Display the empty <p> tag when status is null or blank -->
                     <div style="display: flex; font-weight: bold; justify-content: flex-end; align-items: center; padding-right:30px; font-size: 15px; ">
-                        <span style="color: white;">.</span>
+                        <span style="color: white;"></span>
                     </div>
 
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
@@ -156,40 +213,42 @@
                 </div>
                 <p style="font-size: 5px;"></p>
                 <div class="row" style="padding-left:30px; padding-right:10px;font-size:14px">
-                    <div class="col-md-5"id="cd-5">
-                            <strong>SHIPPER:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 83%; border-bottom: 1px solid black;"></span><br>
+                    <div class="col-md-5" id="cd-5">
+                        <strong>SHIPPER:</strong> 
+                        <input type="text" style="text-transform: uppercase; text-align: center; display: inline-block; width: 83%; border: none; border-bottom: 1px solid black;" /><br>
                     </div>
-                    <div class="col-md-7" style="text-align: right; padding-right:30px;"id="cd-7">
-                            <strong>CONSIGNEE:</strong> <span style="text-transform: uppercase; text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"></span><br>
-                    </div>
-                </div>
-                <div class="row" style="padding-left:30px; font-size:14px">
-                    <div class="col-md-5"id="cd-5">
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 75%; border-bottom: 1px solid black;"><span style="color: white;">.</span></span><br>
-                    </div>
-                    <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
-                            <strong>CONTACT NO.</strong> <span style="text-align: center;display: inline-block; width: 69%; border-bottom: 1px solid black;"><span style="color: white;">.</span></span><br>
+                    <div class="col-md-7" style="text-align: right; padding-right:30px;" id="cd-7">
+                        <strong>CONSIGNEE:</strong> 
+                        <input type="text" style="text-transform: uppercase; text-align: center; display: inline-block; width: 69%; border: none; border-bottom: 1px solid black;" /><br>
                     </div>
                 </div>
                 <div class="row" style="padding-left:30px; font-size:14px">
-                    <div class="col-md-5"id="cd-5">
-                            <strong>GATE PASS NO.</strong> <span style="text-align: center;display: inline-block; width: 73%; border-bottom: 1px solid black;"><span style="color: white;">.</span></span><br>
+                    <div class="col-md-5" id="cd-5">
+                        <strong>CONTACT NO.</strong> 
+                        <input type="text" style="text-align: center; display: inline-block; width: 75%; border: none; border-bottom: 1px solid black;" /><br>
                     </div>
-                    <div class="col-md-7" style="text-align: right; padding-right:40px;"id="cd-7">
-                            <strong>REMARK: </strong> 
-                            <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 69%; border-bottom: 1px solid black;">
-                                <span style="text-transform: uppercase; color: white;">.</span>
-                                <span style="text-transform: uppercase; color: black;"></span>
-                            </span>
+                    <div class="col-md-7" style="text-align: right; padding-right:40px;" id="cd-7">
+                        <strong>CONTACT NO.</strong> 
+                        <input type="text" style="text-align: center; display: inline-block; width: 69%; border: none; border-bottom: 1px solid black;" /><br>
+                    </div>
+                </div>
+                <div class="row" style="padding-left:30px; font-size:14px">
+                    <div class="col-md-5" id="cd-5">
+                        <strong>GATE PASS NO.</strong> 
+                        <input type="text" style="text-align: center; display: inline-block; width: 73%; border: none; border-bottom: 1px solid black;" /><br>
+                    </div>
+                    <div class="col-md-7" style="text-align: right; padding-right:40px;" id="cd-7">
+                        <strong>REMARK:</strong> 
+                        <input type="text" style="text-transform: uppercase; text-align: center; display: inline-block; width: 69%; border: none; border-bottom: 1px solid black;" /><br>
                     </div>
                 </div>
                 <p style="font-size: 5px;"></p>
                 <div class="row" style="width: 100%; font-size:15px; margin-right: 10px; margin-left: 5px;">
-                    <table class="table table-condensed" style="margin: 0;">
+                    <table class="table table-condensed" id="mainTable" style="margin: 0;">
                         <thead style="background-color: #78BF65; color: white;">
                             <tr>
-                                <th>QTY</th>
-                                <th>UNIT</th>
+                                <th style="text-align: center;">QTY</th>
+                                <th style="text-align: center;">UNIT</th>
                                 <th>DESCRIPTION</th>
                                 <th>VALUE</th>
                                 <th>WEIGHT</th>
@@ -199,110 +258,115 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Table rows with data -->
-                                <tr>
-                                    <td style="font-size:15px; text-align: center;"></td>
-                                    <td style="font-size:15px; text-transform: uppercase;"></td>
-                                    <td style="font-size:15px; text-transform: uppercase;"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                            <!-- Initial row -->
+                            <tr style="font-size:14px">
+                                <td style="text-align: center;"><input type="number" style="font-size:15px; text-align: center; width: 100%; border: none;" oninput="calculateFreight()" /></td>
+                                <td style="text-align: center;"><input type="text" style="font-size:15px; text-align: center; text-transform: uppercase; width: 100%; border: none;" /></td>
+                                <td><input type="text" style="font-size:15px; text-transform: uppercase; width: 100%; border: none; white-space: normal;" /></td>
+                                <td><input type="text" style="width: 100%; border: none;" /></td>
+                                <td><input type="text" style="width: 100%; border: none;" /></td>
+                                <td style="text-align: center;"><input type="text" style="width: 100%; text-align: center; border: none;" /></td>
+                                <td style="text-align: right;"><input type="number" style="width: 100%; border: none; text-align: right;" oninput="calculateFreight()" /></td>
+                                <td style="text-align: center;"><input type="text" style="width: 100%; border: none; background-color: #f9f9f9; text-align: center;" readonly /></td>
+                            </tr>
+                            <!-- VALUE row -->
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><strong style="font-size:15px; color: black;">VALUE: </strong></td>
+                                <td>
+                                    <input type="text" value="VALUE:" style="font-size:15px; color: black; font-weight: bold; width: 100%; border: none; text-align: left;" />
+                                </td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
+                                <td style="font-weight: bold;"><input type="text" value="₱" style="font-size:15px; color: black; font-weight: bold; width: 100%; border: none; text-align: left;" /></td>
+                                <td style="font-weight: bold;"><input type="text" style="font-size:15px; color: black; font-weight: bold; width: 100%; text-align: right; border: none;" /></td>
                             </tr>
                         </tbody>
                     </table>
+                    <!-- Add Row Button -->
+                    <button class="btn btn-primary mt-2" onclick="addRow()">Add Row</button>
                 </div>
                 <p style="font-size: 5px;"></p>
                 <footer>
-                <div class="row pl-3">
-                    <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
-                        <p style="margin: 0;"><strong style="color: black;">Terms and Conditions:</strong></p>
+                    <div class="row pl-3">
+                        <div class="col-md-12" id="cd-3" style="font-size: 15px; margin: 0; padding: 0;">
+                            <p style="margin: 0;"><strong style="color: black;">Terms and Conditions:</strong></p>
+                        </div>
                     </div>
-                </div>
-                <div class="row pl-3" style="margin: 0; padding: 0;">
-                    <div class="col-md-12" style="font-size: 15px; margin: 0; padding: 0;">
-                        <p style="margin: 0;">1. We are not responsible for losses and damages due to improper packing.</p>
+                    <div class="row pl-3" style="margin: 0; padding: 0;">
+                        <div class="col-md-12" style="font-size: 15px; margin: 0; padding: 0;">
+                            <p style="margin: 0;">1. We are not responsible for losses and damages due to improper packing.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="row pl-3" style="margin: 0; padding: 0;">
-                    <div class="col-md-12" style="font-size: 15px; margin: 0; padding: 0;">
-                        <p style="margin: 0;">2. Claims on cargo losses and/or damages must be filed within 5 (five) days after unloading.</p>
+                    <div class="row pl-3" style="margin: 0; padding: 0;">
+                        <div class="col-md-12" style="font-size: 15px; margin: 0; padding: 0;">
+                            <p style="margin: 0;">2. Claims on cargo losses and/or damages must be filed within 5 (five) days after unloading.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="row pl-3" style="margin: 0; padding: 0;">
-                    <div class="col-md-12" style="font-size: 15px; margin: 0; padding: 0;">
-                        <p style="margin: 0;">3. Unclaimed cargoes shall be considered forfeited after 30 (thirty) days upon unloading.</p>
+                    <div class="row pl-3" style="margin: 0; padding: 0;">
+                        <div class="col-md-12" style="font-size: 15px; margin: 0; padding: 0;">
+                            <p style="margin: 0;">3. Unclaimed cargoes shall be considered forfeited after 30 (thirty) days upon unloading.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7"id="cd-7"></div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <span style="text-align: right; font-size: 15px;">Freight :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.</span>
+                    <div class="row pl-3">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-size: 15px;">Freight :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7" style="padding-left:60px; font-size: 15px;"id="cd-7">Received on board vessel in apparent good condition.</div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <span style="text-align: right; font-size: 15px;">Valuation :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color:white;">.</span>
+                    <div class="row pl-3">
+                        <div class="col-md-7" style="padding-left:60px; font-size: 15px;"id="cd-7">Received on board vessel in apparent good condition.</div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-size: 15px;">Valuation :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7"id="cd-7"></div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <span style="text-align: right; font-size: 15px;">Wharfage :</span>
-                        <span style="text-align: left; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
+                    <div class="row pl-3">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-size: 15px;">Wharfage :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
-                        <span style="text-transform: uppercase; text-align: center; display: inline-block; width: 90%; border-bottom: 1px solid black; font-size: 15px;"><strong style="color: black;">.</strong></span>
+                    <div class="row pl-3">
+                        <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;"id="cd-7">
+                            <input type="text" style="width: 90%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-size: 15px;">VAT :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <span style="text-align: right; font-size: 15px;">VAT :</span>
-                        <span style="text-align: left; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
+                    <div class="row pl-3">
+                        <div class="col-md-7" style="padding-left:130px; font-size: 15px;"id="cd-7">Vessel's Checker or Authorized Representative</div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-size: 15px;">Other Charges :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7" style="padding-left:130px; font-size: 15px;"id="cd-7">Vessel's Checker or Authorized Representative</div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <span style="text-align: right; font-size: 15px;">Other Charges :</span>
-                        <span style="text-align: left; font-size: 15px; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
+                    <div class="row pl-3">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-size: 15px;">Stuffing/Stippings :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7"id="cd-7"></div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <span style="text-align: right; font-size: 15px;">Stuffing/Stippings :</span>
-                        <span style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</span>
+                    <div class="row pl-3">
+                        <div class="col-md-7"id="cd-7"></div>
+                        <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
+                            <span style="text-align: right; font-weight: bold; font-size: 15px;">TOTAL :</span>
+                            <input type="text" style="width: 50%; border: none; border-bottom: 1px solid black; text-align: center;" />
+                        </div>
+                        <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
                     </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
-                <div class="row pl-3">
-                    <div class="col-md-7"id="cd-7"></div>
-                    <div class="col-md-4" style="display: flex; justify-content: space-between; align-items: center;"id="cd-4">
-                        <strong style="text-align: right; font-size: 15px; color: black;">TOTAL :</strong>
-                        <strong style="text-align: center; display: inline-block; width: 50%; border-bottom: 1px solid black; color: white;">.</strong>
-                    </div>
-                    <div class="col-md-1" style="padding-left:20px;"id="cd-1"></div>
-                </div>
                 </footer><br><br>
             </div>
         </div>
@@ -310,38 +374,182 @@
 </div>
 <!-- END PRINT-->
 <script>
-function printContent(containerId) {
-    var container = document.getElementById(containerId);
-    var element1 = document.getElementById("element1");
+    function printContent(containerId) {
+        const container = document.getElementById(containerId);
 
-    // Get all input elements and replace them with spans for printing
-    var inputs = container.querySelectorAll('input');
-    inputs.forEach(function(input) {
-        var span = document.createElement('span');
-        span.style.textAlign = input.style.textAlign;
-        span.style.display = input.style.display;
-        span.style.width = input.style.width;
-        span.style.borderBottom = input.style.borderBottom;
-        span.textContent = input.value;
-        input.parentNode.replaceChild(span, input);
-    });
+        // Replace input elements with spans for printing
+        const inputs = container.querySelectorAll('input');
+        inputs.forEach(input => {
+            const span = document.createElement('span');
+            span.style.textAlign = input.style.textAlign;
+            span.style.display = input.style.display;
+            span.style.width = input.style.width;
+            span.style.borderBottom = input.style.borderBottom;
 
-    // Temporarily hide unnecessary elements
-    element1.style.display = "none";
-    // Print the content
-    window.print();
-    // Restore visibility and input fields
-    element1.style.display = "block";
-    var spans = container.querySelectorAll('span');
-    spans.forEach(function(span) {
-        var input = document.createElement('input');
-        input.style.textAlign = span.style.textAlign;
-        input.style.display = span.style.display;
-        input.style.width = span.style.width;
-        input.style.borderBottom = span.style.borderBottom;
-        input.value = span.textContent;
-        span.parentNode.replaceChild(input, span);
-    });
-}
+            // Format RATE and FREIGHT columns for printing
+            if (input.type === 'number' && input.value) {
+                span.textContent = formatNumber(parseFloat(input.value.replace(/,/g, '')));
+            } else {
+                span.textContent = input.value;
+            }
+
+            input.parentNode.replaceChild(span, input);
+        });
+
+        // Print the content
+        window.print();
+
+        // Restore input elements after printing, except for specified spans
+        const spans = container.querySelectorAll('span');
+        spans.forEach(span => {
+            // Check if the span matches the specified non-editable elements
+            const nonEditableTexts = [
+                "BILL OF LADING",
+                "Freight :",
+                "Valuation :",
+                "Wharfage :",
+                "VAT :",
+                "Other Charges :",
+                "Stuffing/Stippings :",
+                "TOTAL :"
+            ];
+
+            if (!nonEditableTexts.includes(span.textContent.trim())) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.style.textAlign = span.style.textAlign;
+                input.style.display = span.style.display;
+                input.style.width = span.style.width;
+                input.style.border = 'none'; // Remove borders
+                input.style.borderBottom = span.style.borderBottom;
+                input.value = span.textContent.replace(/,/g, ''); // Remove commas for restoration
+                span.parentNode.replaceChild(input, span);
+            }
+        });
+    }
+</script>
+<script>
+    // Function to add a new row above the "VALUE:" row
+    function addRow() {
+        const table = document.getElementById('mainTable').getElementsByTagName('tbody')[0];
+        const valueRow = table.querySelector('tr:last-child'); // Target the "VALUE:" row (last row in this case)
+        const newRow = table.insertRow(valueRow.rowIndex - 1); // Insert the new row above the "VALUE:" row
+
+        // Add cells with input elements
+        for (let i = 0; i < 8; i++) {
+            const newCell = newRow.insertCell(i);
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.style = 'width: 100%; border: none;'; // Default styles
+
+            // Apply specific alignment for "DESCRIPTION" and "RATE" columns
+            if (i === 2) { // DESCRIPTION column
+                newCell.style.textAlign = 'left';
+                input.style.textAlign = 'left';
+                input.style.textTransform = 'uppercase'; // Apply uppercase for description
+                input.style.whiteSpace = 'normal'; // Allow text wrapping
+            } else if (i === 6) { // RATE column
+                newCell.style.textAlign = 'right';
+                input.style.textAlign = 'right';
+                input.type = 'number'; // Ensure RATE is numeric
+                input.step = '0.01'; // Allow decimal values
+            } else {
+                newCell.style.textAlign = 'center'; // Default alignment for other columns
+                input.style.textAlign = 'center';
+            }
+
+            if (i === 0 || i === 6) {
+                input.type = 'number'; // Ensure QTY and RATE are numeric inputs
+                input.step = '0.01'; // Allow decimal values
+            }
+            if (i === 7) {
+                input.type = 'text'; // FREIGHT is computed and not editable
+                input.readOnly = true;
+                input.style.backgroundColor = '#f9f9f9'; // Make it visually distinct
+            }
+            input.addEventListener('input', calculateFreight); // Attach event listener for calculation
+            newCell.appendChild(input);
+        }
+    }
+
+    // Function to calculate FREIGHT for each row
+    function calculateFreight() {
+        const table = document.getElementById('mainTable').getElementsByTagName('tbody')[0];
+        const rows = table.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const qtyInput = row.cells[0]?.querySelector('input'); // QTY column
+            const rateInput = row.cells[6]?.querySelector('input'); // RATE column
+            const freightInput = row.cells[7]?.querySelector('input'); // FREIGHT column
+
+            if (qtyInput && rateInput && freightInput) {
+                const qty = parseFloat(qtyInput.value) || 0; // Default to 0 if empty
+                const rate = parseFloat(rateInput.value.replace(/,/g, '')) || 0; // Remove commas before parsing
+                const freight = qty * rate;
+
+                // Format FREIGHT with two decimal points and commas
+                freightInput.value = freight > 0 ? formatNumber(freight) : '';
+            }
+        });
+    }
+
+    function printContent(containerId) {
+        const container = document.getElementById(containerId);
+
+        // Replace input elements with spans for printing
+        const inputs = container.querySelectorAll('input');
+        inputs.forEach(input => {
+            const span = document.createElement('span');
+            span.style.textAlign = input.style.textAlign;
+            span.style.display = input.style.display;
+            span.style.width = input.style.width;
+            span.style.borderBottom = input.style.borderBottom;
+
+            // Format RATE and FREIGHT columns for printing
+            if (input.type === 'number' && input.value) {
+                span.textContent = formatNumber(parseFloat(input.value.replace(/,/g, '')));
+            } else {
+                span.textContent = input.value;
+            }
+
+            input.parentNode.replaceChild(span, input);
+        });
+
+        // Print the content
+        window.print();
+
+        // Restore input elements after printing, except for specified spans
+        const spans = container.querySelectorAll('span');
+        spans.forEach(span => {
+            // Check if the span matches the specified non-editable elements
+            const nonEditableTexts = [
+                "BILL OF LADING",
+                "Freight :",
+                "Valuation :",
+                "Wharfage :",
+                "VAT :",
+                "Other Charges :",
+                "Stuffing/Stippings :",
+                "TOTAL :"
+            ];
+
+            if (!nonEditableTexts.includes(span.textContent.trim())) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.style.textAlign = span.style.textAlign;
+                input.style.display = span.style.display;
+                input.style.width = span.style.width;
+                input.style.border = 'none'; // Remove borders
+                input.style.borderBottom = span.style.borderBottom;
+                input.value = span.textContent.replace(/,/g, ''); // Remove commas for restoration
+                span.parentNode.replaceChild(input, span);
+            }
+        });
+    }
+
+    // Function to format numbers with commas and two decimal points
+    function formatNumber(num) {
+        return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
 </script>
 @endsection
