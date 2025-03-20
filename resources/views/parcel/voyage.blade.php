@@ -30,43 +30,51 @@
         margin-bottom: 10px;
     }
     .table-container {
-    position: relative;
-}
+        position: relative;
+        width: 100%;
+    }
 
-.table-scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-}
+    .table-scroll .table-responsive {
+        overflow: auto; /* Enable both horizontal and vertical scrolling */
+        max-height: 500px; /* Set a maximum height for vertical scrolling */
+        border: 1px solid #dee2e6; /* Optional: Add a border around the table */
+    }
 
-.floating-scrollbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 16px; /* Height of the scrollbar */
-    background: #f8f9fa; /* Match table header background */
-    z-index: 10;
-}
+    .table-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
 
-.floating-scrollbar .scrollbar {
-    height: 16px;
-    overflow-x: auto;
-    overflow-y: hidden;
-}
+    .floating-scrollbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 16px; /* Height of the scrollbar */
+        background: #f8f9fa; /* Match table header background */
+        z-index: 10;
+    }
 
-.floating-scrollbar .scrollbar::-webkit-scrollbar {
-    height: 8px; /* Height of the scrollbar */
-}
+    .floating-scrollbar .scrollbar {
+        height: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
 
-.floating-scrollbar .scrollbar::-webkit-scrollbar-thumb {
-    background: #888; /* Thumb color */
-    border-radius: 4px;
-}
+    .floating-scrollbar .scrollbar::-webkit-scrollbar {
+        height: 8px; /* Height of the scrollbar */
+    }
 
-.floating-scrollbar .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Thumb color on hover */
-}
+    .floating-scrollbar .scrollbar::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+        border-radius: 4px;
+    }
+
+    .floating-scrollbar .scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Thumb color on hover */
+    }
+
     .filter-container select,
     .filter-container input {
         width: auto;
@@ -282,285 +290,287 @@
                         {{ $orders->links() }}
                         <div class="table-container">
                             <div class="table-scroll">
-                                <table id="myTable2" class="table">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>BL# 
-                                                <select class="filter searchable-dropdown" name="orderId">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($filterOrders->pluck('orderId')->filter()->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('orderId') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th style="text-align: center;">DATE CREATED</th>
-                                            <th>CONTAINER# 
-                                                <select class="filter searchable-dropdown" name="containerNum">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($filterOrders->pluck('containerNum')->filter()->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('containerNum') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th>SHIPPER 
-                                                <select class="filter searchable-dropdown" name="consigneeName">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($filterOrders->pluck('consigneeName')->filter()->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('consigneeName') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th>CONSIGNEE 
-                                                <select class="filter searchable-dropdown" name="shipper">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($filterOrders->pluck('customer')->filter()->unique()->sortBy(fn($c) => $c->fName . ' ' . $c->lName) as $customer)
-                                                        <option value="{{ $customer->fName }} {{ $customer->lName }}" 
-                                                            {{ request()->query('shipper') == ($customer->fName . ' ' . $customer->lName) ? 'selected' : '' }}>
-                                                            {{ $customer->fName }} {{ $customer->lName }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th>CHECKER 
-                                                <select class="filter" name="check">
-                                                    <option value="">All</option>
-                                                    @foreach($filterOrders->pluck('check')->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('check') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th>
-                                                DESCRIPTION
-                                                <select class="filter searchable-dropdown" name="description">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($orders->pluck('parcels')->flatten()->pluck('itemName')->unique()->sort() as $desc)
-                                                        <option value="{{ $desc }}" {{ request()->query('description') == $desc ? 'selected' : '' }}>
-                                                            {{ $desc }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th style="text-align: center;">TOTAL FREIGHT</th>
-                                            <th style="text-align: center;">VALUATION</th>
-                                            <th style="text-align: center;">TOTAL AMOUNT</th>
-                                            <th>OR# 
-                                                <select class="filter searchable-dropdown" name="OR">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($filterOrders->pluck('OR')->filter()->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('OR') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th>AR# 
-                                                <select class="filter searchable-dropdown" name="AR">
-                                                    <option value="">All</option>
-                                                    <option disabled>Search...</option>
-                                                    @foreach($filterOrders->pluck('AR')->filter()->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('AR') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
+                                <div class="table-responsive" style="overflow: auto; max-height: 500px;">
+                                    <table id="myTable2" class="table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>BL# 
+                                                    <select class="filter searchable-dropdown" name="orderId">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($filterOrders->pluck('orderId')->filter()->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('orderId') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th style="text-align: center;">DATE CREATED</th>
+                                                <th>CONTAINER# 
+                                                    <select class="filter searchable-dropdown" name="containerNum">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($filterOrders->pluck('containerNum')->filter()->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('containerNum') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th>SHIPPER 
+                                                    <select class="filter searchable-dropdown" name="consigneeName">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($filterOrders->pluck('consigneeName')->filter()->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('consigneeName') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th>CONSIGNEE 
+                                                    <select class="filter searchable-dropdown" name="shipper">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($filterOrders->pluck('customer')->filter()->unique()->sortBy(fn($c) => $c->fName . ' ' . $c->lName) as $customer)
+                                                            <option value="{{ $customer->fName }} {{ $customer->lName }}" 
+                                                                {{ request()->query('shipper') == ($customer->fName . ' ' . $customer->lName) ? 'selected' : '' }}>
+                                                                {{ $customer->fName }} {{ $customer->lName }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th>CHECKER 
+                                                    <select class="filter" name="check">
+                                                        <option value="">All</option>
+                                                        @foreach($filterOrders->pluck('check')->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('check') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th>
+                                                    DESCRIPTION
+                                                    <select class="filter searchable-dropdown" name="description">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($orders->pluck('parcels')->flatten()->pluck('itemName')->unique()->sort() as $desc)
+                                                            <option value="{{ $desc }}" {{ request()->query('description') == $desc ? 'selected' : '' }}>
+                                                                {{ $desc }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th style="text-align: center;">TOTAL FREIGHT</th>
+                                                <th style="text-align: center;">VALUATION</th>
+                                                <th style="text-align: center;">TOTAL AMOUNT</th>
+                                                <th>OR# 
+                                                    <select class="filter searchable-dropdown" name="OR">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($filterOrders->pluck('OR')->filter()->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('OR') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th>AR# 
+                                                    <select class="filter searchable-dropdown" name="AR">
+                                                        <option value="">All</option>
+                                                        <option disabled>Search...</option>
+                                                        @foreach($filterOrders->pluck('AR')->filter()->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('AR') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
 
-                                            <th>CARGO STATUS 
-                                                <select class="filter" name="cargo_status">
-                                                    <option value="">All</option>
-                                                    @foreach($filterOrders->pluck('cargo_status')->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('cargo_status') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th>BL STATUS 
-                                                <select class="filter" name="bl_status">
-                                                    <option value="">All</option>
-                                                    @foreach($filterOrders->pluck('bl_status')->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('bl_status') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th style="text-align: center;">BL REMARK</th>
-                                            <th style="text-align: center;">VIEW BL</th>
-                                            <th>CREATED BY 
-                                                <select class="filter" name="createdBy">
-                                                    <option value="">All</option>
-                                                    @foreach($filterOrders->pluck('createdBy')->unique()->sort() as $value)
-                                                        <option value="{{ $value }}" {{ request()->query('createdBy') == $value ? 'selected' : '' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </th>
-                                            <th style="text-align: center" scope="col" >Add OR/AR</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                            $totalFreight = 0;
-                                            $totalValuation = 0;
-                                            $totalAmount = 0;
-                                        @endphp
-                                        
-                                        @foreach($orders as $order)
-                                        
-                                        @php
-                                            $freight = floatval($order->totalAmount);
-                                            $valuation = (floatval($order->value) + $freight) * 0.0075;
-                                            $amount = $valuation + $freight;
-                                    
-                                            $totalFreight += $freight;
-                                            $totalValuation += $valuation;
-                                            $totalAmount += $amount;
-                                        @endphp
-                                        <tr>
-                                            <td style="text-align: center;">{{ $order->orderId }}</td>
-                                            <td style="text-align: center;">{{ $order->created_at }}</td>
-                                            <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
-                                            <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
-                                            <td style="text-transform: uppercase; text-align: center;">
-                                                {{ $order->cID }} - {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
-                                            </td>
-                                            <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
-                                            <td style="text-align: center;">
-                                                @if(isset($order->parcels))
-                                                    @foreach ($order->parcels as $parcel)
-                                                        {{ $parcel->quantity }} {{ $parcel->unit }} - {{ $parcel->itemName }}<br>
-                                                    @endforeach
-                                                @else
-                                                    No parcels available
-                                                @endif
-                                            </td>
-                                            <td contenteditable="true" class="editable" data-field="totalAmount" data-id="{{ $order->orderId }}">
-                                                {{ number_format(floatval($order->totalAmount), 2) }}
-                                            </td>
+                                                <th>CARGO STATUS 
+                                                    <select class="filter" name="cargo_status">
+                                                        <option value="">All</option>
+                                                        @foreach($filterOrders->pluck('cargo_status')->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('cargo_status') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th>BL STATUS 
+                                                    <select class="filter" name="bl_status">
+                                                        <option value="">All</option>
+                                                        @foreach($filterOrders->pluck('bl_status')->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('bl_status') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th style="text-align: center;">BL REMARK</th>
+                                                <th style="text-align: center;">VIEW BL</th>
+                                                <th>CREATED BY 
+                                                    <select class="filter" name="createdBy">
+                                                        <option value="">All</option>
+                                                        @foreach($filterOrders->pluck('createdBy')->unique()->sort() as $value)
+                                                            <option value="{{ $value }}" {{ request()->query('createdBy') == $value ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </th>
+                                                <th style="text-align: center" scope="col" >Add OR/AR</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $totalFreight = 0;
+                                                $totalValuation = 0;
+                                                $totalAmount = 0;
+                                            @endphp
                                             
-                                            <td contenteditable="true" class="editable" data-field="valuation" data-id="{{ $order->orderId }}">
-                                                {{ number_format((floatval($order->value) + floatval($order->totalAmount)) * 0.0075, 2) }}
-                                            </td>
+                                            @foreach($orders as $order)
                                             
-                                            <td class="total-amount" data-id="{{ $order->orderId }}">
-                                                {{ number_format((floatval($order->value) + floatval($order->totalAmount)) * 0.0075 + floatval($order->totalAmount), 2) }}
-                                            </td>
-                                            <td contenteditable="true" class="editable" data-field="OR" data-id="{{ $order->orderId }}">
-                                                {{ $order->OR }}
-                                            </td>
-                                            <td contenteditable="true" class="editable" data-field="AR" data-id="{{ $order->orderId }}">
-                                                {{ $order->AR }}
-                                            </td>
-                                            <td style="text-transform: uppercase; text-align: center;">{{ $order->cargo_status }}</td>
-                                            <td style="text-align: center;">{{ $order->bl_status }}</td>
-                                            <td contenteditable="true" class="editable" data-field="mark" data-id="{{ $order->orderId }}">
-                                                {{ $order->mark ?? '' }}
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
-                                            </td>
-                                            <td style="text-transform: uppercase; text-align: center">{{ $order->createdBy}}</td>
-                                            <td style="text-align: center;">
-                                                    <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
+                                            @php
+                                                $freight = floatval($order->totalAmount);
+                                                $valuation = (floatval($order->value) + $freight) * 0.0075;
+                                                $amount = $valuation + $freight;
+                                        
+                                                $totalFreight += $freight;
+                                                $totalValuation += $valuation;
+                                                $totalAmount += $amount;
+                                            @endphp
+                                            <tr>
+                                                <td style="text-align: center;">{{ $order->orderId }}</td>
+                                                <td style="text-align: center;">{{ $order->created_at }}</td>
+                                                <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
+                                                <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
+                                                <td style="text-transform: uppercase; text-align: center;">
+                                                    {{ $order->cID }} - {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
                                                 </td>
-                                        </tr>
-                                        <!-- ADD OR/AR -->
-                                        <div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteUserModalLabel{{ $order->orderId }}">{{ __('ADD OR/AR') }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <br>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <form action="{{ route('s.or', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
-                                                                    <input type="hidden" name="or" value="{{ $order->orderId }}">
-                                                                    <div class="input-group mb-3">
-                                                                        <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
-                                                                        <div class="input-group-append">
-                                                                            <div class="input-group-text">
-                                                                                <span class="fas fa-hashtag"></span>
-                                                                            </div>
-                                                                        </div>
-                                                                        @error('OR')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                        @enderror
-                                                                    </div>
-                                                                    <div class="text-right">
-                                                                        <button type="submit" class="btn btn-success">
-                                                                            {{ __('Submit OR') }}
-                                                                        </button>
-                                                                    </div>
-                                                                </form>
-                                            
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
-                                                                    <input type="hidden" name="ar" value="{{ $order->orderId }}">
-                                                                    <div class="input-group mb-3">
-                                                                        <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
-                                                                        <div class="input-group-append">
-                                                                            <div class="input-group-text">
-                                                                                <span class="fas fa-hashtag"></span>
-                                                                            </div>
-                                                                        </div>
-                                                                        @error('AR')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                        @enderror
-                                                                    </div>
-                                                                    <div class="text-right">
-                                                                        <button type="submit" class="btn btn-success">
-                                                                            {{ __('Submit AR') }}
-                                                                        </button>
-                                                                    </div>
-                                                                </form>
-                                            
-                                                            </div>
+                                                <td style="text-transform: uppercase; text-align: center;">{{ $order->check }}</td>
+                                                <td style="text-align: center;">
+                                                    @if(isset($order->parcels))
+                                                        @foreach ($order->parcels as $parcel)
+                                                            {{ $parcel->quantity }} {{ $parcel->unit }} - {{ $parcel->itemName }}<br>
+                                                        @endforeach
+                                                    @else
+                                                        No parcels available
+                                                    @endif
+                                                </td>
+                                                <td contenteditable="true" class="editable" data-field="totalAmount" data-id="{{ $order->orderId }}">
+                                                    {{ number_format(floatval($order->totalAmount), 2) }}
+                                                </td>
+                                                
+                                                <td contenteditable="true" class="editable" data-field="valuation" data-id="{{ $order->orderId }}">
+                                                    {{ number_format((floatval($order->value) + floatval($order->totalAmount)) * 0.0075, 2) }}
+                                                </td>
+                                                
+                                                <td class="total-amount" data-id="{{ $order->orderId }}">
+                                                    {{ number_format((floatval($order->value) + floatval($order->totalAmount)) * 0.0075 + floatval($order->totalAmount), 2) }}
+                                                </td>
+                                                <td contenteditable="true" class="editable" data-field="OR" data-id="{{ $order->orderId }}">
+                                                    {{ $order->OR }}
+                                                </td>
+                                                <td contenteditable="true" class="editable" data-field="AR" data-id="{{ $order->orderId }}">
+                                                    {{ $order->AR }}
+                                                </td>
+                                                <td style="text-transform: uppercase; text-align: center;">{{ $order->cargo_status }}</td>
+                                                <td style="text-align: center;">{{ $order->bl_status }}</td>
+                                                <td contenteditable="true" class="editable" data-field="mark" data-id="{{ $order->orderId }}">
+                                                    {{ $order->mark ?? '' }}
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <a href="{{ route('p.bl', ['key' => $order->orderId]) }}">VIEW</a>
+                                                </td>
+                                                <td style="text-transform: uppercase; text-align: center">{{ $order->createdBy}}</td>
+                                                <td style="text-align: center;">
+                                                        <i class="fas fa-pencil" data-toggle="modal" data-target="#deleteUserModal{{ $order->orderId }}" style="color:grey"></i>
+                                                    </td>
+                                            </tr>
+                                            <!-- ADD OR/AR -->
+                                            <div class="modal fade" id="deleteUserModal{{ $order->orderId }}" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel{{ $order->orderId }}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteUserModalLabel{{ $order->orderId }}">{{ __('ADD OR/AR') }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
-                                            
+                                                        <div class="modal-body">
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <form action="{{ route('s.or', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
+                                                                        <input type="hidden" name="or" value="{{ $order->orderId }}">
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="text" name="OR" class="form-control @error('OR') is-invalid @enderror" placeholder="{{ __('OR Number') }}" autocomplete="OR" autofocus>
+                                                                            <div class="input-group-append">
+                                                                                <div class="input-group-text">
+                                                                                    <span class="fas fa-hashtag"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            @error('OR')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                        <div class="text-right">
+                                                                            <button type="submit" class="btn btn-success">
+                                                                                {{ __('Submit OR') }}
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <form action="{{ route('s.ar', ['shipNum' => $shipNum, 'voyageNum' => $voyageNum, 'orderId' => $order->orderId, 'dock' => $dock, 'orig'=> $orig]) }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
+                                                                        <input type="hidden" name="ar" value="{{ $order->orderId }}">
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="text" name="AR" class="form-control @error('AR') is-invalid @enderror" placeholder="{{ __('AR Number') }}" autocomplete="AR" autofocus>
+                                                                            <div class="input-group-append">
+                                                                                <div class="input-group-text">
+                                                                                    <span class="fas fa-hashtag"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            @error('AR')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                        <div class="text-right">
+                                                                            <button type="submit" class="btn btn-success">
+                                                                                {{ __('Submit AR') }}
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                
+                                                                </div>
+                                                            </div>
+                                                
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        @endforeach
-                                    </tbody>
-                                    <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
-                                    <tr style="font-weight: bold; background-color: #d1ecf1;">
-                                        <td colspan="7" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
-                                        <td style="text-align: center;">{{ number_format($totalFreightOverall ?? 0, 2) }}</td>
-                                        <td style="text-align: center;">{{ number_format($totalValuationOverall ?? 0, 2) }}</td>
-                                        <td style="text-align: center;">{{ number_format($totalAmountOverall ?? 0, 2) }}</td>
-                                    </tr>
-                                </table>
+                                            @endforeach
+                                        </tbody>
+                                        <!-- Overall Total Row for the Entire Voyage (Regardless of Page) -->
+                                        <tr style="font-weight: bold; background-color: #d1ecf1;">
+                                            <td colspan="7" style="text-align: right;">OVERALL TOTAL FOR SHIP #{{ $shipNum }} - VOYAGE #{{ $voyageNum }}:</td>
+                                            <td style="text-align: center;">{{ number_format($totalFreightOverall ?? 0, 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($totalValuationOverall ?? 0, 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($totalAmountOverall ?? 0, 2) }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                             <div class="table-scroll-top">
                                 <div class="scrollbar"></div>
@@ -568,7 +578,6 @@
                         </div>
                         {{ $orders->links() }}
                         <p>Page: {{ $orders->currentPage() }}</p>
-                        <hr style="border: none; border-top: 1px solid #D2D5DD; margin: 10px 0;">
                     </div>
                 </div>
             </div>
