@@ -608,6 +608,7 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function () {
         $(".filter").on("change", function () {
@@ -636,6 +637,7 @@
         });
     });
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".searchable-dropdown").forEach(select => {
@@ -661,6 +663,7 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function () {
         $('.filter').on('keyup', function () {
@@ -673,6 +676,7 @@
         });
     });
 </script>
+
 <script>
 $(document).ready(function () {
     // Apply filters on keyup for the OR column
@@ -691,6 +695,7 @@ $(document).ready(function () {
     });
 });
 </script>
+
 <script>
     function goBackToVoyage() {
         let shipNum = @json($shipNum);
@@ -702,49 +707,49 @@ $(document).ready(function () {
         window.location.href = url;
     }
 </script>
+
 <script>
-$(document).ready(function () {
-    $(".editable").on("blur", function () {
-        let orderId = $(this).data("id");  // Get order ID
-        let field = $(this).data("field"); // Get field name (OR, AR, mark, totalAmount, valuation)
-        let newValue = $(this).text().trim().replace(/,/g, ''); // Remove commas
+    $(document).ready(function () {
+        $(".editable").on("blur", function () {
+            let orderId = $(this).data("id");  // Get order ID
+            let field = $(this).data("field"); // Get field name (OR, AR, mark, totalAmount, valuation)
+            let newValue = $(this).text().trim().replace(/,/g, ''); // Remove commas
 
-        // Send AJAX request to update the field
-        $.ajax({
-            url: "{{ route('parcels.updateOrderField') }}",
-            type: "POST",
-            data: {
-                _token: "{{ csrf_token() }}",
-                orderId: orderId,
-                field: field,
-                value: newValue
-            },
-            success: function (response) {
-                if (response.success) {
-                    // Update OR and AR values dynamically
-                    if (field === 'OR' || field === 'AR' || field === 'mark') {
-                        $(`td[data-field='${field}'][data-id='${orderId}']`).text(newValue);
-                    }
+            // Send AJAX request to update the field
+            $.ajax({
+                url: "{{ route('parcels.updateOrderField') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    orderId: orderId,
+                    field: field,
+                    value: newValue
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Update OR and AR values dynamically
+                        if (field === 'OR' || field === 'AR' || field === 'mark') {
+                            $(`td[data-field='${field}'][data-id='${orderId}']`).text(newValue);
+                        }
 
-                    // Update total amount and valuation fields
-                    if (field === 'totalAmount' || field === 'valuation') {
-                        $(`td[data-field='totalAmount'][data-id='${orderId}']`).text(response.totalAmount);
-                        $(`td[data-field='valuation'][data-id='${orderId}']`).text(response.valuation);
-                        $(`td.total-amount[data-id='${orderId}']`).text(response.totalAmountOverall);
+                        // Update total amount and valuation fields
+                        if (field === 'totalAmount' || field === 'valuation') {
+                            $(`td[data-field='totalAmount'][data-id='${orderId}']`).text(response.totalAmount);
+                            $(`td[data-field='valuation'][data-id='${orderId}']`).text(response.valuation);
+                            $(`td.total-amount[data-id='${orderId}']`).text(response.totalAmountOverall);
+                        }
+                    } else {
+                        alert(response.message);
                     }
-                } else {
-                    alert(response.message);
+                },
+                error: function () {
+                    alert("Error updating value. Please try again.");
                 }
-            },
-            error: function () {
-                alert("Error updating value. Please try again.");
-            }
+            });
         });
     });
-});
-
-
 </script>
+
 <script>
 $(document).ready(function () {
     $("#descriptionFilter").on("change", function () {
@@ -792,30 +797,57 @@ $(document).ready(function () {
 });
 </script>
 <script>
-$(document).ready(function () {
-    $(".filter[name='description']").on("change", function () {
-        var selectedDescription = $(this).val(); // Get the selected value
-        var currentUrl = new URL(window.location.href); // Get the current URL
+    $(document).ready(function () {
+        // Handle all filters except "DESCRIPTION"
+        $(".filter").not("[name='description']").on("change", function () {
+            var columnName = $(this).attr("name");  // Get the filter name (e.g., "cargo_status")
+            var selectedValue = $(this).val();
+            var currentUrl = new URL(window.location.href);
 
-        if (selectedDescription === "" || selectedDescription === null) {
-            // Remove the 'description' parameter if no value is selected
-            currentUrl.searchParams.delete("description");
-        } else {
-            // Set the 'description' parameter to the selected value
-            currentUrl.searchParams.set("description", selectedDescription);
-        }
+            if (selectedValue !== "") {
+                currentUrl.searchParams.set(columnName, selectedValue);
+            } else {
+                currentUrl.searchParams.delete(columnName);
+            }
 
-        // Redirect to the updated URL
-        window.location.href = currentUrl.toString();
+            window.location.href = currentUrl.toString(); // Redirect for other filters
+        });
+
+        // Handle the "DESCRIPTION" filter separately
+        $(".filter[name='description']").on("change", function () {
+            var selectedDescription = $(this).val().toLowerCase(); // Get the selected value
+
+            $("#myTable2 tbody tr").each(function () {
+                var descriptionCell = $(this).find("td:nth-child(7)"); // Target the DESCRIPTION column (7th column)
+                var fullDescriptionText = descriptionCell.html().toLowerCase(); // Get the HTML content of the cell
+
+                if (selectedDescription === "") {
+                    $(this).show(); // Show all rows if no filter is selected
+                } else {
+                    // Check if any line in the description matches the selected value
+                    var lines = fullDescriptionText.split("<br>");
+                    var matchFound = lines.some(line => line.includes(selectedDescription));
+
+                    if (matchFound) {
+                        $(this).show(); // Show the row if a match is found
+                    } else {
+                        $(this).hide(); // Hide the row if no match is found
+                    }
+                }
+            });
+        });
+
+        // Preserve filter selections on page reload
+        $(".filter").each(function () {
+            var columnName = $(this).attr("name");
+            var currentUrl = new URL(window.location.href);
+            var filterValue = currentUrl.searchParams.get(columnName);
+
+            if (filterValue) {
+                $(this).val(filterValue);
+            }
+        });
     });
-
-    // Preserve filter selection on page reload
-    var currentUrl = new URL(window.location.href);
-    var descriptionFilterValue = currentUrl.searchParams.get("description");
-    if (descriptionFilterValue) {
-        $(".filter[name='description']").val(descriptionFilterValue);
-    }
-});
 </script>
 <script>
 $(document).ready(function () {
