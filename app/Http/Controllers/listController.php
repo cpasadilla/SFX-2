@@ -70,7 +70,7 @@ class listController extends Controller {
 
     protected function update(Request $request) {
         // Update listing
-        $cat = $request-> cats2;
+        $cat = $request->cats2;
         $itemName = $request->itemName;
         $unit = $request->unit;
         $price = $request->price;
@@ -79,32 +79,29 @@ class listController extends Controller {
         $height = $request->height;
         $multiplier = $request->multiplier;
         $id = $request->id;
-
-        $cats = category::where('name',$cat)->get();
-        $page = $request->pages;
-
-        foreach($cats as $key) {
+    
+        $cats = category::where('name', $cat)->get();
+        $page = $request->input('page', 1); // Get the current page from the request
+    
+        foreach ($cats as $key) {
             $category = $key->id;
         }
-
+    
         DB::table('price_lists')
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
-                'itemName'=>$itemName,
-                'unit'=>$unit,
-                'price'=>$price,
-                'category'=>$category,
-                'length'=>$length,
-                'width'=>$width,
-                'height'=>$height,
-                'multiplier'=>$multiplier
+                'itemName' => $itemName,
+                'unit' => $unit,
+                'price' => $price,
+                'category' => $category,
+                'length' => $length,
+                'width' => $width,
+                'height' => $height,
+                'multiplier' => $multiplier
             ]);
-
-        // Fetch updated items to reflect changes on the page
-        $items = priceList::paginate();
-        $cats = category::all();
-
-        return redirect()->route('price', compact('items', 'cats', 'page'));
+    
+        // Redirect back to the same page with the current page number
+        return redirect()->route('price', ['page' => $page]);
     }
 
 
