@@ -25,7 +25,7 @@ use function PHPUnit\Framework\isEmpty;
 
 class CustomerController extends Controller {
     //CREATE CUSTOMER
-    protected function validator(array $data){
+    protected function validator(array $data) {
         return Validator::make($data, [
             'fName' => ['required', 'string', 'max:255'],
             'lName' => ['required', 'string', 'max:255'],
@@ -47,32 +47,30 @@ class CustomerController extends Controller {
         return view('customers.home', compact('users'));
     }
 
-
     //customer creation
-protected function create(Request $request) {
-    $this->validator($request->all())->validate();
+    protected function create(Request $request) {
+        $this->validator($request->all())->validate();
 
-    // Get the highest cID from the database
-    $lastCustomer = CustomerID::orderBy('cID', 'desc')->first();
-    $lastCID = $lastCustomer ? intval($lastCustomer->cID) : 0;
+        // Get the highest cID from the database
+        $lastCustomer = CustomerID::orderBy('cID', 'desc')->first();
+        $lastCID = $lastCustomer ? intval($lastCustomer->cID) : 0;
 
-    // Increment the last cID by 1
-    $newCID = $lastCID + 1;
+        // Increment the last cID by 1
+        $newCID = $lastCID + 1;
 
-    // Format the new cID to ensure it has leading zeros
-    $newCIDFormatted = str_pad($newCID, 4, '0', STR_PAD_LEFT);
+        // Format the new cID to ensure it has leading zeros
+        $newCIDFormatted = str_pad($newCID, 4, '0', STR_PAD_LEFT);
 
-    // Create new customer with the generated customer ID
-    CustomerID::create([
-        'cID' => $newCIDFormatted,
-        'fName' => ucfirst(strtolower($request->fName)),
-        'lName' => ucfirst(strtolower($request->lName)),
-        'phoneNum' => $request->phoneNum,
-    ]);
+        // Create new customer with the generated customer ID
+        CustomerID::create([
+            'cID' => $newCIDFormatted,
+            'fName' => ucfirst(strtolower($request->fName)),
+            'lName' => ucfirst(strtolower($request->lName)),
+            'phoneNum' => $request->phoneNum,
+        ]);
 
-    return redirect()->route('customer');
-}
-
+        return redirect()->route('customer');
+    }
 
     //customer search
     public function search(Request $request) {
@@ -93,7 +91,7 @@ protected function create(Request $request) {
     }
 
     //customer edit
-    protected function edit(Request $request){
+    protected function edit(Request $request) {
         $fName = $request -> fName;
         $lName = $request -> lName;
         $phoneNum = $request -> phoneNum;
@@ -105,7 +103,7 @@ protected function create(Request $request) {
     }
 
     //customer delete
-    protected function delete(Request $request){
+    protected function delete(Request $request) {
         $id = $request->id;
         $del2 = CustomerID::find($id);
         $del2->delete();
@@ -115,7 +113,7 @@ protected function create(Request $request) {
     }
 
     //ORDER CREATION
-    protected function order($key){
+    protected function order($key) {
         $users = CustomerID::where('cID', $key)->get();
         $products = priceList::paginate(15);
         $cats = category::all();
@@ -123,7 +121,7 @@ protected function create(Request $request) {
         return view('customers.create', compact('users','products','cats','ship'));
     }
 
-    public function updateStatus(Request $request, $orderId){
+    public function updateStatus(Request $request, $orderId) {
         // Find the order by its ID
         $order = Order::find($orderId);
 
@@ -143,7 +141,7 @@ protected function create(Request $request) {
         return redirect()->back();
     }
 
-    public function updateBLStatus(Request $request, $orderId){
+    public function updateBLStatus(Request $request, $orderId) {
         // Retrieve the order by its ID
         $order = Order::where('orderId', $orderId)->firstOrFail();
 
@@ -169,7 +167,7 @@ protected function create(Request $request) {
     }
 
     //search order page
-    public function scout(Request $request, $key){
+    public function scout(Request $request, $key) {
         $search = $request->input('search');
         $ship = ship::all();
         // Perform the search query and retrieve the filtered results
@@ -201,165 +199,161 @@ protected function create(Request $request) {
     }
 
     // ORDER SUBMISSION
-// ORDER SUBMISSION
-protected function submit(Request $request, $key)
-{
-    $message = [
-        'origin.required' => 'Please select a valid origin.',
-        'origin.not_in' => 'Please select a valid origin.'
-    ];
+    protected function submit(Request $request, $key) {
+        $message = [
+            'origin.required' => 'Please select a valid origin.',
+            'origin.not_in' => 'Please select a valid origin.'
+        ];
 
-    // Validate form data
-    $validator = Validator::make($request->all(), [
-        'ship' => ['required', 'string', 'max:255'],
-        'origin' => ['required', 'string', 'max:255', Rule::notIn(['Choose Origin'])],
-        'destination' => ['required', 'string', 'max:255'],
-        'recs' => ['required', 'string', 'max:255'],
-        'cont' => ['nullable', 'numeric', 'digits:11'],
-        'containerNum' => ['nullable', 'string', 'max:255'],
-        'orderItems' => ['required', 'json'],
-        'value' => ['nullable', 'string', 'max:255'],
-        'mark' => ['nullable', 'string', 'max:255'],
-        'check' => ['nullable', 'string', 'max:255'],
-        'bl_status' => ['nullable', 'string', 'max:255'],
-        'cargo_status' => ['nullable', 'string', 'max:255'],
-        'gates' => ['nullable', 'string', 'max:255'],
-    ], $message);
+        // Validate form data
+        $validator = Validator::make($request->all(), [
+            'ship' => ['required', 'string', 'max:255'],
+            'origin' => ['required', 'string', 'max:255', Rule::notIn(['Choose Origin'])],
+            'destination' => ['required', 'string', 'max:255'],
+            'recs' => ['required', 'string', 'max:255'],
+            'cont' => ['nullable', 'numeric', 'digits:11'],
+            'containerNum' => ['nullable', 'string', 'max:255'],
+            'orderItems' => ['required', 'json'],
+            'value' => ['nullable', 'string', 'max:255'],
+            'mark' => ['nullable', 'string', 'max:255'],
+            'check' => ['nullable', 'string', 'max:255'],
+            'bl_status' => ['nullable', 'string', 'max:255'],
+            'cargo_status' => ['nullable', 'string', 'max:255'],
+            'gates' => ['nullable', 'string', 'max:255'],
+        ], $message);
 
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
-    }
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-    // Decode JSON order items
-    $orderItems = json_decode($request->input('orderItems'));
+        // Decode JSON order items
+        $orderItems = json_decode($request->input('orderItems'));
 
-    // Calculate the total order amount
-    $totalAmount = array_reduce($orderItems, fn($sum, $item) => $sum + $item->total, 0);
+        // Calculate the total order amount
+        $totalAmount = array_reduce($orderItems, fn($sum, $item) => $sum + $item->total, 0);
 
-    // Set the current date and time
-    date_default_timezone_set('Asia/Manila');
-    $date = date("F d 20y - g:i:s a");
+        // Set the current date and time
+        date_default_timezone_set('Asia/Manila');
+        $date = date("F d 20y - g:i:s a");
 
-    $ship = intval($request->input('ship'));
-    $bl = $ship;
+        $ship = intval($request->input('ship'));
+        $bl = $ship;
 
-    // Get the latest voyage for the ship
-    $latestVoyage = Voyage::where('ship', $ship)->latest('id')->first();
-    $currentVoyageNum = $latestVoyage ? $latestVoyage->voyage_number : 1;
+        // Get the latest voyage for the ship
+        $latestVoyage = Voyage::where('ship', $ship)->latest('id')->first();
+        $currentVoyageNum = $latestVoyage ? $latestVoyage->voyage_number : 1;
 
-    // Find the last order **only within the same voyage**
-    $lastOrder = Order::where('shipNum', $ship)
-        ->where('voyageNum', $currentVoyageNum) // Ensure we only check orders in the same voyage
-        ->orderByRaw("CAST(SUBSTRING_INDEX(orderId, '__', -1) AS UNSIGNED) DESC")
-        ->first();
+        // Find the last order **only within the same voyage**
+        $lastOrder = Order::where('shipNum', $ship)
+            ->where('voyageNum', $currentVoyageNum) // Ensure we only check orders in the same voyage
+            ->orderByRaw("CAST(SUBSTRING_INDEX(orderId, '__', -1) AS UNSIGNED) DESC")
+            ->first();
 
-    // Start numbering from `_001` for each new voyage
-    $int = 1;
-    if ($lastOrder) {
-        preg_match('/_(\d+)$/', $lastOrder->orderId, $matches);
-        $int = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
-    }
+        // Start numbering from `_001` for each new voyage
+        $int = 1;
+        if ($lastOrder) {
+            preg_match('/_(\d+)$/', $lastOrder->orderId, $matches);
+            $int = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
+        }
 
-    $orderId = $bl . "__" . str_pad($int, 3, '0', STR_PAD_LEFT);
-
-    // **Ensure unique orderId**
-    while (Order::where('orderId', $orderId)->exists()) {
-        $int++;
         $orderId = $bl . "__" . str_pad($int, 3, '0', STR_PAD_LEFT);
-    }
 
-    // Define origin and destination
-    $origin = $request->input('origin');
-    $destination = $request->input('destination');
-
-    // Voyage suffix logic
-    $voyageSuffix = ($ship == 3 || $ship == 4) ? '' :
-        (($origin === 'Manila' && $destination === 'Batanes') ? '-OUT' :
-        (($origin === 'Batanes' && $destination === 'Manila') ? '-IN' : ''));
-
-    // Ship status check
-    $checks = Ship::where('number', $ship)->get();
-    $status = $checks->first()?->status ?? 'UNKNOWN';
-
-    $trip = Voyage::where('ship', $ship)->latest('id')->first();
-    $dock = $trip?->dock ?? null;
-
-    if ($status === 'READY') {
-        $dock = intval($trip->dock) + 1;
-        $voyage = 1;
-        foreach ($checks as $check) {
-            $check->status = "ON PORT";
-            $check->save();
+        // **Ensure unique orderId**
+        while (Order::where('orderId', $orderId)->exists()) {
+            $int++;
+            $orderId = $bl . "__" . str_pad($int, 3, '0', STR_PAD_LEFT);
         }
-    } elseif ($status === 'ARRIVED') {
-        $voyage = intval($trip->trip_num) + 1;
-        foreach ($checks as $check) {
-            $check->status = "ON PORT";
-            $check->save();
+
+        // Define origin and destination
+        $origin = $request->input('origin');
+        $destination = $request->input('destination');
+
+        // Voyage suffix logic
+        $voyageSuffix = ($ship == 3 || $ship == 4) ? '' :
+            (($origin === 'Manila' && $destination === 'Batanes') ? '-OUT' :
+            (($origin === 'Batanes' && $destination === 'Manila') ? '-IN' : ''));
+
+        // Ship status check
+        $checks = Ship::where('number', $ship)->get();
+        $status = $checks->first()?->status ?? 'UNKNOWN';
+
+        $trip = Voyage::where('ship', $ship)->latest('id')->first();
+        $dock = $trip?->dock ?? null;
+
+        if ($status === 'READY') {
+            $dock = intval($trip->dock) + 1;
+            $voyage = 1;
+            foreach ($checks as $check) {
+                $check->status = "ON PORT";
+                $check->save();
+            }
+        } elseif ($status === 'ARRIVED') {
+            $voyage = intval($trip->trip_num) + 1;
+            foreach ($checks as $check) {
+                $check->status = "ON PORT";
+                $check->save();
+            }
+            $dock = $trip?->dock ? intval($trip->dock) : null;
+        } else {
+            $voyage = $trip ? intval($trip->trip_num) : 1;
         }
-        $dock = $trip?->dock ? intval($trip->dock) : null;
-    } else {
-        $voyage = $trip ? intval($trip->trip_num) : 1;
-    }
 
-    // Create voyage record
-    Voyage::create([
-        'ship' => $ship,
-        'trip_num' => $voyage,
-        'date' => $date,
-        'dock' => $dock,
-        'orderId' => $orderId,
-        'voyage_number' => $voyage . $voyageSuffix,
-    ]);
-
-    // Insert order items
-    foreach ($orderItems as $item) {
-        Parcel::create([
-            'itemName' => $item->name,
-            'unit' => $item->unit,
-            'quantity' => $item->quantity,
-            'price' => $item->price,
-            'total' => $item->total,
+        // Create voyage record
+        Voyage::create([
+            'ship' => $ship,
+            'trip_num' => $voyage,
+            'date' => $date,
+            'dock' => $dock,
             'orderId' => $orderId,
+            'voyage_number' => $voyage . $voyageSuffix,
         ]);
+
+        // Insert order items
+        foreach ($orderItems as $item) {
+            Parcel::create([
+                'itemName' => $item->name,
+                'unit' => $item->unit,
+                'quantity' => $item->quantity,
+                'price' => $item->price,
+                'total' => $item->total,
+                'orderId' => $orderId,
+            ]);
+        }
+
+        // Get the user creating the order
+        $auth = Auth::user();
+        $creator = $auth->fName . " " . $auth->lName;
+
+        // Create the order
+        $order = Order::create([
+            'shipNum' => $request->input('ship'),
+            'origin' => $origin,
+            'destination' => $destination,
+            'totalAmount' => $totalAmount,
+            'cID' => $key,
+            'orderId' => $orderId,
+            'orderCreated' => $date,
+            'consigneeName' => $request->input('recs'),
+            'consigneeNum' => $request->input('cont'),
+            'voyageNum' => $voyage . $voyageSuffix,
+            'containerNum' => $request->input('containerNum'),
+            'value' => $request->input('valuation'),
+            'mark' => $request->input('remark'),
+            'check' => $request->input('checker'),
+            'bl_status' => $request->input('blstatus'),
+            'cargo_status' => $request->input('cargostatus'),
+            'gates' => $request->input('gate'),
+            'createdBy' => $creator
+        ]);
+
+        $order->save();
+
+        // Redirect to the order confirmation page
+        return redirect()->route('c.confirm', ['key' => $orderId]);
     }
-
-    // Get the user creating the order
-    $auth = Auth::user();
-    $creator = $auth->fName . " " . $auth->lName;
-
-    // Create the order
-    $order = Order::create([
-        'shipNum' => $request->input('ship'),
-        'origin' => $origin,
-        'destination' => $destination,
-        'totalAmount' => $totalAmount,
-        'cID' => $key,
-        'orderId' => $orderId,
-        'orderCreated' => $date,
-        'consigneeName' => $request->input('recs'),
-        'consigneeNum' => $request->input('cont'),
-        'voyageNum' => $voyage . $voyageSuffix,
-        'containerNum' => $request->input('containerNum'),
-        'value' => $request->input('valuation'),
-        'mark' => $request->input('remark'),
-        'check' => $request->input('checker'),
-        'bl_status' => $request->input('blstatus'),
-        'cargo_status' => $request->input('cargostatus'),
-        'gates' => $request->input('gate'),
-        'createdBy' => $creator
-    ]);
-
-    $order->save();
-
-    // Redirect to the order confirmation page
-    return redirect()->route('c.confirm', ['key' => $orderId]);
-}
-
-
 
     //SHOW CONFIRMED ORDER
-    protected function confirm($key){
+    protected function confirm($key) {
         $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
             $customer = $kiss->cID;
@@ -370,44 +364,46 @@ protected function submit(Request $request, $key)
         return view('customers.newbl', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
     }
 
-        //SHOW CONFIRMED ORDER
-        protected function cconfirm($key){
-            $key = order::where('orderId', $key)->get();
-            foreach($key as $kiss){
-                $customer = $kiss->cID;
-                $oId = $kiss->orderId;
-            }
-            $data = CustomerID::where('cID',$customer)->get();
-            $parcel = parcel::where('orderId',$oId)->get();
-            return view('parcel.new', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
-        }
-
-    //show BL
-    protected function bl($key){
+    //SHOW CONFIRMED ORDER
+    protected function cconfirm($key) {
         $key = order::where('orderId', $key)->get();
         foreach($key as $kiss){
             $customer = $kiss->cID;
             $oId = $kiss->orderId;
         }
+        
+        $data = CustomerID::where('cID',$customer)->get();
+        $parcel = parcel::where('orderId',$oId)->get();
+        return view('parcel.new', compact('key','data','parcel')); //pag clinick yung button dyan pupunta
+    }
+
+    //show BL
+    protected function bl($key) {
+        $key = order::where('orderId', $key)->get();
+        foreach($key as $kiss){
+            $customer = $kiss->cID;
+            $oId = $kiss->orderId;
+        }
+
         $data = CustomerID::where('cID',$customer)->get();
         $parcel = parcel::where('orderId',$oId)->get();
         return view('customers.new', compact('key','data','parcel'));
     }
 
-    //NEW FUNCTIONS
     //SHOW CUSTOMER BL
-    public function showBL(Request $request, $key){
+    public function showBL(Request $request, $key) {
         $users = CustomerID::where('cID', $key)->get();
         $orders = Order::where('cID', $key)->paginate(10);
         return view('customers.parcels', compact('users','orders'));
     }
 
     //update page CUSTOMER BL
-    public function audit(Request $request, $key){
+    public function audit(Request $request, $key) {
         $orders = Order::where('orderID', $key)->get();
         foreach($orders as $order){
             $id = $order->cID;
         }
+
         $users = CustomerID::where('cID', $id)->get();
         $parcels = parcel::where('orderId',$key)->get();
         $array = array();
@@ -422,6 +418,7 @@ protected function submit(Request $request, $key)
                 //'mark' => $parcel->remark,
             ));
         }
+
         $data = json_encode($array);
         $products = priceList::orderBy('category', 'asc')->paginate(15);
         $cats = category::all();
@@ -446,9 +443,11 @@ protected function submit(Request $request, $key)
             'cargo_status' => ['nullable', 'string', 'max:255'],
             'gates' => ['nullable', 'string', 'max:255'],
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         // Decode JSON order items
         $orderItems = json_decode($request->input('orderItems'));
         //dd($orderItems);
@@ -458,6 +457,7 @@ protected function submit(Request $request, $key)
         foreach ($orderItems as $item) {
             $totalAmount += $item->total;
         }
+
         $orderId = $key;
 
         parcel::where('orderId', $orderId)->delete();
@@ -504,6 +504,7 @@ protected function submit(Request $request, $key)
             'gates' => $request->input('gate'),
             'createdBy' => $request->input('creator')
         ]);
+
         $order->save();
         // Redirect to the order confirmation page
         return redirect()->route('c.cconfirm', ['key' => $orderId]);
@@ -521,17 +522,14 @@ protected function submit(Request $request, $key)
                 ->get();
             if($cats->isEmpty()){
                 $products = priceList::orderBy('category', 'asc')->paginate(15)->appends(['search' => $search]);
-            }
-            else{
-            $keys = $cats;
-            foreach($keys as $keys){
-                $id = $keys->id;
-            }
-
-            $products = priceList::where('category', 'like', "%$id%")->paginate(15)->appends(['search' => $id]);
-        }
-        } else{
-
+            } else {
+                $keys = $cats;
+                foreach($keys as $keys){
+                    $id = $keys->id;
+                }
+                $products = priceList::where('category', 'like', "%$id%")->paginate(15)->appends(['search' => $id]);
+            } 
+        } else {
             $products =  priceList::where('itemName', 'like', "%$search%")->paginate(15)->appends(['search' => $search]);
         }
         $cats = category::paginate();
@@ -540,6 +538,7 @@ protected function submit(Request $request, $key)
         foreach($orders as $order){
             $id = $order->cID;
         }
+
         $users = CustomerID::where('cID', $id)->get();
         $parcels = parcel::where('orderId',$key)->get();
         $array = array();
@@ -556,7 +555,7 @@ protected function submit(Request $request, $key)
         return view('customers.update', compact('users','orders','products','cats','data'));
     }
 
-    //OR AND AR SUBMIT
+    //OR SUBMIT
     public function OR(Request $request, $key, $orderId) {
         // Find the order by orderId
         $order = order::find($orderId);
@@ -572,7 +571,7 @@ protected function submit(Request $request, $key)
         return redirect()->route('p.view')->with('error', 'Order not found!');
     }
 
-
+    //AR SUBMIT
     public function AR(Request $request, $key, $orderId) {
         // Find the order by orderId
         $order = order::find($orderId);
@@ -587,8 +586,7 @@ protected function submit(Request $request, $key)
         return redirect()->route('p.view')->with('error', 'Order not found!');
     }
 
-    public function found(Request $request, $key){
-
+    public function found(Request $request, $key) {
         $search = $request->input('search');
 
         $users = CustomerID::where('cID', $key)->get();
