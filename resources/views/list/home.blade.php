@@ -158,8 +158,8 @@ $(document).ready(function() {
                                     <td class="width" hidden>{{ $item->width }}</td>
                                     <td class="height" hidden>{{ $item->height }}</td>
 
-                                    <td class="price" style="text-align: right;">{{ number_format($item->price, 2) }}</td>
-                                    <td class="multiplier" style="text-align: right;">{{ number_format ($item->multiplier, 2) }}</td>
+                                    <td class="price" style="text-align: right;">{{ number_format((float)$item->price, 2) }}</td>
+                                    <td class="multiplier" style="text-align: right;">{{ number_format((float)$item->multiplier, 2) }}</td>
                                     <td class="align-middle"  style="text-align: center;">
                                         <i class="fa fa-edit" id="updateBtn" style="color:grey"></i>
                                     </td>

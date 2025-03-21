@@ -20,6 +20,10 @@ class priceList extends Model
         'multiplier'
 
     ];
+    protected $casts = [
+        'price' => 'float',
+        'multiplier' => 'float',
+    ];
 
     public function category(){
         return $this->belongsTo(category::class);

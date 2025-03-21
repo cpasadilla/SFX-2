@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class listController extends Controller {
     protected function index() {
-        $items = priceList::paginate();
-        $cats = category::all();
-        $page = 1;
-        return view('list.home',compact('items','cats','page'));
+    $items = priceList::orderBy('itemName', 'asc')->paginate(); // Sort by price in ascending order
+    $cats = category::all();
+    $page = 1;
+    return view('list.home', compact('items', 'cats', 'page'));
     }
 
     protected function validator(array $data) {
@@ -21,11 +21,11 @@ class listController extends Controller {
             'cats' => ['required', 'not_in:0'],
             'itemName' => ['required', 'string', 'max:255'],
             'unit' => ['nullable', 'string', 'max:255'],
-            'price' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric'], // Ensure price is numeric
             'length' => ['nullable', 'numeric'],
             'width' => ['nullable', 'numeric'],
             'height' => ['nullable', 'numeric'],
-            'multiplier' => ['nullable', 'numeric'],
+            'multiplier' => ['nullable', 'numeric'], // Ensure multiplier is numeric
         ]);
     }
 

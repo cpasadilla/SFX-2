@@ -23,11 +23,11 @@ return new class extends Migration {
             //$table->string('multiplier')->default('default_value')->nullable();
 
             $table->string(column: 'unit')->nullable();
-            $table->decimal('price', 10, 3)->nullable();
+            $table->decimal('price', 10, 2)->change(); // Change to DECIMAL with 10 digits total and 2 decimal places
             $table->decimal('length', 8, 3)->nullable();
             $table->decimal('width', 8, 3)->nullable();
             $table->decimal('height', 8, 3)->nullable();
-            $table->string('multiplier')->nullable();
+            $table->decimal('multiplier', 10, 2)->change(); // Same for multiplier
             
             $table->timestamps();
             $table->index('category');
