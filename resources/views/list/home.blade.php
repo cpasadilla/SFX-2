@@ -128,7 +128,7 @@ $(document).ready(function() {
                         <h5>PRICE LIST</h5>
                     </div>
                     <div class="card-body">
-                        {{ $items->appends(['cats' => $cats])->links() }}
+                        {{ $items->appends(['search' => request('search')])->links() }}
                         <table class="table" id="myTable2">
                             <thead class="thead-light">
                                 <tr>
