@@ -78,7 +78,8 @@ Route::middleware('auth')->group(function(){
     ->name('parcels.updateFreightValuation');
     Route::post('/parcels/update-order-field', [\App\Http\Controllers\ParcelController::class, 'updateOrderField'])
     ->name('parcels.updateOrderField');
-
+    Route::post('/parcels/update-order-field', [\App\Http\Controllers\ParcelController::class, 'updateOrderField'])
+        ->name('parcels.updateOrderField');
 
     //PROFILE UPDATE
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

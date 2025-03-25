@@ -349,7 +349,7 @@ class ParcelController extends Controller
     public function updateOrderField(Request $request){
         $request->validate([
             'orderId' => 'required|string|exists:orders,orderId',
-            'field' => 'required|string|in:totalAmount,valuation,OR,AR,mark',
+            'field' => 'required|string|in:totalAmount,valuation,OR,AR,mark,containerNum', // Add "containerNum"
             'value' => 'nullable|string|max:255',
         ]);
 

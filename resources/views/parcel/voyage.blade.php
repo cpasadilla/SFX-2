@@ -444,7 +444,9 @@
                                             <tr>
                                                 <td style="text-align: center;">{{ $order->orderId }}</td>
                                                 <td style="text-align: center;">{{ $order->created_at }}</td>
-                                                <td style="text-transform: uppercase; text-align: center;">{{ $order->containerNum }}</td>
+                                                <td contenteditable="true" class="editable" data-field="containerNum" data-id="{{ $order->orderId }}">
+                                                    {{ $order->containerNum }}
+                                                </td>
                                                 <td style="text-transform: uppercase; text-align: center;">{{ $order->consigneeName }}</td>
                                                 <td style="text-transform: uppercase; text-align: center;">
                                                     {{ $order->cID }} - {{ $order->customer->fName ?? '' }} {{ $order->customer->lName ?? '' }}
@@ -608,7 +610,28 @@
         });
     });
 </script>
+<script>
+$(document).ready(function () {
+    $(".editable").on("blur", function () {
+        let orderId = $(this).data("id");  // Get the order ID
+        let field = $(this).data("field"); // Get the field name (e.g., "containerNum")
+        let newValue = $(this).text().trim(); // Get the new value
 
+        // Send AJAX request to update the field
+        $.ajax({
+            url: "{{ route('parcels.updateOrderField') }}", // Update route
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}", // CSRF token for security
+                orderId: orderId,
+                field: field,
+                value: newValue
+            },
+            
+        });
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $(".filter").on("change", function () {
