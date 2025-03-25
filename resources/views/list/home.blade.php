@@ -236,6 +236,7 @@ $(document).ready(function() {
                                     <div class="modal-body">
                                             <form method="POST" action="{{ route('p.upd') }}" enctype="multipart/form-data" id="update">
                                             @csrf
+                                            <input type="hidden" name="page" value="{{ request('page', 1) }}">
                                             <div class="form-group">
                                                 <label for="category">Select Category</label>
                                                 <div class="form-group d-flex align-items-center" >

@@ -695,7 +695,24 @@ $(document).ready(function () {
     });
 });
 </script>
+<script>
+$(document).ready(function () {
+    // Apply filters on keyup for the OR column
+    $(".filter[name='AR']").on("keyup", function () {
+        var filterValue = $(this).val().toLowerCase();
 
+        $("#myTable2 tbody tr").each(function () {
+            var cellText = $(this).find("td[data-field='AR']").text().toLowerCase();
+            $(this).toggle(cellText.includes(filterValue));
+        });
+    });
+
+    // Apply filters on page load
+    $(".filter[name='AR']").each(function () {
+        $(this).trigger("keyup");
+    });
+});
+</script>
 <script>
     function goBackToVoyage() {
         let shipNum = @json($shipNum);
