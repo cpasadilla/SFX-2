@@ -14,7 +14,8 @@ return new class extends Migration {
         // Check if the table already exists
         if (!Schema::hasTable('orders')) {
             Schema::create('orders', function (Blueprint $table) {
-                $table->string('orderId')->primary();
+                $table->id();
+                $table->string('orderId');
                 $table->float('totalAmount');
                 $table->string('cID');
                 $table->string('shipNum');
@@ -45,6 +46,7 @@ return new class extends Migration {
                 $table->string('createdBy');
                 $table->timestamps();
                 $table->index('cargoNum');
+                $table->unique(['orderId', 'voyageNum', 'shipNum'], 'unique_order_per_voyage_ship');
             });
         } else {
             Schema::table('orders', function (Blueprint $table) {
