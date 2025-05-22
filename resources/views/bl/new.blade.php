@@ -190,6 +190,9 @@
                         <p style="font-family: Arial; font-size: 14px; margin: 0;">
                             Email Address: fxavier_2015@yahoo.com.ph
                         </p>
+                        <p style="font-family: Arial; font-size: 14px; margin: 0;">
+                            TIN: 009-081-111-000
+                        </p>
                     </div>
                 </div>
                 <div class="row" style="padding: 0; margin: 0; display: flex; justify-content: space-between; align-items: center;">
@@ -383,12 +386,14 @@
                         <div class="col-md-7" style="display: flex; justify-content: space-between; align-items: center; padding-left:45px;" id="cd-7">
                             <select id="nameDropdown" style="width: 90%; border: none; border-bottom: 1px solid black; text-align: center; -webkit-appearance: none; -moz-appearance: none; appearance: none; background: transparent;">
                                 <option value=" "> </option>
+                                <option value="ABELLO">ABELLO</option>
                                 <option value="ALDAY">ALDAY</option>
                                 <option value="ANCHETA">ANCHETA</option>
                                 <option value="BERNADOS">BERNADOS</option>
                                 <option value="CACHO">CACHO</option>
                                 <option value="ESGUERRA">ESGUERRA</option>
                                 <option value="MORENO">MORENO</option>
+                                <option value="NALLAS">NALLAS</option>
                                 <option value="VICTORIANO">VICTORIANO</option>
                                 <option value="YUMUL">YUMUL</option>
                                 <option value="ZERRUDO">ZERRUDO</option>
